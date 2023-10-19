@@ -12,6 +12,9 @@ struct ContentView: View {
         HStack{
             VStack {
                 Text("This a test")
+                Rectangle()
+                    .frame(width: 375, height: 200)
+                    .foregroundColor(.green)
                 
             }
 
