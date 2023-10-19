@@ -13,15 +13,18 @@ struct ContentView: View {
         HStack{
             VStack {
                 Text("Blue Rectangle")
-                Rectangle()
-                    .frame(width: 375, height: 200)
-                    .foregroundColor(.blue)
+                
                 
                 
                 
                 Text("Red Rectangle")
+                Rectangle()
+                    .frame(width: 375, height: 200)
+                    .foregroundColor(.red)
                     .padding()
             }
+
+            
         }
         Spacer()
     }
