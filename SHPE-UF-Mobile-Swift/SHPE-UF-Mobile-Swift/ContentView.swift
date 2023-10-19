@@ -12,6 +12,9 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text("This is a test!")
+            Rectangle()
+                .frame(width: 375, height: 200)
+                .foregroundColor(.green)
         }
         .padding()
     }
