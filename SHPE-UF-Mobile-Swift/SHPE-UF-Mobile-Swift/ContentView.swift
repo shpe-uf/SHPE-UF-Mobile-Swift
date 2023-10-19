@@ -17,6 +17,9 @@ struct ContentView: View {
                     .foregroundColor(.green)
         
                 Text("This is test3")
+                Rectangle()
+                    .frame(width: 375, height: 200)
+                    .foregroundColor(.blue)
         
             }
             
