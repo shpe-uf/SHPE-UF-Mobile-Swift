@@ -6,31 +6,27 @@
 //
 
 import SwiftUI
-// This is a test
 
 struct ContentView: View {
     var body: some View {
-        HStack{
-            VStack {
-                Text("Blue Rectangle")
-                Rectangle()
-                    .frame(width: 375, height: 200)
-                    .foregroundColor(.blue)
+        ZStack{
+            Color.red.ignoresSafeArea(.all)
+            HStack{
+                VStack {
+                    Text("This a test")
+                    Rectangle()
+                        .frame(width: 375, height: 200)
+                        .foregroundColor(.green)
+                    
+                }
                 
                 
-                
-                Text("Red Rectangle")
-                Rectangle()
-                    .frame(width: 375, height: 200)
-                    .foregroundColor(.red)
-                    .padding()
             }
-
-            
+            Spacer()
         }
-        Spacer()
     }
 }
+
 
 #Preview {
     ContentView()
