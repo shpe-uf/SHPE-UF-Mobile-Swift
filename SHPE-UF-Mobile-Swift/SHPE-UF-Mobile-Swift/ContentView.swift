@@ -9,20 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        HStack{
-            VStack {
-                Text("This a test")
-                Rectangle()
-                    .frame(width: 375, height: 200)
-                    .foregroundColor(.green)
+        ZStack{
+            Color.red.ignoresSafeArea(.all)
+            HStack{
+                VStack {
+                    Text("This a test")
+                    Rectangle()
+                        .frame(width: 375, height: 200)
+                        .foregroundColor(.green)
+                    
+                }
+                
                 
             }
-
-            
+            Spacer()
         }
-        Spacer()
     }
 }
+
 
 #Preview {
     ContentView()
