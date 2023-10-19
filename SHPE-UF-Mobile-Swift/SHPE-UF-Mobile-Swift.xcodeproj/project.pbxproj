@@ -94,6 +94,9 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				206C8FA62AE1929D0081A35A /* PointsPage */,
+				206C8FA52AE18F720081A35A /* HomePage */,
+				206C8FA42AE18F670081A35A /* UserPage */,
 				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
 				206C8F772AE181FF0081A35A /* ContentView.swift */,
 				206C8F792AE182020081A35A /* Assets.xcassets */,
@@ -125,6 +128,27 @@
 				206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */,
 			);
 			path = "SHPE-UF-Mobile-SwiftUITests";
+			sourceTree = "<group>";
+		};
+		206C8FA42AE18F670081A35A /* UserPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UserPage;
+			sourceTree = "<group>";
+		};
+		206C8FA52AE18F720081A35A /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		206C8FA62AE1929D0081A35A /* PointsPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PointsPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
