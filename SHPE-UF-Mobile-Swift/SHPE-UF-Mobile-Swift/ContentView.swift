@@ -15,6 +15,19 @@ struct ContentView: View {
 
         
                 Text("This is test2")
+                Rectangle()
+                    .frame(width: 375, height: 200)
+                    .foregroundColor(.green)
+                
+                
+                
+                
+                
+                
+                Text("This is test2")
+                Rectangle()
+                    .frame(width: 375, height: 200)
+                    .foregroundColor(.blue)
             }
             
             
