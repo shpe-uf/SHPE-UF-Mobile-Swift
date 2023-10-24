@@ -8,12 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */; };
-		206C8F782AE181FF0081A35A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F772AE181FF0081A35A /* ContentView.swift */; };
+		206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */; };
 		206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F792AE182020081A35A /* Assets.xcassets */; };
 		206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F7C2AE182020081A35A /* Preview Assets.xcassets */; };
 		206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F862AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift */; };
 		206C8F912AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F902AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift */; };
 		206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */; };
+		20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A202AE7441700916EC6 /* SignIn.swift */; };
+		20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A232AE7446500916EC6 /* MongoDB.swift */; };
+		20CF4A272AE745F900916EC6 /* SHPEito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A262AE745F900916EC6 /* SHPEito.swift */; };
+		20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2B2AE7472600916EC6 /* RegisterView.swift */; };
+		20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */; };
+		20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2F2AE7475500916EC6 /* SignInView.swift */; };
+		20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A352AE7478400916EC6 /* HomeViewModel.swift */; };
+		20CF4A3A2AE747A800916EC6 /* PointsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A392AE747A800916EC6 /* PointsViewModel.swift */; };
+		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
+		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
+		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +47,7 @@
 /* Begin PBXFileReference section */
 		206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SHPE-UF-Mobile-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftApp.swift; sourceTree = "<group>"; };
-		206C8F772AE181FF0081A35A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppView.swift; sourceTree = "<group>"; };
 		206C8F792AE182020081A35A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		206C8F7C2AE182020081A35A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		206C8F822AE182020081A35A /* SHPE-UF-Mobile-SwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SHPE-UF-Mobile-SwiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +55,17 @@
 		206C8F8C2AE182020081A35A /* SHPE-UF-Mobile-SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SHPE-UF-Mobile-SwiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		206C8F902AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITests.swift; sourceTree = "<group>"; };
 		206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		20CF4A202AE7441700916EC6 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
+		20CF4A232AE7446500916EC6 /* MongoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoDB.swift; sourceTree = "<group>"; };
+		20CF4A262AE745F900916EC6 /* SHPEito.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEito.swift; sourceTree = "<group>"; };
+		20CF4A2B2AE7472600916EC6 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		20CF4A2F2AE7475500916EC6 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		20CF4A352AE7478400916EC6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		20CF4A392AE747A800916EC6 /* PointsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewModel.swift; sourceTree = "<group>"; };
+		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
+		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,11 +116,10 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
-				206C8FA62AE1929D0081A35A /* PointsPage */,
-				206C8FA52AE18F720081A35A /* HomePage */,
-				206C8FA42AE18F670081A35A /* UserPage */,
+				20CF4A1C2AE7423400916EC6 /* data */,
+				20CF4A1D2AE7424100916EC6 /* ui */,
 				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
-				206C8F772AE181FF0081A35A /* ContentView.swift */,
+				206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */,
 				206C8F792AE182020081A35A /* Assets.xcassets */,
 				206C8F7B2AE182020081A35A /* Preview Content */,
 			);
@@ -130,25 +151,93 @@
 			path = "SHPE-UF-Mobile-SwiftUITests";
 			sourceTree = "<group>";
 		};
-		206C8FA42AE18F670081A35A /* UserPage */ = {
+		206C8FA52AE18F720081A35A /* points */ = {
 			isa = PBXGroup;
 			children = (
+				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
+				20CF4A392AE747A800916EC6 /* PointsViewModel.swift */,
 			);
-			path = UserPage;
+			path = points;
 			sourceTree = "<group>";
 		};
-		206C8FA52AE18F720081A35A /* HomePage */ = {
+		206C8FA62AE1929D0081A35A /* register */ = {
 			isa = PBXGroup;
 			children = (
+				20CF4A2B2AE7472600916EC6 /* RegisterView.swift */,
+				20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */,
 			);
-			path = HomePage;
+			path = register;
 			sourceTree = "<group>";
 		};
-		206C8FA62AE1929D0081A35A /* PointsPage */ = {
+		20CF4A1C2AE7423400916EC6 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				20CF4A252AE7449E00916EC6 /* Models */,
+				20CF4A222AE7443D00916EC6 /* database */,
+				20CF4A1E2AE743E000916EC6 /* auth */,
 			);
-			path = PointsPage;
+			path = data;
+			sourceTree = "<group>";
+		};
+		20CF4A1D2AE7424100916EC6 /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				20CF4A292AE7467300916EC6 /* pages */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
+		20CF4A1E2AE743E000916EC6 /* auth */ = {
+			isa = PBXGroup;
+			children = (
+				20CF4A202AE7441700916EC6 /* SignIn.swift */,
+			);
+			path = auth;
+			sourceTree = "<group>";
+		};
+		20CF4A222AE7443D00916EC6 /* database */ = {
+			isa = PBXGroup;
+			children = (
+				20CF4A232AE7446500916EC6 /* MongoDB.swift */,
+			);
+			path = database;
+			sourceTree = "<group>";
+		};
+		20CF4A252AE7449E00916EC6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				20CF4A262AE745F900916EC6 /* SHPEito.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		20CF4A282AE7466400916EC6 /* home */ = {
+			isa = PBXGroup;
+			children = (
+				20CF4A3D2AE747E900916EC6 /* HomeView.swift */,
+				20CF4A352AE7478400916EC6 /* HomeViewModel.swift */,
+			);
+			path = home;
+			sourceTree = "<group>";
+		};
+		20CF4A292AE7467300916EC6 /* pages */ = {
+			isa = PBXGroup;
+			children = (
+				206C8FA62AE1929D0081A35A /* register */,
+				20CF4A2A2AE746CE00916EC6 /* signIn */,
+				20CF4A282AE7466400916EC6 /* home */,
+				206C8FA52AE18F720081A35A /* points */,
+			);
+			path = pages;
+			sourceTree = "<group>";
+		};
+		20CF4A2A2AE746CE00916EC6 /* signIn */ = {
+			isa = PBXGroup;
+			children = (
+				20CF4A2F2AE7475500916EC6 /* SignInView.swift */,
+				20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */,
+			);
+			path = signIn;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,8 +370,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				206C8F782AE181FF0081A35A /* ContentView.swift in Sources */,
+				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
+				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
+				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
+				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
+				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
+				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
+				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
+				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
+				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
+				20CF4A272AE745F900916EC6 /* SHPEito.swift in Sources */,
+				20CF4A3A2AE747A800916EC6 /* PointsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
