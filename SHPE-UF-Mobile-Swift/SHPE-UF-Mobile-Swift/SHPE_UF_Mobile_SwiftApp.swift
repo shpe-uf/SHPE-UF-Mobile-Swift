@@ -11,7 +11,7 @@ import SwiftUI
 struct SHPE_UF_Mobile_SwiftApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SHPEUFAppView()
         }
     }
 }
