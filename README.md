@@ -39,8 +39,8 @@ git clone https://github.com/shpe-uf/SHPE-UF-Mobile-Swift.git
 ### Development
 Once you have gained access to the codebase and joined the Discord server and  the Asana project. You are all set start your **onboarding**.
 
-Go through our [User Onboarding] document
-Go through our [Development Process] guide
+Go through our [User Onboarding](https://docs.google.com/document/d/1lp4qajEOeBg_GbASPdKYtDT9q_oxt7z32LkXSUOo9kw/edit?usp=sharing) document
+Go through our [Development Process](https://docs.google.com/document/d/1q5ILdqSR6qxs16_nCXcTLGRuRAEc6AAxWebloZgWr_0/edit?usp=sharing) guide
 
 ## What now?
 Now that you are all set up and familiar with the project, you are finally ready to start coding. Last thing you will need is to head over to Asana and start working on some tasks!
