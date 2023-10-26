@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct SignInView: View {
-    @State var usernameInput:String = ""
-    @State var passwordInput:String = ""
+    @StateObject var signInViewModel = SignInViewModel()
     var body: some View {
         ZStack
         {
@@ -18,11 +17,11 @@ struct SignInView: View {
                 Image("shpe_logo")
                     .resizable()
                     .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.width * 0.6)
-                TextField("Username", text: $usernameInput)
+                TextField("Username", text: $signInViewModel.usernameInput)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                     .padding(.top, 60)
-                SecureField("Password", text: $passwordInput)
+                SecureField("Password", text: $signInViewModel.passwordInput)
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                 if let forgotPasswordURL = URL(string: "https://www.shpeuf.com/forgot")
