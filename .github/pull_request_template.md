@@ -10,4 +10,4 @@
 
  ### Extra
 
- _please add me (@Mtjay) as a reviewer. thank u_
+ _please add me (@jlopezmarti20) as a reviewer. thank you_
