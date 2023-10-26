@@ -1,13 +1,13 @@
 # SHPE-UF-Mobile-Swift 
-### Design team 2023-2024 - SHPE UF Swift Mobile App
+### Design team 2023-2024 - SHPE UF iOS Mobile App
 
 [![SHPE](https://i.ibb.co/1QWQZcJ/shpe-logo.png)](https://shpe.org/)
 
-This repository contains the code for the SHPE UF Swift Mobile Application 🐊
+This repository contains the code for the SHPE UF iOS Mobile Application 🐊
 
 ### Table of Contents
 - [SHPE UF Swift Mobile Application - Table of Contents](#table-of-contents)
-  * [SHPE-Itroduction](#shpe-Itroduction)
+  * [SHPE-Itroduction](#shpe-Introduction)
   * [Getting Started](#getting-started)
     + [Setting Up](#setting-up)
     + [Development](#development)
@@ -17,7 +17,7 @@ This repository contains the code for the SHPE UF Swift Mobile Application 🐊
 ## SHPE-Itroduction
 SHPE, or the Society of Hispanic Professional Engineers at the University of Florida, aims to maximize its impact on the world by promoting STEM awareness, access, support, and development within the Hispanic community. The goal of this application is to allow our community easy access to several professional, academic and communal resoures.
 
-**Ok, but why should I use SHPE UF Swift?** 🤷
+**Ok, but why should I use SHPE UF iOS?** 🤷
 - Join the SHPE UF community
 - Meet other SHPEitos and join us for events!
 - ✨Points✨    
@@ -29,7 +29,7 @@ SHPE, or the Society of Hispanic Professional Engineers at the University of Flo
 - [ ] Get GitHub repo access
 - [ ] Create Asana account (must use UF email)
 - [ ] Join Discord server
-- [ ] Download [X]
+- [ ] Download [Xcode]
 
 ### Setting Up
 **git clone** Using the https link under "Code", downloads the repository's code onto your personal computer.
