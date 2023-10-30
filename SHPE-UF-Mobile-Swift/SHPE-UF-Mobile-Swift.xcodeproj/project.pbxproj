@@ -25,6 +25,9 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+		463FFFF02B06A9EC00FFCBBB /* ReedemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FFFEF2B06A9EC00FFCBBB /* ReedemView.swift */; };
+		46D20AFC2AFD9854005CA822 /* ReedemPointsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D20AFB2AFD9854005CA822 /* ReedemPointsButton.swift */; };
+		46D20AFE2AFD9BA6005CA822 /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D20AFD2AFD9BA6005CA822 /* PointsUI.swift */; };
 		951943EE2AEB131F002C0CCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +70,9 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		463FFFEF2B06A9EC00FFCBBB /* ReedemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReedemView.swift; sourceTree = "<group>"; };
+		46D20AFB2AFD9854005CA822 /* ReedemPointsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReedemPointsButton.swift; sourceTree = "<group>"; };
+		46D20AFD2AFD9BA6005CA822 /* PointsUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsUI.swift; sourceTree = "<group>"; };
 		951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,7 +164,10 @@
 			isa = PBXGroup;
 			children = (
 				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
+				463FFFEF2B06A9EC00FFCBBB /* ReedemView.swift */,
 				20CF4A392AE747A800916EC6 /* PointsViewModel.swift */,
+				46D20AFB2AFD9854005CA822 /* ReedemPointsButton.swift */,
+				46D20AFD2AFD9BA6005CA822 /* PointsUI.swift */,
 			);
 			path = points;
 			sourceTree = "<group>";
@@ -374,12 +383,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46D20AFE2AFD9BA6005CA822 /* PointsUI.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
+				46D20AFC2AFD9854005CA822 /* ReedemPointsButton.swift in Sources */,
+				463FFFF02B06A9EC00FFCBBB /* ReedemView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
@@ -550,7 +562,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = KMRDDYUCK6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
@@ -581,7 +593,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = KMRDDYUCK6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
