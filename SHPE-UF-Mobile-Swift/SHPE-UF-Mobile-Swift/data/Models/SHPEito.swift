@@ -16,8 +16,8 @@ class SHPEito: Identifiable {
     var username: String = ""
     var email: String = ""
     private var password: String = ""
-    var createdAt: String = ""
-    var updatedAt: String = ""
+    var createdAt: Date = Date()
+    var updatedAt: Date = Date()
     var points: Int = 0
     var fallPoints: Int = 0
     var springPoints: Int = 0

@@ -2,3 +2,7 @@
 
 import Foundation
 
+struct Auth
+{
+    
+}

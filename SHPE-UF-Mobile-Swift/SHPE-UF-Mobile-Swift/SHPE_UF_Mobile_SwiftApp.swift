@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct SHPE_UF_Mobile_SwiftApp: App {
+    @StateObject private var manager: DataManager = DataManager()
     var body: some Scene {
         WindowGroup {
             SignInView()
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, manager.container.viewContext)
         }
     }
 }
