@@ -17,6 +17,7 @@
         <attribute name="internships" optional="YES" attributeType="Transformable"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="listServ" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="loginTime" optional="YES" attributeType="Date"/>
         <attribute name="major" optional="YES" attributeType="String"/>
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="permission" optional="YES" attributeType="String"/>
