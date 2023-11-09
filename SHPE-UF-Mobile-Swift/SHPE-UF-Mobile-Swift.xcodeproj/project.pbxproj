@@ -25,6 +25,8 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+		9518B8072AFBD27600D87D3B /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9518B8052AFBD27600D87D3B /* CoreUserModel.xcdatamodeld */; };
+		9518B80A2AFBD5EE00D87D3B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518B8092AFBD5EE00D87D3B /* DataManager.swift */; };
 		951943EE2AEB131F002C0CCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		9518B8062AFBD27600D87D3B /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
+		9518B8092AFBD5EE00D87D3B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +122,7 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				9518B8082AFBD5CE00D87D3B /* coreData */,
 				951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */,
 				20CF4A1C2AE7423400916EC6 /* data */,
 				20CF4A1D2AE7424100916EC6 /* ui */,
@@ -241,6 +246,15 @@
 				20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */,
 			);
 			path = signIn;
+			sourceTree = "<group>";
+		};
+		9518B8082AFBD5CE00D87D3B /* coreData */ = {
+			isa = PBXGroup;
+			children = (
+				9518B8052AFBD27600D87D3B /* CoreUserModel.xcdatamodeld */,
+				9518B8092AFBD5EE00D87D3B /* DataManager.swift */,
+			);
+			path = coreData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,12 +389,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
+				9518B80A2AFBD5EE00D87D3B /* DataManager.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				9518B8072AFBD27600D87D3B /* CoreUserModel.xcdatamodeld in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
@@ -559,7 +575,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -590,7 +606,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -716,6 +732,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9518B8052AFBD27600D87D3B /* CoreUserModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9518B8062AFBD27600D87D3B /* CoreUserModel.xcdatamodel */,
+			);
+			currentVersion = 9518B8062AFBD27600D87D3B /* CoreUserModel.xcdatamodel */;
+			path = CoreUserModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 206C8F6A2AE181FF0081A35A /* Project object */;
 }

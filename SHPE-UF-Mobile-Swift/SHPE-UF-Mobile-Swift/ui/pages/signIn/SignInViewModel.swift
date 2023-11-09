@@ -15,6 +15,7 @@ final class SignInViewModel: ObservableObject {
     
     func signIn() -> Bool
     {
+        // Pass to Auth object
         // Check that username and password map to a value in Mongo
         
             // Retrieve user data
