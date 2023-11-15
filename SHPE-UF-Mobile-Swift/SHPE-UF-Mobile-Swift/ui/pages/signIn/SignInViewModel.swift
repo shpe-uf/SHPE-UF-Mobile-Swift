@@ -12,6 +12,7 @@ final class SignInViewModel: ObservableObject {
     @Published var usernameInput:String = ""
     @Published var passwordInput:String = ""
     @Published var userInCore:Bool = false
+    @Published var register:Bool = false
     
     func signIn() -> Bool
     {
