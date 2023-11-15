@@ -132,18 +132,28 @@ struct SignInView: View {
         {
             ZStack
             {
-                Image(systemName: "chevron.left")
-                    .foregroundStyle(.white)
+                    HStack
+                    {
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(.white)
+                            .shadow(radius: 10)
+                            .padding(.leading)
+                            
+                        Text("Sign In")
+                            .foregroundStyle(.white)
+                            .shadow(radius: 10)
+                    }
+                    .position(x:50, y: 40)
+                    .zIndex(10)
                     .onTapGesture {
                         withAnimation(.easeIn(duration: 0.3))
                         {
                             signInViewModel.register = false;
                         }
                     }
-                    .position(x: 30, y: 40)
-                    .zIndex(10)
+                    
+                    RegisterView()
                 
-                RegisterView()
             }
             .transition(.move(edge: .trailing))
         }
