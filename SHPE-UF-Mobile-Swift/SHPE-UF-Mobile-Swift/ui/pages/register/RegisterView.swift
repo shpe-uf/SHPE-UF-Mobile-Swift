@@ -233,10 +233,6 @@ struct RegisterView: View {
                     TextField("Confirm Password", text: $passwordConfirmInput)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
-                    
-                    Rectangle()
-                        .frame(width: UIScreen.main.bounds.width, height: 1)
-                        .foregroundColor(.white)
                 }
                 .zIndex(10)
                 .padding(.vertical, 80)
@@ -245,9 +241,9 @@ struct RegisterView: View {
             .ignoresSafeArea()
             .zIndex(10)
             // Gradient Background
-            LinearGradient(gradient: Gradient(colors: [Color("rblue"), Color("rorange")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-            LinearGradient(gradient: Gradient(colors: [Color("lorange").opacity(0.1), Color("lblue").opacity(0.4)]), startPoint: .bottomLeading, endPoint: .topTrailing)
-            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]), startPoint: .topLeading, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color("rblue"), Color("rorange")]), startPoint: .topTrailing, endPoint: .bottomLeading)
+            LinearGradient(gradient: Gradient(colors: [Color("lorange").opacity(0.1), Color("lblue").opacity(0.4)]), startPoint: .bottomTrailing, endPoint: .topLeading)
+            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]), startPoint: .topTrailing, endPoint: .bottom)
         }
         .ignoresSafeArea()
         .navigationBarTitle("Test", displayMode: .inline)
