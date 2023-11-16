@@ -151,9 +151,7 @@ struct SignInView: View {
                             signInViewModel.register = false;
                         }
                     }
-                    
                     RegisterView()
-                
             }
             .transition(.move(edge: .trailing))
         }

@@ -1,39 +1,40 @@
 
 import Foundation
+import RealmSwift
 
 
 class SHPEito: Identifiable {
-    var id:UUID = UUID()
-    var firstName: String = ""
-    var lastName: String = ""
-    var photo: String = ""
-    var major: String = ""
-    var year: String = ""
-    var graduating: String = ""
-    var country: String = ""
-    var ethnicity: String = ""
-    var sex: String = ""
-    var username: String = ""
-    var email: String = ""
-    private var password: String = ""
-    var createdAt: Date = Date()
-    var updatedAt: Date = Date()
-    var points: Int = 0
-    var fallPoints: Int = 0
-    var springPoints: Int = 0
-    var summerPoints: Int = 0
-    var fallPercentile: Int = 0
-    var springPercentile: Int = 0
-    var summerPercentile: Int = 0
-    var permission: String = ""
-    var listServ: Bool = false
-    var internships: [String] = []
-    var socialMedia: [String] = []
-//    var events: [Event]
-//    var tasks: [Task]
-    var bookmarkedTasks: [String] = []
-    var classes: [String] = []
-    var token: String = ""
-    var confirmed: Bool = false
-    var bookmarks: [String] = []
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var firstName: String = ""
+    @Persisted var lastName: String = ""
+    @Persisted var photo: String = ""
+    @Persisted var major: String = ""
+    @Persisted var year: String = ""
+    @Persisted var graduating: String = ""
+    @Persisted var country: String = ""
+    @Persisted var ethnicity: String = ""
+    @Persisted var sex: String = ""
+    @Persisted var username: String = ""
+    @Persisted var email: String = ""
+    @Persisted private var password: String = ""
+    @Persisted var createdAt: Date = Date()
+    @Persisted var updatedAt: Date = Date()
+    @Persisted var points: Int = 0
+    @Persisted var fallPoints: Int = 0
+    @Persisted var springPoints: Int = 0
+    @Persisted var summerPoints: Int = 0
+    @Persisted var fallPercentile: Int = 0
+    @Persisted var springPercentile: Int = 0
+    @Persisted var summerPercentile: Int = 0
+    @Persisted var permission: String = ""
+    @Persisted var listServ: Bool = false
+    @Persisted var internships: List<String>
+    @Persisted var socialMedia: List<String>
+//  @Persisted   var events: [Event]
+//  @Persisted   var tasks: [Task]
+    @Persisted var bookmarkedTasks: List<String>
+    @Persisted var classes: List<String>
+    @Persisted var token: String = ""
+    @Persisted var confirmed: Bool = false
+    @Persisted var bookmarks: List<String>
 }
