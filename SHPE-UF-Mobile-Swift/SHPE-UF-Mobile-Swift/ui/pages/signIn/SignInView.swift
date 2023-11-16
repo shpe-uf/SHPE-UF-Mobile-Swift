@@ -13,7 +13,9 @@ struct SignInView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
     @StateObject var signInViewModel = SignInViewModel()
-    var body: some View 
+    @State private var showAlert = false // State for showing the alert
+    
+    var body: some View
     {
         
         if !signInViewModel.register
@@ -46,8 +48,15 @@ struct SignInView: View {
                                     .padding(.horizontal)
                             }
                             Button {
-                                print("Finding you in our system...")
-                            } label: {
+                                if signInViewModel.isUsernameValid() && signInViewModel.isPasswordValid() {
+                                    // Perform sign-in logic
+                                    print("Finding you in our system...")
+                                } else {
+                                    // Show validation alert
+                                    showAlert = true
+                                    signInViewModel.showValidationAlert()
+                                }
+                            }label: {
                                 HStack
                                 {
                                     Text("Log In")
@@ -103,6 +112,24 @@ struct SignInView: View {
                         LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]), startPoint: .topLeading, endPoint: .bottom)
                     }
                     .ignoresSafeArea()
+                    .alert(isPresented: $showAlert) {
+                                Alert(
+                                    title: Text("Validation Error"),
+                                    message: Text(validationErrorMessage),
+                                    dismissButton: .default(Text("OK"))
+                                )
+                            }
+                    var validationErrorMessage: String {
+                            if signInViewModel.usernameInput.isEmpty && signInViewModel.passwordInput.isEmpty {
+                                return "Username is required.\nPassword is required."
+                            } else if signInViewModel.usernameInput.isEmpty {
+                                return "Username is required."
+                            } else if signInViewModel.passwordInput.isEmpty {
+                                return "Password is required."
+                            } else {
+                                return "Valid username and password required."
+                            }
+                        }
                 }
                 else
                 {
