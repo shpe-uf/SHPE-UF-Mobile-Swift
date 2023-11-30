@@ -25,6 +25,15 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+		4633862E2B62CE1200F9B9AD /* GetPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 4633862D2B62CE1200F9B9AD /* GetPoints.graphql.swift */; };
+		463386302B62D01100F9B9AD /* SHPESchema in Resources */ = {isa = PBXBuildFile; fileRef = 4633862F2B62D01100F9B9AD /* SHPESchema */; };
+		463386312B62D01100F9B9AD /* SHPESchema in Resources */ = {isa = PBXBuildFile; fileRef = 4633862F2B62D01100F9B9AD /* SHPESchema */; };
+		463386322B62D01100F9B9AD /* SHPESchema in Resources */ = {isa = PBXBuildFile; fileRef = 4633862F2B62D01100F9B9AD /* SHPESchema */; };
+		463FFFF02B06A9EC00FFCBBB /* ReedemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463FFFEF2B06A9EC00FFCBBB /* ReedemView.swift */; };
+		4687FF422B61E6290090BF23 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 4687FF412B61E6290090BF23 /* Apollo */; };
+		4687FF4B2B62C95C0090BF23 /* schema.graphqls in Resources */ = {isa = PBXBuildFile; fileRef = 4687FF4A2B62C95C0090BF23 /* schema.graphqls */; };
+		46D20AFC2AFD9854005CA822 /* ReedemPointsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D20AFB2AFD9854005CA822 /* ReedemPointsButton.swift */; };
+		46D20AFE2AFD9BA6005CA822 /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D20AFD2AFD9BA6005CA822 /* PointsUI.swift */; };
 		951943EE2AEB131F002C0CCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +76,12 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		4633862D2B62CE1200F9B9AD /* GetPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoints.graphql.swift; sourceTree = "<group>"; };
+		4633862F2B62D01100F9B9AD /* SHPESchema */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SHPESchema; sourceTree = "<group>"; };
+		463FFFEF2B06A9EC00FFCBBB /* ReedemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReedemView.swift; sourceTree = "<group>"; };
+		4687FF4A2B62C95C0090BF23 /* schema.graphqls */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = schema.graphqls; sourceTree = "<group>"; };
+		46D20AFB2AFD9854005CA822 /* ReedemPointsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReedemPointsButton.swift; sourceTree = "<group>"; };
+		46D20AFD2AFD9BA6005CA822 /* PointsUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsUI.swift; sourceTree = "<group>"; };
 		951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -75,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4687FF422B61E6290090BF23 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +114,9 @@
 		206C8F692AE181FF0081A35A = {
 			isa = PBXGroup;
 			children = (
+				4633862F2B62D01100F9B9AD /* SHPESchema */,
+				4687FF4A2B62C95C0090BF23 /* schema.graphqls */,
+				4687FF4C2B62CB7D0090BF23 /* GraphQL */,
 				206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */,
 				206C8F852AE182020081A35A /* SHPE-UF-Mobile-SwiftTests */,
 				206C8F8F2AE182020081A35A /* SHPE-UF-Mobile-SwiftUITests */,
@@ -158,7 +177,10 @@
 			isa = PBXGroup;
 			children = (
 				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
+				463FFFEF2B06A9EC00FFCBBB /* ReedemView.swift */,
 				20CF4A392AE747A800916EC6 /* PointsViewModel.swift */,
+				46D20AFB2AFD9854005CA822 /* ReedemPointsButton.swift */,
+				46D20AFD2AFD9BA6005CA822 /* PointsUI.swift */,
 			);
 			path = points;
 			sourceTree = "<group>";
@@ -243,6 +265,14 @@
 			path = signIn;
 			sourceTree = "<group>";
 		};
+		4687FF4C2B62CB7D0090BF23 /* GraphQL */ = {
+			isa = PBXGroup;
+			children = (
+				4633862D2B62CE1200F9B9AD /* GetPoints.graphql.swift */,
+			);
+			path = GraphQL;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -259,6 +289,9 @@
 			dependencies = (
 			);
 			name = "SHPE-UF-Mobile-Swift";
+			packageProductDependencies = (
+				4687FF412B61E6290090BF23 /* Apollo */,
+			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
 			productType = "com.apple.product-type.application";
@@ -331,6 +364,9 @@
 				Base,
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
+			packageReferences = (
+				4687FF402B61E6290090BF23 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -347,7 +383,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4687FF4B2B62C95C0090BF23 /* schema.graphqls in Resources */,
 				951943EE2AEB131F002C0CCD /* LaunchScreen.storyboard in Resources */,
+				4633862E2B62CE1200F9B9AD /* GetPoints.graphql.swift in Resources */,
+				463386302B62D01100F9B9AD /* SHPESchema in Resources */,
 				206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */,
 				206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */,
 			);
@@ -357,6 +396,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463386312B62D01100F9B9AD /* SHPESchema in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +404,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				463386322B62D01100F9B9AD /* SHPESchema in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,12 +415,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46D20AFE2AFD9BA6005CA822 /* PointsUI.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
+				46D20AFC2AFD9854005CA822 /* ReedemPointsButton.swift in Sources */,
+				463FFFF02B06A9EC00FFCBBB /* ReedemView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
@@ -550,7 +594,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = KMRDDYUCK6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
@@ -581,7 +625,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = KMRDDYUCK6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
@@ -716,6 +760,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4687FF402B61E6290090BF23 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4687FF412B61E6290090BF23 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4687FF402B61E6290090BF23 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 206C8F6A2AE181FF0081A35A /* Project object */;
 }
