@@ -8,23 +8,20 @@
 import SwiftUI
 
 struct SHPEUFAppView: View {
+    let requestHandler = RequestHandler()
     var body: some View {
-        HStack{
-            VStack {
-                Text("This is test1")
-                Rectangle()
-                    .frame(width: 375, height:200)
-                    .foregroundColor(.green)
-        
-                Text("This is test3")
-                Rectangle()
-                    .frame(width: 375, height: 200)
-                    .foregroundColor(.blue)
-        
-            }
-            
-            
+        VStack {
+            Text("Create Buttons Here to test requests")
+                .font(.largeTitle)
+            Button(action:
+            {
+                requestHandler.alumniRequest()
+            }, label: {
+                Text("Sample Request")
+            })
+    
         }
+        .padding(10)
         Spacer()
     }
 }
