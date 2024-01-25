@@ -10,7 +10,48 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://0ba8-128-227-1-20.ngrok-free.app/")!)
+    let apolloClient = ApolloClient(url: URL(string: "https://d7b2-104-222-18-161.ngrok-free.app/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    
+    // This is how the functions I will make for you guys will look like
+    func fetchUserPoints(userId:String, completion: @escaping ([String:Any])->Void)
+    {
+        // Function was successfully called
+        print("Fetching User Points")
+        do
+        {
+            // Validate inputs
+            let validId = try SHPESchema.ID(_jsonValue: JSONValue(userId))
+            
+            // Make Apollo Client Call
+            apolloClient.fetch(query: SHPESchema.GetUserPointsQuery(userId: validId))
+            {
+                response in
+                
+                // Process Server Response
+                guard let data = try? response.get().data else
+                {
+                    print("ERROR: Incomplete Request\nError Message:\(response)")
+                    
+                    // Package with data (ERROR ❌)
+                    completion(["error":"Incomplete Request"])
+                    return
+                }
+                
+                // Package with data (SUCCESS ✅)
+                let responseDict = [
+                    "userId":userId,
+                    "points": data.getUser?.points ?? -1
+                ]
+                completion(responseDict)
+            }
+        }
+        catch
+        {
+            print("Invalid Id")
+            // Package with data (ERROR ❌)
+            completion(["error":"Invalid ID"])
+        }
+    }
     
     func sampleRequest()
     {

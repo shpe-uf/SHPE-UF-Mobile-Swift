@@ -32,8 +32,8 @@ extension SHPESchema {
     static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
       switch typename {
       case "Query": return SHPESchema.Objects.Query
-      case "Alumni": return SHPESchema.Objects.Alumni
       case "User": return SHPESchema.Objects.User
+      case "Alumni": return SHPESchema.Objects.Alumni
       case "Event": return SHPESchema.Objects.Event
       default: return nil
       }
