@@ -10,7 +10,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://d7b2-104-222-18-161.ngrok-free.app/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "http://127.0.0.1:5000/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // This is how the functions I will make for you guys will look like
     func fetchUserPoints(userId:String, completion: @escaping ([String:Any])->Void)
