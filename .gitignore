@@ -6,6 +6,7 @@
 */xcuserdata/
 */*/xcuserdata/
 */*/*/xcuserdata/
+*/*/*/xcuserdata/*.xcuserdatad/
 *.xcuserstate
 */*/*/*.xcuserstate
 */*/*/xcshareddata/

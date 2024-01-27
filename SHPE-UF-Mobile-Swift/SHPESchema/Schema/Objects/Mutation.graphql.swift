@@ -4,8 +4,8 @@
 import ApolloAPI
 
 extension SHPESchema.Objects {
-  static let Alumni = ApolloAPI.Object(
-    typename: "Alumni",
+  static let Mutation = ApolloAPI.Object(
+    typename: "Mutation",
     implementedInterfaces: []
   )
 }
