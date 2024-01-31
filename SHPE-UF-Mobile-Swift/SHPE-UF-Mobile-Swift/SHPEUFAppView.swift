@@ -8,24 +8,21 @@
 import SwiftUI
 
 struct SHPEUFAppView: View {
+    let requestHandler = RequestHandler()
     var body: some View {
-        HStack{
-            VStack {
-                Text("This is test1")
-                Rectangle()
-                    .frame(width: 375, height:200)
-                    .foregroundColor(.green)
-        
-                Text("This is test3")
-                Rectangle()
-                    .frame(width: 375, height: 200)
-                    .foregroundColor(.blue)
-        
-            }
-            
-            
-        }
-        Spacer()
+        PointsView(vm: PointsViewModel(shpeito:
+                                        SHPEito(
+                                            id: "64f7a87a08f7e80014559119",
+                                            name: "David Denis",
+                                            points: 0,
+                                            fallPercentile: 0,
+                                            springPercentile: 0,
+                                            summerPercentile: 0,
+                                            fallPoints: 0,
+                                            springPoints: 0,
+                                            summerPoints: 0
+                                        )
+                                      ))
     }
 }
 
@@ -33,3 +30,18 @@ struct SHPEUFAppView: View {
 #Preview {
     SHPEUFAppView()
 }
+
+
+/*
+ PointsView(vm: PointsViewModel(shpeito:
+                                 SHPEito(id: "642f7f80e8839f0014e8be9b",
+                                         name: "David Denis",
+                                         points: 0,
+                                         fallPoints: 0,
+                                         springPoints: 0,
+                                         summerPoints: 0,
+                                         fallPercentile: 0,
+                                         springPercentile: 0,
+                                         summerPercentile: 0)
+                               ))
+ */

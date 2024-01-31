@@ -1,0 +1,14 @@
+# Xcode
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+*/*/*/.DS_Store
+*/xcuserdata/
+*/*/xcuserdata/
+*/*/*/xcuserdata/
+*/*/*/xcuserdata/*.xcuserdatad/
+*.xcuserstate
+*/*/*/*.xcuserstate
+*/*/*/xcshareddata/
+*.xcodeproj/xcuserdata/
+*/*/*/*.xcworkspace/xcuserdata/
