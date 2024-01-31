@@ -8,24 +8,9 @@
 import SwiftUI
 
 struct SHPEUFAppView: View {
+    let requestHandler = RequestHandler()
     var body: some View {
-        HStack{
-            VStack {
-                Text("This is test1")
-                Rectangle()
-                    .frame(width: 375, height:200)
-                    .foregroundColor(.green)
-        
-                Text("This is test3")
-                Rectangle()
-                    .frame(width: 375, height: 200)
-                    .foregroundColor(.blue)
-        
-            }
-            
-            
-        }
-        Spacer()
+        PointsView(vm: PointsViewModel(shpeito: SHPEito(id: "64f7d5ce08f7e8001456248a", name: "Daniel Parra", points: 0)))
     }
 }
 
