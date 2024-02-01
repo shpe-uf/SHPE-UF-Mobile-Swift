@@ -8,7 +8,7 @@ extension SHPESchema {
     static let operationName: String = "RedeemPoints"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"mutation RedeemPoints($redeemPointsInput: RedeemPointsInput) { redeemPoints(redeemPointsInput: $redeemPointsInput) { __typename events { __typename code } } }"#
+        #"mutation RedeemPoints($redeemPointsInput: RedeemPointsInput) { redeemPoints(redeemPointsInput: $redeemPointsInput) { __typename fallPoints springPoints summerPoints } }"#
       ))
 
     public var redeemPointsInput: GraphQLNullable<RedeemPointsInput>
@@ -40,26 +40,14 @@ extension SHPESchema {
         static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.User }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
-          .field("events", [Event?].self),
+          .field("fallPoints", Int.self),
+          .field("springPoints", Int.self),
+          .field("summerPoints", Int.self),
         ] }
 
-        var events: [Event?] { __data["events"] }
-
-        /// RedeemPoints.Event
-        ///
-        /// Parent Type: `Event`
-        struct Event: SHPESchema.SelectionSet {
-          let __data: DataDict
-          init(_dataDict: DataDict) { __data = _dataDict }
-
-          static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.Event }
-          static var __selections: [ApolloAPI.Selection] { [
-            .field("__typename", String.self),
-            .field("code", String.self),
-          ] }
-
-          var code: String { __data["code"] }
-        }
+        var fallPoints: Int { __data["fallPoints"] }
+        var springPoints: Int { __data["springPoints"] }
+        var summerPoints: Int { __data["summerPoints"] }
       }
     }
   }
