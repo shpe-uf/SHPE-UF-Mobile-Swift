@@ -1,7 +1,7 @@
 mutation RedeemPoints($redeemPointsInput: RedeemPointsInput) {
   redeemPoints(redeemPointsInput: $redeemPointsInput) {
-    events {
-      code
-    }
+      fallPoints
+      springPoints
+      summerPoints
   }
 }
