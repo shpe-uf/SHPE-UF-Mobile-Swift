@@ -12,7 +12,7 @@ struct SHPEUFAppView: View {
     var body: some View {
         PointsView(vm: PointsViewModel(shpeito:
                                         SHPEito(
-                                            id: "64f7a87a08f7e80014559119",
+                                            id: "5f595bc16b307400179595ab",
                                             name: "David Denis",
                                             points: 0,
                                             fallPercentile: 0,
@@ -20,7 +20,8 @@ struct SHPEUFAppView: View {
                                             summerPercentile: 0,
                                             fallPoints: 0,
                                             springPoints: 0,
-                                            summerPoints: 0
+                                            summerPoints: 0,
+                                            username: "denis_david"
                                         )
                                       ))
     }

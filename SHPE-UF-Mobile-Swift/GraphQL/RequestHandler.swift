@@ -10,7 +10,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://afa4-70-171-40-38.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://468c-128-227-1-30.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -149,7 +149,9 @@ class RequestHandler
     
     // RedeemPointsMutation <= RedeemPoints.graphql
     // Input: code: String, username: String, guests: Int (Number of guests)
-    // Successful Output: ["code": String]
+    // Successful Output: "fallPoints": Int,
+    //                    "springPoints": Int,
+    //                    "summerPoints": Int
     func redeemPoints(code: String, username: String, guests:Int, completion: @escaping ([String:Any])->Void)
     {
         let redeemPointsinput = SHPESchema.RedeemPointsInput(code: code, username: username, guests: guests)
@@ -161,9 +163,7 @@ class RequestHandler
             response in
             
             // Process Server Response
-            guard let data = try? response.get().data,
-            let events = data.redeemPoints.events as? [SHPESchema.RedeemPointsMutation.Data.RedeemPoints.Event],
-            let event = events.first            
+            guard let data = try? response.get().data
             else
             {
                 print("ERROR: Incomplete Request\nError Message:\(response)")
@@ -175,7 +175,9 @@ class RequestHandler
             
             // Package with data (SUCCESS ✅)
             let responseDict = [
-                "code": event.code
+                "fallPoints": data.redeemPoints.fallPoints,
+                "springPoints": data.redeemPoints.springPoints,
+                "summerPoints": data.redeemPoints.summerPoints
             ]
             
             completion(responseDict)

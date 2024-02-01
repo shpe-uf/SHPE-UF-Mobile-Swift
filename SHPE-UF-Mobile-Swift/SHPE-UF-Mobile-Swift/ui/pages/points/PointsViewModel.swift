@@ -29,6 +29,7 @@ final class PointsViewModel:ObservableObject {
         self.fallPoints = shpeito.fallPoints
         self.springPoints = shpeito.springPoints
         self.summerPoints = shpeito.summerPoints
+        self.username = shpeito.username
         
         setShpeitoPoints()
         setShpeitoPercentiles()
@@ -45,6 +46,7 @@ final class PointsViewModel:ObservableObject {
     @Published var fallPoints : Int
     @Published var springPoints : Int
     @Published var summerPoints : Int
+    @Published var username : String
 
     
     // Methods to call in View
@@ -146,4 +148,49 @@ final class PointsViewModel:ObservableObject {
             }
         }
     }
+    
+    func redeemCode(code: String, guests: Int = 0)
+    {
+        
+        print("HERE")
+        
+        requestHandler.redeemPoints(code: code, username: shpeito.username, guests: guests) { data in
+            
+            print(data)
+            
+            // Check that no error was detected
+            if data["error"] == nil
+            {
+                // Check if all the data is there and is the correct Type
+                if let fallPoints = data["fallPoints"] as? Int,
+                   let springPoints = data["springPoints"] as? Int,
+                   let summerPoints = data["summerPoints"] as? Int
+                {
+                    print("Success!")
+                    // Do something with the data
+                    self.shpeito.fallPoints = fallPoints //Update the model
+                    self.shpeito.springPoints = springPoints
+                    self.shpeito.summerPoints = summerPoints
+                    
+                    self.fallPoints = fallPoints // Update the information being displayed
+                    self.springPoints = springPoints
+                    self.summerPoints = summerPoints
+                    
+                    
+                }
+                else
+                {
+                    // Handle missing data error
+                    print("Incorrect data")
+                }
+            }
+            else
+            {
+                // Handle error response
+                print(data["error"]!)
+            }
+        }
+    }
+    
+    
 }

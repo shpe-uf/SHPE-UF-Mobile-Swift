@@ -5,7 +5,7 @@ import Foundation
 class SHPEito 
 {
     // Initializer
-    init(id:String, name: String, points: Int, fallPercentile: Int, springPercentile: Int, summerPercentile: Int, fallPoints: Int, springPoints: Int, summerPoints: Int)
+    init(id:String, name: String, points: Int, fallPercentile: Int, springPercentile: Int, summerPercentile: Int, fallPoints: Int, springPoints: Int, summerPoints: Int, username: String)
     {
         self.id = id
         self.name = name
@@ -16,6 +16,7 @@ class SHPEito
         self.fallPoints = fallPoints
         self.springPoints = springPoints
         self.summerPoints = summerPoints
+        self.username = username
 
         
     }
@@ -32,6 +33,7 @@ class SHPEito
     @Published var springPoints : Int
     @Published var summerPoints : Int
 
+    @Published var username: String
     
     // Any methods that can help with 
     // representing the data...
