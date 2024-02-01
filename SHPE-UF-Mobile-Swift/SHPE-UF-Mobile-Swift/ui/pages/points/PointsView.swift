@@ -69,7 +69,7 @@ struct PointsView: View {
             
         }
         .sheet(isPresented: $redeem, content: {
-            ReedemView()
+            ReedemView(vm: vm)
         })
         .ignoresSafeArea()
         
@@ -80,7 +80,7 @@ struct PointsView: View {
 #Preview {
     PointsView(vm: PointsViewModel(shpeito:
                                     SHPEito(
-                                        id: "5f595bc16b307400179595ab",
+                                        id: "64f9375e59bd66001486b301",
                                         name: "David Denis",
                                         points: 0,
                                         fallPercentile: 0,
@@ -88,7 +88,8 @@ struct PointsView: View {
                                         summerPercentile: 0,
                                         fallPoints: 0,
                                         springPoints: 0,
-                                        summerPoints: 0
+                                        summerPoints: 0,
+                                        username: "dparra1"
                                     )
                                   ))
 }

@@ -12,6 +12,8 @@ struct ReedemView: View {
     @State var code: String = ""
     @Environment(\.dismiss) var dismiss
     
+    @StateObject var vm : PointsViewModel
+    
     var body: some View {
         
         NavigationStack {
@@ -36,7 +38,23 @@ struct ReedemView: View {
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
                         .padding(.top, 60)
+                        .textInputAutocapitalization(.never)
                     
+                    Button {
+                        print("Clicked")
+                        vm.redeemCode(code: code)
+                        vm.setShpeitoPercentiles()
+                        dismiss()
+                    } label: {
+                        Text("Done")
+                    }
+
+                    
+//                    Button("Done") {
+//                        print("Clicked")
+//                        vm.redeemCode(code: code)
+//                        dismiss()
+//                    }
                     
                     
                     Spacer()
@@ -49,13 +67,6 @@ struct ReedemView: View {
             }
             .ignoresSafeArea()
             .navigationTitle("")
-            .toolbar {
-                Button("Done") {
-                    
-                    // DO VALIDATION
-                    dismiss()
-                }
-            }
             
             
         }
@@ -64,5 +75,18 @@ struct ReedemView: View {
 }
 
 #Preview {
-    ReedemView()
+    ReedemView(vm: PointsViewModel(shpeito:
+                                    SHPEito(
+                                        id: "5f595bc16b307400179595ab",
+                                        name: "David Denis",
+                                        points: 0,
+                                        fallPercentile: 0,
+                                        springPercentile: 0,
+                                        summerPercentile: 0,
+                                        fallPoints: 0,
+                                        springPoints: 0,
+                                        summerPoints: 0,
+                                        username: "denis_david"
+                                    )
+                                  ))
 }
