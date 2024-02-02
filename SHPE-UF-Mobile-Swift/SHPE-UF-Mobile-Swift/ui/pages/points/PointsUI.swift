@@ -13,21 +13,19 @@ struct PointsUI: View {
     var semester: String
     var percent: Int
     
+    var gradient: LinearGradient
+    
     var body: some View {
         
         ZStack {
             
-            //LinearGradient(colors: [.rblue, .lblue], startPoint: .top, endPoint: .bottom)
-            
-            LinearGradient(gradient: Gradient(colors: [Color("rblue"), Color("rorange")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-            LinearGradient(gradient: Gradient(colors: [Color("lorange").opacity(0.1), Color("lblue").opacity(0.4)]), startPoint: .bottomLeading, endPoint: .topTrailing)
-            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]), startPoint: .topLeading, endPoint: .bottom)
+           gradient
             
             HStack {
                 Text(semester.uppercased())
                     .foregroundStyle(.foreground)
                     .font(.title2).bold().fontDesign(.monospaced)
-                    .frame(width: 90)
+                    .frame(width: 85)
                     
 
         
@@ -38,7 +36,7 @@ struct PointsUI: View {
                 
                 
                 
-                Text("TOP \(percent) PERCENT")
+                Text("TOP \(percent)%")
                     .foregroundStyle(.white)
                     .font(.title2).bold().fontDesign(.monospaced)
                     .frame(width: 100)
@@ -61,7 +59,7 @@ struct PointsUI: View {
 
             
         }
-        .frame(width: 350, height: 100)
+        .frame(width: 320, height: 75)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 25))
         
@@ -70,6 +68,7 @@ struct PointsUI: View {
 }
 
 #Preview {
-    PointsUI(points: 14, semester: "Fall", percent: 99)
+    PointsUI(points: 14, semester: "Fall", percent: 99, gradient: LinearGradient(colors: [.black, .blue], startPoint: .bottom, endPoint: .top))
+    
     
 }
