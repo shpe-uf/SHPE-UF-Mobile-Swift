@@ -23,6 +23,7 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+		462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B6F492B7180AB00EB575C /* CircularProgessView.swift */; };
 		4632E4742B6B575E0048782D /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4732B6B575E0048782D /* PointsUI.swift */; };
 		4632E4762B6B57A00048782D /* ReedemPointsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4752B6B57A00048782D /* ReedemPointsButton.swift */; };
 		4632E4782B6B57A80048782D /* ReedemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4772B6B57A80048782D /* ReedemView.swift */; };
@@ -134,6 +135,7 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		462B6F492B7180AB00EB575C /* CircularProgessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgessView.swift; sourceTree = "<group>"; };
 		4632E4732B6B575E0048782D /* PointsUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsUI.swift; sourceTree = "<group>"; };
 		4632E4752B6B57A00048782D /* ReedemPointsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReedemPointsButton.swift; sourceTree = "<group>"; };
 		4632E4772B6B57A80048782D /* ReedemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReedemView.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				4632E4732B6B575E0048782D /* PointsUI.swift */,
 				4632E4752B6B57A00048782D /* ReedemPointsButton.swift */,
 				4632E4772B6B57A80048782D /* ReedemView.swift */,
+				462B6F492B7180AB00EB575C /* CircularProgessView.swift */,
 			);
 			path = points;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				95D370FD2B64825500B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				95D3711E2B64825500B2C5A4 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
