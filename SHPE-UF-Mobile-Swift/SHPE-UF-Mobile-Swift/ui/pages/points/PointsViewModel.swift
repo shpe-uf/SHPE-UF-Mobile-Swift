@@ -23,11 +23,31 @@ final class PointsViewModel:ObservableObject {
         self.shpeito = shpeito
         self.points = shpeito.points
         // Any other setup steps you need...
+        self.fallPercentile = shpeito.fallPercentile
+        self.springPercentile = shpeito.springPercentile
+        self.summerPercentile = shpeito.summerPercentile
+        self.fallPoints = shpeito.fallPoints
+        self.springPoints = shpeito.springPoints
+        self.summerPoints = shpeito.summerPoints
+        self.username = shpeito.username
+        
+        setShpeitoPoints()
+        setShpeitoPercentiles()
+        getShpeitoPoints()
+        
     }
     
     // In View variables (What is being DISPLAYED & What is being INTERACTED WITH)
-    @Published var addPointsClicked:Bool = false
-    @Published var points:Int
+    @Published var addPointsClicked : Bool = false
+    @Published var points : Int
+    @Published var fallPercentile : Int
+    @Published var springPercentile : Int
+    @Published var summerPercentile : Int
+    @Published var fallPoints : Int
+    @Published var springPoints : Int
+    @Published var summerPoints : Int
+    @Published var username : String
+
     
     // Methods to call in View
     func setShpeitoPoints()
@@ -59,16 +79,118 @@ final class PointsViewModel:ObservableObject {
         }
     }
     
-    func add5PointsToShpeito()
+    func setShpeitoPercentiles()
     {
-        // This would be done after we call the mutation to add 5 points to our shpeito
-        self.shpeito.points += 5
-        self.points += 5
+        requestHandler.getPercentiles(userId: shpeito.id) { data in
+            // Check that no error was detected
+            if data["error"] == nil
+            {
+                // Check if all the data is there and is the correct Type
+                if let fallPercentile = data["fallPercentile"] as? Int,
+                   let springPercentile = data["springPercentile"] as? Int,
+                   let summerPercentile = data["summerPercentile"] as? Int
+                {
+                    print("Success!")
+                    // Do something with the data
+                    self.shpeito.fallPercentile = fallPercentile //Update the model
+                    self.shpeito.springPercentile = springPercentile
+                    self.shpeito.summerPercentile = summerPercentile
+                    
+                    self.fallPercentile = fallPercentile // Update the information being displayed
+                    self.springPercentile = springPercentile
+                    self.summerPercentile = summerPercentile
+                }
+                else
+                {
+                    // Handle missing data error
+                    print("Incorrect data")
+                }
+            }
+            else
+            {
+                // Handle error response
+                print(data["error"]!)
+            }
+        }
     }
     
-    func resetShpeitoPoints()
+    func getShpeitoPoints()
     {
-        self.shpeito.points = 0
-        self.points = 0
+        requestHandler.getPoints(userId: shpeito.id) { data in
+            // Check that no error was detected
+            if data["error"] == nil
+            {
+                // Check if all the data is there and is the correct Type
+                if let fallPoints = data["fallPoints"] as? Int,
+                   let springPoints = data["springPoints"] as? Int,
+                   let summerPoints = data["summerPoints"] as? Int
+                {
+                    print("Success!")
+                    // Do something with the data
+                    self.shpeito.fallPoints = fallPoints //Update the model
+                    self.shpeito.springPoints = springPoints
+                    self.shpeito.summerPoints = summerPoints
+                    
+                    self.fallPoints = fallPoints // Update the information being displayed
+                    self.springPoints = springPoints
+                    self.summerPoints = summerPoints
+                }
+                else
+                {
+                    // Handle missing data error
+                    print("Incorrect data")
+                }
+            }
+            else
+            {
+                // Handle error response
+                print(data["error"]!)
+            }
+        }
     }
+    
+    func redeemCode(code: String, guests: Int = 0)
+    {
+        
+        print("HERE")
+        
+        requestHandler.redeemPoints(code: code, username: shpeito.username, guests: guests) { data in
+            
+            print(data)
+            
+            // Check that no error was detected
+            if data["error"] == nil
+            {
+                // Check if all the data is there and is the correct Type
+                if let fallPoints = data["fallPoints"] as? Int,
+                   let springPoints = data["springPoints"] as? Int,
+                   let summerPoints = data["summerPoints"] as? Int
+                {
+                    print("Success!")
+                    // Do something with the data
+                    self.shpeito.fallPoints = fallPoints //Update the model
+                    self.shpeito.springPoints = springPoints
+                    self.shpeito.summerPoints = summerPoints
+                    
+                    self.fallPoints = fallPoints // Update the information being displayed
+                    self.springPoints = springPoints
+                    self.summerPoints = summerPoints
+                    
+                    
+                }
+                else
+                {
+                    // Handle missing data error
+                    print("Incorrect data")
+                }
+            }
+            else
+            {
+                // Handle error response
+                print(data["error"]!)
+            }
+        }
+    }
+    
+    
 }

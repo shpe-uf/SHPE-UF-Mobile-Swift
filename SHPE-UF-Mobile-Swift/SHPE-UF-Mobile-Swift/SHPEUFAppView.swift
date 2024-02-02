@@ -10,7 +10,18 @@ import SwiftUI
 struct SHPEUFAppView: View {
     let requestHandler = RequestHandler()
     var body: some View {
-        PointsView(vm: PointsViewModel(shpeito: SHPEito(id: "64f7d5ce08f7e8001456248a", name: "Daniel Parra", points: 0)))
+        PointsView(vm: PointsViewModel(shpeito: SHPEito(
+            id: "650376888bda4600144075e9",
+            name: "Ashley Guerra",
+            points: 0,
+            fallPercentile: 0,
+            springPercentile: 0,
+            summerPercentile: 0,
+            fallPoints: 0,
+            springPoints: 0,
+            summerPoints: 0,
+            username: "ashguerra"
+        )))
     }
 }
 

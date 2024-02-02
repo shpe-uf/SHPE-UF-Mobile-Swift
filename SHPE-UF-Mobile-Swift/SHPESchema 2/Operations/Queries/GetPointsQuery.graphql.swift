@@ -4,36 +4,36 @@
 @_exported import ApolloAPI
 
 extension SHPESchema {
-  class RedeemPointsMutation: GraphQLMutation {
-    static let operationName: String = "RedeemPoints"
+  class GetPointsQuery: GraphQLQuery {
+    static let operationName: String = "GetPoints"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"mutation RedeemPoints($redeemPointsInput: RedeemPointsInput) { redeemPoints(redeemPointsInput: $redeemPointsInput) { __typename fallPoints springPoints summerPoints } }"#
+        #"query GetPoints($userId: ID!) { getUser(userId: $userId) { __typename fallPoints springPoints summerPoints } }"#
       ))
 
-    public var redeemPointsInput: GraphQLNullable<RedeemPointsInput>
+    public var userId: ID
 
-    public init(redeemPointsInput: GraphQLNullable<RedeemPointsInput>) {
-      self.redeemPointsInput = redeemPointsInput
+    public init(userId: ID) {
+      self.userId = userId
     }
 
-    public var __variables: Variables? { ["redeemPointsInput": redeemPointsInput] }
+    public var __variables: Variables? { ["userId": userId] }
 
     struct Data: SHPESchema.SelectionSet {
       let __data: DataDict
       init(_dataDict: DataDict) { __data = _dataDict }
 
-      static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.Mutation }
+      static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.Query }
       static var __selections: [ApolloAPI.Selection] { [
-        .field("redeemPoints", RedeemPoints.self, arguments: ["redeemPointsInput": .variable("redeemPointsInput")]),
+        .field("getUser", GetUser?.self, arguments: ["userId": .variable("userId")]),
       ] }
 
-      var redeemPoints: RedeemPoints { __data["redeemPoints"] }
+      var getUser: GetUser? { __data["getUser"] }
 
-      /// RedeemPoints
+      /// GetUser
       ///
       /// Parent Type: `User`
-      struct RedeemPoints: SHPESchema.SelectionSet {
+      struct GetUser: SHPESchema.SelectionSet {
         let __data: DataDict
         init(_dataDict: DataDict) { __data = _dataDict }
 
