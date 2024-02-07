@@ -8,183 +8,55 @@
 import SwiftUI
 
 struct SignInView: View {
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var manager: DataManager
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
-    @StateObject var signInViewModel = SignInViewModel()
-    @State private var showAlert = false // State for showing the alert
+    @StateObject var viewModel: SignInViewModel
+    @State private var username = ""
+    @State private var password = ""
     
-    var body: some View
-    {
-        
-        if !signInViewModel.register
-        {
-            ZStack
-            {
-                if user.isEmpty
-                {
-                    ZStack
-                    {
-                        VStack
-                        {
-                            Image("shpe_logo")
-                                .resizable()
-                                .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.width * 0.6)
-                            TextField("Username", text: $signInViewModel.usernameInput)
-                                .textFieldStyle(.roundedBorder)
-                                .padding(.horizontal)
-                                .padding(.top, 60)
-                            SecureField("Password", text: $signInViewModel.passwordInput)
-                                .textFieldStyle(.roundedBorder)
-                                .padding(.horizontal)
-                            if let forgotPasswordURL = URL(string: "https://www.shpeuf.com/forgot")
-                            {
-                                Link("Forgot password?", destination: forgotPasswordURL)
-                                    .foregroundColor(.white)
-                                    .fontWeight(.light)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .multilineTextAlignment(.trailing)
-                                    .padding(.horizontal)
-                            }
-                            Button {
-                                if signInViewModel.isUsernameValid() && signInViewModel.isPasswordValid() {
-                                    // Perform sign-in logic
-                                    print("Finding you in our system...")
-                                } else {
-                                    // Show validation alert
-                                    showAlert = true
-                                    signInViewModel.showValidationAlert()
-                                }
-                            }label: {
-                                HStack
-                                {
-                                    Text("Log In")
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .fontWeight(.light)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .background(.black.opacity(0.5))
-                                .cornerRadius(10)
-                                
-                            }
-                            .padding(.horizontal)
-                            .padding(.top, 20)
-                            Spacer()
-                            Rectangle()
-                                .frame(width: UIScreen.main.bounds.width, height: 1)
-                                .foregroundColor(.white)
-                            HStack
-                            {
-                                Text("Not a Member?")
-                                    .foregroundColor(.white)
-                                    .fontWeight(.light)
-                                
-                                NavigationLink("Register", destination: RegisterView())
-                                    .foregroundColor(.white)
-                                    .fontWeight(.bold)
-                                    .onTapGesture
-                                    {
-                                        withAnimation(.easeIn(duration: 0.3))
-                                        {
-                                            signInViewModel.register = true;
-                                        }
-                                    }
-                                    
-                                Button(
-                                    action:
-                                    {
-                                        signInViewModel.addUserItemToCore(viewContext: viewContext)
-                                    }, label: {
-                                        Image(systemName: "plus")
-                                    })
-                            }
-                            .padding(.top, 20)
-
-                        }
-                        .zIndex(10)
-                        .padding(.vertical, 80)
-                        
-                        //Gradient Background
-                        LinearGradient(gradient: Gradient(colors: [Color("rblue"), Color("rorange")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                        LinearGradient(gradient: Gradient(colors: [Color("lorange").opacity(0.1), Color("lblue").opacity(0.4)]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                        LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]), startPoint: .topLeading, endPoint: .bottom)
-                    }
-                    .ignoresSafeArea()
-                    .alert(isPresented: $showAlert) {
-                                Alert(
-                                    title: Text("Validation Error"),
-                                    message: Text(validationErrorMessage),
-                                    dismissButton: .default(Text("OK"))
-                                )
-                            }
-                    var validationErrorMessage: String {
-                            if signInViewModel.usernameInput.isEmpty && signInViewModel.passwordInput.isEmpty {
-                                return "Username is required.\nPassword is required."
-                            } else if signInViewModel.usernameInput.isEmpty {
-                                return "Username is required."
-                            } else if signInViewModel.passwordInput.isEmpty {
-                                return "Password is required."
-                            } else {
-                                return "Valid username and password required."
-                            }
-                        }
-                }
-                else
-                {
-                    VStack
-                    {
-                        Text(user[0].firstName ?? "Whoops")
-                        Text(user[0].lastName ?? "Whoops Again")
-                        Button(
-                            action:
-                            {
-                                signInViewModel.deleteUserItemToCore(viewContext: viewContext, user: user[0])
-                            }, label: {
-                                Text("DELETE ME!!!")
-                                    .foregroundStyle(Color.red)
-                            })
+    var body: some View {
+        VStack {
+            TextField("Username", text: $username)
+                .padding()
+                .autocapitalization(.none)
+            SecureField("Password", text: $password)
+                .padding()
+            
+            Button("Sign In") {
+                viewModel.signIn()
+                viewModel.signInButtonClicked = true
+            }
+            .padding()
+            .disabled(viewModel.signInButtonClicked) 
+            
+            if viewModel.signInButtonClicked {
+                if username.isEmpty || password.isEmpty {
+                    Text("Please enter username and password")
+                } else {
+                    if username == viewModel.shpeito.username && password == viewModel.shpeito.password {
+                        Text("Success")
+                    } else {
+                        Text("Failure")
                     }
                 }
             }
-            .onAppear
-            {
-                print(user)
-                // Check core memory for presence of user
-            }
-            .transition(.move(edge: .leading))
         }
-        else
-        {
-            ZStack
-            {
-                    HStack
-                    {
-                        Image(systemName: "chevron.left")
-                            .foregroundStyle(.white)
-                            .shadow(radius: 10)
-                            .padding(.leading)
-                            
-                        Text("Sign In")
-                            .foregroundStyle(.white)
-                            .shadow(radius: 10)
-                    }
-                    .position(x:50, y: 40)
-                    .zIndex(10)
-                    .onTapGesture {
-                        withAnimation(.easeIn(duration: 0.3))
-                        {
-                            signInViewModel.register = false;
-                        }
-                    }
-                    RegisterView()
-            }
-            .transition(.move(edge: .trailing))
-        }
+        .padding()
     }
 }
 
+
 #Preview {
-    SignInView()
+    SignInView(viewModel: SignInViewModel(shpeito:
+                                    SHPEito(
+                                        id: "62b90912595e0a0017dd02ee",
+                                                           name: "David Vera",
+                                                           points: 13,
+                                                           fallPercentile: 85,
+                                                           springPercentile: 94,
+                                                           summerPercentile: 0,
+                                                           fallPoints: 9,
+                                                           springPoints: 4,
+                                                           summerPoints: 0,
+                                                           username: "dvera0322",
+                                                           password: "test")
+                                  ))
 }
