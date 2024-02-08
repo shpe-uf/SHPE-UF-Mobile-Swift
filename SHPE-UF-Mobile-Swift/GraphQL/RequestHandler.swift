@@ -210,7 +210,7 @@ class RequestHandler
             let responseDict = [
                 "fallPercentile": fallPercentile,
                 "springPercentile": springPercentile,
-                "summerPercentile": springPercentile
+                "summerPercentile": summerPercentile
             ]
             
             completion(responseDict)
