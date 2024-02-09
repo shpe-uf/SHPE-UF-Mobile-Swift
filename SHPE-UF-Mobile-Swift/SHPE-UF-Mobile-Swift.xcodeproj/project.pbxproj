@@ -93,6 +93,7 @@
 		95D371282B64825500B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D370FC2B64825500B2C5A4 /* SHPESchema.graphql.swift */; };
 		95D371292B64825500B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D370FC2B64825500B2C5A4 /* SHPESchema.graphql.swift */; };
 		B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */; };
+		B8CD7F762B75A9E800F05DBA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F752B75A9E800F05DBA /* Event.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +158,7 @@
 		95D370FB2B64825500B2C5A4 /* SchemaMetadata.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemaMetadata.graphql.swift; sourceTree = "<group>"; };
 		95D370FC2B64825500B2C5A4 /* SHPESchema.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHPESchema.graphql.swift; sourceTree = "<group>"; };
 		B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageContentView.swift; sourceTree = "<group>"; };
+		B8CD7F752B75A9E800F05DBA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				20CF4A262AE745F900916EC6 /* SHPEito.swift */,
+				B8CD7F752B75A9E800F05DBA /* Event.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -586,6 +589,7 @@
 				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				95D371272B64825500B2C5A4 /* SHPESchema.graphql.swift in Sources */,
+				B8CD7F762B75A9E800F05DBA /* Event.swift in Sources */,
 				95D3711B2B64825500B2C5A4 /* SchemaConfiguration.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
 				95D371122B64825500B2C5A4 /* Mutation.graphql.swift in Sources */,
