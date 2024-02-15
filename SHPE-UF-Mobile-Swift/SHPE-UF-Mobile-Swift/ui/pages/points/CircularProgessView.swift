@@ -3,6 +3,7 @@
 //  ProgressWheelDemo
 //
 //  Created by David Denis on 2/5/24.
+//  Creates a progress wheel given a progress double
 //
 
 import SwiftUI
@@ -10,6 +11,7 @@ import SwiftUI
 struct CircularProgessView: View {
    
     var progress: Double
+    
     
     @State private var drawingStroke = false
     let animation = Animation

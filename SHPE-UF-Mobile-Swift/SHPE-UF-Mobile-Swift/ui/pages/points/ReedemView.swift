@@ -17,60 +17,96 @@ struct ReedemView: View {
     var body: some View {
         
         NavigationStack {
-            
             ZStack {
-                
-                //Gradient Background
-                LinearGradient(gradient: Gradient(colors: [Color("rblue"), Color("rorange")]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                LinearGradient(gradient: Gradient(colors: [Color("lorange").opacity(0.1), Color("lblue").opacity(0.4)]), startPoint: .bottomLeading, endPoint: .topTrailing)
-                LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]), startPoint: .topLeading, endPoint: .bottom)
+                Rectangle()
+                  .foregroundColor(.clear)
+                  .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                 
                 VStack {
-                    Spacer()
+                    Text("REDEEM POINTS")
+                      .font(Font.custom("Univers LT Std", size: 35))
+                      .multilineTextAlignment(.center)
+                      .foregroundColor(Color(red: 0.93, green: 0.93, blue: 0.93))
+                      .frame(alignment: .top)
                     
-                    Text("REDEEM CODE")
-                        .font(.title).bold()
-                        .foregroundStyle(.white)
-                    
-                
-                    
-                    TextField("Enter Code", text: $code)
+                    TextField("Event Code", text: $code)
                         .textFieldStyle(.roundedBorder)
                         .padding(.horizontal)
-                        .padding(.top, 60)
+                        .frame(height: 45)
+                        .cornerRadius(5)
                         .textInputAutocapitalization(.never)
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.black)
                     
+                    Text("Guests")
+                        .foregroundStyle(.white)
+                
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(maxWidth: 200, maxHeight: 70)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .padding(5)
+                        HStack {
+                            Button {
+                                print("subtract")
+                            } label: {
+                                Rectangle()
+                                  .foregroundColor(.clear)
+                                  .frame(width: 50, height: 10)
+                                  .background(Color(red: 0, green: 0.12, blue: 0.21))
+                            }
+                            Image("Line 7")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 0.35, height: 50)
+                                .overlay(
+                                    Rectangle()
+                                        .stroke(Color(red: 0, green: 0.12, blue: 0.21), lineWidth: 3)
+                                )
+                            Text("0") // Replace "5" with your desired number
+                                .font(.headline) // Adjust font size and style as needed
+                                .frame(width: 50, height: 50)
+
+                            Image("Line 7")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 0.35, height: 50)
+                                .overlay(
+                                    Rectangle()
+                                        .stroke(Color(red: 0, green: 0.12, blue: 0.21), lineWidth: 3)
+                                )
+                            Button {
+                                print("add")
+                            } label: {
+                                Image("Group 1")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                            }
+                        }
+                    }
                     Button {
                         print("Clicked")
                         vm.redeemCode(code: code)
                         vm.setShpeitoPercentiles()
                         dismiss()
                     } label: {
-                        Text("Done")
+                        Text("Redeem")
+                            .frame(maxWidth: .infinity, maxHeight: 50)
+                            .background(Color(red: 0, green: 0.12, blue: 0.21))
+                            .foregroundColor(.white)
+                            .cornerRadius(60)
                     }
-
-                    
-//                    Button("Done") {
-//                        print("Clicked")
-//                        vm.redeemCode(code: code)
-//                        dismiss()
-//                    }
-                    
-                    
+                    .padding(.leading, 30)
+                    .padding(.trailing, 30)
                     Spacer()
-                    Spacer()
-                    Spacer()
-                    
                 }
-                
-                
+                .padding(.top, 200)
             }
             .ignoresSafeArea()
             .navigationTitle("")
-            
-            
         }
-        
     }
 }
 

@@ -17,7 +17,7 @@ struct ReedemPointsButton: View {
             Rectangle()
             .foregroundColor(.clear)
             .frame(width: 797, height: 136)
-            .background(Color(red: 0, green: 0.12, blue: 0.21))
+            .background(Color(red: 0.04, green: 0.13, blue: 0.35))
             .cornerRadius(60)
             
             Text("Redeem Code")
