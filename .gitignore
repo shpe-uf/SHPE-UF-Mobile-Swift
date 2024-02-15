@@ -1,8 +1,14 @@
 # Xcode
 .DS_Store
 */.DS_Store
-xcuserdata/
+*/*/.DS_Store
+*/*/*/.DS_Store
+*/xcuserdata/
+*/*/xcuserdata/
+*/*/*/xcuserdata/
+*/*/*/xcuserdata/*.xcuserdatad/
 *.xcuserstate
-xcshareddata/
+*/*/*/*.xcuserstate
+*/*/*/xcshareddata/
 *.xcodeproj/xcuserdata/
-*.xcworkspace/xcuserdata/
+*/*/*/*.xcworkspace/xcuserdata/

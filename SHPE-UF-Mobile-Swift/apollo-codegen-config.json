@@ -1,0 +1,29 @@
+{
+  "schemaNamespace" : "SHPESchema",
+  "input" : {
+    "operationSearchPaths" : [
+      "./GraphQL/*.graphql.swift"
+    ],
+    "schemaSearchPaths" : [
+      "./*.graphqls"
+    ]
+  },
+  "output" : {
+    "testMocks" : {
+      "none" : {
+      }
+    },
+    "schemaTypes" : {
+      "path" : "./SHPESchema",
+      "moduleType" : {
+        "embeddedInTarget" : {
+          "name" : "SHPE-UF-Mobile-Swift"
+        }
+      }
+    },
+    "operations" : {
+      "inSchemaModule" : {
+      }
+    }
+  }
+}
