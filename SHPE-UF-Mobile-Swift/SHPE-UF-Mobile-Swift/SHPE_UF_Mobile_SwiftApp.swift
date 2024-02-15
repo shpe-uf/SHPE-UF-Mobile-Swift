@@ -15,10 +15,10 @@ struct SHPE_UF_Mobile_SwiftApp: App {
                                             SHPEito(
                                                 id: "642b9e6a12ab890014580b5c",
                                                 name: "David Denis",
-                                                points: 0,
+                                                points: 23,
                                                 fallPercentile: 23,
                                                 springPercentile: 0,
-                                                summerPercentile: 0,
+                                                summerPercentile: 56,
                                                 fallPoints: 90,
                                                 springPoints: 0,
                                                 summerPoints: 0,

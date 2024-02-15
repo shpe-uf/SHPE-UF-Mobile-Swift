@@ -14,9 +14,9 @@ struct SHPEUFAppView: View {
                                         SHPEito(
                                             id: "5f595bc16b307400179595ab",
                                             name: "David Denis",
-                                            points: 0,
+                                            points: 23,
                                             fallPercentile: 0,
-                                            springPercentile: 0,
+                                            springPercentile: 56,
                                             summerPercentile: 0,
                                             fallPoints: 0,
                                             springPoints: 0,

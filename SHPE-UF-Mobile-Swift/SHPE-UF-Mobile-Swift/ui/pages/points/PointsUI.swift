@@ -23,7 +23,7 @@ struct PointsUI: View {
             
             HStack {
                 Text(semester.uppercased())
-                    .foregroundStyle(.foreground)
+                    .foregroundStyle(.white)
                     .font(.title2).bold().fontDesign(.monospaced)
                     .frame(width: 85)
                     
@@ -31,7 +31,7 @@ struct PointsUI: View {
         
                 Divider()
                     .frame(width: 1)
-                    .overlay(.black)
+                    .overlay(.white)
                     .padding(.vertical)
                 
                 
@@ -45,7 +45,7 @@ struct PointsUI: View {
                 
                 Divider()
                     .frame(width: 1)
-                    .overlay(.black)
+                    .overlay(.white)
                     .padding(.vertical)
                     
                     
