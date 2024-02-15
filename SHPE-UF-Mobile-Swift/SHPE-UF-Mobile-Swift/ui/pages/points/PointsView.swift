@@ -108,6 +108,9 @@ struct PointsView: View {
                 }
                 .padding(.vertical)
                 
+                
+                TableView()
+                    
             }
         }
             
