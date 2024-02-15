@@ -26,6 +26,7 @@ struct HomePageContentView: View{
                 }
             
         }
+        
     }
 }
 #Preview {
