@@ -13,7 +13,7 @@ final class SignInViewModel: ObservableObject {
         self.shpeito = shpeito
         self.username = shpeito.username
         self.password = shpeito.password
-        
+        self.remember = shpeito.remember
         // Any setup steps you need...
     }
     
@@ -21,6 +21,7 @@ final class SignInViewModel: ObservableObject {
     @Published var signInButtonClicked: Bool = false
     @Published var username: String
     @Published var password: String
+    @Published var remember: String
     
     
     // Methods to call in View
@@ -32,9 +33,9 @@ final class SignInViewModel: ObservableObject {
                 if let username = data["username"] as? String,
                    let password = data["password"] as? String
                 {
-                    print("Success")
                     self.shpeito.username = username
                     self.shpeito.password = password
+                    print("Success")
                 }
                 else{
                     print("Incorrect data")
