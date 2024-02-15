@@ -25,6 +25,12 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+		523C398E2B7DD0990019C353 /* Vacademic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398D2B7DD0990019C353 /* Vacademic.swift */; };
+		523C39902B7DD53C0019C353 /* Vconfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398F2B7DD53C0019C353 /* Vconfirm.swift */; };
+		5252EBA72B6C66150042293A /* SHPEITO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5252EBA62B6C66150042293A /* SHPEITO.swift */; };
+		5256A4352B7C0AFF00DD21EE /* Vpersonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256A4342B7C0AFF00DD21EE /* Vpersonal.swift */; };
+		528D72BE2B74648600702D0B /* V.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* V.swift */; };
+		528D72C02B74649900702D0B /* VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* VM.swift */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5DDD2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
@@ -133,6 +139,12 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		523C398D2B7DD0990019C353 /* Vacademic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vacademic.swift; sourceTree = "<group>"; };
+		523C398F2B7DD53C0019C353 /* Vconfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vconfirm.swift; sourceTree = "<group>"; };
+		5252EBA62B6C66150042293A /* SHPEITO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEITO.swift; sourceTree = "<group>"; };
+		5256A4342B7C0AFF00DD21EE /* Vpersonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vpersonal.swift; sourceTree = "<group>"; };
+		528D72BD2B74648600702D0B /* V.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V.swift; sourceTree = "<group>"; };
+		528D72BF2B74649900702D0B /* VM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VM.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUser.graphql.swift; sourceTree = "<group>"; };
@@ -256,7 +268,13 @@
 			isa = PBXGroup;
 			children = (
 				20CF4A2B2AE7472600916EC6 /* RegisterView.swift */,
+				528D72BD2B74648600702D0B /* V.swift */,
+				5256A4342B7C0AFF00DD21EE /* Vpersonal.swift */,
+				523C398D2B7DD0990019C353 /* Vacademic.swift */,
+				528D72BF2B74649900702D0B /* VM.swift */,
+				523C398F2B7DD53C0019C353 /* Vconfirm.swift */,
 				20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */,
+				5252EBA62B6C66150042293A /* SHPEITO.swift */,
 			);
 			path = register;
 			sourceTree = "<group>";
@@ -570,14 +588,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5252EBA72B6C66150042293A /* SHPEITO.swift in Sources */,
+				528D72BE2B74648600702D0B /* V.swift in Sources */,
 				95D371152B64825500B2C5A4 /* Event.graphql.swift in Sources */,
 				95D371182B64825500B2C5A4 /* Query.graphql.swift in Sources */,
 				95D371242B64825500B2C5A4 /* SchemaMetadata.graphql.swift in Sources */,
 				95D371092B64825500B2C5A4 /* GetUserPointsQuery.graphql.swift in Sources */,
+				528D72C02B74649900702D0B /* VM.swift in Sources */,
 				95D371032B64825500B2C5A4 /* SignInMutation.graphql.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				95D3710C2B64825500B2C5A4 /* GetPointsQuery.graphql.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
+				5256A4352B7C0AFF00DD21EE /* Vpersonal.swift in Sources */,
 				95D3710F2B64825500B2C5A4 /* User.graphql.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
@@ -590,6 +612,7 @@
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
 				95D3711E2B64825500B2C5A4 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
+				523C39902B7DD53C0019C353 /* Vconfirm.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
 				95D371062B64825500B2C5A4 /* GetPercentilesQuery.graphql.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
@@ -597,6 +620,7 @@
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
 				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
 				95D371212B64825500B2C5A4 /* RedeemPointsInput.graphql.swift in Sources */,
+				523C398E2B7DD0990019C353 /* Vacademic.swift in Sources */,
 				20CF4A272AE745F900916EC6 /* SHPEito.swift in Sources */,
 				20CF4A3A2AE747A800916EC6 /* PointsViewModel.swift in Sources */,
 			);
@@ -794,7 +818,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = P29A326V9R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -807,7 +831,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SHPE-UF-Mobile-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "SHPE-UF-Mobile-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -823,7 +847,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = P29A326V9R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -836,7 +860,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SHPE-UF-Mobile-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "SHPE-UF-Mobile-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

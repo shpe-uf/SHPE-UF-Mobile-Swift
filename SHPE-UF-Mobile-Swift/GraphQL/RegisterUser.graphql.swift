@@ -10,3 +10,6 @@ mutation RegisterUser($registerInput: RegisterInput)
     firstName
   }
 }
+
+
+
