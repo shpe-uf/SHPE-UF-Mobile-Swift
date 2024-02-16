@@ -8,6 +8,7 @@ import SwiftUI
 
 struct Constants {
     static let BackgroundColor: Color = Color(red: 0.93, green: 0.93, blue: 0.93)
+    static let DarkModeBackgroundColor: Color = Color(red: 0, green: 0.12, blue: 0.21)
     static let Orange: Color = Color(red: 0.82, green: 0.35, blue: 0.09)
     static let DashedLineColor: Color = .black
     static let DayTextColor: Color = Color(red: 0.42, green: 0.42, blue: 0.42)
@@ -19,65 +20,106 @@ struct Constants {
     static let yellow : Color = Color(red: 0.69, green: 0.54, blue: 0)
     static let pink : Color = Color(red: 0.75, green: 0.29, blue: 0.51)
     
+}
+
+struct DateHelper {
+    func getCurrentMonth() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM"
+        return dateFormatter.string(from: Date())
+    }
+    // Formatting all the dates
+    //Start and end times
+    func getTime(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        return dateFormatter.string(from: date)
+    }
+
+    // For the full date of the event
+    func getDayFull(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy"
+        return dateFormatter.string(from: date)
+    }
+    // For the date of the event next to the text bubble
+    func getDayAbbreviation(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "E"
+        return dateFormatter.string(from: date)
+    }
+
+    func getDayNumber(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d"
+        return dateFormatter.string(from: date)
+    }
+   
+
 
 }
 
 
 
+
 struct HomeView: View {
-    let texts = ["SHPE Conference", "SHPE GBM 1", "SHPE GBM 2", "SHPE GBM 3", "SHPE GBM 4", "SHPE GBM 5", "SHPE GBM 6", "SHPE GBM 7", "SHPE GBM 8", "SHPE GBM 9", "SHPE GBM 10"]
-    let eventColors = [Constants.teal,Constants.grey,Constants.red,Constants.green,Constants.yellow, Constants.pink]
+  
+//    let eventColors = [Constants.teal,Constants.grey,Constants.red,Constants.green,Constants.yellow, Constants.pink]
+    var eventColors = ["GBM":Constants.grey, ]
+    let dateHelper = DateHelper()
     @ObservedObject var viewModel = HomeViewModel()
+    
+    
     
     var body: some View {
         VStack(spacing: 0) {
-            // Orange bar at the top with current month and notification button
+            // Orange Bar at the top of the screen with Month and Button
             ZStack {
                 Constants.Orange
                     .frame(height: 93)
                 HStack(spacing: 20) {
-                    Text("January")
+                    Text(dateHelper.getCurrentMonth())
                         .font(Font.custom("Viga", size: 24))
                         .foregroundColor(.white)
+                        .frame(width: 107, height: 0, alignment: .topLeading)
+
+                    
                     Spacer()
                     Button(action: {
-                        // Action for notification button
-                    }) {
-                        Image("Doorbell")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 33, height: 32)
+                               // Action for notification button
+                           }) {
+                               Image("Doorbell")
+                                   .resizable()
+                                   .aspectRatio(contentMode: .fit)
+                                   .frame(width: 33, height: 32)
+                                   .padding(.top, 20) // Adjust the bottom padding as needed
                     }
+                    
                 }
-                .padding(.horizontal, 20) // Add padding to the HStack
+                .padding(.horizontal, 20)
             }
             
-            // Scrollable rectangle boxes of text
-            ScrollView {
-                VStack(spacing: 20) {
-//                    ForEach(Array(texts.enumerated()), id: \.element) { index, text in
-//                           RectangleBox(text: text, color: eventColors[index % eventColors.count])
-//                               .frame(width: 324, height: 69)
-//                           
-//                           //Dashed Line
-//                           Rectangle()
-//                               .foregroundColor(.clear)
-//                               .frame(width: 301, height: 1)
-//                               .background(Constants.DashedLineColor)
-//                       }
-                    ForEach(viewModel.events, id: \.id) { event in
-                                            RectangleBox(event: event)
-                                                .frame(width: 324, height: 69)
-                                            //Dashed Line
-                                            Rectangle()
-                                                .foregroundColor(.clear)
-                                                .frame(width: 301, height: 1)
-                                                .background(Constants.DashedLineColor)
-                                        }
+            
+            ZStack{
+                ScrollView {
+                    VStack(spacing: 20) {
+                        ForEach(viewModel.events, id: \.id) { event in
+                                                RectangleBox(event: event)
+                                                    .frame(width: 324, height: 69)
+                                                //Dashed Line
+                                                Rectangle()
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: 301, height: 1)
+                                                    .background(Constants.DashedLineColor)
+                                            }
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
                 }
-                .padding()
+                .background(Constants.BackgroundColor)
+                .frame(maxWidth: .infinity)
             }
-            .background(Constants.BackgroundColor)
+            
             
         }
         .background(Constants.BackgroundColor)
@@ -86,82 +128,191 @@ struct HomeView: View {
 }
 
 
+
 struct RectangleBox: View {
     var event: Event
+    
 //    var color : Color
+    
     var body: some View {
-        HStack{
-            VStack(alignment: .center, spacing: 0) {
-                Text("Mon")
-                    .font(Font.custom("Univers LT Std", size: 14))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Constants.DayTextColor)
-                    .frame(width: 35, height: 15, alignment: .top)
-                Text("1")
-                    .font(Font.custom("Univers LT Std", size: 20))
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Constants.DayNumberTextColor)
-                    .frame(width: 26, height: 16, alignment: .top)
-            }
-            .padding(.horizontal, 2)
-            .padding(.top, 4)
-            .padding(.bottom, 8)
-            .frame(width: 39, height: 45, alignment: .top)
+        let dateHelper = DateHelper()
+        // This is for the start and end time
+       
+        let startTimeString = dateHelper.getTime(for: event.start.dateTime)
+        let endTimeString = dateHelper.getTime(for: event.end.dateTime)
+        
+        // For the date of the event
+        let startdateString = dateHelper.getDayFull(for: event.start.dateTime)
+        
+        let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
+        let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
+        
+        
+        
+        if startTimeString == endTimeString {
+           
             
-            ZStack {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 324, height: 69)
-//                    .background(color)
-                    .background(Constants.grey)
-                    .cornerRadius(25)
-                VStack{
-                    HStack{
-                        Text(event.summary)
-                            .font(Font.custom("Univers LT Std", size: 16))
-                            .foregroundColor(.white)
-                        
+            return AnyView(Group{
+                HStack{
+                    VStack(alignment: .center, spacing: 0) {
+                        Text(abrDateString)
+                            .font(Font.custom("Univers LT Std", size: 14))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Constants.DayTextColor)
+                            .frame(width: 35, height: 15, alignment: .top)
+                        Text(numDateString)
+                            .font(Font.custom("Univers LT Std", size: 20))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Constants.DayNumberTextColor)
+                            .frame(width: 26, height: 16, alignment: .top)
+                    }
+                    .padding(.horizontal, 2)
+                    .padding(.top, 4)
+                    .padding(.bottom, 8)
+                    .frame(width: 39, height: 45, alignment: .top)
+                    
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 324, height: 69)
+        //                    .background(color)
+                            .background(Constants.grey)
+                            .cornerRadius(25)
+                        VStack{
+                            HStack{
+                                Text(event.summary)
+                                    .font(Font.custom("Univers LT Std", size: 15))
+                                    .foregroundColor(.white)
+                                    .frame(alignment: .topLeading)
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    .frame(width: 20, height: 20)
+                                    .background(
+                            
+                                        Image("Business_Group")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    )
+                            }
                             .frame(width: 266, height: 17, alignment: .topLeading)
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 20, height: 20)
-                            .background(
-                                Image("Business_Group")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            )
-                    }
-                    
-                    
-                    HStack(alignment: .center, spacing: 5) {
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 24, height: 24)
-                            .background(
-                                Image("Calendar")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            )
-                        Text("Jan 2nd, 2024")
-                            .font(Font.custom("Univers LT Std", size: 12))
-                            .foregroundColor(.white)
+                            
+                            
+                            HStack(alignment: .center, spacing: 5) {
+                                HStack{
+                                    Rectangle()
+                                        .foregroundColor(.clear)
+                                        .frame(width: 24, height: 24)
+                                        .background(
+                                            Image("Calendar")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                        )
+                                    Text(startdateString)
+                                        .font(Font.custom("Univers LT Std", size: 12))
+                                        .foregroundColor(.white)
+                                }
+                                .frame(width: 266, height: 17, alignment: .topLeading)
+                                
+                                
+                                
+                            }
+                            .padding(0)
+                        }
                         
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 24, height: 24)
-                            .background(
-                                Image("Timer")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            )
-                        Text(event.start.timeZone)
-                            .font(Font.custom("Univers LT Std", size: 12))
-                            .foregroundColor(.white)
                     }
-                    .padding(0)
                 }
+            })
                 
-            }
+        }else{
+            return AnyView(
+                Group{
+                    HStack{
+                        VStack(alignment: .center, spacing: 0) {
+                            Text(abrDateString)
+                                .font(Font.custom("Univers LT Std", size: 14))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(Constants.DayTextColor)
+                                .frame(width: 35, height: 15, alignment: .top)
+                            Text(numDateString)
+                                .font(Font.custom("Univers LT Std", size: 20))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(Constants.DayNumberTextColor)
+                                .frame(width: 26, height: 16, alignment: .top)
+                        }
+                        .padding(.horizontal, 2)
+                        .padding(.top, 4)
+                        .padding(.bottom, 8)
+                        .frame(width: 39, height: 45, alignment: .top)
+                        
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(width: 324, height: 69)
+                            //                    .background(color)
+                                .background(Constants.grey)
+                                .cornerRadius(25)
+                            VStack{
+                                HStack{
+                                    Text(event.summary)
+                                        .font(Font.custom("Univers LT Std", size: 15))
+                                        .foregroundColor(.white)
+                                    
+                                        .frame(alignment: .topLeading)
+                                    Rectangle()
+                                        .foregroundColor(.clear)
+                                        .frame(width: 20, height: 20)
+                                        .background(
+                                            
+                                            Image("Business_Group")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                        )
+                                }
+                                .frame(width: 266, height: 17, alignment: .topLeading)
+                                
+                                
+                                HStack(alignment: .center, spacing: 5) {
+                                    HStack{
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: 24, height: 24)
+                                            .background(
+                                                Image("Calendar")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                            )
+                                        Text(startdateString)
+                                            .font(Font.custom("Univers LT Std", size: 12))
+                                            .foregroundColor(.white)
+                                    }
+                                    .frame(width: 115, height: 17, alignment: .topLeading)
+                                    HStack{
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: 24, height: 24)
+                                            .background(
+                                                Image("Timer")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                            )
+                                        
+                                        Text("\(startTimeString) - \(endTimeString)")
+                                            .font(Font.custom("Univers LT Std", size: 12))
+                                            .foregroundColor(.white)
+                                    }
+                                    .frame(height: 17, alignment: .topLeading)
+                                    
+                                    
+                                }
+                                .padding(0)
+                            }
+                            
+                        }
+                    }
+                }
+            )
+            
+            
         }
     }
 }
