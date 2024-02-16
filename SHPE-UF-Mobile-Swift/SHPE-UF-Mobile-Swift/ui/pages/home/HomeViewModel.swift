@@ -24,8 +24,10 @@ final class HomeViewModel: ObservableObject {
         requestHandler.fetchEvents(minDate: minDate) { [weak self] (events, success, error) in
             DispatchQueue.main.async {
                 if success {
-                    // Update the events property with the fetched events
-                    self?.events = events
+                    // Sort the events by their start dates
+                    let sortedEvents = events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
+                    // Update the events property with the sorted events
+                    self?.events = sortedEvents
                 } else {
                     // Handle error condition
                     print("Error fetching events: \(error)")
