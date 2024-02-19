@@ -1,87 +1,51 @@
+
 import Foundation
 
-class SHPEito {
-    // Initializers
-    init(firstName: String, lastName: String, photo: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, createdAt: String, updatedAt: String, points: Int, fallPoints: Int, springPoints: Int, summerPoints: Int, fallPercentile: Int, springPercentile: Int, summerPercentile: Int, permission: String, listServ: Bool, internships: [String], socialMedia: [String], events: [Event], tasks: [Task], bookmarkedTasks: [String], classes: [String], token: String?, confirmed: Bool, bookmarks: [String]) {
-            self.firstName = firstName
-            self.lastName = lastName
-            self.photo = photo
-            self.major = major
-            self.year = year
-            self.graduating = graduating
-            self.country = country
-            self.ethnicity = ethnicity
-            self.sex = sex
-            self.username = username
-            self.email = email
-            self.password = password
-            self.createdAt = createdAt
-            self.updatedAt = updatedAt
-            self.points = points
-            self.fallPoints = fallPoints
-            self.springPoints = springPoints
-            self.summerPoints = summerPoints
-            self.fallPercentile = fallPercentile
-            self.springPercentile = springPercentile
-            self.summerPercentile = summerPercentile
-            self.permission = permission
-            self.listServ = listServ
-            self.internships = internships
-            self.socialMedia = socialMedia
-            self.events = events
-            self.tasks = tasks
-            self.bookmarkedTasks = bookmarkedTasks
-            self.classes = classes
-            self.token = token
-            self.confirmed = confirmed
-            self.bookmarks = bookmarks
-        }
-    
-    // Attributes
-        @Published var firstName: String
-        @Published var lastName: String
-        @Published var photo: String
-        @Published var major: String
-        @Published var year: String
-        @Published var graduating: String
-        @Published var country: String
-        @Published var ethnicity: String
-        @Published var sex: String
-        @Published var username: String
-        @Published var email: String
-        @Published var password: String
-        @Published var createdAt: String
-        @Published var updatedAt: String
-        @Published var points: Int
-        @Published var fallPoints: Int
-        @Published var springPoints: Int
-        @Published var summerPoints: Int
-        @Published var fallPercentile: Int
-        @Published var springPercentile: Int
-        @Published var summerPercentile: Int
-        @Published var permission: String
-        @Published var listServ: Bool
-        @Published var internships: [String]
-        @Published var socialMedia: [String]
-        @Published var events: [Event]
-        @Published var tasks: [Task]
-        @Published var bookmarkedTasks: [String]
-        @Published var classes: [String]
-        @Published var token: String?
-        @Published var confirmed: Bool
-        @Published var bookmarks: [String]
-    }
 
-    // nested types representing an event associated with a user
-    struct Event {
-        let name: String
-        let category: String
-        let createdAt: String
-        let points: Int
+class SHPEito
+{
+    // Initializer
+    init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int, events:SHPESchema.SignInMutation)
+    {
+        self.username = username
+        self.password = password
+        self.remember = remember
+        self.photoURL = URL(string: photo)
+        self.firstName = firstName
+        self.lastName = lastName
+        self.year = year
+        self.major = major
+        self.id = id
+        self.token = token
+        self.confirmed = confirmed
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
+        self.email = email
+        self.fallPoints = fallPoints
+        self.summerPoints = summerPoints
+        self.springPoints = springPoints
+        self.events = events
+        
     }
-    // nested type representing a task associated with a user
-    struct Task {
-        let name: String
-        let startDate: String
-        let points: Int
-    }
+    
+    @Published var username: String
+    @Published var password: String
+    @Published var remember: String
+    @Published var photoURL: URL?
+    @Published var firstName:String
+    @Published var lastName:String
+    @Published var year: String
+    @Published var major: String
+    @Published var id: String
+    @Published var token: String
+    @Published var confirmed: Bool
+    @Published var updatedAt: String
+    @Published var createdAt: String
+    @Published var email: String
+    @Published var fallPoints: Int
+    @Published var springPoints: Int
+    @Published var summerPoints: Int
+    @Published var events: SHPESchema.SignInMutation
+    // Any methods that can help with
+    // representing the data...
+}
