@@ -13,14 +13,19 @@ struct SignInView: View {
             Color(red: 1/255, green: 31/255, blue: 53/255)
                 .edgesIgnoringSafeArea(.all)
             
+            
             // Image and Sign In Text
             VStack {
+                
                     // SHPE Logo Image
                     Image("SHPE Logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 93, height: 86)
-                        .clipped()
+                        .opacity(0)
+                        .padding(.top,20)
+                
+                        //.clipped()
                     
                     // SIGN IN Text
                     Text("SIGN IN")
@@ -29,57 +34,91 @@ struct SignInView: View {
                         .frame(width: 200, height: 42, alignment: .topLeading)
             }
                 .padding(.top, -300)
+            // Orange Rectangle with Gator Image
             GeometryReader { geometry in
                 ZStack {
+                    
                     Rectangle()
                         .frame(width: 393, height: 93)
                         .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09)) // Orange color
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46)
                     
+                    // Gator Image
                     Image("Gator")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 306, height: 197)
-                        .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 220 / 2)
-                        .overlay(
-                            Rectangle()
-                                .frame(width: 393, height: 93)
-                                .foregroundColor(Color.clear)
-                                .clipped()
-                        )
+                        .frame(width: 306, height: 197) // Adjust the size here
+                        .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46 + 125 / 2) // Adjust the y position to center the image within the rectangle
+                    
+                    Rectangle()
+                        .frame(width: 393, height: 120)
+                        .foregroundColor(Color(red: 1/255, green: 31/255, blue: 53/255)) // Orange color
+                        .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 150)
+                    
+                    // SHPE Logo Image
+                    Image("SHPE Logo")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 93, height: 86)
+                        .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 115 + 125 / 2)
+                        
                 }
             }
             .edgesIgnoringSafeArea(.top)
 
             
             VStack {
+                ZStack {
+                    
+                    TextField("", text: $username)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .background(Color(red: 49/255, green: 49/255, blue: 49/255))
+                        .frame(height: 38)
+                        .frame(width: 310, height: 38)
+                        .padding(.leading, 3) // Adjust to make space for the image
+                        .foregroundColor(.black)
+                        .autocapitalization(.none)
+                        Image("Message 35")
+                            .resizable()
+                            .frame(width: 22, height: 22)
+                            .padding(.leading, -145) // Adjust as needed to position the image inside the text box
+                    // Email Text
+                    Text("Email")
+                      .font(Font.custom("Univers LT Std", size: 16))
+                      .foregroundColor(Color.white)
+                      .frame(width: 300, height: 13.47059, alignment: .topLeading)
+                      .padding(.top,-40)
+                        
+                        
+                    }
+                .padding(.bottom,30)
                 
-                // Email Text
-                Text("Email")
-                  .font(Font.custom("Univers LT Std", size: 16))
-                  .foregroundColor(Color.white)
-                  .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                 
-                // Email Text Box
-                TextField("Email", text: $username)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .background(Color(red: 49/255, green: 49/255, blue: 49/255))
-                    .padding()
-                    .autocapitalization(.none)
-                
-                
-                
-                // Password Text
-                Text("Password")
-                    .font(Font.custom("Univers LT Std", size: 16))
-                    .foregroundColor(Color.white)
-                
-                // Password Text Box
-                SecureField("Password", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .padding()
+                ZStack {
+                    
+                    SecureField("", text: $password)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .background(Color(red: 49/255, green: 49/255, blue: 49/255))
+                        .frame(height: 38)
+                        .frame(width: 310, height: 38)
+                        .padding(.leading, 3) // Adjust to make space for the image
+                        .foregroundColor(.black)
+                        .autocapitalization(.none)
+                        Image("Lock 3")
+                            .resizable()
+                            .frame(width: 22, height: 22)
+                            .padding(.leading, -145) // Adjust as needed to position the image inside the text box
+            
+                    // Email Text
+                    Text("Password")
+                      .font(Font.custom("Univers LT Std", size: 16))
+                      .foregroundColor(Color.white)
+                      .frame(width: 300, height: 13.47059, alignment: .topLeading)
+                      .padding(.top,-40)
+                        
+                        
+                    }
+                .padding(.bottom,38)
                 
                 // Sign In Button
                 Button(action: {
@@ -92,7 +131,7 @@ struct SignInView: View {
                 }
                 .frame(width: 267, height: 42)
                 .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                .cornerRadius(10)
+                .cornerRadius(100)
                 .padding()
                 .disabled(viewModel.signInButtonClicked)
                 
@@ -115,7 +154,7 @@ struct SignInView: View {
                   .foregroundColor(Color.white)
                   .frame(width:162, height:17)
             }
-            .padding()
+            .padding(.top, 130)
         }
     }
 }
@@ -125,8 +164,22 @@ struct SignInView_Previews: PreviewProvider {
         SignInView(viewModel: SignInViewModel(shpeito:
                                 SHPEito(
                                     username: "dvera0322",
-                                    password: "",
-                                    remember: "false")
+                                        password: "",
+                                        remember: "true",
+                                        photo: "",
+                                        firstName: "David",
+                                        lastName: "Vera",
+                                        year: "2",
+                                        major: "Computer Science",
+                                        id: "",
+                                        token: "",
+                                        confirmed: true,
+                                        updatedAt: "",
+                                        createdAt: "",
+                                        email: "david.vera@ufl.edu",
+                                        fallPoints: 2,
+                                        summerPoints: 2,
+                                        springPoints: 2)
                           ))
     }
 }
