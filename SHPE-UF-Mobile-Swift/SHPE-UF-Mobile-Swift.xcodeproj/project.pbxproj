@@ -92,6 +92,8 @@
 		95D371272B64825500B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D370FC2B64825500B2C5A4 /* SHPESchema.graphql.swift */; };
 		95D371282B64825500B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D370FC2B64825500B2C5A4 /* SHPESchema.graphql.swift */; };
 		95D371292B64825500B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D370FC2B64825500B2C5A4 /* SHPESchema.graphql.swift */; };
+		B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */; };
+		B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA42B817793006BC59D /* NotificationViewModel.swift */; };
 		B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */; };
 		B8CD7F762B75A9E800F05DBA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F752B75A9E800F05DBA /* Event.swift */; };
 /* End PBXBuildFile section */
@@ -157,6 +159,8 @@
 		95D370FA2B64825500B2C5A4 /* RedeemPointsInput.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemPointsInput.graphql.swift; sourceTree = "<group>"; };
 		95D370FB2B64825500B2C5A4 /* SchemaMetadata.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemaMetadata.graphql.swift; sourceTree = "<group>"; };
 		95D370FC2B64825500B2C5A4 /* SHPESchema.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHPESchema.graphql.swift; sourceTree = "<group>"; };
+		B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		B8A10DA42B817793006BC59D /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageContentView.swift; sourceTree = "<group>"; };
 		B8CD7F752B75A9E800F05DBA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -314,6 +318,8 @@
 				20CF4A3D2AE747E900916EC6 /* HomeView.swift */,
 				B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */,
 				20CF4A352AE7478400916EC6 /* HomeViewModel.swift */,
+				B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */,
+				B8A10DA42B817793006BC59D /* NotificationViewModel.swift */,
 			);
 			path = home;
 			sourceTree = "<group>";
@@ -595,9 +601,11 @@
 				95D371122B64825500B2C5A4 /* Mutation.graphql.swift in Sources */,
 				95D370FD2B64825500B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
+				B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
 				95D3711E2B64825500B2C5A4 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
+				B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
 				95D371062B64825500B2C5A4 /* GetPercentilesQuery.graphql.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
