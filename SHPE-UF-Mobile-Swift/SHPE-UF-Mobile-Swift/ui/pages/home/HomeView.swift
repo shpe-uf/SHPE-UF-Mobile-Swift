@@ -9,6 +9,9 @@ import SwiftUI
 struct Constants {
     static let BackgroundColor: Color = Color(red: 0.93, green: 0.93, blue: 0.93)
     static let DarkModeBackgroundColor: Color = Color(red: 0, green: 0.12, blue: 0.21)
+    static let DescriptionHeaderColor: Color = Color(red: 0, green: 0.12, blue: 0.21)
+    static let NotificationsSelectIcon: Color = Color(red: 0.72, green: 0.72, blue: 0.72)
+    static let DescriptionTextColor: Color = Color(red: 0.25, green: 0.25, blue: 0.25)
     static let Orange: Color = Color(red: 0.82, green: 0.35, blue: 0.09)
     static let DashedLineColor: Color = .black
     static let DayTextColor: Color = Color(red: 0.42, green: 0.42, blue: 0.42)
@@ -65,66 +68,70 @@ struct DateHelper {
 struct HomeView: View {
   
 //    let eventColors = [Constants.teal,Constants.grey,Constants.red,Constants.green,Constants.yellow, Constants.pink]
-    var eventColors = ["GBM":Constants.grey, ]
+//    var eventColors = ["GBM":Constants.grey, ]
     let dateHelper = DateHelper()
     @ObservedObject var viewModel = HomeViewModel()
-    
+    @State private var isNotificationButtonPagePresented = false
     
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Orange Bar at the top of the screen with Month and Button
-            ZStack {
-                Constants.Orange
-                    .frame(height: 93)
-                HStack(spacing: 20) {
-                    Text(dateHelper.getCurrentMonth())
-                        .font(Font.custom("Viga", size: 24))
-                        .foregroundColor(.white)
-                        .frame(width: 107, height: 0, alignment: .topLeading)
+        NavigationView{
+            VStack(spacing: 0) {
+                // Orange Bar at the top of the screen with Month and Button
+                ZStack {
+                    Constants.Orange
+                        .frame(height: 93)
+                    HStack(spacing: 20) {
+                        Text(dateHelper.getCurrentMonth())
+                            .font(Font.custom("Viga", size: 24))
+                            .foregroundColor(.white)
+                            .frame(width: 107, height: 0, alignment: .topLeading)
 
-                    
-                    Spacer()
-                    Button(action: {
-                               // Action for notification button
-                           }) {
+                        
+                        Spacer()
+                        NavigationLink(destination: NotificationView()){
                                Image("Doorbell")
                                    .resizable()
                                    .aspectRatio(contentMode: .fit)
                                    .frame(width: 33, height: 32)
-                                   .padding(.top, 20) // Adjust the bottom padding as needed
+                                   .padding(.top, 20)
+                            
+                        }
+                        
+                        
                     }
-                    
+                    .padding(.horizontal, 20)
                 }
-                .padding(.horizontal, 20)
-            }
-            
-            
-            ZStack{
-                ScrollView {
-                    VStack(spacing: 20) {
-                        ForEach(viewModel.events, id: \.id) { event in
-                                                RectangleBox(event: event)
-                                                    .frame(width: 324, height: 69)
-                                                //Dashed Line
-                                                Rectangle()
-                                                    .foregroundColor(.clear)
-                                                    .frame(width: 301, height: 1)
-                                                    .background(Constants.DashedLineColor)
-                                            }
+                
+                
+                ZStack{
+                    ScrollView {
+                        VStack(spacing: 20) {
+                            ForEach(viewModel.events, id: \.id) { event in
+                                                    RectangleBox(event: event)
+                                                        .frame(width: 324, height: 69)
+                                                    //Dashed Line
+                                                    Rectangle()
+                                                        .foregroundColor(.clear)
+                                                        .frame(width: 301, height: 1)
+                                                        .background(Constants.DashedLineColor)
+                                                }
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
                     }
-                    .padding()
+                    .background(Constants.BackgroundColor)
                     .frame(maxWidth: .infinity)
                 }
-                .background(Constants.BackgroundColor)
-                .frame(maxWidth: .infinity)
+                
+                
             }
-            
-            
+            .background(Constants.BackgroundColor)
+            .edgesIgnoringSafeArea(.all)
         }
-        .background(Constants.BackgroundColor)
-        .edgesIgnoringSafeArea(.all)
-    }
+     
+        }
+        
 }
 
 
