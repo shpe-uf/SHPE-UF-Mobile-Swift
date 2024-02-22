@@ -5,7 +5,7 @@ import Foundation
 class SHPEito
 {
     // Initializer
-    init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int, events:SHPESchema.SignInMutation)
+    init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int)
     {
         self.username = username
         self.password = password
@@ -24,7 +24,7 @@ class SHPEito
         self.fallPoints = fallPoints
         self.summerPoints = summerPoints
         self.springPoints = springPoints
-        self.events = events
+        //self.events = events
         
     }
     
@@ -45,7 +45,7 @@ class SHPEito
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
-    @Published var events: SHPESchema.SignInMutation
+    //@Published var events: SHPESchema.SignInMutation
     // Any methods that can help with
     // representing the data...
 }
