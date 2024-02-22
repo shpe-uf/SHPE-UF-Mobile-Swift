@@ -19,34 +19,49 @@ struct PointsView: View {
         Text("\(vm.points)")
         Spacer()
         
-        HStack
+        VStack
         {
-            Button {
-                vm.resetShpeitoPoints()
-            } label: {
-                Text("Reset Points")
+            // DELETE ME RIGHT AFTER
+            HStack
+            {
+                Button {
+                    vm.printEvents()
+                } label: {
+                    Text("Fetch Events")
+                }
+                .buttonStyle(.bordered)
+                .padding()
             }
-            .buttonStyle(.bordered)
-            .padding()
             
-            Button {
-                vm.setShpeitoPoints()
-            } label: {
-                Text("Get Points From Server")
-            }
-            .buttonStyle(.bordered)
-            .padding()
-            
-            Button {
-                vm.add5PointsToShpeito()
-            } label: {
-                Text("Add 5 Points")
-            }
-            .buttonStyle(.bordered)
-            .padding()
+            HStack
+            {
+                Button {
+                    vm.resetShpeitoPoints()
+                } label: {
+                    Text("Reset Points")
+                }
+                .buttonStyle(.bordered)
+                .padding()
+                
+                Button {
+                    vm.setShpeitoPoints()
+                } label: {
+                    Text("Get Points From Server")
+                }
+                .buttonStyle(.bordered)
+                .padding()
+                
+                Button {
+                    vm.add5PointsToShpeito()
+                } label: {
+                    Text("Add 5 Points")
+                }
+                .buttonStyle(.bordered)
+                .padding()
 
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
