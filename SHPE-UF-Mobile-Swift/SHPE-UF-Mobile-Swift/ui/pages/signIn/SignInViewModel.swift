@@ -28,7 +28,7 @@ final class SignInViewModel: ObservableObject {
         self.summerPoints=shpeito.summerPoints
         self.springPoints=shpeito.springPoints
         self.photoURL = shpeito.photoURL
-        self.events=shpeito.events
+        //self.events=shpeito.events
         
         // Any setup steps you need...
     }
@@ -52,7 +52,7 @@ final class SignInViewModel: ObservableObject {
     @Published var springPoints: Int
     @Published var summerPoints: Int
     @Published var photoURL: URL?
-    @Published var events: SHPESchema.SignInMutation
+    //@Published var events: SHPESchema.SignInMutation
     //store all of this to model
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String
