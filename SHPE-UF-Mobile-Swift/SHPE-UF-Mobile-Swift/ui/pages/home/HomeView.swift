@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct Constants {
+    
     static let BackgroundColor: Color = Color(red: 0.93, green: 0.93, blue: 0.93)
     static let DarkModeBackgroundColor: Color = Color(red: 0, green: 0.12, blue: 0.21)
     static let DescriptionHeaderColor: Color = Color(red: 0, green: 0.12, blue: 0.21)
@@ -66,9 +67,7 @@ struct DateHelper {
 
 
 struct HomeView: View {
-  
-//    let eventColors = [Constants.teal,Constants.grey,Constants.red,Constants.green,Constants.yellow, Constants.pink]
-//    var eventColors = ["GBM":Constants.grey, ]
+    
     let dateHelper = DateHelper()
     @ObservedObject var viewModel = HomeViewModel()
     @State private var isNotificationButtonPagePresented = false
@@ -108,7 +107,8 @@ struct HomeView: View {
                     ScrollView {
                         VStack(spacing: 20) {
                             ForEach(viewModel.events, id: \.id) { event in
-                                                    RectangleBox(event: event)
+                              
+                                RectangleBox(event: event)
                                                         .frame(width: 324, height: 69)
                                                     //Dashed Line
                                                     Rectangle()
@@ -139,8 +139,6 @@ struct HomeView: View {
 struct RectangleBox: View {
     var event: Event
     
-//    var color : Color
-    
     var body: some View {
         let dateHelper = DateHelper()
         // This is for the start and end time
@@ -154,7 +152,7 @@ struct RectangleBox: View {
         let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
         let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
         
-        
+        let (color, iconImage) = eventTypeVariables(event: event)
         
         if startTimeString == endTimeString {
            
@@ -182,8 +180,7 @@ struct RectangleBox: View {
                         Rectangle()
                             .foregroundColor(.clear)
                             .frame(width: 324, height: 69)
-        //                    .background(color)
-                            .background(Constants.grey)
+                            .background(color)
                             .cornerRadius(25)
                         VStack{
                             HStack{
@@ -196,7 +193,7 @@ struct RectangleBox: View {
                                     .frame(width: 20, height: 20)
                                     .background(
                             
-                                        Image("Business_Group")
+                                        Image(iconImage)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                     )
@@ -256,7 +253,7 @@ struct RectangleBox: View {
                                 .foregroundColor(.clear)
                                 .frame(width: 324, height: 69)
                             //                    .background(color)
-                                .background(Constants.grey)
+                                .background(color)
                                 .cornerRadius(25)
                             VStack{
                                 HStack{
@@ -270,7 +267,7 @@ struct RectangleBox: View {
                                         .frame(width: 20, height: 20)
                                         .background(
                                             
-                                            Image("Business_Group")
+                                            Image(iconImage)
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                         )
@@ -322,6 +319,23 @@ struct RectangleBox: View {
             
         }
     }
+    func eventTypeVariables(event: Event) -> (Color, String) {
+            switch event.eventType {
+            case "GBM":
+                return (Constants.grey, "Business_Group")
+            case "Workshop":
+                return (Constants.yellow, "Training")
+            case "Social":
+                return (Constants.red, "Users")
+            case "Volunteering":
+                return (Constants.green, "Volunteering")
+            case "Info":
+                return (Constants.teal, "Info")
+            default:
+                return (.clear, "")
+            }
+        }
+   
 }
 
 

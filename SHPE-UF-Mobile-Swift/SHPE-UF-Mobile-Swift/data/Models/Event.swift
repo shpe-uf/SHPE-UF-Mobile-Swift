@@ -14,7 +14,7 @@ struct Event {
     let creator: Creator
     let end: EventDateTime
     let etag: String
-    let eventType: String
+    var eventType: String
     let htmlLink: String
     let iCalUID: String
     let id: String
