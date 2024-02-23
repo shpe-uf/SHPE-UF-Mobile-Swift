@@ -190,9 +190,8 @@ struct NotificationView: View {
                     }){
                        ZStack{
                            Rectangle()
-                               .foregroundColor(.clear)
+                               .foregroundColor(allowForAll ? Color(red: 0.58, green: 0.22, blue: 0.08) : Constants.Orange)
                                .frame(width: 254, height: 41)
-                               .background(Constants.Orange)
                                .cornerRadius(30)
                            Text("Allow for all")
                                .font(Font.custom("Univers LT Std", size: 16))
