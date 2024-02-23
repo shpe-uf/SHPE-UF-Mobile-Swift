@@ -45,7 +45,7 @@ final class HomeViewModel: ObservableObject {
                 
                 if event.summary.contains("GBM") {
                     events[index].eventType = "GBM"
-                } else if event.summary.contains("Bootcamp") || event.summary.contains("Workshop") {
+                } else if event.summary.contains("Bootcamp") || event.summary.contains("Workshop") || event.summary.contains("Tank"){
                     events[index].eventType = "Workshop"
                 } else if event.summary.contains("Social") || event.summary.contains("Fundraiser") {
                     events[index].eventType = "Social"

@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct HomePageContentView: View{
+    init() {
+           // Customize the appearance of the tab bar
+        UITabBar.appearance().barTintColor = UIColor(Constants.BackgroundColor)
+           UITabBar.appearance().backgroundColor = UIColor(Constants.BackgroundColor)
+       }
     var body: some View{
+        
         TabView{
             HomeView()
                 .tabItem{
