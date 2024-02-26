@@ -25,6 +25,13 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+<<<<<<< HEAD
+		9506C4142B06C1F6007808F2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9506C4132B06C1F6007808F2 /* Realm */; };
+		9506C4162B06C1F6007808F2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9506C4152B06C1F6007808F2 /* RealmSwift */; };
+		9518B8072AFBD27600D87D3B /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9518B8052AFBD27600D87D3B /* CoreUserModel.xcdatamodeld */; };
+		9518B80A2AFBD5EE00D87D3B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518B8092AFBD5EE00D87D3B /* DataManager.swift */; };
+		951943EE2AEB131F002C0CCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */; };
+=======
 		9544B5932B757AB400CD5B7D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9544B5922B757AB400CD5B7D /* Event.swift */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
@@ -98,6 +105,7 @@
 		95D371752B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3714A2B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift */; };
 		95D371762B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3714A2B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift */; };
 		95D371772B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3714A2B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift */; };
+>>>>>>> main
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +147,11 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
+		9518B8062AFBD27600D87D3B /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
+		9518B8092AFBD5EE00D87D3B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+=======
 		9544B5922B757AB400CD5B7D /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
@@ -162,6 +175,7 @@
 		95D371482B6C5C0C00B2C5A4 /* RedeemPointsInput.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemPointsInput.graphql.swift; sourceTree = "<group>"; };
 		95D371492B6C5C0C00B2C5A4 /* SchemaMetadata.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemaMetadata.graphql.swift; sourceTree = "<group>"; };
 		95D3714A2B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHPESchema.graphql.swift; sourceTree = "<group>"; };
+>>>>>>> main
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,12 +183,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
+				9506C4162B06C1F6007808F2 /* RealmSwift in Frameworks */,
+				9506C4142B06C1F6007808F2 /* Realm in Frameworks */,
+=======
 				95D3712C2B6C590A00B2C5A4 /* GoogleAPIClientForRESTCore in Frameworks */,
 				95D371342B6C590A00B2C5A4 /* GoogleAPIClientForREST_AbusiveExperienceReport in Frameworks */,
 				95D371322B6C590A00B2C5A4 /* GoogleAPIClientForREST_APIGateway in Frameworks */,
 				958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */,
 				95D3712E2B6C590A00B2C5A4 /* GoogleAPIClientForREST_ACMEDNS in Frameworks */,
 				95D371302B6C590A00B2C5A4 /* GoogleAPIClientForREST_AIPlatformNotebooks in Frameworks */,
+>>>>>>> main
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +239,8 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				9518B8082AFBD5CE00D87D3B /* coreData */,
+				951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */,
 				20CF4A1C2AE7423400916EC6 /* data */,
 				20CF4A1D2AE7424100916EC6 /* ui */,
 				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
@@ -345,6 +366,15 @@
 			path = signIn;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
+		9518B8082AFBD5CE00D87D3B /* coreData */ = {
+			isa = PBXGroup;
+			children = (
+				9518B8052AFBD27600D87D3B /* CoreUserModel.xcdatamodeld */,
+				9518B8092AFBD5EE00D87D3B /* DataManager.swift */,
+			);
+			path = coreData;
+=======
 		958A5DC82B5850A900D1BAE4 /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
@@ -427,6 +457,7 @@
 				95D371482B6C5C0C00B2C5A4 /* RedeemPointsInput.graphql.swift */,
 			);
 			path = InputObjects;
+>>>>>>> main
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -446,12 +477,17 @@
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
+<<<<<<< HEAD
+				9506C4132B06C1F6007808F2 /* Realm */,
+				9506C4152B06C1F6007808F2 /* RealmSwift */,
+=======
 				958A5DC22B584C8400D1BAE4 /* Apollo */,
 				95D3712B2B6C590A00B2C5A4 /* GoogleAPIClientForRESTCore */,
 				95D3712D2B6C590A00B2C5A4 /* GoogleAPIClientForREST_ACMEDNS */,
 				95D3712F2B6C590A00B2C5A4 /* GoogleAPIClientForREST_AIPlatformNotebooks */,
 				95D371312B6C590A00B2C5A4 /* GoogleAPIClientForREST_APIGateway */,
 				95D371332B6C590A00B2C5A4 /* GoogleAPIClientForREST_AbusiveExperienceReport */,
+>>>>>>> main
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -526,8 +562,12 @@
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
+<<<<<<< HEAD
+				9506C4122B06C1F6007808F2 /* XCRemoteSwiftPackageReference "realm-swift" */,
+=======
 				958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */,
+>>>>>>> main
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -545,9 +585,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
+				951943EE2AEB131F002C0CCD /* LaunchScreen.storyboard in Resources */,
+=======
 				95D370992B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
 				958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				95D3709D2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */,
+>>>>>>> main
 				206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */,
 				206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */,
 				95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
@@ -596,7 +640,11 @@
 				9544B5932B757AB400CD5B7D /* Event.swift in Sources */,
 				95D371512B6C5C0C00B2C5A4 /* SignInMutation.graphql.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
+<<<<<<< HEAD
+				9518B80A2AFBD5EE00D87D3B /* DataManager.swift in Sources */,
+=======
 				95D3715A2B6C5C0C00B2C5A4 /* GetPointsQuery.graphql.swift in Sources */,
+>>>>>>> main
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
 				95D3715D2B6C5C0C00B2C5A4 /* User.graphql.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
@@ -608,7 +656,11 @@
 				95D3714B2B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+<<<<<<< HEAD
+				9518B8072AFBD27600D87D3B /* CoreUserModel.xcdatamodeld in Sources */,
+=======
 				95D3716C2B6C5C0C00B2C5A4 /* RegisterInput.graphql.swift in Sources */,
+>>>>>>> main
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
 				95D371542B6C5C0C00B2C5A4 /* GetPercentilesQuery.graphql.swift in Sources */,
@@ -817,11 +869,13 @@
 				DEVELOPMENT_TEAM = 4KV2SNV228;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -846,11 +900,13 @@
 				DEVELOPMENT_TEAM = 4KV2SNV228;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -978,6 +1034,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+<<<<<<< HEAD
+		9506C4122B06C1F6007808F2 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+=======
 		958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
@@ -991,12 +1054,39 @@
 			repositoryURL = "https://github.com/google/google-api-objectivec-client-for-rest.git";
 			requirement = {
 				branch = main;
+>>>>>>> main
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+<<<<<<< HEAD
+		9506C4132B06C1F6007808F2 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9506C4122B06C1F6007808F2 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		9506C4152B06C1F6007808F2 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9506C4122B06C1F6007808F2 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		9518B8052AFBD27600D87D3B /* CoreUserModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9518B8062AFBD27600D87D3B /* CoreUserModel.xcdatamodel */,
+			);
+			currentVersion = 9518B8062AFBD27600D87D3B /* CoreUserModel.xcdatamodel */;
+			path = CoreUserModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+=======
 		958A5DC22B584C8400D1BAE4 /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */;
@@ -1028,6 +1118,7 @@
 			productName = GoogleAPIClientForREST_AbusiveExperienceReport;
 		};
 /* End XCSwiftPackageProductDependency section */
+>>>>>>> main
 	};
 	rootObject = 206C8F6A2AE181FF0081A35A /* Project object */;
 }
