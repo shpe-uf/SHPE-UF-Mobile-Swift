@@ -25,13 +25,6 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
-<<<<<<< HEAD
-		9506C4142B06C1F6007808F2 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9506C4132B06C1F6007808F2 /* Realm */; };
-		9506C4162B06C1F6007808F2 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9506C4152B06C1F6007808F2 /* RealmSwift */; };
-		9518B8072AFBD27600D87D3B /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9518B8052AFBD27600D87D3B /* CoreUserModel.xcdatamodeld */; };
-		9518B80A2AFBD5EE00D87D3B /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518B8092AFBD5EE00D87D3B /* DataManager.swift */; };
-		951943EE2AEB131F002C0CCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */; };
-=======
 		9544B5932B757AB400CD5B7D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9544B5922B757AB400CD5B7D /* Event.swift */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
@@ -146,11 +139,6 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		9518B8062AFBD27600D87D3B /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
-		9518B8092AFBD5EE00D87D3B /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		951943ED2AEB131F002C0CCD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-=======
 		9544B5922B757AB400CD5B7D /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
