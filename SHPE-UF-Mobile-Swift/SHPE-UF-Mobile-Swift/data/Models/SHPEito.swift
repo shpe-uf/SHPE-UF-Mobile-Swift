@@ -2,6 +2,7 @@
 import Foundation
 
 
+<<<<<<< HEAD
 class SHPEito
 {
     // Initializer
@@ -47,5 +48,23 @@ class SHPEito
     @Published var summerPoints: Int
     //@Published var events: SHPESchema.SignInMutation
     // Any methods that can help with
+=======
+class SHPEito 
+{
+    // Initializer
+    init(id:String, name: String, points: Int) 
+    {
+        self.id = id
+        self.name = name
+        self.points = points
+    }
+    
+    // Attributes
+    let id:String
+    @Published var name:String
+    @Published var points:Int
+    
+    // Any methods that can help with 
+>>>>>>> main
     // representing the data...
 }
