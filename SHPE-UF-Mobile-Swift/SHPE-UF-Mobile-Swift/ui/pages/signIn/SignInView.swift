@@ -128,11 +128,11 @@ struct SignInView: View {
                     Text("Sign In")
                         .font(Font.custom("Viga", size: 16))
                         .foregroundColor(Color.white)
+                        .frame(width: 267, height: 42)
+                        .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                        .cornerRadius(100)
+                        .padding()
                 }
-                .frame(width: 267, height: 42)
-                .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                .cornerRadius(100)
-                .padding()
                 .disabled(viewModel.signInButtonClicked)
                 
                 if viewModel.signInButtonClicked {
