@@ -9,9 +9,9 @@ import SwiftUI
 
 struct PointsUI: View {
     
-    var points: Int
-    var semester: String
-    var percent: Int
+    @State var points: Int
+    @State var semester: String
+    @State var percent: Int
     
     var gradient: LinearGradient
     
@@ -36,7 +36,7 @@ struct PointsUI: View {
                 
                 
                 
-                Text("TOP \(percent)%")
+                Text("TOP " + String(percent) + "%")
                     .foregroundStyle(.white)
                     .font(.title2).bold().fontDesign(.monospaced)
                     .frame(width: 100)

@@ -13,17 +13,23 @@ struct SHPE_UF_Mobile_SwiftApp: App {
         WindowGroup {
             PointsView(vm: PointsViewModel(shpeito:
                                             SHPEito(
-                                                id: "642b9e6a12ab890014580b5c",
-                                                name: "David Denis",
-                                                points: 23,
-                                                fallPercentile: 23,
-                                                springPercentile: 0,
-                                                summerPercentile: 56,
-                                                fallPoints: 90,
-                                                springPoints: 0,
-                                                summerPoints: 0,
-                                                username: "dparra1"
-                                            )
+                                                username: "dvera0322",
+                                                    password: "",
+                                                    remember: "true",
+                                                    photo: "",
+                                                    firstName: "David",
+                                                    lastName: "Vera",
+                                                    year: "2",
+                                                    major: "Computer Science",
+                                                    id: "",
+                                                    token: "",
+                                                    confirmed: true,
+                                                    updatedAt: "",
+                                                    createdAt: "",
+                                                    email: "david.vera@ufl.edu",
+                                                    fallPoints: 2,
+                                                    summerPoints: 2,
+                                                    springPoints: 2)
                                           ))
         }
     }

@@ -16,7 +16,7 @@ final class PointsViewModel:ObservableObject {
     private var requestHandler = RequestHandler()
 
     // Out of View variables (Models)
-    @Published var shpeito:SHPEito
+    @Published var shpeito: SHPEito
     
     // Initialize PointsViewModel
     init(shpeito: SHPEito) {

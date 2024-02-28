@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PointsView: View {
     
-    @StateObject var vm : PointsViewModel
+    @ObservedObject var vm : PointsViewModel
     
     @State private var redeem = false;
     
@@ -109,7 +109,12 @@ struct PointsView: View {
                 .padding(.vertical)
                 
                 
-                TableView()
+                VStack(spacing: 35) {
+                    TableView()
+                    TableView(title: "SOCIALS")
+                    TableView(title: "CABINET\nMEETING")
+                }
+                .padding()
                     
             }
         }
@@ -148,17 +153,27 @@ struct PointsView: View {
 #Preview {
     PointsView(vm: PointsViewModel(shpeito:
                                     SHPEito(
-                                        id: "642f7f80e8839f0014e8be9b",
-                                        name: "David Denis",
-                                        points: 34,
-                                        fallPercentile: 23,
-                                        springPercentile: 90,
-                                        summerPercentile: 68,
-                                        fallPoints: 67,
-                                        springPoints: 23,
-                                        summerPoints: 4,
-                                        username: "dparra1"
-                                    )
+                                        username: "dvera0322",
+                                            password: "",
+                                            remember: "true",
+                                            photo: "",
+                                            firstName: "David",
+                                            lastName: "Vera",
+                                            year: "2",
+                                            major: "Computer Science",
+                                            id: "",
+                                            token: "",
+                                            confirmed: true,
+                                            updatedAt: "",
+                                            createdAt: "",
+                                            email: "david.vera@ufl.edu",
+                                            fallPoints: 20,
+                                            summerPoints: 17,
+                                            springPoints: 30,
+                                            points: 67,
+                                            fallPercentile: 93,
+                                            springPercentile: 98,
+                                            summerPercentile: 78)
                                   ))
     .preferredColorScheme(.light)
 }

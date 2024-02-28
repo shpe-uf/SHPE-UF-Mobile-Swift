@@ -10,38 +10,40 @@ import SwiftUI
 
 struct TableView: View {
     
+    var title: String = "GBM"
+    
     var body: some View {
-        NavigationView {
+        
+        VStack(alignment: .leading, spacing: 0) {
+            
+            VStack {
+                Text(title)
+                    .font(.system(size: 40)).italic().bold()
+                    .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
+
+
+            }
             
             VStack {
                 
                 
-                
                 ZStack(alignment: .topLeading) {
-                    
                     
                     Rectangle()
                         .foregroundColor(.clear)
-                        .frame(width: 370, height: 350)
-                        .background(Color(red: 0.93, green: 0.93, blue: 0.93))
-                        .cornerRadius(15)
-                        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                        .frame(width: 370, height: 50)
+                        .background(Color(red: 0.85, green: 0.85, blue: 0.85))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 15)
-                                .inset(by: 0.5)
-                                .stroke(Color(red: 0, green: 0.12, blue: 0.21), lineWidth: 1)
+                            
+                            Rectangle()
+                                .fill(Color.black)
+                                .frame(width: 370, height: 1),
+                            
+                            
+                            alignment: .bottom
+                            
                         )
                     
-                    Rectangle()
-                      .foregroundColor(.clear)
-                      .frame(width: 370, height: 70)
-                      .background(Color(red: 0.85, green: 0.85, blue: 0.85))
-                      .cornerRadius(15)
-                      .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                          .inset(by: 0.5)
-                          .stroke(Color(red: 0, green: 0.12, blue: 0.21), lineWidth: 1)
-                      )
                     
                     VStack(spacing: 0) {
                         HStack {
@@ -50,7 +52,7 @@ struct TableView: View {
                                 .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
                                 .frame(width: 80, height: 50)
                                 .padding(.horizontal, 15)
-                                
+                            
                             
                             
                             Text("DATE")
@@ -66,25 +68,28 @@ struct TableView: View {
                             
                         }
                         
-                       
+                        
                         
                         SingleEventView()
                         SingleEventView()
-                        SingleEventView()
+                        SingleEventView(last: true)
                         
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+                   
                         
                     }
                 }
             }
+            .clipShape(RoundedRectangle(cornerRadius: 15))
+            .overlay(
+                
+                RoundedRectangle(cornerRadius: 15)
+                    .stroke(lineWidth: 1)
+                
+            )
+            
         }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
