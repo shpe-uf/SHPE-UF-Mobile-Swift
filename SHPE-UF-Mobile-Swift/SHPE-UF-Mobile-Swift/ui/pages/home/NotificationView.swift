@@ -76,7 +76,7 @@ struct NotificationView: View {
                                 .cornerRadius(5)
                             }
                             Text("GBMs")
-                            .font(Font.custom("Univers LT Std", size: 16))
+                            .font(Font.custom("UniversLTStd", size: 16))
                             .foregroundColor(Constants.DescriptionTextColor)
                         }
                         VStack{
@@ -98,10 +98,10 @@ struct NotificationView: View {
                                 .cornerRadius(5)
                             }
                             Text("Info")
-                            .font(Font.custom("Univers LT Std", size: 16))
+                            .font(Font.custom("UniversLTStd", size: 16))
                             .foregroundColor(Constants.DescriptionTextColor)
                             Text("Sessions")
-                            .font(Font.custom("Univers LT Std", size: 16))
+                            .font(Font.custom("UniversLTStd", size: 16))
                             .foregroundColor(Constants.DescriptionTextColor)
                         }
                         VStack(spacing: 20){
@@ -149,7 +149,7 @@ struct NotificationView: View {
                                 .cornerRadius(5)
                             }
                             Text("Volunteering")
-                            .font(Font.custom("Univers LT Std", size: 16))
+                            .font(Font.custom("UniversLTStd", size: 16))
                             .foregroundColor(Constants.DescriptionTextColor)
                         }
                         VStack{
@@ -171,7 +171,7 @@ struct NotificationView: View {
                                 .cornerRadius(5)
                             }
                             Text("Socials")
-                              .font(Font.custom("Univers LT Std", size: 16))
+                              .font(Font.custom("UniversLTStd", size: 16))
                               .foregroundColor(Constants.DescriptionTextColor)
                         }
                         
@@ -194,7 +194,7 @@ struct NotificationView: View {
                                .frame(width: 254, height: 41)
                                .cornerRadius(30)
                            Text("Allow for all")
-                               .font(Font.custom("Univers LT Std", size: 16))
+                               .font(Font.custom("UniversLTStd", size: 16))
                                .foregroundColor(.white)
                                .frame(width: 106.88688, height: 15.94444, alignment: .topLeading)
                        }
