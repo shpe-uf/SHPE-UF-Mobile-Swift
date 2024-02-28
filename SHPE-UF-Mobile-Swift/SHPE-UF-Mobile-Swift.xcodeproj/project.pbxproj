@@ -16,16 +16,21 @@
 		206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */; };
 		20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A202AE7441700916EC6 /* SignIn.swift */; };
 		20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A232AE7446500916EC6 /* MongoDB.swift */; };
-		20CF4A272AE745F900916EC6 /* SHPEito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A262AE745F900916EC6 /* SHPEito.swift */; };
 		20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2B2AE7472600916EC6 /* RegisterView.swift */; };
 		20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */; };
 		20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2F2AE7475500916EC6 /* SignInView.swift */; };
 		20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A352AE7478400916EC6 /* HomeViewModel.swift */; };
-		20CF4A3A2AE747A800916EC6 /* PointsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A392AE747A800916EC6 /* PointsViewModel.swift */; };
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
-		9544B5932B757AB400CD5B7D /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9544B5922B757AB400CD5B7D /* Event.swift */; };
+		462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B6F492B7180AB00EB575C /* CircularProgessView.swift */; };
+		4632E4742B6B575E0048782D /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4732B6B575E0048782D /* PointsUI.swift */; };
+		4632E4762B6B57A00048782D /* ReedemPointsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4752B6B57A00048782D /* ReedemPointsButton.swift */; };
+		4632E4782B6B57A80048782D /* ReedemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4772B6B57A80048782D /* ReedemView.swift */; };
+		4632E47A2B6B64000048782D /* PointsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4792B6B64000048782D /* PointsViewModel.swift */; };
+		4632E47C2B6B64170048782D /* SHPEito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E47B2B6B64170048782D /* SHPEito.swift */; };
+		46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418C2B7EC7DB0083F81C /* TableView.swift */; };
+		46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418E2B7EC82B0083F81C /* SingleEventView.swift */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5DDD2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
@@ -131,16 +136,21 @@
 		206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		20CF4A202AE7441700916EC6 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		20CF4A232AE7446500916EC6 /* MongoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoDB.swift; sourceTree = "<group>"; };
-		20CF4A262AE745F900916EC6 /* SHPEito.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEito.swift; sourceTree = "<group>"; };
 		20CF4A2B2AE7472600916EC6 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		20CF4A2F2AE7475500916EC6 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		20CF4A352AE7478400916EC6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		20CF4A392AE747A800916EC6 /* PointsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewModel.swift; sourceTree = "<group>"; };
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
-		9544B5922B757AB400CD5B7D /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		462B6F492B7180AB00EB575C /* CircularProgessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgessView.swift; sourceTree = "<group>"; };
+		4632E4732B6B575E0048782D /* PointsUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsUI.swift; sourceTree = "<group>"; };
+		4632E4752B6B57A00048782D /* ReedemPointsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReedemPointsButton.swift; sourceTree = "<group>"; };
+		4632E4772B6B57A80048782D /* ReedemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReedemView.swift; sourceTree = "<group>"; };
+		4632E4792B6B64000048782D /* PointsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsViewModel.swift; sourceTree = "<group>"; };
+		4632E47B2B6B64170048782D /* SHPEito.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHPEito.swift; sourceTree = "<group>"; };
+		46CA418C2B7EC7DB0083F81C /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		46CA418E2B7EC82B0083F81C /* SingleEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventView.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		95D291032B8D317E004AC28B /* SignInViewLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewLight.swift; sourceTree = "<group>"; };
@@ -260,8 +270,14 @@
 		206C8FA52AE18F720081A35A /* points */ = {
 			isa = PBXGroup;
 			children = (
+				4632E4792B6B64000048782D /* PointsViewModel.swift */,
 				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
-				20CF4A392AE747A800916EC6 /* PointsViewModel.swift */,
+				4632E4732B6B575E0048782D /* PointsUI.swift */,
+				4632E4752B6B57A00048782D /* ReedemPointsButton.swift */,
+				4632E4772B6B57A80048782D /* ReedemView.swift */,
+				462B6F492B7180AB00EB575C /* CircularProgessView.swift */,
+				46CA418C2B7EC7DB0083F81C /* TableView.swift */,
+				46CA418E2B7EC82B0083F81C /* SingleEventView.swift */,
 			);
 			path = points;
 			sourceTree = "<group>";
@@ -312,8 +328,7 @@
 		20CF4A252AE7449E00916EC6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				20CF4A262AE745F900916EC6 /* SHPEito.swift */,
-				9544B5922B757AB400CD5B7D /* Event.swift */,
+				4632E47B2B6B64170048782D /* SHPEito.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -592,12 +607,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95D371632B6C5C0C00B2C5A4 /* Event.graphql.swift in Sources */,
-				95D371662B6C5C0C00B2C5A4 /* Query.graphql.swift in Sources */,
-				95D371722B6C5C0C00B2C5A4 /* SchemaMetadata.graphql.swift in Sources */,
-				95D371572B6C5C0C00B2C5A4 /* GetUserPointsQuery.graphql.swift in Sources */,
-				9544B5932B757AB400CD5B7D /* Event.swift in Sources */,
-				95D371512B6C5C0C00B2C5A4 /* SignInMutation.graphql.swift in Sources */,
+				4632E4742B6B575E0048782D /* PointsUI.swift in Sources */,
+				95D371152B64825500B2C5A4 /* Event.graphql.swift in Sources */,
+				95D371182B64825500B2C5A4 /* Query.graphql.swift in Sources */,
+				4632E4762B6B57A00048782D /* ReedemPointsButton.swift in Sources */,
+				4632E47C2B6B64170048782D /* SHPEito.swift in Sources */,
+				95D371242B64825500B2C5A4 /* SchemaMetadata.graphql.swift in Sources */,
+				95D371092B64825500B2C5A4 /* GetUserPointsQuery.graphql.swift in Sources */,
+				95D371032B64825500B2C5A4 /* SignInMutation.graphql.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				95D3715A2B6C5C0C00B2C5A4 /* GetPointsQuery.graphql.swift in Sources */,
 				95D291042B8D317E004AC28B /* SignInViewLight.swift in Sources */,
@@ -612,17 +629,20 @@
 				95D3714B2B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
-				95D3716C2B6C5C0C00B2C5A4 /* RegisterInput.graphql.swift in Sources */,
+				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
+				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
+				95D3711E2B64825500B2C5A4 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
-				95D371542B6C5C0C00B2C5A4 /* GetPercentilesQuery.graphql.swift in Sources */,
+				95D371062B64825500B2C5A4 /* GetPercentilesQuery.graphql.swift in Sources */,
+				4632E4782B6B57A80048782D /* ReedemView.swift in Sources */,
+				4632E47A2B6B64000048782D /* PointsViewModel.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
-				95D3714E2B6C5C0C00B2C5A4 /* RegisterUserMutation.graphql.swift in Sources */,
+				46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */,
+				95D371002B64825500B2C5A4 /* RegisterUserMutation.graphql.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
 				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
-				95D3716F2B6C5C0C00B2C5A4 /* RedeemPointsInput.graphql.swift in Sources */,
-				20CF4A272AE745F900916EC6 /* SHPEito.swift in Sources */,
-				20CF4A3A2AE747A800916EC6 /* PointsViewModel.swift in Sources */,
+				95D371212B64825500B2C5A4 /* RedeemPointsInput.graphql.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

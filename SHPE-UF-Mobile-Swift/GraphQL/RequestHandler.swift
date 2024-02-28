@@ -10,7 +10,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://b851-128-227-1-26.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://0d3b-128-227-39-214.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -211,6 +211,39 @@ class RequestHandler
                 "fallPercentile": fallPercentile,
                 "springPercentile": springPercentile,
                 "summerPercentile": summerPercentile
+            ]
+            
+            completion(responseDict)
+        }
+    }
+    
+    
+    
+    
+    func getPoints(userId: String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetPointsQuery(userId: userId))
+        {
+            response in
+            
+            guard let data = try? response.get().data,
+                  let fallPoints = data.getUser?.fallPoints as? Int,
+                  let springPoints = data.getUser?.springPoints as? Int,
+                  let summerPoints = data.getUser?.summerPoints as? Int
+            else
+            {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            // Package with data (SUCCESS ✅)
+            let responseDict = [
+                "fallPoints": fallPoints,
+                "springPoints": springPoints,
+                "summerPoints": summerPoints
             ]
             
             completion(responseDict)
