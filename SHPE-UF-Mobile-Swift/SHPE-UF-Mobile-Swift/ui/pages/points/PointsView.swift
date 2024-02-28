@@ -146,19 +146,6 @@ struct PointsView: View {
 }
 
 #Preview {
-    PointsView(vm: PointsViewModel(shpeito:
-                                    SHPEito(
-                                        id: "642f7f80e8839f0014e8be9b",
-                                        name: "David Denis",
-                                        points: 34,
-                                        fallPercentile: 23,
-                                        springPercentile: 90,
-                                        summerPercentile: 68,
-                                        fallPoints: 67,
-                                        springPoints: 23,
-                                        summerPoints: 4,
-                                        username: "dparra1"
-                                    )
-                                  ))
+    PointsView(vm: PointsViewModel(shpeito: SHPEito()))
     .preferredColorScheme(.light)
 }
