@@ -112,7 +112,6 @@ struct HomeView: View {
                             ForEach(viewModel.events.indices, id: \.self) { index in
                                 
                                 let event = viewModel.events[index]
-                                var dayBefore = index-1
                                 let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
                                 let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
                                 
@@ -121,12 +120,12 @@ struct HomeView: View {
                                     if index == 0 || !sameDay(viewModel.events[index - 1], viewModel.events[index]){
                                         VStack(alignment: .center, spacing: 0) {
                                             Text(abrDateString)
-                                                .font(Font.custom("Univers LT Std", size: 14))
+                                                .font(Font.custom("UniversLTStd", size: 14))
                                                 .multilineTextAlignment(.center)
                                                 .foregroundColor(Constants.DayTextColor)
                                                 .frame(width: 35, height: 15, alignment: .top)
                                             Text(numDateString)
-                                                .font(Font.custom("Univers LT Std", size: 20))
+                                                .font(Font.custom("UniversLTStd", size: 20))
                                                 .multilineTextAlignment(.center)
                                                 .foregroundColor(Constants.DayNumberTextColor)
                                                 .frame(width: 26, height: 16, alignment: .top)
@@ -279,7 +278,7 @@ struct eventInfo: View{
                                         .aspectRatio(contentMode: .fit)
                                 )
                             Text(startdateString)
-                                .font(Font.custom("Univers LT Std", size: 18))
+                                .font(Font.custom("UniversLTStd", size: 18))
                                 .foregroundColor(Constants.DescriptionTextColor)
                             
                         }
@@ -296,7 +295,7 @@ struct eventInfo: View{
                                 )
                             
                             Text("\(startTimeString) - \(endTimeString)")
-                                .font(Font.custom("Univers LT Std", size: 18))
+                                .font(Font.custom("UniversLTStd", size: 18))
                                 .foregroundColor(Constants.DescriptionTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
@@ -312,19 +311,19 @@ struct eventInfo: View{
                             )
                             //Dummy section, Location is not defined in google calendar
                             Text(String(event.location ?? "Reitz"))
-                              .font(Font.custom("Univers LT Std", size: 18))
+                              .font(Font.custom("UniversLTStd", size: 18))
                               .foregroundColor(Constants.DescriptionTextColor)
                     
                         }
                         .frame(width: 300, alignment: .leading)
                         Spacer()
                         Text("Description:")
-                        .font(Font.custom("Univers LT Std", size: 18))
+                        .font(Font.custom("UniversLTStd", size: 18))
                         .foregroundColor(Constants.DescriptionHeaderColor)
                         .frame(width: 300, alignment: .leading)
                         //Dummy  description
                         Text("Join us for our 1st Spring GBM next Wednesday for exciting annoucements, upcoming events, and free food!")
-                          .font(Font.custom("Univers LT Std", size: 18))
+                          .font(Font.custom("UniversLTStd", size: 18))
                           .foregroundColor(Constants.DescriptionTextColor)
                           .frame(width: 297, alignment: .topLeading)
                         Spacer()
@@ -375,9 +374,7 @@ struct RectangleBox: View {
         
         // For the date of the event
         let startdateString = dateHelper.getDayFull(for: event.start.dateTime)
-        
-        let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
-        let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
+
         
         let (color, iconImage) = eventTypeVariables(event: event)
         
@@ -395,7 +392,7 @@ struct RectangleBox: View {
                     VStack{
                         HStack{
                             Text(event.summary)
-                                .font(Font.custom("Univers LT Std", size: 15))
+                                .font(Font.custom("UniversLTStd", size: 15))
                                 .foregroundColor(.white)
                                 .frame(alignment: .topLeading)
                             Rectangle()
@@ -422,7 +419,7 @@ struct RectangleBox: View {
                                             .aspectRatio(contentMode: .fit)
                                     )
                                 Text(startdateString)
-                                    .font(Font.custom("Univers LT Std", size: 12))
+                                    .font(Font.custom("UniversLTStd", size: 12))
                                     .foregroundColor(.white)
                             }
                             .frame(width: 266, height: 17, alignment: .topLeading)
@@ -451,7 +448,7 @@ struct RectangleBox: View {
                         VStack{
                             HStack{
                                 Text(event.summary)
-                                    .font(Font.custom("Univers LT Std", size: 15))
+                                    .font(Font.custom("UniversLTStd", size: 15))
                                     .foregroundColor(.white)
                                 
                                     .frame(alignment: .topLeading)
@@ -479,7 +476,7 @@ struct RectangleBox: View {
                                                 .aspectRatio(contentMode: .fit)
                                         )
                                     Text(startdateString)
-                                        .font(Font.custom("Univers LT Std", size: 12))
+                                        .font(Font.custom("UniversLTStd", size: 12))
                                         .foregroundColor(.white)
                                 }
                                 .frame(width: 115, height: 17, alignment: .topLeading)
@@ -494,7 +491,7 @@ struct RectangleBox: View {
                                         )
                                     
                                     Text("\(startTimeString) - \(endTimeString)")
-                                        .font(Font.custom("Univers LT Std", size: 12))
+                                        .font(Font.custom("UniversLTStd", size: 12))
                                         .foregroundColor(.white)
                                 }
                                 .frame(height: 17, alignment: .topLeading)
