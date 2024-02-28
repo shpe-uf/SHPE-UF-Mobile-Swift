@@ -24,10 +24,10 @@ class SHPEito
         self.fallPoints = fallPoints
         self.summerPoints = summerPoints
         self.springPoints = springPoints
-        self.points = 0
-        self.fallPercentile = 0
-        self.springPercentile = 0
-        self.summerPercentile = 0
+        self.points = points
+        self.fallPercentile = fallPercentile
+        self.springPercentile = springPercentile
+        self.summerPercentile = summerPercentile
         //self.events = events
         
     }
@@ -51,6 +51,7 @@ class SHPEito
         self.fallPoints = -1
         self.summerPoints = -1
         self.springPoints = -1
+        self.points = 0
         self.fallPercentile = 0
         self.springPercentile = 0
         self.summerPercentile = 0
@@ -70,6 +71,7 @@ class SHPEito
     @Published var updatedAt: String
     @Published var createdAt: String
     @Published var email: String
+    @Published var points: Int
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
