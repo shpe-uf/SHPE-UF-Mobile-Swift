@@ -5,7 +5,7 @@ import Foundation
 class SHPEito
 {
     // Initializer
-    init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int)
+    init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int, points: Int = 0, fallPercentile: Int = 0, springPercentile: Int = 0, summerPercentile: Int = 0)
     {
         self.username = username
         self.password = password
@@ -24,6 +24,10 @@ class SHPEito
         self.fallPoints = fallPoints
         self.summerPoints = summerPoints
         self.springPoints = springPoints
+        self.points = 0
+        self.fallPercentile = 0
+        self.springPercentile = 0
+        self.summerPercentile = 0
         //self.events = events
         
     }
@@ -47,6 +51,9 @@ class SHPEito
         self.fallPoints = -1
         self.summerPoints = -1
         self.springPoints = -1
+        self.fallPercentile = 0
+        self.springPercentile = 0
+        self.summerPercentile = 0
     }
     
     @Published var username: String
@@ -66,6 +73,9 @@ class SHPEito
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
+    @Published var fallPercentile : Int
+    @Published var springPercentile : Int
+    @Published var summerPercentile : Int
     //@Published var events: SHPESchema.SignInMutation
     // Any methods that can help with
 }
