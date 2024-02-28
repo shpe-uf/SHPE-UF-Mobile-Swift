@@ -28,6 +28,27 @@ class SHPEito
         
     }
     
+    init ()
+    {
+        self.username = ""
+        self.password = ""
+        self.remember = ""
+        self.photoURL = nil
+        self.firstName = ""
+        self.lastName = ""
+        self.year = ""
+        self.major = ""
+        self.id = ""
+        self.token = ""
+        self.confirmed = false
+        self.updatedAt = ""
+        self.createdAt = ""
+        self.email = ""
+        self.fallPoints = -1
+        self.summerPoints = -1
+        self.springPoints = -1
+    }
+    
     @Published var username: String
     @Published var password: String
     @Published var remember: String
