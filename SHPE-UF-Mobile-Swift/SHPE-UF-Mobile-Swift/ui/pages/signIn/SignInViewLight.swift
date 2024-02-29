@@ -5,7 +5,8 @@ struct SignInViewLight: View {
     @StateObject var viewModel: SignInViewModel
     @State private var username = ""
     @State private var password = ""
-    
+    @State private var isPasswordVisible = false
+
     var body: some View {
         ZStack {
             
@@ -94,18 +95,41 @@ struct SignInViewLight: View {
                 
                 
                 ZStack {
-                    
-                    SecureField("", text: $password)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .background(Color(red:0,green:0.12,blue:0.21))
-                        .frame(height: 38)
-                        .frame(width: 310, height: 38)
-                        .padding(.leading, 3) // Adjust to make space for the image
-                        .autocapitalization(.none)
+                    if isPasswordVisible{
+                        TextField("", text: $password)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .background(Color(red: 49/255, green: 49/255, blue: 49/255))
+                                    .frame(height: 38)
+                                    .frame(width: 310, height: 38)
+                                    .padding(.leading, 3)
+                                    .foregroundColor(.black)
+                                    .autocapitalization(.none)
+                        
+                        
+                    }else{
+                        SecureField("", text: $password)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .background(Color(red: 49/255, green: 49/255, blue: 49/255))
+                            .frame(height: 38)
+                            .frame(width: 310, height: 38)
+                            .padding(.leading, 3) // Adjust to make space for the image
+                            .foregroundColor(.black)
+                            .autocapitalization(.none)
                         Image("Lock 3")
                             .resizable()
                             .frame(width: 22, height: 22)
                             .padding(.leading, -145) // Adjust as needed to position the image inside the text box
+                    }
+                    HStack {
+                            Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 22.32634, height: 14.58338)
+                                .padding(.leading, 250)
+                                .onTapGesture {
+                                    isPasswordVisible.toggle()
+                                }
+                        }
             
                     // Email Text
                     Text("Password")
@@ -120,61 +144,64 @@ struct SignInViewLight: View {
                 
                 // Sign In Button
                 Button(action: {
-                    viewModel.signIn()
+                    viewModel.signIn(username: username, password: password)
                     viewModel.signInButtonClicked = true
+                    
+                    // Reset the signInButtonClicked flag after signIn method is called
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        viewModel.signInButtonClicked = false
+                    }
                 }) {
                     Text("Sign In")
                         .font(Font.custom("Viga", size: 16))
                         .foregroundColor(Color.white)
                 }
+
                 .frame(width: 267, height: 42)
                 .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                 .cornerRadius(100)
                 .padding()
                 .disabled(viewModel.signInButtonClicked)
                 
-                if viewModel.signInButtonClicked {
-                    if username.isEmpty || password.isEmpty {
-                        Text("Please enter username and password")
-                            .foregroundColor(.white)
-                    } else {
-                        if username == viewModel.shpeito.username && password == viewModel.shpeito.password {
-                            Text("Success")
-                                .foregroundColor(.white)
-                        } else {
-                            Text("Failure")
-                                .foregroundColor(.white)
-                        }
+            
+                HStack {
+                    Text("Don’t have an account? ")
+                        .font(Font.custom("Univers LT Std", size: 14))
+                        .foregroundColor(Color(red:0,green:0.12,blue:0.21))
+                    //change to register page later
+                    NavigationLink(destination: exampleView()) {
+                        Text("Sign Up")
+                            .font(Font.custom("Univers LT Std", size: 14))
+                            .foregroundColor(Color(red: 0.04, green: 0.44, blue: 0.73))
                     }
                 }
-                Text("Don’t have an acccount?")
-                  .font(Font.custom("Univers LT Std", size: 14))
-                  .foregroundColor(Color(red:0,green:0.12,blue:0.21))
-                  .frame(width:162, height:17)
+                .frame(width: 260, height: 17)
             }
             .padding(.top, 130)
         }
     }
 }
 
+
+
 struct SignInViewLight_Previews: PreviewProvider {
     static var previews: some View {
         SignInViewLight(viewModel: SignInViewModel(shpeito:
                                 SHPEito(
-                                    username: "dvera0322",
+                                    username: "",
                                         password: "",
                                         remember: "true",
                                         photo: "",
-                                        firstName: "David",
-                                        lastName: "Vera",
-                                        year: "2",
-                                        major: "Computer Science",
+                                        firstName: "",
+                                        lastName: "",
+                                        year: "",
+                                        major: "",
                                         id: "",
                                         token: "",
                                         confirmed: true,
                                         updatedAt: "",
                                         createdAt: "",
-                                        email: "david.vera@ufl.edu",
+                                        email: "",
                                         fallPoints: 2,
                                         summerPoints: 2,
                                         springPoints: 2)
