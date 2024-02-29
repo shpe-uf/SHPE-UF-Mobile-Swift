@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D053DB82B913B92003B21C5 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D053DB72B913B92003B21C5 /* LandingView.swift */; };
 		206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */; };
 		206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */; };
 		206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F792AE182020081A35A /* Assets.xcassets */; };
@@ -116,6 +117,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0D053DB72B913B92003B21C5 /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SHPE-UF-Mobile-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftApp.swift; sourceTree = "<group>"; };
 		206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppView.swift; sourceTree = "<group>"; };
@@ -200,6 +202,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0D053DB62B913B71003B21C5 /* landing */ = {
+			isa = PBXGroup;
+			children = (
+				0D053DB72B913B92003B21C5 /* LandingView.swift */,
+			);
+			path = landing;
+			sourceTree = "<group>";
+		};
 		206C8F692AE181FF0081A35A = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +349,7 @@
 		20CF4A292AE7467300916EC6 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				0D053DB62B913B71003B21C5 /* landing */,
 				206C8FA62AE1929D0081A35A /* register */,
 				20CF4A2A2AE746CE00916EC6 /* signIn */,
 				20CF4A282AE7466400916EC6 /* home */,
@@ -610,6 +621,7 @@
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
 				95D3715D2B6C5C0C00B2C5A4 /* User.graphql.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
+				0D053DB82B913B92003B21C5 /* LandingView.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				95D371752B6C5C0C00B2C5A4 /* SHPESchema.graphql.swift in Sources */,
 				95D371692B6C5C0C00B2C5A4 /* SchemaConfiguration.swift in Sources */,
