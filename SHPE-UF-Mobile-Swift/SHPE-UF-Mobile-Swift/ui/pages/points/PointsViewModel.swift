@@ -71,4 +71,11 @@ final class PointsViewModel:ObservableObject {
         self.shpeito.points = 0
         self.points = 0
     }
+    
+    // DELETE ME RIGHT AFTER
+    func printEvents()
+    {
+        let oneYearAgo = Date(timeIntervalSinceNow: -10 * 24 * 60 * 60)
+        requestHandler.fetchEvents(minDate: oneYearAgo)
+    }
 }
