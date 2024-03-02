@@ -252,7 +252,7 @@ class RequestHandler
             let responseDict = [
                 "fallPercentile": fallPercentile,
                 "springPercentile": springPercentile,
-                "summerPercentile": springPercentile
+                "summerPercentile": summerPercentile
             ]
             
             completion(responseDict)
@@ -260,5 +260,213 @@ class RequestHandler
     }
     
     // MARK: Home Page Functions
+    // Input: minDate: Date Captures any events after minDate
+    // Successful Output: ([Event],Bool,String) => List of Event objects, boolean value True:Success, False:Error, String describing error
+    //                                                                                                (FATAL_ERROR, REQUEST_ERROR, PARSE_ERROR)
+    func fetchEvents(minDate: Date, completion:@escaping (([Event], Bool, String))->Void = {_ in})
+    {
+        let dateFormatter = ISO8601DateFormatter()
+        let timeMin = dateFormatter.string(from: minDate)
+        
+        // Get evnironment variables
+        guard let CALENDAR_ID = ProcessInfo.processInfo.environment["CALENDAR_ID"] else
+        {
+            print("CALENDAR_ID is missing from environment variables")
+            completion(([],false,"FATAL_ERROR"))
+            return
+        }
+        guard let CALENDAR_API_KEY = ProcessInfo.processInfo.environment["CALENDAR_API_KEY"] else
+        {
+            print("CALENDAR_API_KEY is missing from environment variables")
+            completion(([],false,"FATAL_ERROR"))
+            return
+        }
+
+        // Make an API call
+        let urlString = "https://www.googleapis.com/calendar/v3/calendars/\(CALENDAR_ID)/events?timeMin=\(timeMin)&key=\(CALENDAR_API_KEY)"
+        if let url = URL(string: urlString) {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if error != nil
+                {
+                    print("Error: \(error!.localizedDescription)")
+                    completion(([],false,"REQUEST_ERROR"))
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    print("Invalid response")
+                    completion(([],false,"REQUEST_ERROR"))
+                    return
+                }
+
+                if !(200...299).contains(httpResponse.statusCode) {
+                    print("HTTP Error: \(httpResponse.statusCode)")
+                    completion(([],false,"REQUEST_ERROR"))
+                    return
+                }
+                
+                if let data = data
+                {
+                    do {
+                        if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] 
+                        {
+                            var eventsList:[Event] = []
+                            print("ITEMS:")
+                            if let items = jsonObject["items"] as? (any Sequence)
+                            {
+                                for item in items
+                                {
+                                    guard let object = item as? [String:Any] else
+                                    {
+                                        print("Unexpected data type")
+                                        completion(([],false,"PARSE_ERROR"))
+                                        return
+                                    }
+
+                                    do {
+                                        let event = try self.extractEvent(from: object)
+                                        eventsList.append(event)
+                                    } catch {
+                                        print("Error extracting event: \(error)")
+                                        print("\nOBJECT WITH ERROR:")
+                                        print(object)
+                                        print()
+                                        continue
+                                    }
+                                }
+                                
+                                // SUCCESS ✅
+                                completion((eventsList,true,""))
+                            }
+                            else
+                            {
+                                completion(([],false,"PARSE_ERROR"))
+                                print("ERROR: 'items' field missing in JSON")
+                            }
+                        } else {
+                            completion(([],false,"PARSE_ERROR"))
+                            print("Failed to convert JSON data to dictionary")
+                        }
+                    } catch {
+                        print("Error decoding JSON: \(error.localizedDescription)")
+                        completion(([],false,"PARSE_ERROR"))
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    private func extractEvent(from dictionary: [String: Any]) throws -> Event {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+
+        guard
+            let createdString = dictionary["created"] as? String,
+            let created = dateFormatter.date(from: createdString),
+            let creatorDict = dictionary["creator"] as? [String: Any],
+            let creator = try? extractCreator(from: creatorDict),
+            let endDict = dictionary["end"] as? [String: Any],
+            let etag = dictionary["etag"] as? String,
+            let eventType = dictionary["eventType"] as? String,
+            let htmlLink = dictionary["htmlLink"] as? String,
+            let iCalUID = dictionary["iCalUID"] as? String,
+            let id = dictionary["id"] as? String,
+            let organizerDict = dictionary["organizer"] as? [String: Any],
+            let organizer = try? extractOrganizer(from: organizerDict),
+            let sequence = dictionary["sequence"] as? Int,
+            let startDict = dictionary["start"] as? [String: Any],
+            let status = dictionary["status"] as? String,
+            let summary = dictionary["summary"] as? String,
+            let updatedString = dictionary["updated"] as? String,
+            let updated = dateFormatter.date(from: updatedString)
+        else {
+            throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
+        }
+        
+        let kind = dictionary["kind"] as? String ?? nil
+        let end = ((try? extractEventDateTime(from: endDict)) ?? (try? extractCustomDateTime(from: endDict))) ?? EventDateTime(dateTime: Date(), timeZone: "ERROR")
+        let start = ((try? extractEventDateTime(from: startDict)) ?? (try? extractCustomDateTime(from: startDict))) ?? EventDateTime(dateTime: Date(), timeZone: "ERROR")
+        
+        // Optional Fields
+        let location = dictionary["location"] as? String ?? nil
+
+        let event = Event(
+            created: created,
+            creator: creator,
+            end: end,
+            etag: etag,
+            eventType: eventType,
+            htmlLink: htmlLink,
+            iCalUID: iCalUID,
+            id: id,
+            kind: kind,
+            organizer: organizer,
+            sequence: sequence,
+            start: start,
+            status: status,
+            summary: summary,
+            updated: updated,
+            location: location
+        )
+        
+        return event
+    }
+
+    // Helper functions to extract nested objects
+    private func extractCreator(from dictionary: [String: Any]) throws -> Creator {
+        guard
+            let email = dictionary["email"] as? String,
+            let selfValue = dictionary["self"] as? Int
+        else {
+            throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
+        }
+
+        return Creator(email: email, selfValue: selfValue)
+    }
+
+    private func extractEventDateTime(from dictionary: [String: Any]) throws -> EventDateTime {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+
+        guard
+            let dateTimeString = dictionary["dateTime"] as? String,
+            let dateTime = dateFormatter.date(from: dateTimeString),
+            let timeZone = dictionary["timeZone"] as? String
+        else {
+            throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
+        }
+
+        return EventDateTime(dateTime: dateTime, timeZone: timeZone)
+    }
+    
+    private func extractCustomDateTime(from dictionary:[String:Any]) throws -> EventDateTime
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        guard
+            let dateTimeString = dictionary["date"] as? String,
+            let dateTime = dateFormatter.date(from: dateTimeString)
+        else {
+            throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
+        }
+        
+        return EventDateTime(dateTime: dateTime, timeZone: "")
+    }
+
+    private func extractOrganizer(from dictionary: [String: Any]) throws -> Organizer {
+        guard
+            let email = dictionary["email"] as? String,
+            let selfValue = dictionary["self"] as? Int
+        else {
+            throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
+        }
+
+        return Organizer(email: email, selfValue: selfValue)
+    }
 }
 
