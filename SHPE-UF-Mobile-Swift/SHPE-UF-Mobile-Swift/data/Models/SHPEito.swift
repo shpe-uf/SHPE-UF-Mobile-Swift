@@ -16,36 +16,19 @@ class SHPEito
     @State var emailInput: String
     @State var passwordConfirmInput: String
     @State var majorInput: String
-    @State var yearInput: String
-    @State var thisYearInput: String
+    @State var classYearInput: String
+    @State var gradYearInput: String
     @State var originInput: String
     @State var ethnicityInput: String
     @State var genderInput: String
-    
-    // Data validation bools
-    @State var isFirstNameValid: Bool
-    @State var isLastNameValid: Bool
-    @State var isUsernameValid: Bool
-    @State var isEmailValid: Bool
-    @State var isPasswordValid: Bool
-    @State var isPasswordConfirmValid: Bool
-    @State var isMajorValid: Bool
-    @State var isYearValid: Bool
-    @State var isThisYearValid: Bool
-    @State var isOriginValid: Bool
-    @State var isEthnicityValid: Bool
-    @State var isGenderValid: Bool
-    @State var isConfirmPasswordValid: Bool
 
     // Initializer
     init(id: String, name: String, points: Int,
          firstnameInput: String, lastnameInput: String, usernameInput: String, passwordInput: String,
-         emailInput: String, passwordConfirmInput: String, majorInput: String, yearInput: String,
-         thisYearInput: String, originInput: String, ethnicityInput: String, genderInput: String,
-         isFirstNameValid: Bool, isLastNameValid: Bool, isUsernameValid: Bool, isEmailValid: Bool,
-         isPasswordValid: Bool, isPasswordConfirmValid: Bool, isMajorValid: Bool, isYearValid: Bool,
-         isThisYearValid: Bool, isOriginValid: Bool, isEthnicityValid: Bool, isGenderValid: Bool,
-         isConfirmPasswordValid: Bool) {
+         emailInput: String, passwordConfirmInput: String, majorInput: String, classYearInput: String,
+         gradYearInput: String, originInput: String, ethnicityInput: String, genderInput: String,
+         isConfirmPasswordValid: Bool) 
+    {
         
         self.id = id
         self.name = name
@@ -59,26 +42,11 @@ class SHPEito
         self.emailInput = emailInput
         self.passwordConfirmInput = passwordConfirmInput
         self.majorInput = majorInput
-        self.yearInput = yearInput
-        self.thisYearInput = thisYearInput
+        self.classYearInput = classYearInput
+        self.gradYearInput = gradYearInput
         self.originInput = originInput
         self.ethnicityInput = ethnicityInput
         self.genderInput = genderInput
-        
-        // Assigning data validation bools
-        self.isFirstNameValid = isFirstNameValid
-        self.isLastNameValid = isLastNameValid
-        self.isUsernameValid = isUsernameValid
-        self.isEmailValid = isEmailValid
-        self.isPasswordValid = isPasswordValid
-        self.isPasswordConfirmValid = isPasswordConfirmValid
-        self.isMajorValid = isMajorValid
-        self.isYearValid = isYearValid
-        self.isThisYearValid = isThisYearValid
-        self.isOriginValid = isOriginValid
-        self.isEthnicityValid = isEthnicityValid
-        self.isGenderValid = isGenderValid
-        self.isConfirmPasswordValid = isConfirmPasswordValid
     }
 
    

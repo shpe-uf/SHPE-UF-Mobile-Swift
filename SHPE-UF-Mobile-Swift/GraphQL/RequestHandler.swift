@@ -11,7 +11,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://254b-128-227-1-21.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://2d8e-128-227-1-22.ngrok-free.app/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
 //    ngrok http http://localhost:8080
     
     // MARK: Example Query Function
