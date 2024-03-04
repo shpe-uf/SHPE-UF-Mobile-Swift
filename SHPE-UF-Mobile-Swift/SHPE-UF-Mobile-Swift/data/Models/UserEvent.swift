@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct UserEvent {
+struct UserEvent: Identifiable, Hashable {
     
+    let id = UUID()
     let name: String
     let category: String
     let points: Int

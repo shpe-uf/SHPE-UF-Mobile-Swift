@@ -47,6 +47,8 @@
 		46909E462B9693A500E99274 /* RedeemPointsInput.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E362B9693A500E99274 /* RedeemPointsInput.graphql.swift */; };
 		46909E472B9693A500E99274 /* SchemaMetadata.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E372B9693A500E99274 /* SchemaMetadata.graphql.swift */; };
 		46909E482B9693A500E99274 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E382B9693A500E99274 /* SHPESchema.graphql.swift */; };
+		46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E492B96952000E99274 /* PointsViewDark.swift */; };
+		46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */; };
 		46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418C2B7EC7DB0083F81C /* TableView.swift */; };
 		46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418E2B7EC82B0083F81C /* SingleEventView.swift */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
@@ -136,6 +138,8 @@
 		46909E362B9693A500E99274 /* RedeemPointsInput.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemPointsInput.graphql.swift; sourceTree = "<group>"; };
 		46909E372B9693A500E99274 /* SchemaMetadata.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemaMetadata.graphql.swift; sourceTree = "<group>"; };
 		46909E382B9693A500E99274 /* SHPESchema.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHPESchema.graphql.swift; sourceTree = "<group>"; };
+		46909E492B96952000E99274 /* PointsViewDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewDark.swift; sourceTree = "<group>"; };
+		46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressViewDark.swift; sourceTree = "<group>"; };
 		46CA418C2B7EC7DB0083F81C /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		46CA418E2B7EC82B0083F81C /* SingleEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventView.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
@@ -240,10 +244,12 @@
 			children = (
 				4632E4792B6B64000048782D /* PointsViewModel.swift */,
 				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
+				46909E492B96952000E99274 /* PointsViewDark.swift */,
 				4632E4732B6B575E0048782D /* PointsUI.swift */,
 				4632E4752B6B57A00048782D /* ReedemPointsButton.swift */,
 				4632E4772B6B57A80048782D /* ReedemView.swift */,
 				462B6F492B7180AB00EB575C /* CircularProgessView.swift */,
+				46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */,
 				46CA418C2B7EC7DB0083F81C /* TableView.swift */,
 				46CA418E2B7EC82B0083F81C /* SingleEventView.swift */,
 			);
@@ -583,6 +589,7 @@
 				46909E422B9693A500E99274 /* Event.graphql.swift in Sources */,
 				46909E3C2B9693A500E99274 /* GetUserEventsQuery.graphql.swift in Sources */,
 				46909DFA2B96907D00E99274 /* UserEvent.swift in Sources */,
+				46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */,
 				46909E462B9693A500E99274 /* RedeemPointsInput.graphql.swift in Sources */,
 				46909E482B9693A500E99274 /* SHPESchema.graphql.swift in Sources */,
 				4632E47C2B6B64170048782D /* SHPEito.swift in Sources */,
@@ -599,6 +606,7 @@
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				46909E3E2B9693A500E99274 /* GetUserPointsQuery.graphql.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
@@ -778,7 +786,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = KMRDDYUCK6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
@@ -809,7 +817,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 4KV2SNV228;
+				DEVELOPMENT_TEAM = KMRDDYUCK6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
