@@ -55,11 +55,6 @@
 		95D370A12B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370A02B6473D300B2C5A4 /* SignIn.graphql.swift */; };
 		95D370A22B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370A02B6473D300B2C5A4 /* SignIn.graphql.swift */; };
 		95D370A32B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370A02B6473D300B2C5A4 /* SignIn.graphql.swift */; };
-		95D3712C2B6C590A00B2C5A4 /* GoogleAPIClientForRESTCore in Frameworks */ = {isa = PBXBuildFile; productRef = 95D3712B2B6C590A00B2C5A4 /* GoogleAPIClientForRESTCore */; };
-		95D3712E2B6C590A00B2C5A4 /* GoogleAPIClientForREST_ACMEDNS in Frameworks */ = {isa = PBXBuildFile; productRef = 95D3712D2B6C590A00B2C5A4 /* GoogleAPIClientForREST_ACMEDNS */; };
-		95D371302B6C590A00B2C5A4 /* GoogleAPIClientForREST_AIPlatformNotebooks in Frameworks */ = {isa = PBXBuildFile; productRef = 95D3712F2B6C590A00B2C5A4 /* GoogleAPIClientForREST_AIPlatformNotebooks */; };
-		95D371322B6C590A00B2C5A4 /* GoogleAPIClientForREST_APIGateway in Frameworks */ = {isa = PBXBuildFile; productRef = 95D371312B6C590A00B2C5A4 /* GoogleAPIClientForREST_APIGateway */; };
-		95D371342B6C590A00B2C5A4 /* GoogleAPIClientForREST_AbusiveExperienceReport in Frameworks */ = {isa = PBXBuildFile; productRef = 95D371332B6C590A00B2C5A4 /* GoogleAPIClientForREST_AbusiveExperienceReport */; };
 		95D3714B2B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D371382B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift */; };
 		95D3714C2B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D371382B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift */; };
 		95D3714D2B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D371382B6C5C0C00B2C5A4 /* RedeemPointsMutation.graphql.swift */; };
@@ -174,12 +169,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95D3712C2B6C590A00B2C5A4 /* GoogleAPIClientForRESTCore in Frameworks */,
-				95D371342B6C590A00B2C5A4 /* GoogleAPIClientForREST_AbusiveExperienceReport in Frameworks */,
-				95D371322B6C590A00B2C5A4 /* GoogleAPIClientForREST_APIGateway in Frameworks */,
 				958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */,
-				95D3712E2B6C590A00B2C5A4 /* GoogleAPIClientForREST_ACMEDNS in Frameworks */,
-				95D371302B6C590A00B2C5A4 /* GoogleAPIClientForREST_AIPlatformNotebooks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,11 +449,6 @@
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
 				958A5DC22B584C8400D1BAE4 /* Apollo */,
-				95D3712B2B6C590A00B2C5A4 /* GoogleAPIClientForRESTCore */,
-				95D3712D2B6C590A00B2C5A4 /* GoogleAPIClientForREST_ACMEDNS */,
-				95D3712F2B6C590A00B2C5A4 /* GoogleAPIClientForREST_AIPlatformNotebooks */,
-				95D371312B6C590A00B2C5A4 /* GoogleAPIClientForREST_APIGateway */,
-				95D371332B6C590A00B2C5A4 /* GoogleAPIClientForREST_AbusiveExperienceReport */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -539,7 +524,6 @@
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
 				958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */,
-				95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -1000,14 +984,6 @@
 				minimumVersion = 1.8.0;
 			};
 		};
-		95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/google/google-api-objectivec-client-for-rest.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1015,31 +991,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
-		};
-		95D3712B2B6C590A00B2C5A4 /* GoogleAPIClientForRESTCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */;
-			productName = GoogleAPIClientForRESTCore;
-		};
-		95D3712D2B6C590A00B2C5A4 /* GoogleAPIClientForREST_ACMEDNS */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */;
-			productName = GoogleAPIClientForREST_ACMEDNS;
-		};
-		95D3712F2B6C590A00B2C5A4 /* GoogleAPIClientForREST_AIPlatformNotebooks */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */;
-			productName = GoogleAPIClientForREST_AIPlatformNotebooks;
-		};
-		95D371312B6C590A00B2C5A4 /* GoogleAPIClientForREST_APIGateway */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */;
-			productName = GoogleAPIClientForREST_APIGateway;
-		};
-		95D371332B6C590A00B2C5A4 /* GoogleAPIClientForREST_AbusiveExperienceReport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 95D3712A2B6C590900B2C5A4 /* XCRemoteSwiftPackageReference "google-api-objectivec-client-for-rest" */;
-			productName = GoogleAPIClientForREST_AbusiveExperienceReport;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
