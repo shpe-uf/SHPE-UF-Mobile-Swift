@@ -16,7 +16,7 @@ final class PointsViewModel:ObservableObject {
     private var requestHandler = RequestHandler()
 
     // Out of View variables (Models)
-    @Published var shpeito:SHPEito
+    @Published var shpeito: SHPEito
     
     // Initialize PointsViewModel
     init(shpeito: SHPEito) {
@@ -30,10 +30,12 @@ final class PointsViewModel:ObservableObject {
         self.springPoints = shpeito.springPoints
         self.summerPoints = shpeito.summerPoints
         self.username = shpeito.username
+        self.id = shpeito.id
         
         setShpeitoPoints()
         setShpeitoPercentiles()
         getShpeitoPoints()
+        getUserEvents()
         
     }
     
@@ -47,6 +49,7 @@ final class PointsViewModel:ObservableObject {
     @Published var springPoints : Int
     @Published var summerPoints : Int
     @Published var username : String
+    @Published var id : String
 
     
     // Methods to call in View
@@ -81,7 +84,7 @@ final class PointsViewModel:ObservableObject {
     
     func setShpeitoPercentiles()
     {
-        requestHandler.getPercentiles(userId: shpeito.id) { data in
+        requestHandler.getPercentiles(userId: self.id) { data in
             // Check that no error was detected
             if data["error"] == nil
             {
@@ -91,6 +94,7 @@ final class PointsViewModel:ObservableObject {
                    let summerPercentile = data["summerPercentile"] as? Int
                 {
                     print("Success!")
+                    print(data)
                     // Do something with the data
                     self.shpeito.fallPercentile = fallPercentile //Update the model
                     self.shpeito.springPercentile = springPercentile
@@ -116,7 +120,7 @@ final class PointsViewModel:ObservableObject {
     
     func getShpeitoPoints()
     {
-        requestHandler.getPoints(userId: shpeito.id) { data in
+        requestHandler.getPoints(userId: self.id) { data in
             // Check that no error was detected
             if data["error"] == nil
             {
@@ -177,6 +181,39 @@ final class PointsViewModel:ObservableObject {
                     self.summerPoints = summerPoints
                     
                     
+                }
+                else
+                {
+                    // Handle missing data error
+                    print("Incorrect data")
+                }
+            }
+            else
+            {
+                // Handle error response
+                print(data["error"]!)
+            }
+        }
+    }
+    
+    func getUserEvents()
+    {
+        
+        print("HERE!")
+        
+        requestHandler.getUserEvents(userId: self.id) { data in
+            // Check that no error was detected
+            if data["error"] == nil
+            {
+                // Check if all the data is there and is the correct Type
+                if let event = data["events"] as? [UserEvent],
+                   let eventbyCategory = data["eventsByCategory"] as? [String: [UserEvent]]
+                {
+                    print("Success!")
+                    // Do something with the data\
+                    
+                    print(data)
+                   
                 }
                 else
                 {
