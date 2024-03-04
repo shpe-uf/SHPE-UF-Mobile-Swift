@@ -113,16 +113,22 @@ struct ReedemView: View {
 #Preview {
     ReedemView(vm: PointsViewModel(shpeito:
                                     SHPEito(
-                                        id: "5f595bc16b307400179595ab",
-                                        name: "David Denis",
-                                        points: 0,
-                                        fallPercentile: 0,
-                                        springPercentile: 0,
-                                        summerPercentile: 0,
-                                        fallPoints: 0,
-                                        springPoints: 0,
-                                        summerPoints: 0,
-                                        username: "denis_david"
-                                    )
+                                        username: "dvera0322",
+                                            password: "",
+                                            remember: "true",
+                                            photo: "",
+                                            firstName: "David",
+                                            lastName: "Vera",
+                                            year: "2",
+                                            major: "Computer Science",
+                                            id: "",
+                                            token: "",
+                                            confirmed: true,
+                                            updatedAt: "",
+                                            createdAt: "",
+                                            email: "david.vera@ufl.edu",
+                                            fallPoints: 2,
+                                            summerPoints: 2,
+                                            springPoints: 2)
                                   ))
 }
