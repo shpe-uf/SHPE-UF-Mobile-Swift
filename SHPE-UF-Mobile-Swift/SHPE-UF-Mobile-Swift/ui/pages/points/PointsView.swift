@@ -13,7 +13,7 @@ struct PointsView: View {
     
     @State private var redeem = false;
     
-    // REFACTOR
+    // GRADIENTS FOR POINTSUI
     
     var fallGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
                                                                Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 1.00)],
@@ -29,6 +29,8 @@ struct PointsView: View {
                                                                  Gradient.Stop(color: Color(red: 0.52, green: 0.8, blue: 1), location: 1.00)],
                                                          startPoint: UnitPoint(x: 0.5, y: 0),
                                                          endPoint: UnitPoint(x: 0.5, y: 1))
+    
+    // EVENT TYPES
     
     let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Miscellaneous", "Corporate Event", "Social"]
     
@@ -162,7 +164,7 @@ struct PointsView: View {
                                             lastName: "Denis",
                                             year: "2",
                                             major: "Computer Science",
-                                            id: "642f7f80e8839f0014e8be9b",
+                                            id: "650382bf8bda46001440b46e",
                                             token: "",
                                             confirmed: true,
                                             updatedAt: "",

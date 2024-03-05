@@ -12,8 +12,8 @@ struct CircularProgessView: View {
    
     var progress: Double
     
-    
     @State private var drawingStroke = false
+    
     let animation = Animation
             .easeOut(duration: 3)
             .delay(0.5)
@@ -34,7 +34,7 @@ struct CircularProgessView: View {
         .rotationEffect(Angle(degrees: -90))
         .frame(width: 250, height: 250)
         .padding()
-        .animation(.smooth(duration: 2.5), value: drawingStroke)
+        .animation(animation, value: drawingStroke)
         .onAppear {
             drawingStroke.toggle()
     
