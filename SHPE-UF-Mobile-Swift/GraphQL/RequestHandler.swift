@@ -273,7 +273,7 @@ class RequestHandler
                       }
                       else
                       {
-                          return UserEvent(name: "", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                          return UserEvent(name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
                       }
                   })
             else

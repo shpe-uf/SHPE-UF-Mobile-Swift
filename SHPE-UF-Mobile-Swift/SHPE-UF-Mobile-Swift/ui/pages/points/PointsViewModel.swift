@@ -162,7 +162,9 @@ final class PointsViewModel:ObservableObject {
         
         requestHandler.redeemPoints(code: code, username: shpeito.username, guests: guests) { data in
             
+            print(self.username)
             print(data)
+            
             
             // Check that no error was detected
             if data["error"] == nil
