@@ -20,6 +20,8 @@ struct NotificationView: View {
     // A flag to manage notification permissions for all event types
     @State private var allowForAll = false
     
+    @ObservedObject var viewNotificationModel = NotificationViewModel()
+    
     var body: some View {
         // Stack the views vertically with spacing
         VStack(spacing: 20){
@@ -64,6 +66,11 @@ struct NotificationView: View {
                         VStack(spacing: 20) {
                             Button(action: {
                                 isGBMSelected.toggle()
+                                if isGBMSelected {
+                                    viewNotificationModel.turnOnEventNotification(eventType: "GBM")
+                                } else {
+                                    viewNotificationModel.turnOffEventNotification(eventType: "GBM")
+                                }
                             }) {
                                 ZStack {
                                     Image(isGBMSelected ? "Ellipse_selected" : "Ellipse")
@@ -82,6 +89,11 @@ struct NotificationView: View {
                         VStack {
                             Button(action: {
                                 isInfoSelected.toggle()
+                                if isInfoSelected {
+                                    viewNotificationModel.turnOnEventNotification(eventType: "Info")
+                                } else {
+                                    viewNotificationModel.turnOffEventNotification(eventType: "Info")
+                                }
                             }) {
                                 ZStack {
                                     Image(isInfoSelected ? "Ellipse_selected" : "Ellipse")
@@ -103,6 +115,11 @@ struct NotificationView: View {
                         VStack(spacing: 20) {
                             Button(action: {
                                 isWorkShopSelected.toggle()
+                                if isWorkShopSelected {
+                                    viewNotificationModel.turnOnEventNotification(eventType: "Workshop")
+                                } else {
+                                    viewNotificationModel.turnOffEventNotification(eventType: "Workshop")
+                                }
                             }) {
                                 ZStack {
                                     Image(isWorkShopSelected ? "Ellipse_selected" : "Ellipse")
@@ -125,6 +142,11 @@ struct NotificationView: View {
                         VStack{
                             Button(action: {
                                 isVolunteeringSelected.toggle()
+                                if isVolunteeringSelected {
+                                    viewNotificationModel.turnOnEventNotification(eventType: "Volunteering")
+                                } else {
+                                    viewNotificationModel.turnOffEventNotification(eventType: "Volunteering")
+                                }
                             }) {
                                 ZStack{
                                     Image(isVolunteeringSelected ? "Ellipse_selected" : "Ellipse")
@@ -143,6 +165,11 @@ struct NotificationView: View {
                         VStack{
                             Button(action: {
                                 isSocialSelected.toggle()
+                                if isSocialSelected {
+                                    viewNotificationModel.turnOnEventNotification(eventType: "Social")
+                                } else {
+                                    viewNotificationModel.turnOffEventNotification(eventType: "Social")
+                                }
                             }) {
                                 ZStack{
                                     Image(isSocialSelected ? "Ellipse_selected" : "Ellipse")
@@ -170,6 +197,19 @@ struct NotificationView: View {
                        isWorkShopSelected = allowForAll
                        isVolunteeringSelected  = allowForAll
                        isSocialSelected = allowForAll
+                        if allowForAll {
+                            viewNotificationModel.turnOnEventNotification(eventType: "GBM")
+                            viewNotificationModel.turnOnEventNotification(eventType: "Info")
+                            viewNotificationModel.turnOnEventNotification(eventType: "Workshop")
+                            viewNotificationModel.turnOnEventNotification(eventType: "Volunteering")
+                            viewNotificationModel.turnOnEventNotification(eventType: "Social")
+                        } else {
+                            viewNotificationModel.turnOffEventNotification(eventType: "GBM")
+                            viewNotificationModel.turnOffEventNotification(eventType: "Info")
+                            viewNotificationModel.turnOffEventNotification(eventType: "Workshop")
+                            viewNotificationModel.turnOffEventNotification(eventType: "Volunteering")
+                            viewNotificationModel.turnOffEventNotification(eventType: "Social")
+                        }
                             
                     }){
                        ZStack{
