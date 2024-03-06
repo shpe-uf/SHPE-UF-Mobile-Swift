@@ -228,6 +228,10 @@ struct NotificationView: View {
                 }
             }
         }
+        .onAppear {
+            // Check for notification permission when the view appears
+            viewNotificationModel.checkForPermission()
+        }
         .background(Constants.BackgroundColor) // Set the background color for the view
         .edgesIgnoringSafeArea(.all) // Ignore the safe area to extend to the edges
         .navigationBarHidden(true) // Hide the navigation bar for this view
