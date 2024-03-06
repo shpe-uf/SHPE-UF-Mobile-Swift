@@ -25,10 +25,14 @@ final class HomeViewModel: ObservableObject {
             DispatchQueue.main.async {
                 if success {
                     // Sort the events by their start dates
-                    let sortedEvents = events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
+                    var sortedEvents = events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
                     // Update the events property with the sorted events
                     self?.events = sortedEvents
                     self?.updateEventTypes()
+                    self?.expandMultiDayEvents()
+                    
+                    sortedEvents = self?.events.sorted(by: { $0.start.dateTime < $1.start.dateTime }) ?? []
+                    self?.events = sortedEvents
                 } else {
                     // Handle error condition
                     print("Error fetching events: \(error)")
@@ -58,5 +62,45 @@ final class HomeViewModel: ObservableObject {
                 }
                 
             }
+    }
+    private func expandMultiDayEvents() {
+        var expandedEvents: [Event] = []
+        
+        for event in events {
+            let numberOfDays = Calendar.current.dateComponents([.day], from: event.start.dateTime, to: event.end.dateTime).day ?? 1
+            
+            if numberOfDays > 1 {
+                for dayOffset in 0..<numberOfDays {
+                    if let newStartDateTime = Calendar.current.date(byAdding: .day, value: dayOffset, to: event.start.dateTime),
+                       let newEndDateTime = Calendar.current.date(byAdding: .day, value: dayOffset, to: event.end.dateTime) {
+                       
+                        let newEvent = Event(created: event.created,
+                                             creator: event.creator,
+                                             end: EventDateTime(dateTime: newEndDateTime, timeZone: event.end.timeZone),
+                                             etag: event.etag,
+                                             eventType: event.eventType,
+                                             htmlLink: event.htmlLink,
+                                             iCalUID: event.iCalUID,
+                                             id: event.id,
+                                             kind: event.kind,
+                                             organizer: event.organizer,
+                                             sequence: event.sequence,
+                                             start: EventDateTime(dateTime: newStartDateTime, timeZone: event.start.timeZone),
+                                             status: event.status,
+                                             summary: event.summary,
+                                             updated: event.updated,
+                                             location: event.location)
+         
+                        expandedEvents.append(newEvent)
+                    }
+                }
+            } else {
+             
+                expandedEvents.append(event)
+            }
+        }
+        
+        // Update the events property with the expanded events
+        events = expandedEvents
     }
 }
