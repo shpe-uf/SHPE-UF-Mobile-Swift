@@ -25,7 +25,7 @@ struct NotificationView: View {
         VStack(spacing: 20){
             // Use a ZStack for layering the background and button horizontally
             ZStack{
-                Constants.Orange
+                Constants.orange
                     .frame(height: 93)
                 HStack{
                     Button {
@@ -174,7 +174,7 @@ struct NotificationView: View {
                     }){
                        ZStack{
                            Rectangle()
-                               .foregroundColor(allowForAll ? Color(red: 0.58, green: 0.22, blue: 0.08) : Constants.Orange)
+                               .foregroundColor(allowForAll ? Color(red: 0.58, green: 0.22, blue: 0.08) : Constants.orange)
                                .frame(width: 254, height: 41)
                                .cornerRadius(30)
                            Text("Allow for all")
