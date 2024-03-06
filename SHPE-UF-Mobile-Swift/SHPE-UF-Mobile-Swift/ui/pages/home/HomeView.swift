@@ -13,13 +13,13 @@ struct Constants {
     static let DescriptionHeaderColor: Color = Color(red: 0, green: 0.12, blue: 0.21)
     static let NotificationsSelectIcon: Color = Color(red: 0.72, green: 0.72, blue: 0.72)
     static let DescriptionTextColor: Color = Color(red: 0.25, green: 0.25, blue: 0.25)
-    static let Orange: Color = Color(red: 0.82, green: 0.35, blue: 0.09)
     static let DashedLineColor: Color = .black
     static let DayTextColor: Color = Color(red: 0.42, green: 0.42, blue: 0.42)
     static let DayNumberTextColor: Color = Color(red: 0.26, green: 0.26, blue: 0.26)
+    static let orange: Color = Color(red: 0.82, green: 0.35, blue: 0.09)
     static let teal: Color = Color(red: 0.26, green: 0.46, blue: 0.48)
+    static let blue :Color = Color(red: 0, green: 0.44, blue: 0.76)
     static let grey: Color = Color(red: 0.23, green: 0.23, blue: 0.23)
-    static let red : Color = Color(red: 0.63, green: 0, blue: 0)
     static let green : Color = Color(red: 0.17, green: 0.34, blue: 0.09)
     static let yellow : Color = Color(red: 0.69, green: 0.54, blue: 0)
     static let pink : Color = Color(red: 0.75, green: 0.29, blue: 0.51)
@@ -78,7 +78,7 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 // Orange Bar at the top of the screen with Month and Button
                 ZStack {
-                    Constants.Orange
+                    Constants.orange
                         .frame(height: 93)
                     HStack(spacing: 20) {
                         Text(dateHelper.getCurrentMonth())
@@ -157,18 +157,19 @@ struct HomeView: View {
                                 //Dashed Line
                                 
                                 if index != viewModel.events.indices.last && !sameDay(viewModel.events[index], viewModel.events[index + 1]) {
-                                                                    Rectangle()
-                                                                        .frame(width: 301, height: 1)
-                                                                        .foregroundColor(.clear)
-                                                                        .overlay(
-                                                                            RoundedRectangle(cornerRadius: 1)
-                                                                                .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                                                                .foregroundColor(Constants.DashedLineColor)
-                                                                        )
+                                    Rectangle()
+                                        .frame(width: 301, height: 1)
+                                        .foregroundColor(.clear)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 1)
+                                                .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                .foregroundColor(Constants.DashedLineColor)
+                                        )
                                 }   
 
                             }
                         }
+                        .padding(.bottom, 100) 
                         .padding()
                         .frame(maxWidth: .infinity)
                     }
@@ -204,7 +205,7 @@ struct eventInfo: View{
         // For the date of the event
         let startdateString = dateHelper.getDayFull(for: event.start.dateTime)
         
-        let (iconImage) = eventTypeVariables(event: event)
+        let (iconImage,eventImage) = eventTypeVariables(event: event)
         ZStack {
             VStack{
                 Rectangle()
@@ -212,7 +213,7 @@ struct eventInfo: View{
                 .frame(width: 466, height: 273)
                 .background(
                 //Dummy Image that needs to have more images
-                Image("GBMimage")
+                Image(eventImage)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: 466, height: 273,alignment: .topLeading)
@@ -248,14 +249,15 @@ struct eventInfo: View{
                     .background(Constants.BackgroundColor)
                     .cornerRadius(20)
                     VStack{
-                        Spacer()
+                        Spacer(minLength: 75)
                         HStack{
                             Text(event.summary)
                             .bold()
                             .font(Font.custom("Viga", size: 32))
-                            .foregroundColor(Constants.Orange)
-
-                            .frame(width: 213, height: 120, alignment: .topLeading)
+                            .foregroundColor(Constants.orange)
+                            .frame(width:270, alignment: .topLeading)
+                            .lineLimit(3)
+//                            .padding(.trailing, 10)
                             Rectangle()
                             .foregroundColor(.clear)
                             .frame(width: 37, height: 37)
@@ -265,8 +267,9 @@ struct eventInfo: View{
                             .aspectRatio(contentMode: .fit)
                             )
                         }
-                        .frame(width: 300, alignment: .leading)
-                        Spacer()
+                        .frame(height: 130, alignment: .leading)
+                        .padding(.horizontal, 20)
+                        Spacer(minLength: 10)
                         HStack(spacing: 20){
                             
                             Rectangle()
@@ -310,23 +313,25 @@ struct eventInfo: View{
                                 .aspectRatio(contentMode: .fit)
                             )
                             //Dummy section, Location is not defined in google calendar
-                            Text(String(event.location ?? "Reitz"))
+                            Text(String(event.location ?? "Reitz Union Ballroom"))
                               .font(Font.custom("UniversLTStd", size: 18))
                               .foregroundColor(Constants.DescriptionTextColor)
                     
                         }
                         .frame(width: 300, alignment: .leading)
-                        Spacer()
+                        Spacer(minLength: 60)
                         Text("Description:")
                         .font(Font.custom("UniversLTStd", size: 18))
                         .foregroundColor(Constants.DescriptionHeaderColor)
                         .frame(width: 300, alignment: .leading)
+                        .padding(10)
                         //Dummy  description
                         Text("Join us for our 1st Spring GBM next Wednesday for exciting annoucements, upcoming events, and free food!")
                           .font(Font.custom("UniversLTStd", size: 18))
                           .foregroundColor(Constants.DescriptionTextColor)
-                          .frame(width: 297, alignment: .topLeading)
-                        Spacer()
+                          .frame(width: 297,height: 200, alignment: .topLeading)
+                       
+                        Spacer(minLength: 30)
                     }
                 }
                 
@@ -341,20 +346,20 @@ struct eventInfo: View{
     }
     //Need the other orange icons
     //Dummy icons
-    func eventTypeVariables(event: Event) -> (String) {
+    func eventTypeVariables(event: Event) -> (String , String) {
             switch event.eventType {
             case "GBM":
-                return ( "iconGBM_Full")
+                return ( "iconGBM_Full" , "GBMimage")
             case "Workshop":
-                return ("iconWorkShop_Full")
+                return ("iconWorkShop_Full", "workShopImage")
             case "Social":
-                return ("iconSocial_Full")
+                return ("iconSocial_Full", "socialImage")
             case "Volunteering":
-                return ("Volunteering")
+                return ("iconVolunteering_full", "volunteeringImage")
             case "Info":
-                return ("Info")
+                return ("iconInfo_full","infoImage")
             default:
-                return ("Business_Group")
+                return ("Business_Group", "GBMimage")
             }
         }
     
@@ -514,9 +519,9 @@ struct RectangleBox: View {
             case "GBM":
                 return (Constants.grey, "Business_Group")
             case "Workshop":
-                return (Constants.yellow, "Training")
+                return (Constants.orange, "Training")
             case "Social":
-                return (Constants.red, "Users")
+                return (Constants.blue, "Users")
             case "Volunteering":
                 return (Constants.green, "Volunteering")
             case "Info":

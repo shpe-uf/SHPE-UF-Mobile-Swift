@@ -221,13 +221,13 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
-				B8EF26FE2B8FB40B00F98FA2 /* Info.plist */,
 				20CF4A1C2AE7423400916EC6 /* data */,
 				20CF4A1D2AE7424100916EC6 /* ui */,
 				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
 				206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */,
 				B8EF26FB2B8FB07000F98FA2 /* Font */,
 				206C8F792AE182020081A35A /* Assets.xcassets */,
+				B8EF26FE2B8FB40B00F98FA2 /* Info.plist */,
 				206C8F7B2AE182020081A35A /* Preview Content */,
 			);
 			path = "SHPE-UF-Mobile-Swift";
