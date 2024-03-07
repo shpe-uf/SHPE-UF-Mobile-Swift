@@ -4,7 +4,7 @@ import SwiftUI
 
 struct Constants {
     static let BackgroundColor: Color = Color(red: 0.93, green: 0.93, blue: 0.93) // Default background color
-    static let darkModeBackground: Color = Color(red: 0, green: 0, blue: 0.2) // Dark blue for dark mode
+    static let darkModeBackground: Color = Color(red: 0, green: 0.12, blue: 0.21) // Dark blue for dark mode
     static let DescriptionHeaderColor: Color = Color(red: 0, green: 0.12, blue: 0.21) // Color for headers in descriptions
     static let lightTextColor: Color = Color.white // Text color for dark mode
     static let NotificationsSelectIcon: Color = Color(red: 0.72, green: 0.72, blue: 0.72) // Color for notification icons
@@ -140,14 +140,20 @@ struct HomeView: View {
                                 
                                 // Dashed line separator for events on different days
                                 if index != viewModel.events.indices.last && !sameDay(viewModel.events[index], viewModel.events[index + 1]) {
-                                    Rectangle()
-                                        .frame(width: 301, height: 1)
-                                        .foregroundColor(.clear)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 1)
-                                                .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
-                                        )
+                                    HStack{
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: 39, height: 1, alignment: .top)
+                                        Rectangle()
+                                            .frame(width: 301, height: 1, alignment: .center)
+                                            .foregroundColor(.clear)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 1)
+                                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
+                                            )
+                                    }
+                                    
                                 }
                             }
                         }
@@ -174,7 +180,7 @@ struct HomeView: View {
 struct eventInfo: View {
     var event: Event // The event to display information for
     @Environment(\.presentationMode) var presentationMode // For dismissing the view
-    
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         let dateHelper = DateHelper()
         let startTimeString = dateHelper.getTime(for: event.start.dateTime) // Event start time
@@ -220,7 +226,7 @@ struct eventInfo: View {
                     Rectangle()
                     .foregroundColor(.clear)
                     .frame(width: 393, height: 550)
-                    .background(Constants.BackgroundColor)
+                    .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                     .cornerRadius(20)
                     VStack{
                         Spacer(minLength: 75)
@@ -256,7 +262,7 @@ struct eventInfo: View {
                                 )
                             Text(startdateString)
                                 .font(Font.custom("UniversLTStd", size: 18))
-                                .foregroundColor(Constants.DescriptionTextColor)
+                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
                         
@@ -272,11 +278,11 @@ struct eventInfo: View {
                                 )
                             Text("\(startTimeString) - \(endTimeString)")
                                 .font(Font.custom("UniversLTStd", size: 18))
-                                .foregroundColor(Constants.DescriptionTextColor)
+                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
                        
-                        // Event location (dummy for demonstration)
+                        // Event location 
                         HStack(spacing: 20){
                             Rectangle()
                             .foregroundColor(.clear)
@@ -288,20 +294,20 @@ struct eventInfo: View {
                             )
                             Text(String(event.location ?? "Reitz Union Ballroom"))
                               .font(Font.custom("UniversLTStd", size: 18))
-                              .foregroundColor(Constants.DescriptionTextColor)
+                              .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
                         Spacer(minLength: 60)
                         // Event description header
                         Text("Description:")
                         .font(Font.custom("UniversLTStd", size: 18))
-                        .foregroundColor(Constants.DescriptionHeaderColor)
+                        .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
                         .frame(width: 300, alignment: .leading)
                         .padding(10)
                         // Event description text
                         Text("Join us for our 1st Spring GBM next Wednesday for exciting announcements, upcoming events, and free food!")
                           .font(Font.custom("UniversLTStd", size: 18))
-                          .foregroundColor(Constants.DescriptionTextColor)
+                          .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                           .frame(width: 297,height: 200, alignment: .topLeading)
                        
                         Spacer(minLength: 30)
@@ -310,7 +316,7 @@ struct eventInfo: View {
             }
         }
         .frame(width: 393, height: 852)
-        .background(Constants.BackgroundColor)
+        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .edgesIgnoringSafeArea(.all)
         .navigationBarHidden(true)
         
@@ -346,10 +352,7 @@ struct RectangleBox: View {
         let endTimeString = dateHelper.getTime(for: event.end.dateTime)
         let startdateString = dateHelper.getDayFull(for: event.start.dateTime)
         let (color, iconImage) = eventTypeVariables(event: event)
-        
-        // Use the colorScheme to determine text and icon colors
-        let textColor = colorScheme == .dark ? Constants.lightTextColor : Color.white
-        let iconName = colorScheme == .dark ? iconImage + "_white" : iconImage
+
         
         if startTimeString == endTimeString {
                
@@ -501,15 +504,6 @@ struct RectangleBox: View {
    
 }
 
-
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-            .preferredColorScheme(.light) // For light mode preview
-        HomeView()
-            .preferredColorScheme(.dark) // For dark mode preview
-    }
-}
 
 #Preview {
     HomeView()
