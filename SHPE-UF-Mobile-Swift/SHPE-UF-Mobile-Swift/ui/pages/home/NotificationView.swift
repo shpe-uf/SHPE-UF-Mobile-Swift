@@ -1,4 +1,5 @@
-//
+//Notification View
+
 //  NotificationView.swift
 //  SHPE-UF-Mobile-Swift
 //  Created by Matthew Segura on 2/15/24.
@@ -9,6 +10,7 @@ import SwiftUI
 struct NotificationView: View {
     // Manage the presentation state of the view
     @Environment(\.presentationMode) var presentationMode
+    @Environment(\.colorScheme) var colorScheme
     
     // State variables to track which event types are selected for notifications
     @State private var isGBMSelected = false
@@ -22,12 +24,26 @@ struct NotificationView: View {
     
     @ObservedObject var viewNotificationModel = NotificationViewModel()
     
+    // Adjust text color for dark mode
+    var textColor: Color {
+        colorScheme == .dark ? .white : Constants.DescriptionTextColor
+    }
+    
+    // Adjust circle and background colors for dark mode
+    var circleColor: Color {
+        colorScheme == .dark ? .black : Color.gray
+    }
+    
+    var backgroundColor: Color {
+        colorScheme == .dark ? Color(red: 0, green: 0, blue: 0.55) : Constants.BackgroundColor
+    }
+    
     var body: some View {
         // Stack the views vertically with spacing
         VStack(spacing: 20){
             // Use a ZStack for layering the background and button horizontally
             ZStack{
-                Constants.orange
+                backgroundColor
                     .frame(height: 93)
                 HStack{
                     Button {
@@ -57,133 +73,21 @@ struct NotificationView: View {
                     Text("Tap an event to get notifications")
                         .font(Font.custom("Viga", size: 20))
                         .multilineTextAlignment(.center)
-                        .foregroundColor(Constants.DescriptionHeaderColor)
+                        .foregroundColor(textColor)
                         .frame(height: 50, alignment: .bottomLeading)
                     
                     // Horizontal stack for event type buttons
                     HStack(spacing: 30) {
-                        // General Body Meetings (GBM) button and label
-                        VStack(spacing: 20) {
-                            Button(action: {
-                                isGBMSelected.toggle()
-                                if isGBMSelected {
-                                    viewNotificationModel.turnOnEventNotification(eventType: "GBM")
-                                } else {
-                                    viewNotificationModel.turnOffEventNotification(eventType: "GBM")
-                                }
-                            }) {
-                                ZStack {
-                                    Image(isGBMSelected ? "Ellipse_selected" : "Ellipse")
-                                        .frame(width: 92, height: 90)
-                                    Image("Business_Group")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 42, height: 42)
-                                }
-                            }
-                            Text("GBMs")
-                                .font(Font.custom("UniversLTStd", size: 16))
-                                .foregroundColor(Constants.DescriptionTextColor)
-                        }
-                        // Info Sessions button and labels
-                        VStack {
-                            Button(action: {
-                                isInfoSelected.toggle()
-                                if isInfoSelected {
-                                    viewNotificationModel.turnOnEventNotification(eventType: "Info")
-                                } else {
-                                    viewNotificationModel.turnOffEventNotification(eventType: "Info")
-                                }
-                            }) {
-                                ZStack {
-                                    Image(isInfoSelected ? "Ellipse_selected" : "Ellipse")
-                                        .frame(width: 92, height: 90)
-                                    Image("Info")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 42, height: 42)
-                                }
-                            }
-                            Text("Info")
-                                .font(Font.custom("UniversLTStd", size: 16))
-                                .foregroundColor(Constants.DescriptionTextColor)
-                            Text("Sessions")
-                                .font(Font.custom("UniversLTStd", size: 16))
-                                .foregroundColor(Constants.DescriptionTextColor)
-                        }
-                        // Workshops button and label
-                        VStack(spacing: 20) {
-                            Button(action: {
-                                isWorkShopSelected.toggle()
-                                if isWorkShopSelected {
-                                    viewNotificationModel.turnOnEventNotification(eventType: "Workshop")
-                                } else {
-                                    viewNotificationModel.turnOffEventNotification(eventType: "Workshop")
-                                }
-                            }) {
-                                ZStack {
-                                    Image(isWorkShopSelected ? "Ellipse_selected" : "Ellipse")
-                                        .frame(width: 92, height: 90)
-                                    Image("Training")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 42, height: 42)
-                                }
-                            }
-                            Text("Workshops")
-                                .font(Font.custom("Univers LT Std", size: 16))
-                                .foregroundColor(Constants.DescriptionTextColor)
-                        }
+                        // Each event type button with its corresponding label and icon
+                        eventButtonSection(eventName: "GBM", eventIcon: "Business_Group", isSelected: $isGBMSelected)
+                        eventButtonSection(eventName: "Info Sessions", eventIcon: "Info", isSelected: $isInfoSelected)
+                        eventButtonSection(eventName: "Workshops", eventIcon: "Training", isSelected: $isWorkShopSelected)
                     }
                     
                     // Horizontal stack for Volunteering and Socials buttons
                     HStack(spacing: 30){
-                        // Volunteering button with label
-                        VStack{
-                            Button(action: {
-                                isVolunteeringSelected.toggle()
-                                if isVolunteeringSelected {
-                                    viewNotificationModel.turnOnEventNotification(eventType: "Volunteering")
-                                } else {
-                                    viewNotificationModel.turnOffEventNotification(eventType: "Volunteering")
-                                }
-                            }) {
-                                ZStack{
-                                    Image(isVolunteeringSelected ? "Ellipse_selected" : "Ellipse")
-                                        .frame(width: 92, height: 90)
-                                    Image("Volunteering")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 42, height: 42)
-                                }
-                            }
-                            Text("Volunteering")
-                                .font(Font.custom("UniversLTStd", size: 16))
-                                .foregroundColor(Constants.DescriptionTextColor)
-                        }
-                        // Socials button with label
-                        VStack{
-                            Button(action: {
-                                isSocialSelected.toggle()
-                                if isSocialSelected {
-                                    viewNotificationModel.turnOnEventNotification(eventType: "Social")
-                                } else {
-                                    viewNotificationModel.turnOffEventNotification(eventType: "Social")
-                                }
-                            }) {
-                                ZStack{
-                                    Image(isSocialSelected ? "Ellipse_selected" : "Ellipse")
-                                        .frame(width: 92, height: 90)
-                                    Image("Users")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 42, height: 42)
-                                }
-                            }
-                            Text("Socials")
-                                .font(Font.custom("UniversLTStd", size: 16))
-                                .foregroundColor(Constants.DescriptionTextColor)
-                        }
+                        eventButtonSection(eventName: "Volunteering", eventIcon: "Volunteering", isSelected: $isVolunteeringSelected)
+                        eventButtonSection(eventName: "Socials", eventIcon: "Users", isSelected: $isSocialSelected)
                     }
 
                     Spacer()
@@ -232,13 +136,44 @@ struct NotificationView: View {
             // Check for notification permission when the view appears
             viewNotificationModel.checkForPermission()
         }
-        .background(Constants.BackgroundColor) // Set the background color for the view
+        .background(backgroundColor)
         .edgesIgnoringSafeArea(.all) // Ignore the safe area to extend to the edges
         .navigationBarHidden(true) // Hide the navigation bar for this view
     }
+
+    // Helper function for creating button sections
+    private func eventButtonSection(eventName: String, eventIcon: String, isSelected: Binding<Bool>) -> some View {
+        VStack(spacing: 20) {
+            Button(action: {
+                isSelected.wrappedValue.toggle()
+                if isSelected.wrappedValue {
+                    viewNotificationModel.turnOnEventNotification(eventType: eventName)
+                } else {
+                    viewNotificationModel.turnOffEventNotification(eventType: eventName)
+                }
+            }) {
+                ZStack {
+                    Image(isSelected.wrappedValue ? "Ellipse_selected" : "Ellipse")
+                        .frame(width: 92, height: 90)
+                        .foregroundColor(circleColor) // Adjusted for dark mode
+                    Image(eventIcon)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 42, height: 42)
+                }
+            }
+            Text(eventName)
+                .font(Font.custom("UniversLTStd", size: 16))
+                .foregroundColor(textColor)
+        }
+    }
 }
 
-//Preview of the NotificationView
-#Preview {
-    NotificationView()
+struct NotificationView_Previews: PreviewProvider {
+    static var previews: some View {
+        NotificationView()
+            .preferredColorScheme(.light) // For light mode preview
+        NotificationView()
+            .preferredColorScheme(.dark) // For dark mode preview
+    }
 }
