@@ -1,40 +1,60 @@
-//
-//  HomePageContentView.swift
-//  SHPE-UF-Mobile-Swift
-//
-//  Created by Matthew Segura on 2/8/24.
-//
+//HOMEPAGE
 
 import SwiftUI
 
-struct HomePageContentView: View{
-    init() {
-           // Customize the appearance of the tab bar
-        UITabBar.appearance().barTintColor = UIColor(Constants.BackgroundColor)
-           UITabBar.appearance().backgroundColor = UIColor(Constants.BackgroundColor)
-       }
-    var body: some View{
-        
-        TabView{
+struct HomePageContentView: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        TabView {
             HomeView()
-                .tabItem{
-                    Image("icon_calendar")
-                   
+                .tabItem {
+                    VStack {
+                        Image(systemName: "calendar") // Use system names as placeholders
+                        Text("Home")
+                    }
                 }
+            
             Text("Points Page")
-                .tabItem{
-                    Image("Leaderboard")
-            
+                .tabItem {
+                    VStack {
+                        Image(systemName: "rosette")
+                        Text("Points")
+                    }
                 }
+            
             Text("Profile")
-                .tabItem{
-                    Image("Customer")
+                .tabItem {
+                    VStack {
+                        Image(systemName: "person.fill")
+                        Text("Profile")
+                    }
                 }
-            
         }
-        
+        .accentColor(colorScheme == .dark ? .white : .black) // Adjust the accent color for icon based on the scheme
+        .onAppear {
+            let tabBarAppearance = UITabBarAppearance()
+            if colorScheme == .dark {
+                tabBarAppearance.backgroundColor = UIColor(named: "DarkBlue") // Define "DarkBlue" in your asset catalog
+                UITabBar.appearance().standardAppearance = tabBarAppearance
+                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            } else {
+                tabBarAppearance.backgroundColor = UIColor.white
+                UITabBar.appearance().standardAppearance = tabBarAppearance
+                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            }
+        }
     }
 }
-#Preview {
-    HomePageContentView()
+
+struct HomePageContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            HomePageContentView()
+                .preferredColorScheme(.light)
+            HomePageContentView()
+                .preferredColorScheme(.dark)
+        }
+    }
 }
+
