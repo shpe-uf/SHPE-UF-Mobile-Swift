@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     var body: some View {
-        Text("Hello welcome")
+        Text("Hello welcome Vivian")
     }
 }
 
