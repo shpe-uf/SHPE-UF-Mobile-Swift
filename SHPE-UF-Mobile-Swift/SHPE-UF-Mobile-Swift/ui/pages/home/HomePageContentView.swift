@@ -4,57 +4,50 @@ import SwiftUI
 
 struct HomePageContentView: View {
     @Environment(\.colorScheme) var colorScheme
-
+    @State private var isCalendarSelected = true
+    @State private var isPointsSelected = false
+    @State private var isProfileSelected = false
+    
     var body: some View {
         TabView {
             HomeView()
                 .tabItem {
-                    VStack {
-                        Image(systemName: "calendar") // Use system names as placeholders
-                        Text("Home")
+                    Button(action: {
+                        isCalendarSelected.toggle()
+                    }){
+                        Image(colorScheme == .dark ? "icon_calendar":"icon_calendar")
                     }
+                    
                 }
             
             Text("Points Page")
                 .tabItem {
-                    VStack {
-                        Image(systemName: "rosette")
-                        Text("Points")
+                    Button(action: {
+                        isPointsSelected.toggle()
+                    }){
+                        Image(colorScheme == .dark ? "dark_leaderboard":"Leaderboard")
                     }
+                        
+                    
                 }
             
             Text("Profile")
                 .tabItem {
-                    VStack {
-                        Image(systemName: "person.fill")
-                        Text("Profile")
+                    Button(action: {
+                        isProfileSelected.toggle()
+                    }){
+                        Image(colorScheme == .dark ? "dark_customer":"Customer")
                     }
+                    
+                    
                 }
         }
-        .accentColor(colorScheme == .dark ? .white : .black) // Adjust the accent color for icon based on the scheme
-        .onAppear {
-            let tabBarAppearance = UITabBarAppearance()
-            if colorScheme == .dark {
-                tabBarAppearance.backgroundColor = UIColor(named: "DarkBlue") // Define "DarkBlue" in your asset catalog
-                UITabBar.appearance().standardAppearance = tabBarAppearance
-                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-            } else {
-                tabBarAppearance.backgroundColor = UIColor.white
-                UITabBar.appearance().standardAppearance = tabBarAppearance
-                UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-            }
-        }
+
     }
 }
 
-struct HomePageContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            HomePageContentView()
-                .preferredColorScheme(.light)
-            HomePageContentView()
-                .preferredColorScheme(.dark)
-        }
-    }
+#Preview {
+    HomePageContentView()
 }
+
 

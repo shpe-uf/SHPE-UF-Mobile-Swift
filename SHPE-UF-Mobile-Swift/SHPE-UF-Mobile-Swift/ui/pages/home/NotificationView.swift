@@ -24,26 +24,13 @@ struct NotificationView: View {
     
     @ObservedObject var viewNotificationModel = NotificationViewModel()
     
-    // Adjust text color for dark mode
-    var textColor: Color {
-        colorScheme == .dark ? .white : Constants.DescriptionTextColor
-    }
-    
-    // Adjust circle and background colors for dark mode
-    var circleColor: Color {
-        colorScheme == .dark ? .black : Color.gray
-    }
-    
-    var backgroundColor: Color {
-        colorScheme == .dark ? Color(red: 0, green: 0, blue: 0.55) : Constants.BackgroundColor
-    }
-    
     var body: some View {
         // Stack the views vertically with spacing
         VStack(spacing: 20){
             // Use a ZStack for layering the background and button horizontally
+            
             ZStack{
-                backgroundColor
+                Constants.orange
                     .frame(height: 93)
                 HStack{
                     Button {
@@ -73,7 +60,7 @@ struct NotificationView: View {
                     Text("Tap an event to get notifications")
                         .font(Font.custom("Viga", size: 20))
                         .multilineTextAlignment(.center)
-                        .foregroundColor(textColor)
+                        .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         .frame(height: 50, alignment: .bottomLeading)
                     
                     // Horizontal stack for event type buttons
@@ -136,7 +123,7 @@ struct NotificationView: View {
             // Check for notification permission when the view appears
             viewNotificationModel.checkForPermission()
         }
-        .background(backgroundColor)
+        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .edgesIgnoringSafeArea(.all) // Ignore the safe area to extend to the edges
         .navigationBarHidden(true) // Hide the navigation bar for this view
     }
@@ -153,9 +140,9 @@ struct NotificationView: View {
                 }
             }) {
                 ZStack {
-                    Image(isSelected.wrappedValue ? "Ellipse_selected" : "Ellipse")
+                    Image(isSelected.wrappedValue ? "Ellipse_selected" : colorScheme == .dark ? "dark_ellipse" :"Ellipse")
                         .frame(width: 92, height: 90)
-                        .foregroundColor(circleColor) // Adjusted for dark mode
+                        
                     Image(eventIcon)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -164,16 +151,12 @@ struct NotificationView: View {
             }
             Text(eventName)
                 .font(Font.custom("UniversLTStd", size: 16))
-                .foregroundColor(textColor)
+                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
         }
     }
 }
 
-struct NotificationView_Previews: PreviewProvider {
-    static var previews: some View {
-        NotificationView()
-            .preferredColorScheme(.light) // For light mode preview
-        NotificationView()
-            .preferredColorScheme(.dark) // For dark mode preview
-    }
+#Preview{
+    NotificationView()
 }
+    
