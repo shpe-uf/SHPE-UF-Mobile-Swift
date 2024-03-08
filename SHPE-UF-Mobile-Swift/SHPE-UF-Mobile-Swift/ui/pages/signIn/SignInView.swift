@@ -1,6 +1,20 @@
 import SwiftUI
 import Foundation
 
+struct CustomTextFieldStyle: ViewModifier {
+    let padding: CGFloat
+    let cornerRadius: CGFloat
+    func body(content: Content) -> some View {
+        content
+            .padding(.leading, padding)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .cornerRadius(cornerRadius) // Apply corner radius
+
+    }
+}
+
+
+
 struct SignInView: View {
     @StateObject var viewModel: SignInViewModel
     @State public var username = ""
@@ -75,20 +89,26 @@ struct SignInView: View {
                 
                 VStack {
                     ZStack {
+                        Rectangle()
+                            .frame(width: 173, height: 34)
+                            .cornerRadius(10)
+                            .foregroundColor(Color.white)
+                            .padding(.leading,-140)
                         
                         TextField("", text: $username)
+                            .modifier(CustomTextFieldStyle(padding: 40, cornerRadius: 10))
+                        //.background(Color.white)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .background(Color(red: 49/255, green: 49/255, blue: 49/255))
                             .frame(height: 38)
                             .frame(width: 310, height: 38)
                             .padding(.leading, 3)
                             .foregroundColor(.black)
                             .autocapitalization(.none)
-                        Image("Message 35")
+                        Image("Profile Circle")
                             .resizable()
                             .frame(width: 22, height: 22)
                             .padding(.leading, -145)
-                        Text("Email")
+                        Text("Username")
                             .font(Font.custom("Univers LT Std", size: 16))
                             .foregroundColor(Color.white)
                             .frame(width: 300, height: 13.47059, alignment: .topLeading)
@@ -100,21 +120,30 @@ struct SignInView: View {
                     
                     
                     ZStack {
+                        Rectangle()
+                            .frame(width: 173, height: 34)
+                            .cornerRadius(10)
+                            .foregroundColor(Color.white)
+                            .padding(.leading,-140)
                         if isPasswordVisible{
                             TextField("", text: $password)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .background(Color(red: 49/255, green: 49/255, blue: 49/255))
+                                .modifier(CustomTextFieldStyle(padding: 40, cornerRadius: 10))
+                                //.background(Color.white)
                                 .frame(height: 38)
                                 .frame(width: 310, height: 38)
                                 .padding(.leading, 3)
                                 .foregroundColor(.black)
                                 .autocapitalization(.none)
+                            Image("Lock 3")
+                                .resizable()
+                                .frame(width: 22, height: 22)
+                                .padding(.leading, -145)
                             
                             
                         }else{
                             SecureField("", text: $password)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .background(Color(red: 49/255, green: 49/255, blue: 49/255))
+                                .modifier(CustomTextFieldStyle(padding: 40, cornerRadius: 10))
+                                //.background(Color.white)
                                 .frame(height: 38)
                                 .frame(width: 310, height: 38)
                                 .padding(.leading, 3)
@@ -125,6 +154,7 @@ struct SignInView: View {
                                 .frame(width: 22, height: 22)
                                 .padding(.leading, -145)
                         }
+                        
                         HStack {
                             Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
                                 .resizable()
@@ -135,6 +165,7 @@ struct SignInView: View {
                                     isPasswordVisible.toggle()
                                 }
                         }
+                        
                         
                         // Email Text
                         Text("Password")
@@ -176,23 +207,6 @@ struct SignInView: View {
                         isHovered = hovering
                     }
                     
-                    
-                    
-                    //if viewModel.signInButtonClicked {
-                      //  if username.isEmpty || password.isEmpty {
-                        //    Text("Please enter username and password")
-                          //      .foregroundColor(.white)
-                            
-                        //} else {
-                          //  if username == viewModel.shpeito.username && password == viewModel.shpeito.password {
-                            //    Text("Success")
-                              //      .foregroundColor(.white)
-                            //} else {
-                              //  Text("Failure")
-                                //    .foregroundColor(.white)
-                            //}
-                        //}
-                    //}
                     HStack {
                         Text("Don’t have an account? ")
                             .font(Font.custom("Univers LT Std", size: 14))
@@ -211,11 +225,6 @@ struct SignInView: View {
                 .padding(.top, 130)
             }
         }
-    }
-}
-struct ExampleView: View {
-    var body: some View {
-        Color.white
     }
 }
 
