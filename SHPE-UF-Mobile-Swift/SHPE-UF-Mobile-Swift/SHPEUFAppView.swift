@@ -10,14 +10,7 @@ import SwiftUI
 struct SHPEUFAppView: View {
     let requestHandler = RequestHandler()
     var body: some View {
-<<<<<<< HEAD
-        ZStack
-        {
-            
-        }
-=======
-        PointsView(vm: PointsViewModel(shpeito: SHPEito(id: "64f7d5ce08f7e8001456248a", name: "Daniel Parra", points: 0)))
->>>>>>> main
+        PointsView(vm: PointsViewModel(shpeito: SHPEito()))
     }
 }
 
@@ -25,3 +18,18 @@ struct SHPEUFAppView: View {
 #Preview {
     SHPEUFAppView()
 }
+
+
+/*
+ PointsView(vm: PointsViewModel(shpeito:
+                                 SHPEito(id: "642f7f80e8839f0014e8be9b",
+                                         name: "David Denis",
+                                         points: 0,
+                                         fallPoints: 0,
+                                         springPoints: 0,
+                                         summerPoints: 0,
+                                         fallPercentile: 0,
+                                         springPercentile: 0,
+                                         summerPercentile: 0)
+                               ))
+ */
