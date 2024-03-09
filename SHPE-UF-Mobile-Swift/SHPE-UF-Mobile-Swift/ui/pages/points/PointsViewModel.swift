@@ -56,7 +56,7 @@ final class PointsViewModel:ObservableObject {
     
     // Methods to call in View
     func setShpeitoPoints()
-    {
+    { 
         requestHandler.fetchUserPoints(userId: shpeito.id) { data in
             // Check that no error was detected
             if data["error"] == nil
