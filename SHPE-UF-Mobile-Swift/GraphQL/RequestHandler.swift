@@ -11,8 +11,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://2d8e-128-227-1-22.ngrok-free.app/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
-//    ngrok http http://localhost:8080
+    let apolloClient = ApolloClient(url: URL(string: "https://0ab3-70-171-40-38.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -259,6 +258,101 @@ class RequestHandler
         }
     }
     
+    
+    
+    
+    func getPoints(userId: String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetPointsQuery(userId: userId))
+        {
+            response in
+            
+            guard let data = try? response.get().data,
+                  let fallPoints = data.getUser?.fallPoints as? Int,
+                  let springPoints = data.getUser?.springPoints as? Int,
+                  let summerPoints = data.getUser?.summerPoints as? Int
+            else
+            {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            // Package with data (SUCCESS ✅)
+            let responseDict = [
+                "fallPoints": fallPoints,
+                "springPoints": springPoints,
+                "summerPoints": summerPoints
+            ]
+            
+            completion(responseDict)
+        }
+    }
+    
+    
+    
+    func getUserEvents(userId: String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetUserEventsQuery(userId: userId))
+        {
+            response in
+            
+            guard let data = try? response.get().data,
+                  let events = data.getUser?.events.map({ event in
+                      let formatter = DateFormatter()
+                      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // Match the date format exactly to the string
+                      formatter.timeZone = TimeZone(secondsFromGMT: 0) // Set timezone to UTC
+                      if let eventName = event?.name,
+                          let category = event?.category,
+                          let points = event?.points,
+                          let dateString = event?.createdAt,
+                          let date = formatter.date(from: dateString)
+                      {
+                          return UserEvent(name: eventName, category: category, points: points, date: date)
+                      }
+                      else
+                      {
+                          return UserEvent(name: "", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                      }
+                  })
+            else
+            {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            var eventsByCategory:[String:[UserEvent]] = [:]
+            
+            for event in events {
+                if (eventsByCategory[event.category] != nil)
+                {
+                    eventsByCategory[event.category]!.append(event)
+                }
+                else
+                {
+                    eventsByCategory[event.category] = [event]
+                }
+            }
+            
+            // Package with data (SUCCESS ✅)
+            let responseDict = [
+                "events": events,
+                "eventsByCategory": eventsByCategory
+            ]
+            
+           
+            
+            completion(responseDict)
+        }
+    }
+    
+    
+    
     // MARK: Home Page Functions
     // Input: minDate: Date Captures any events after minDate
     // Successful Output: ([Event],Bool,String) => List of Event objects, boolean value True:Success, False:Error, String describing error
@@ -311,7 +405,7 @@ class RequestHandler
                 if let data = data
                 {
                     do {
-                        if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] 
+                        if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                         {
                             var eventsList:[Event] = []
                             print("ITEMS:")
@@ -469,4 +563,3 @@ class RequestHandler
         return Organizer(email: email, selfValue: selfValue)
     }
 }
-

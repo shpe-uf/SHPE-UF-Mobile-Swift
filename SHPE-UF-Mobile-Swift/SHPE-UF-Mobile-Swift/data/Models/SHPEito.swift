@@ -3,51 +3,78 @@ import SwiftUI
 
 class SHPEito
 {
-    // Attributes
-    let id: String
-    @Published var name: String
-    @Published var points: Int
-    
-    // Additional attributes added
-    @State var firstnameInput: String
-    @State var lastnameInput: String
-    @State var usernameInput: String
-    @State var passwordInput: String
-    @State var emailInput: String
-    @State var passwordConfirmInput: String
-    @State var majorInput: String
-    @State var classYearInput: String
-    @State var gradYearInput: String
-    @State var originInput: String
-    @State var ethnicityInput: String
-    @State var genderInput: String
-
-    // Initializer
-    init(id: String, name: String, points: Int,
-         firstnameInput: String, lastnameInput: String, usernameInput: String, passwordInput: String,
-         emailInput: String, passwordConfirmInput: String, majorInput: String, classYearInput: String,
-         gradYearInput: String, originInput: String, ethnicityInput: String, genderInput: String,
-         isConfirmPasswordValid: Bool) 
+    init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int, points: Int = 0, fallPercentile: Int = 0, springPercentile: Int = 0, summerPercentile: Int = 0)
     {
-        
+        self.username = username
+        self.password = password
+        self.remember = remember
+        self.photoURL = URL(string: photo)
+        self.firstName = firstName
+        self.lastName = lastName
+        self.year = year
+        self.major = major
         self.id = id
-        self.name = name
+        self.token = token
+        self.confirmed = confirmed
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
+        self.email = email
+        self.fallPoints = fallPoints
+        self.summerPoints = summerPoints
+        self.springPoints = springPoints
         self.points = points
-        
-        // Assigning additional attributes
-        self.firstnameInput = firstnameInput
-        self.lastnameInput = lastnameInput
-        self.usernameInput = usernameInput
-        self.passwordInput = passwordInput
-        self.emailInput = emailInput
-        self.passwordConfirmInput = passwordConfirmInput
-        self.majorInput = majorInput
-        self.classYearInput = classYearInput
-        self.gradYearInput = gradYearInput
-        self.originInput = originInput
-        self.ethnicityInput = ethnicityInput
-        self.genderInput = genderInput
+        self.fallPercentile = fallPercentile
+        self.springPercentile = springPercentile
+        self.summerPercentile = summerPercentile
+        //self.events = events 
     }
-
-   
+    
+    init ()
+    {
+        self.username = ""
+        self.password = ""
+        self.remember = ""
+        self.photoURL = nil
+        self.firstName = ""
+        self.lastName = ""
+        self.year = ""
+        self.major = ""
+        self.id = ""
+        self.token = ""
+        self.confirmed = false
+        self.updatedAt = ""
+        self.createdAt = ""
+        self.email = ""
+        self.fallPoints = -1
+        self.summerPoints = -1
+        self.springPoints = -1
+        self.points = 0
+        self.fallPercentile = 0
+        self.springPercentile = 0
+        self.summerPercentile = 0
+    }
+    
+    @Published var username: String
+    @Published var password: String
+    @Published var remember: String
+    @Published var photoURL: URL?
+    @Published var firstName:String
+    @Published var lastName:String
+    @Published var year: String
+    @Published var major: String
+    @Published var id: String
+    @Published var token: String
+    @Published var confirmed: Bool
+    @Published var updatedAt: String
+    @Published var createdAt: String
+    @Published var email: String
+    @Published var points: Int
+    @Published var fallPoints: Int
+    @Published var springPoints: Int
+    @Published var summerPoints: Int
+    @Published var fallPercentile : Int
+    @Published var springPercentile : Int
+    @Published var summerPercentile : Int
+    //@Published var events: SHPESchema.SignInMutation
+    // Any methods that can help with
 }

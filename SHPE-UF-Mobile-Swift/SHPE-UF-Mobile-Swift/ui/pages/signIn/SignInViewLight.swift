@@ -1,21 +1,9 @@
 import SwiftUI
 import Foundation
 
-struct CustomTextFieldStyle: ViewModifier {
-    let padding: CGFloat
-    let cornerRadius: CGFloat
-    func body(content: Content) -> some View {
-        content
-            .padding(.leading, padding)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .cornerRadius(cornerRadius) // Apply corner radius
-
-    }
-}
 
 
-
-struct SignInView: View {
+struct SignInViewLight: View {
     @StateObject var viewModel: SignInViewModel
     @State public var username = ""
     @State public var password = ""
@@ -23,17 +11,20 @@ struct SignInView: View {
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
     
+    
+    
     var body: some View {
         ZStack {
             
             // Dark Blue Background
-            Color(red: 1/255, green: 31/255, blue: 53/255)
+            Color(red: 0.93, green: 0.93, blue: 0.93)
                 .edgesIgnoringSafeArea(.all)
             
             
             // Image and Sign In Text
             VStack {
-                    // SHPE Logo Image
+                
+                    // shpe_logo Image
                     Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -48,8 +39,8 @@ struct SignInView: View {
                         .font(Font.custom("VigaRegular", size: 50))
                         .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .frame(width: 200, height: 42, alignment: .topLeading)
-            }
-            .padding(.top, -300)
+                }
+                .padding(.top, -300)
             // Orange Rectangle with Gator Image
             GeometryReader { geometry in
                 ZStack {
@@ -60,18 +51,18 @@ struct SignInView: View {
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46)
                     
                     // Gator Image
-                    Image("Gator")
+                    Image("Gator2")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 306, height: 197) // Adjust the size here
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46 + 125 / 2) // Adjust the y position to center the image within the rectangle
                     
                     Rectangle()
-                        .frame(width: 393, height: 124)
-                        .foregroundColor(Color(red: 1/255, green: 31/255, blue: 53/255)) // Orange color
+                        .frame(width: 393, height: 140)
+                        .foregroundColor(Color(red: 0.93, green: 0.93, blue: 0.93)) // Orange color
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 150)
                     
-                    // SHPE Logo Image
+                    // shpe_logo Image
                     Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -92,7 +83,6 @@ struct SignInView: View {
                         .frame(height: 38)
                         .frame(width: 310, height: 38)
                         .padding(.leading, 3) // Adjust to make space for the image
-                        .foregroundColor(.black)
                         .autocapitalization(.none)
                         Image("Message 35")
                             .resizable()
@@ -101,7 +91,7 @@ struct SignInView: View {
                     // Email Text
                     Text("Email")
                       .font(Font.custom("Univers LT Std", size: 16))
-                      .foregroundColor(Color.white)
+                      .foregroundColor(Color(red:0,green:0.12,blue:0.21))
                       .frame(width: 300, height: 13.47059, alignment: .topLeading)
                       .padding(.top,-40)
                         
@@ -114,11 +104,10 @@ struct SignInView: View {
                     
                     SecureField("", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .background(Color(red: 49/255, green: 49/255, blue: 49/255))
+                        .background(Color(red:0,green:0.12,blue:0.21))
                         .frame(height: 38)
                         .frame(width: 310, height: 38)
                         .padding(.leading, 3) // Adjust to make space for the image
-                        .foregroundColor(.black)
                         .autocapitalization(.none)
                         Image("Lock 3")
                             .resizable()
@@ -128,7 +117,7 @@ struct SignInView: View {
                     // Email Text
                     Text("Password")
                       .font(Font.custom("Univers LT Std", size: 16))
-                      .foregroundColor(Color.white)
+                      .foregroundColor(Color(red:0,green:0.12,blue:0.21))
                       .frame(width: 300, height: 13.47059, alignment: .topLeading)
                       .padding(.top,-40)
                         
@@ -144,11 +133,11 @@ struct SignInView: View {
                     Text("Sign In")
                         .font(Font.custom("Viga", size: 16))
                         .foregroundColor(Color.white)
-                        .frame(width: 267, height: 42)
-                        .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                        .cornerRadius(100)
-                        .padding()
                 }
+                .frame(width: 267, height: 42)
+                .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                .cornerRadius(100)
+                .padding()
                 .disabled(viewModel.signInButtonClicked)
                 
                 if viewModel.signInButtonClicked {
@@ -167,17 +156,36 @@ struct SignInView: View {
                 }
                 Text("Don’t have an acccount?")
                   .font(Font.custom("Univers LT Std", size: 14))
-                  .foregroundColor(Color.white)
+                  .foregroundColor(Color(red:0,green:0.12,blue:0.21))
                   .frame(width:162, height:17)
             }
         }
     }
 }
 
-struct SignInView_Previews: PreviewProvider {
+
+struct SignInViewLight_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(viewModel: SignInViewModel(shpeito:
-                                SHPEito()
+        SignInViewLight(viewModel: SignInViewModel(shpeito:
+                                SHPEito(
+                                    username: "",
+                                    password: "",
+                                        remember: "true",
+                                        photo: "",
+                                        firstName: "",
+                                        lastName: "",
+                                        year: "",
+                                        major: "",
+                                        id: "",
+                                        token: "",
+                                        confirmed: true,
+                                        updatedAt: "",
+                                        createdAt: "",
+                                        email: "",
+                                        fallPoints: 0,
+                                        summerPoints: 0,
+                                        springPoints: 0)
                           ))
     }
 }
+
