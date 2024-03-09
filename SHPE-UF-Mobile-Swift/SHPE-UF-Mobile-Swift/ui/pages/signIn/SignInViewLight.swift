@@ -17,8 +17,8 @@ struct SignInViewLight: View {
             // Image and Sign In Text
             VStack {
                 
-                    // SHPE Logo Image
-                    Image("SHPE Logo")
+                    // shpe_logo Image
+                    Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 93, height: 86)
@@ -55,8 +55,8 @@ struct SignInViewLight: View {
                         .foregroundColor(Color(red: 0.93, green: 0.93, blue: 0.93)) // Orange color
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 150)
                     
-                    // SHPE Logo Image
-                    Image("SHPE Logo")
+                    // shpe_logo Image
+                    Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 93, height: 86)

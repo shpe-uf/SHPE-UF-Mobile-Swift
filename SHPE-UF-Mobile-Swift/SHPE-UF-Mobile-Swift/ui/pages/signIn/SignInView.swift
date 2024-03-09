@@ -16,9 +16,8 @@ struct SignInView: View {
             
             // Image and Sign In Text
             VStack {
-                
                     // SHPE Logo Image
-                    Image("SHPE Logo")
+                    Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 93, height: 86)
@@ -33,7 +32,7 @@ struct SignInView: View {
                         .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .frame(width: 200, height: 42, alignment: .topLeading)
             }
-                .padding(.top, -300)
+            .padding(.top, -300)
             // Orange Rectangle with Gator Image
             GeometryReader { geometry in
                 ZStack {
@@ -51,12 +50,12 @@ struct SignInView: View {
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46 + 125 / 2) // Adjust the y position to center the image within the rectangle
                     
                     Rectangle()
-                        .frame(width: 393, height: 120)
+                        .frame(width: 393, height: 124)
                         .foregroundColor(Color(red: 1/255, green: 31/255, blue: 53/255)) // Orange color
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 150)
                     
                     // SHPE Logo Image
-                    Image("SHPE Logo")
+                    Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 93, height: 86)
