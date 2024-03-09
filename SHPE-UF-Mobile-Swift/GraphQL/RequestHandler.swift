@@ -5,12 +5,13 @@
 //  Created by Daniel Parra on 1/17/24.
 //
 
+
 import Foundation
 import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://b851-128-227-1-26.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://0ab3-70-171-40-38.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -54,7 +55,7 @@ class RequestHandler
         }
     }
     
-    // MARK: Register/SignIn Page Functions
+    //MARK: Register/SignIn Page Functions
     
     // RegisterUserMutation <= RegisterUser.graphql
     // Input: firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true"
@@ -85,6 +86,46 @@ class RequestHandler
             completion(responseDict)
         }
     }
+    
+
+//    func registerUser(firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true", completion: @escaping ([String:Any])->Void) 
+//        {
+//        
+//        let registerInput = SHPESchema.RegisterInput(firstName: firstName, lastName: lastName, major: major, year: year, graduating: graduating, country: country, ethnicity: ethnicity, sex: sex, username: username, email: email, password: password, confirmPassword: confirmPassword, listServ: listServ)
+//        
+//        let validInput = GraphQLNullable(registerInput)
+//        
+//        apolloClient.perform(mutation: SHPESchema.RegisterUserMutation(registerInput: validInput)) 
+//        { result in
+//            
+//            switch result 
+//            {
+//            case .success(let graphQLResult):
+//                if let data = graphQLResult.data, graphQLResult.errors == nil 
+//                {
+//                    // Assuming the mutation returns a success flag as true
+//                    completion(["success": true])
+//                }
+//                else if let errors = graphQLResult.errors 
+//                {
+//                    // Handle and return errors
+//                    print("GraphQL Errors: \(errors)")
+//                    completion(["error": "Incomplete Request due to GraphQL Errors"])
+//                }
+//            case .failure(let error):
+//                // Handle and return network or parsing error
+//                print("Network or Parsing Error: \(error)")
+//                completion(["error": "Incomplete Request due to Network or Parsing Error"])
+//            }
+//        }
+//    }
+
+
+    
+    
+    
+    
+    
     
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String
@@ -216,6 +257,101 @@ class RequestHandler
             completion(responseDict)
         }
     }
+    
+    
+    
+    
+    func getPoints(userId: String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetPointsQuery(userId: userId))
+        {
+            response in
+            
+            guard let data = try? response.get().data,
+                  let fallPoints = data.getUser?.fallPoints as? Int,
+                  let springPoints = data.getUser?.springPoints as? Int,
+                  let summerPoints = data.getUser?.summerPoints as? Int
+            else
+            {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            // Package with data (SUCCESS ✅)
+            let responseDict = [
+                "fallPoints": fallPoints,
+                "springPoints": springPoints,
+                "summerPoints": summerPoints
+            ]
+            
+            completion(responseDict)
+        }
+    }
+    
+    
+    
+    func getUserEvents(userId: String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetUserEventsQuery(userId: userId))
+        {
+            response in
+            
+            guard let data = try? response.get().data,
+                  let events = data.getUser?.events.map({ event in
+                      let formatter = DateFormatter()
+                      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // Match the date format exactly to the string
+                      formatter.timeZone = TimeZone(secondsFromGMT: 0) // Set timezone to UTC
+                      if let eventName = event?.name,
+                          let category = event?.category,
+                          let points = event?.points,
+                          let dateString = event?.createdAt,
+                          let date = formatter.date(from: dateString)
+                      {
+                          return UserEvent(name: eventName, category: category, points: points, date: date)
+                      }
+                      else
+                      {
+                          return UserEvent(name: "", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                      }
+                  })
+            else
+            {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            var eventsByCategory:[String:[UserEvent]] = [:]
+            
+            for event in events {
+                if (eventsByCategory[event.category] != nil)
+                {
+                    eventsByCategory[event.category]!.append(event)
+                }
+                else
+                {
+                    eventsByCategory[event.category] = [event]
+                }
+            }
+            
+            // Package with data (SUCCESS ✅)
+            let responseDict = [
+                "events": events,
+                "eventsByCategory": eventsByCategory
+            ]
+            
+           
+            
+            completion(responseDict)
+        }
+    }
+    
+    
     
     // MARK: Home Page Functions
     // Input: minDate: Date Captures any events after minDate
