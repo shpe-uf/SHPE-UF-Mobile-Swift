@@ -3,6 +3,7 @@ import SwiftUI
 
 struct RegisterView: View
 {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: RegisterViewModel = RegisterViewModel()
     
@@ -18,13 +19,14 @@ struct RegisterView: View
             Rectangle()
               .foregroundColor(.clear)
               .background(
-                Image("swift.gator")
+                Image(colorScheme == .dark ? "Gator" : "Gator2")
                   .resizable()
                   .aspectRatio(contentMode: .fill)
                   .frame(width: 306, height: 197)
                   .clipped()
+                  .offset(y: colorScheme == .dark ? -UIScreen.main.bounds.height * 0.305 : -UIScreen.main.bounds.height * 0.325)
               )
-              .offset(y: -UIScreen.main.bounds.height * 0.305)
+              
             
             //dark blue box
             VStack
@@ -53,6 +55,7 @@ struct RegisterView: View
                       .cornerRadius(1)
                 }
                 .padding()
+                .padding(.vertical)
                
                 
                 NavigationView
@@ -70,7 +73,7 @@ struct RegisterView: View
                                 {
                                     Text("Welcome to SHPE!")
                                       .font(Font.custom("Univers LT Std", size: 14))
-                                      .foregroundColor(Color.white)
+                                      .foregroundColor(Color("whiteText"))
                                     
                                     //register textbox
                                     Text("Register")
@@ -99,7 +102,7 @@ struct RegisterView: View
     
                                 Text("UF Email")
                                     .font(Font.custom("Univers LT Std", size: 16))
-                                    .foregroundColor(Color.white)
+                                    .foregroundColor(Color("whiteText"))
                                     .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                                 HStack(spacing: 0) 
                                 {
@@ -108,6 +111,8 @@ struct RegisterView: View
                                     TextField("", text: $viewModel.emailInput)
                                         .frame(maxWidth: .infinity)
                                         .foregroundStyle(Color.black)
+                                        .autocapitalization(.none)
+                                        .autocorrectionDisabled()
                                         .onChange(of: viewModel.emailInput) { _ in}
                                 }
                                 .padding(.vertical, 2.75)
@@ -126,7 +131,7 @@ struct RegisterView: View
                                 //username
                                 Text("Username")
                                   .font(Font.custom("Univers LT Std", size: 16))
-                                  .foregroundColor(Color.white)
+                                  .foregroundColor(Color("whiteText"))
                                   .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                                 HStack(spacing: 0)
                                 {
@@ -135,6 +140,8 @@ struct RegisterView: View
                                     TextField("", text: $viewModel.usernameInput)
                                         .frame(maxWidth: .infinity)
                                         .foregroundStyle(Color.black)
+                                        .autocapitalization(.none)
+                            .autocorrectionDisabled()
                                         .onChange(of: viewModel.emailInput) { _ in}
                                 }
                                 .padding(.vertical, 2.75)
@@ -153,7 +160,7 @@ struct RegisterView: View
                                 //password
                                 Text("Password")
                                   .font(Font.custom("Univers LT Std", size: 16))
-                                  .foregroundColor(Color.white)
+                                  .foregroundColor(Color("whiteText"))
                                   .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                                 HStack(spacing: 0)
                                 {
@@ -164,6 +171,8 @@ struct RegisterView: View
                                         TextField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
                                             .onChange(of: viewModel.passwordInput) { _ in }
                                             
                                     }
@@ -172,13 +181,14 @@ struct RegisterView: View
                                         SecureField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
                                             .onChange(of: viewModel.passwordInput) { _ in }
                                            
                                     }
                                     
                                     Image(viewModel.viewPassword ? "swift.littlepfp" :"Eye Closed")
                                         .frame(width: 22.32634, height: 14.58338)
-                                        .background(Color.white)
                                         .padding(.horizontal, 12)
                                         .onTapGesture {
                                             viewModel.viewPassword.toggle()
@@ -200,7 +210,7 @@ struct RegisterView: View
                                 //confirm password
                                 Text("Confirm Password")
                                   .font(Font.custom("Univers LT Std", size: 16))
-                                  .foregroundColor(Color.white)
+                                  .foregroundColor(Color("whiteText"))
                                   .frame(height: 16.47059, alignment: .topLeading)
                                 HStack(spacing: 0)
                                 {
@@ -211,6 +221,8 @@ struct RegisterView: View
                                         TextField("", text: $viewModel.passwordConfirmInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
                                             .onChange(of: viewModel.passwordConfirmInput) { newValue in }
                                         
                                     }
@@ -219,13 +231,14 @@ struct RegisterView: View
                                         SecureField("", text: $viewModel.passwordConfirmInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
                                             .onChange(of: viewModel.passwordConfirmInput) { newValue in }
                                           
                                     }
                                     
                                     Image(viewModel.viewConfirmPassword ? "swift.littlepfp" : "Eye Closed")
                                         .frame(width: 22.32634, height: 14.58338)
-                                        .background(Color.white)
                                         .padding(.horizontal, 12)
                                         .onTapGesture
                                         {
@@ -282,12 +295,12 @@ struct RegisterView: View
                             {
                                 Text("Already have an account?")
                                   .font(Font.custom("Univers LT Std", size: 14))
-                                  .foregroundColor(Color.white)
+                                  .foregroundColor(Color("whiteText"))
 
                                 //todo add link to sign in when its made
                                 Text("Sign In")
                                   .font(Font.custom("Univers LT Std", size: 14))
-                                  .foregroundColor(Color(red: 0.58, green: 0.88, blue: 1))
+                                  .foregroundColor(Color("lblue"))
                                   .onTapGesture {
                                       appVM.setPageIndex(index: -1)
                                   }
@@ -295,20 +308,24 @@ struct RegisterView: View
                             .padding(.bottom, 40)
                         
                         }
-                        .background(Color(red: 0, green: 0.12, blue: 0.21))
+                        .background(Color("darkBlue"))
                     }
                     
                 }
-                .background(Color(red: 0, green: 0.12, blue: 0.21))
+                .background(Color("darkBlue"))
             }
             .onAppear
             {
                 viewModel.viewIndex = 0
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
-            .background(Color(red: 0, green: 0.12, blue: 0.21))
+            .background(Color("darkBlue"))
             .padding(.top, UIScreen.main.bounds.height * 0.17)
         }
         
     }
 }
+
+#Preview(body: {
+    RegisterView()
+})

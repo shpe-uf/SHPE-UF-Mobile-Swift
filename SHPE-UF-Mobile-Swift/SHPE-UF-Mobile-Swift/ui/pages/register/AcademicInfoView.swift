@@ -22,7 +22,7 @@ struct AcademicView : View
                         //top message
                         Text("Enter your current education details")
                           .font(Font.custom("Univers LT Std", size: 14))
-                          .foregroundColor(Color.white)
+                          .foregroundColor(Color("whiteText"))
                         
                         //page 2 name
                         Text("Academic Info")
@@ -49,7 +49,7 @@ struct AcademicView : View
                     //major
                     Text("Major")
                         .font(Font.custom("Univers LT Std", size: 16))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color("whiteText"))
                         .frame(width: 200, height: 16.47059, alignment: .topLeading)
                     
                     HStack(spacing: 0)
@@ -59,7 +59,7 @@ struct AcademicView : View
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 26.0, height: 26.0)
                             .padding(.horizontal, 7)
-                        
+                        Spacer()
                         Picker("", selection: $viewModel.majorInput)
                         {
                             ForEach(viewModel.majorOptions, id: \.self)
@@ -85,7 +85,7 @@ struct AcademicView : View
                     //class Year
                     Text("Class Year")
                         .font(Font.custom("Univers LT Std", size: 16))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color("whiteText"))
                         .frame(width: 200, height: 16.47059, alignment: .topLeading)
                     
                     HStack(spacing: 0)
@@ -123,7 +123,7 @@ struct AcademicView : View
                     //graduation year
                     Text("Graduation Year")
                         .font(Font.custom("Univers LT Std", size: 16))
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color("whiteText"))
                         .frame(width: 200, height: 16.47059, alignment: .topLeading)
                     
                     HStack(spacing: 0)
@@ -208,7 +208,6 @@ struct AcademicView : View
                                     .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                                     .cornerRadius(20)
                             }
-                            .padding(.bottom, 40)
                             .animation(.default, value: viewModel.showToast)
                             
                             if viewModel.showToast && viewModel.isAcademicValid()
@@ -222,7 +221,7 @@ struct AcademicView : View
                 }
                 .padding(.bottom, 40)
             }
-            .background(Color(red: 0, green: 0.12, blue: 0.21))
+            .background(Color("darkBlue"))
         }
         .onAppear 
         {
@@ -248,5 +247,9 @@ struct ToastView: View
             .padding(.top, 44)
     }
 }
+
+#Preview(body: {
+    AcademicView(viewModel: RegisterViewModel())
+})
 
 

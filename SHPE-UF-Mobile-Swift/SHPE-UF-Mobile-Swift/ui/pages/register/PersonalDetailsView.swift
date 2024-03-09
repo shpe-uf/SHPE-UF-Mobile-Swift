@@ -11,7 +11,7 @@ struct PersonalView : View
     {
         ZStack
         {
-            Color(red: 0, green: 0.12, blue: 0.21)
+            Color("darkBlue")
                 .ignoresSafeArea()
             VStack
             {
@@ -22,7 +22,7 @@ struct PersonalView : View
                         //top message
                         Text("Enter your info to finalize your profile")
                           .font(Font.custom("Univers LT Std", size: 14))
-                          .foregroundColor(Color.white)
+                          .foregroundColor(Color("whiteText"))
                         
                         //page 2 name
                         Text("Personal Details")
@@ -52,7 +52,7 @@ struct PersonalView : View
                         //firstname
                         Text("First Name")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color.white)
+                          .foregroundColor(Color("whiteText"))
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
@@ -61,6 +61,8 @@ struct PersonalView : View
                             TextField("", text: $viewModel.firstnameInput)
                                 .frame(maxWidth: .infinity)
                                 .foregroundStyle(Color.black)
+                                .autocapitalization(.none)
+                                .autocorrectionDisabled()
                                 .onChange(of: viewModel.firstnameInput) { _ in}
                         }
                         .padding(.vertical, 2.75)
@@ -80,7 +82,7 @@ struct PersonalView : View
                         //last name
                         Text("Last Name")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color.white)
+                          .foregroundColor(Color("whiteText"))
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
@@ -89,6 +91,8 @@ struct PersonalView : View
                             TextField("", text: $viewModel.lastnameInput)
                                 .frame(maxWidth: .infinity)
                                 .foregroundStyle(Color.black)
+                                .autocapitalization(.none)
+                                .autocorrectionDisabled()
                                 .onChange(of: viewModel.lastnameInput) { _ in}
                         }
                         .padding(.vertical, 2.75)
@@ -108,7 +112,7 @@ struct PersonalView : View
                         //gender
                         Text("Gender")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color.white)
+                          .foregroundColor(Color("whiteText"))
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
@@ -145,7 +149,7 @@ struct PersonalView : View
                         //ethnicity
                         Text("Ethncity")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color.white)
+                          .foregroundColor(Color("whiteText"))
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         
                         HStack(spacing: 0)
@@ -155,7 +159,7 @@ struct PersonalView : View
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 26.0, height: 26.0)
                                 .padding(.horizontal, 7)
-                          
+                            Spacer()
                             Picker("", selection: $viewModel.ethnicityInput)
                             {
                                 ForEach(viewModel.ethnicityOptions, id: \.self)
@@ -183,7 +187,7 @@ struct PersonalView : View
                         //origin
                         Text("Country of Origin")
                             .font(Font.custom("Univers LT Std", size: 16))
-                            .foregroundColor(Color.white)
+                            .foregroundColor(Color("whiteText"))
                             .frame(width: 200, height: 16.47059, alignment: .topLeading)
                         
                         HStack(spacing: 0)
@@ -269,7 +273,7 @@ struct PersonalView : View
                 }
                 .padding(.bottom, 40)
             }
-            .background(Color(red: 0, green: 0.12, blue: 0.21))
+            .background(Color("darkBlue"))
         }
         //move the orange bar
         .onAppear
@@ -282,4 +286,8 @@ struct PersonalView : View
 
     }
 }
+
+#Preview(body: {
+    PersonalView(viewModel: RegisterViewModel())
+})
 
