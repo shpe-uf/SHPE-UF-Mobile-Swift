@@ -16,6 +16,7 @@ struct CustomTextFieldStyle: ViewModifier {
 
 
 struct SignInView: View {
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: SignInViewModel
     @State public var username = ""
     @State public var password = ""
@@ -165,10 +166,20 @@ struct SignInView: View {
                         }
                     }
                 }
-                Text("Don’t have an acccount?")
-                  .font(Font.custom("Univers LT Std", size: 14))
-                  .foregroundColor(Color.white)
-                  .frame(width:162, height:17)
+                HStack
+                {
+                    Text("Don’t have an acccount?")
+                      .font(Font.custom("Univers LT Std", size: 14))
+                      .foregroundColor(Color.white)
+                      .frame(width:162, height:17)
+                    Text("Sign Up")
+                        .font(Font.custom("Univers LT Std", size: 14))
+                        .foregroundColor(Color("lblue"))
+                        .onTapGesture {
+                            appVM.setPageIndex(index: 0)
+                        }
+                }
+                
             }
         }
     }

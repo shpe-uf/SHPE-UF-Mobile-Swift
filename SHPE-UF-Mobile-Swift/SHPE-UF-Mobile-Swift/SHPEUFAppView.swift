@@ -3,10 +3,17 @@
 import SwiftUI
 
 struct SHPEUFAppView: View {
-    let requestHandler = RequestHandler()
-    var body: some View 
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+    var body: some View
     {
-        SignInView(viewModel: SignInViewModel(shpeito: SHPEito()))
+        switch(appVM.pageIndex){
+        case -1:
+            SignInView(viewModel: SignInViewModel(shpeito: SHPEito()))
+        case 0:
+            RegisterView(viewModel: RegisterViewModel())
+        default:
+            Text("Out of Index Error...")
+        }
     }
 }
 
