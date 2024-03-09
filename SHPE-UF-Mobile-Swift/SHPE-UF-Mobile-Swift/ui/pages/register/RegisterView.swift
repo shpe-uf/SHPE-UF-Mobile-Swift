@@ -3,6 +3,7 @@ import SwiftUI
 
 struct RegisterView: View
 {
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: RegisterViewModel = RegisterViewModel()
     
     var body: some View
@@ -287,6 +288,9 @@ struct RegisterView: View
                                 Text("Sign In")
                                   .font(Font.custom("Univers LT Std", size: 14))
                                   .foregroundColor(Color(red: 0.58, green: 0.88, blue: 1))
+                                  .onTapGesture {
+                                      appVM.setPageIndex(index: -1)
+                                  }
                             }
                             .padding(.bottom, 40)
                         
