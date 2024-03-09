@@ -75,12 +75,12 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "CALENDAR_API_KEY"
+            key = "calendar_api_key"
             value = "AIzaSyDksxCOxxnppCicmkpwDZchaQyqbfzNv64"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable
-            key = "CALENDAR_ID"
+            key = "calendar_id"
             value = "calendar.shpeuf@gmail.com"
             isEnabled = "YES">
          </EnvironmentVariable>
