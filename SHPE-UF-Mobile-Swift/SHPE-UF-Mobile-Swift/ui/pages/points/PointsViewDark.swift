@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct PointsView: View {
+struct PointsViewDark: View {
     
-    @StateObject var vm : PointsViewModel
+    @ObservedObject var vm : PointsViewModel
     
     @State private var redeem = false;
     
@@ -31,6 +31,7 @@ struct PointsView: View {
                                                          endPoint: UnitPoint(x: 0.5, y: 1))
     
     let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Miscellaneous", "Corporate Event", "Social"]
+    
     
     var body: some View {
         
@@ -60,20 +61,23 @@ struct PointsView: View {
                 ZStack {
                     
                     
-                    CircularProgessView(progress: Double(vm.springPercentile) / 100)
-                        
+                    CircularProgessViewDark(progress: Double(vm.springPercentile) / 100)
+                    
                     
                     
                     VStack {
                         Text("SPRING:")
                             .font(.title)
                             .bold()
+                            .foregroundStyle(.white)
                         Text("\(stringWithOrdinalSuffix(from : vm.springPercentile))")
                             .font(.title)
                             .bold()
+                            .foregroundStyle(.white)
                         Text("Percentile")
                             .font(.title)
                             .bold()
+                            .foregroundStyle(.white)
                     }
                     
                 }
@@ -98,7 +102,7 @@ struct PointsView: View {
                     
                     Text("Total Points: \(vm.points)")
                         .font(.system(size: 20)).bold()
-                      .foregroundColor(Color(red: 0, green: 0.12, blue: 0.21))
+                        .foregroundColor(.white)
                     
                     PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: fallGradient)
                     
@@ -116,10 +120,17 @@ struct PointsView: View {
                     }
                 }
                 .padding()
-                    
+                
             }
         }
-            
+        .background(
+            LinearGradient(
+                stops: [Gradient.Stop(color: Color(red: 0, green: 0.12, blue: 0.21), location: 0.00)],
+                startPoint: UnitPoint(x: 0.5, y: 0),
+                endPoint: UnitPoint(x: 0.5, y: 1)
+            )
+        )
+        
         .sheet(isPresented: $redeem, content: {
             ReedemView(vm: vm)
         })
@@ -152,29 +163,29 @@ struct PointsView: View {
 }
 
 #Preview {
-    PointsView(vm: PointsViewModel(shpeito:
-                                    SHPEito(
-                                        username: "dvera0322",
-                                            password: "",
-                                            remember: "true",
-                                            photo: "",
-                                            firstName: "David",
-                                            lastName: "Denis",
-                                            year: "2",
-                                            major: "Computer Science",
-                                            id: "642f7f80e8839f0014e8be9b",
-                                            token: "",
-                                            confirmed: true,
-                                            updatedAt: "",
-                                            createdAt: "",
-                                            email: "denisdavid@ufl.edu",
-                                            fallPoints: 20,
-                                            summerPoints: 17,
-                                            springPoints: 30,
-                                            points: 67,
-                                            fallPercentile: 93,
-                                            springPercentile: 98,
-                                            summerPercentile: 78)
-                                  ))
+    PointsViewDark(vm: PointsViewModel(shpeito:
+                                        SHPEito(
+                                            username: "dvera0322",
+                                                password: "",
+                                                remember: "true",
+                                                photo: "",
+                                                firstName: "David",
+                                                lastName: "Denis",
+                                                year: "2",
+                                                major: "Computer Science",
+                                                id: "642f7f80e8839f0014e8be9b",
+                                                token: "",
+                                                confirmed: true,
+                                                updatedAt: "",
+                                                createdAt: "",
+                                                email: "denisdavid@ufl.edu",
+                                                fallPoints: 20,
+                                                summerPoints: 17,
+                                                springPoints: 30,
+                                                points: 67,
+                                                fallPercentile: 93,
+                                                springPercentile: 98,
+                                                summerPercentile: 78)
+                                      ))
     .preferredColorScheme(.light)
 }

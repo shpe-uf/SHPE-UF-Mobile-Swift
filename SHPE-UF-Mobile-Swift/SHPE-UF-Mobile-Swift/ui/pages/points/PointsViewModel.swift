@@ -31,6 +31,7 @@ final class PointsViewModel:ObservableObject {
         self.summerPoints = shpeito.summerPoints
         self.username = shpeito.username
         self.id = shpeito.id
+        self.categorizedEvents = [:]
         
         setShpeitoPoints()
         setShpeitoPercentiles()
@@ -50,6 +51,7 @@ final class PointsViewModel:ObservableObject {
     @Published var summerPoints : Int
     @Published var username : String
     @Published var id : String
+    @Published var categorizedEvents: [String: [UserEvent]]
 
     
     // Methods to call in View
@@ -213,6 +215,8 @@ final class PointsViewModel:ObservableObject {
                     // Do something with the data\
                     
                     print(data)
+                    
+                    self.categorizedEvents = eventbyCategory
                    
                 }
                 else
