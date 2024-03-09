@@ -6,6 +6,7 @@ final class SignInViewModel: ObservableObject {
     
     // Out of View variables (Models)
     @Published var shpeito: SHPEito
+    @Published var viewPassword: Bool = false
     
     // Initialize SignInViewModel
     init(shpeito: SHPEito) {

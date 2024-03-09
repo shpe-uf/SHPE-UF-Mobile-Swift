@@ -5,6 +5,7 @@
 //  Created by Daniel Parra on 1/17/24.
 //
 
+
 import Foundation
 import Apollo
 
@@ -54,7 +55,7 @@ class RequestHandler
         }
     }
     
-    // MARK: Register/SignIn Page Functions
+    //MARK: Register/SignIn Page Functions
     
     // RegisterUserMutation <= RegisterUser.graphql
     // Input: firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true"
@@ -85,6 +86,46 @@ class RequestHandler
             completion(responseDict)
         }
     }
+    
+
+//    func registerUser(firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true", completion: @escaping ([String:Any])->Void) 
+//        {
+//        
+//        let registerInput = SHPESchema.RegisterInput(firstName: firstName, lastName: lastName, major: major, year: year, graduating: graduating, country: country, ethnicity: ethnicity, sex: sex, username: username, email: email, password: password, confirmPassword: confirmPassword, listServ: listServ)
+//        
+//        let validInput = GraphQLNullable(registerInput)
+//        
+//        apolloClient.perform(mutation: SHPESchema.RegisterUserMutation(registerInput: validInput)) 
+//        { result in
+//            
+//            switch result 
+//            {
+//            case .success(let graphQLResult):
+//                if let data = graphQLResult.data, graphQLResult.errors == nil 
+//                {
+//                    // Assuming the mutation returns a success flag as true
+//                    completion(["success": true])
+//                }
+//                else if let errors = graphQLResult.errors 
+//                {
+//                    // Handle and return errors
+//                    print("GraphQL Errors: \(errors)")
+//                    completion(["error": "Incomplete Request due to GraphQL Errors"])
+//                }
+//            case .failure(let error):
+//                // Handle and return network or parsing error
+//                print("Network or Parsing Error: \(error)")
+//                completion(["error": "Incomplete Request due to Network or Parsing Error"])
+//            }
+//        }
+//    }
+
+
+    
+    
+    
+    
+    
     
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String

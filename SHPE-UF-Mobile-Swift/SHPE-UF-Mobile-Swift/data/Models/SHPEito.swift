@@ -1,10 +1,8 @@
-
 import Foundation
-
+import SwiftUI
 
 class SHPEito
 {
-    // Initializer
     init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int, points: Int = 0, fallPercentile: Int = 0, springPercentile: Int = 0, summerPercentile: Int = 0)
     {
         self.username = username
@@ -28,8 +26,7 @@ class SHPEito
         self.fallPercentile = fallPercentile
         self.springPercentile = springPercentile
         self.summerPercentile = summerPercentile
-        //self.events = events
-        
+        //self.events = events 
     }
     
     init ()

@@ -127,7 +127,7 @@ struct SignInViewLight: View {
                 
                 // Sign In Button
                 Button(action: {
-                    viewModel.signIn()
+                    viewModel.signIn(username: username, password: password)
                     viewModel.signInButtonClicked = true
                 }) {
                     Text("Sign In")
