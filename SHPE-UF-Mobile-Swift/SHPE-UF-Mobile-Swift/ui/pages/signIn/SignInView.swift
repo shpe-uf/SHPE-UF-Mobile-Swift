@@ -1,10 +1,29 @@
 import SwiftUI
 import Foundation
 
+struct CustomTextFieldStyle: ViewModifier {
+    let padding: CGFloat
+    let cornerRadius: CGFloat
+    func body(content: Content) -> some View {
+        content
+            .padding(.leading, padding)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .cornerRadius(cornerRadius) // Apply corner radius
+
+    }
+}
+
+
+
 struct SignInView: View {
     @StateObject var viewModel: SignInViewModel
-    @State private var username = ""
-    @State private var password = ""
+    @State public var username = ""
+    @State public var password = ""
+    @State private var isHovered = false
+    @State private var isPasswordVisible = false
+    @State private var signInSuccess = false
+    
+    
     
     var body: some View {
         ZStack {
@@ -16,16 +35,15 @@ struct SignInView: View {
             
             // Image and Sign In Text
             VStack {
-                
                     // SHPE Logo Image
-                    Image("SHPE Logo")
+                    Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 93, height: 86)
                         .opacity(0)
                         .padding(.top,20)
-                
-                        //.clipped()
+                    
+                    //.clipped()
                     
                     // SIGN IN Text
                     Text("SIGN IN")
@@ -33,7 +51,7 @@ struct SignInView: View {
                         .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .frame(width: 200, height: 42, alignment: .topLeading)
             }
-                .padding(.top, -300)
+            .padding(.top, -300)
             // Orange Rectangle with Gator Image
             GeometryReader { geometry in
                 ZStack {
@@ -51,12 +69,12 @@ struct SignInView: View {
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46 + 125 / 2) // Adjust the y position to center the image within the rectangle
                     
                     Rectangle()
-                        .frame(width: 393, height: 120)
+                        .frame(width: 393, height: 124)
                         .foregroundColor(Color(red: 1/255, green: 31/255, blue: 53/255)) // Orange color
                         .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 150)
                     
                     // SHPE Logo Image
-                    Image("SHPE Logo")
+                    Image("shpe_logo")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 93, height: 86)
@@ -154,7 +172,6 @@ struct SignInView: View {
                   .foregroundColor(Color.white)
                   .frame(width:162, height:17)
             }
-            .padding(.top, 130)
         }
     }
 }
@@ -163,23 +180,23 @@ struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         SignInView(viewModel: SignInViewModel(shpeito:
                                 SHPEito(
-                                    username: "dvera0322",
-                                        password: "",
+                                    username: "",
+                                    password: "",
                                         remember: "true",
                                         photo: "",
-                                        firstName: "David",
-                                        lastName: "Vera",
-                                        year: "2",
-                                        major: "Computer Science",
+                                        firstName: "",
+                                        lastName: "",
+                                        year: "",
+                                        major: "",
                                         id: "",
                                         token: "",
                                         confirmed: true,
                                         updatedAt: "",
                                         createdAt: "",
-                                        email: "david.vera@ufl.edu",
-                                        fallPoints: 2,
-                                        summerPoints: 2,
-                                        springPoints: 2)
+                                        email: "",
+                                        fallPoints: 0,
+                                        summerPoints: 0,
+                                        springPoints: 0)
                           ))
     }
 }
