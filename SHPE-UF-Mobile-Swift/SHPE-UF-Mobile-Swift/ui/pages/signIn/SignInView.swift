@@ -1,10 +1,29 @@
 import SwiftUI
 import Foundation
 
+struct CustomTextFieldStyle: ViewModifier {
+    let padding: CGFloat
+    let cornerRadius: CGFloat
+    func body(content: Content) -> some View {
+        content
+            .padding(.leading, padding)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .cornerRadius(cornerRadius) // Apply corner radius
+
+    }
+}
+
+
+
 struct SignInView: View {
     @StateObject var viewModel: SignInViewModel
-    @State private var username = ""
-    @State private var password = ""
+    @State public var username = ""
+    @State public var password = ""
+    @State private var isHovered = false
+    @State private var isPasswordVisible = false
+    @State private var signInSuccess = false
+    
+    
     
     var body: some View {
         ZStack {
@@ -23,8 +42,8 @@ struct SignInView: View {
                         .frame(width: 93, height: 86)
                         .opacity(0)
                         .padding(.top,20)
-                
-                        //.clipped()
+                    
+                    //.clipped()
                     
                     // SIGN IN Text
                     Text("SIGN IN")
@@ -153,7 +172,6 @@ struct SignInView: View {
                   .foregroundColor(Color.white)
                   .frame(width:162, height:17)
             }
-            .padding(.top, 130)
         }
     }
 }
@@ -162,23 +180,23 @@ struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         SignInView(viewModel: SignInViewModel(shpeito:
                                 SHPEito(
-                                    username: "dvera0322",
-                                        password: "",
+                                    username: "",
+                                    password: "",
                                         remember: "true",
                                         photo: "",
-                                        firstName: "David",
-                                        lastName: "Vera",
-                                        year: "2",
-                                        major: "Computer Science",
+                                        firstName: "",
+                                        lastName: "",
+                                        year: "",
+                                        major: "",
                                         id: "",
                                         token: "",
                                         confirmed: true,
                                         updatedAt: "",
                                         createdAt: "",
-                                        email: "david.vera@ufl.edu",
-                                        fallPoints: 2,
-                                        summerPoints: 2,
-                                        springPoints: 2)
+                                        email: "",
+                                        fallPoints: 0,
+                                        summerPoints: 0,
+                                        springPoints: 0)
                           ))
     }
 }

@@ -1,4 +1,3 @@
-
 import Foundation
 
 final class SignInViewModel: ObservableObject {
@@ -76,26 +75,28 @@ final class SignInViewModel: ObservableObject {
     //]
     
     // Methods to call in View
-    func signIn() {
-        requestHandler.signIn(username: self.username, password: self.password) { data in
+    func signIn(username: String, password: String) {
+        // Set the username and password to the SHPEito model
+        self.shpeito.username = username
+        self.shpeito.password = password
+        
+        requestHandler.signIn(username: username, password: password) { data in
             // Check that no error was detected
             if data["error"] == nil {
                 // Check if all the data is there and is the correct Type
-                if let username = data["username"] as? String
-                {
+                if let username = data["username"] as? String {
                     self.shpeito.username = username
                     print("Success")
-                }
-                else{
+                } else {
                     print("Incorrect data")
                 }
-                
-            }
-            else{
+            } else {
                 print(data["error"] as Any)
             }
         }
     }
+
+
     
     // Method to get username
     func getUsername() -> String {
