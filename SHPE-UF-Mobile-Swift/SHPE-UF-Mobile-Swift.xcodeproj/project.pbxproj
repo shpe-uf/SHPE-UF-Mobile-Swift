@@ -266,8 +266,8 @@
 		206C8FA62AE1929D0081A35A /* register */ = {
 			isa = PBXGroup;
 			children = (
-				528D72BD2B74648600702D0B /* RegisterView.swift */,
 				52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */,
+				528D72BD2B74648600702D0B /* RegisterView.swift */,
 				5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */,
 				523C398D2B7DD0990019C353 /* AcademicInfoView.swift */,
 				528D72BF2B74649900702D0B /* RegisterViewModel.swift */,
