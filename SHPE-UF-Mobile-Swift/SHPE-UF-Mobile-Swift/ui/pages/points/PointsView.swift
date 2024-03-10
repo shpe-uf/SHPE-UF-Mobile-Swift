@@ -43,7 +43,7 @@ struct PointsView: View {
                     
                     Rectangle()
                         .foregroundColor(.clear)
-                        .frame(width: .infinity, height: 100)
+                        .frame(width: UIScreen.main.bounds.width, height: 100)
                         .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .ignoresSafeArea()
                     
@@ -116,15 +116,15 @@ struct PointsView: View {
                     }
                 }
                 .padding()
+                .padding(.bottom, 150)
                     
             }
         }
-            
         .sheet(isPresented: $redeem, content: {
             ReedemView(vm: vm)
         })
-        .backgroundStyle(.black)
         .ignoresSafeArea()
+        .background(Color("darkBlue"))
         
         
     }
