@@ -26,7 +26,7 @@ struct AcademicView : View
                         
                         //page 2 name
                         Text("Academic Info")
-                          .font(Font.custom("Viga", size: 46))
+                          .font(Font.custom("Viga-Regular", size: 46))
                           .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                           .frame(maxWidth: .infinity, alignment: .topLeading)
                     }

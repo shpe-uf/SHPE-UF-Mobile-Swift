@@ -3,6 +3,7 @@
 import SwiftUI
 
 struct HomePageContentView: View {
+    @StateObject private var appVM:AppViewModel = AppViewModel.appVM
     @Environment(\.colorScheme) var colorScheme
     @State private var isCalendarSelected = true
     @State private var isPointsSelected = false
@@ -20,7 +21,7 @@ struct HomePageContentView: View {
                     
                 }
             
-            Text("Points Page")
+            PointsView(vm: PointsViewModel(shpeito: appVM.shpeito))
                 .tabItem {
                     Button(action: {
                         isPointsSelected.toggle()
@@ -42,7 +43,6 @@ struct HomePageContentView: View {
                     
                 }
         }
-
     }
 }
 

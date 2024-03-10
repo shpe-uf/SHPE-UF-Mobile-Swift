@@ -76,7 +76,7 @@ struct HomeView: View {
                     HStack(spacing: 20) {
                         // Displaying the current month
                         Text(dateHelper.getCurrentMonth())
-                            .font(Font.custom("Viga", size: 24))
+                            .font(Font.custom("Viga-Regular", size: 24))
                             .foregroundColor(.white)
                             .frame(width: 107, height: 0, alignment: .topLeading)
                         
@@ -234,7 +234,7 @@ struct eventInfo: View {
                         HStack{
                             Text(event.summary)
                             .bold()
-                            .font(Font.custom("Viga", size: 32))
+                            .font(Font.custom("Viga-Regular", size: 32))
                             .foregroundColor(Constants.orange)
                             .frame(width:270, alignment: .topLeading)
                             .lineLimit(3)

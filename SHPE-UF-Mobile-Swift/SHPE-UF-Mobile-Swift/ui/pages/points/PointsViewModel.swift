@@ -200,9 +200,6 @@ final class PointsViewModel:ObservableObject {
     
     func getUserEvents()
     {
-        
-        print("HERE!")
-        
         requestHandler.getUserEvents(userId: self.id) { data in
             // Check that no error was detected
             if data["error"] == nil

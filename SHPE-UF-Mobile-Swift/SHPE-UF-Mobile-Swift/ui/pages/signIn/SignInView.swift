@@ -55,7 +55,7 @@ struct SignInView: View {
                                                 
                 // SIGN IN Text
                 Text("SIGN IN")
-                    .font(Font.custom("VigaRegular", size: 50))
+                    .font(Font.custom("Viga-Regular", size: 50))
                     .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                     .padding(.top, 20)
                     .padding(.bottom, 50)
@@ -138,7 +138,7 @@ struct SignInView: View {
                     viewModel.signInButtonClicked = true
                 }) {
                     Text("Sign In")
-                        .font(Font.custom("Viga", size: 16))
+                        .font(Font.custom("Viga-Regular", size: 16))
                         .foregroundColor(Color.white)
                         .frame(width: 267, height: 42)
                         .background(Color(red: 0.82, green: 0.35, blue: 0.09))
@@ -151,16 +151,9 @@ struct SignInView: View {
                     if username.isEmpty || password.isEmpty {
                         Text("Please enter username and password")
                             .foregroundColor(.white)
-                    } else {
-                        if username == viewModel.shpeito.username && password == viewModel.shpeito.password {
-                            Text("Success")
-                                .foregroundColor(.white)
-                        } else {
-                            Text("Failure")
-                                .foregroundColor(.white)
-                        }
                     }
                 }
+                
                 HStack
                 {
                     Text("Don’t have an acccount?")

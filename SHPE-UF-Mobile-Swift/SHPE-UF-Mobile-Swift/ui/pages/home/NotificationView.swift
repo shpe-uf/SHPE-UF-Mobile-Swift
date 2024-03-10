@@ -44,7 +44,7 @@ struct NotificationView: View {
                     Spacer()
                     // Notification settings title
                     Text("Notification Settings")
-                    .font(Font.custom("Viga", size: 24))
+                    .font(Font.custom("Viga-Regular", size: 24))
                     .foregroundColor(.white)
                     .frame(height: 75, alignment: .bottomLeading)
                     Spacer()
@@ -58,7 +58,7 @@ struct NotificationView: View {
                     Spacer()
                     // Prompt text for user action
                     Text("Tap an event to get notifications")
-                        .font(Font.custom("Viga", size: 20))
+                        .font(Font.custom("Viga-Regular", size: 20))
                         .multilineTextAlignment(.center)
                         .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         .frame(height: 50, alignment: .bottomLeading)
