@@ -4,6 +4,7 @@ import Foundation
 
 
 struct SignInViewLight: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @StateObject var viewModel: SignInViewModel
     @State public var username = ""
     @State public var password = ""
@@ -127,7 +128,7 @@ struct SignInViewLight: View {
                 
                 // Sign In Button
                 Button(action: {
-                    viewModel.signIn(username: username, password: password)
+                    viewModel.signIn(username: username, password: password, viewContext: viewContext)
                     viewModel.signInButtonClicked = true
                 }) {
                     Text("Sign In")

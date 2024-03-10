@@ -31,8 +31,8 @@ struct HomePageContentView: View {
                         
                     
                 }
-            
-            Text("Profile")
+            // Place holder for Sign Out View
+            TempSignOutView()
                 .tabItem {
                     Button(action: {
                         isProfileSelected.toggle()
