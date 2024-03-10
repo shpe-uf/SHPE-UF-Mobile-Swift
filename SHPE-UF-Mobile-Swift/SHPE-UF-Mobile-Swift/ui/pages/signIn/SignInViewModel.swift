@@ -77,7 +77,7 @@ final class SignInViewModel: ObservableObject {
     //]
     
     // Methods to call in View
-    func signIn(username: String, password: String) {
+    func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {
         // Set the username and password to the SHPEito model
         self.shpeito.username = username
         self.shpeito.password = password
@@ -119,7 +119,10 @@ final class SignInViewModel: ObservableObject {
                     self.shpeito.summerPoints = summerPoints
                     self.shpeito.photoURL = URL(string: photo)
                     
-                    AppViewModel.appVM.setPageIndex(index: 1)
+                    // Store user in core memory
+                    self.addUserItemToCore(viewContext: viewContext)
+                    
+                    AppViewModel.appVM.setPageIndex(index: 2)
                     AppViewModel.appVM.shpeito = self.shpeito
                 } else {
                     // Needs to be handled

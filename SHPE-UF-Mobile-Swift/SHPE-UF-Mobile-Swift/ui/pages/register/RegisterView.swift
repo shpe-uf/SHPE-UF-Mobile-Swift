@@ -302,7 +302,7 @@ struct RegisterView: View
                                   .font(Font.custom("Univers LT Std", size: 14))
                                   .foregroundColor(Color("lblue"))
                                   .onTapGesture {
-                                      appVM.setPageIndex(index: -1)
+                                      appVM.setPageIndex(index: 0)
                                   }
                             }
                             .padding(.bottom, 40)
