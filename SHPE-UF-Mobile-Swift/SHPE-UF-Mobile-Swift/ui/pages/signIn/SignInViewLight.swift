@@ -36,7 +36,7 @@ struct SignInViewLight: View {
                     
                     // SIGN IN Text
                     Text("SIGN IN")
-                        .font(Font.custom("VigaRegular", size: 50))
+                        .font(Font.custom("Viga-Regular", size: 50))
                         .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .frame(width: 200, height: 42, alignment: .topLeading)
                 }
@@ -131,7 +131,7 @@ struct SignInViewLight: View {
                     viewModel.signInButtonClicked = true
                 }) {
                     Text("Sign In")
-                        .font(Font.custom("Viga", size: 16))
+                        .font(Font.custom("Viga-Regular", size: 16))
                         .foregroundColor(Color.white)
                 }
                 .frame(width: 267, height: 42)

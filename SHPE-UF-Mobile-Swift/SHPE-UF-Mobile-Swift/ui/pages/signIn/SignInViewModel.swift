@@ -85,13 +85,48 @@ final class SignInViewModel: ObservableObject {
             // Check that no error was detected
             if data["error"] == nil {
                 // Check if all the data is there and is the correct Type
-                if let username = data["username"] as? String {
+                if let firstName = data["firstName"] as? String,
+                   let lastName = data["lastName"] as? String,
+                   let year = data["year"] as? String,
+                   let major = data["major"] as? String,
+                   let id = data["id"] as? String,
+                   let token = data["token"] as? String,
+                   let confirmed = data["confirmed"] as? Bool,
+                   let updatedAt = data["updatedAt"] as? String,
+                   let createdAt = data["createdAt"] as? String,
+                   let email = data["email"] as? String,
+                   let username = data["username"] as? String,
+                   let fallPoints = data["fallPoints"] as? Int,
+                   let springPoints = data["springPoints"] as? Int,
+                   let summerPoints = data["summerPoints"] as? Int,
+                   let photo = data["photo"] as? String
+                {
+                    //TODO: Finish adding fields to the SHPEito
+                    self.shpeito.firstName = firstName
+                    self.shpeito.lastName = lastName
+                    self.shpeito.year = year
+                    self.shpeito.major = major
+                    self.shpeito.id = id
+                    self.shpeito.token = token
+                    self.shpeito.confirmed = confirmed
+                    self.shpeito.updatedAt = updatedAt
+                    self.shpeito.createdAt = createdAt
+                    self.shpeito.email = email
                     self.shpeito.username = username
-                    print("Success")
+                    self.shpeito.fallPoints = fallPoints
+                    self.shpeito.springPoints = springPoints
+                    self.shpeito.summerPoints = summerPoints
+                    self.shpeito.photoURL = URL(string: photo)
+                    
+                    AppViewModel.appVM.setPageIndex(index: 1)
+                    AppViewModel.appVM.shpeito = self.shpeito
                 } else {
+                    // Needs to be handled
+                    self.signInButtonClicked = false
                     print("Incorrect data")
                 }
             } else {
+                self.signInButtonClicked = false
                 print(data["error"] as Any)
             }
         }
