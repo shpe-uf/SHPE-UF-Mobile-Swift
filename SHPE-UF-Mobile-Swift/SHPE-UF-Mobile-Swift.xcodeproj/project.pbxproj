@@ -81,7 +81,6 @@
 		B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */; };
 		B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA42B817793006BC59D /* NotificationViewModel.swift */; };
 		B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */; };
-		B8CD7F762B75A9E800F05DBA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F752B75A9E800F05DBA /* Event.swift */; };
 		B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */; };
 		B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
 /* End PBXBuildFile section */
@@ -210,6 +209,7 @@
 				206C8F852AE182020081A35A /* SHPE-UF-Mobile-SwiftTests */,
 				206C8F8F2AE182020081A35A /* SHPE-UF-Mobile-SwiftUITests */,
 				206C8F732AE181FF0081A35A /* Products */,
+				958CB02A2B9D1239002B83F9 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -456,6 +456,14 @@
 			path = GraphQL;
 			sourceTree = "<group>";
 		};
+		958CB02A2B9D1239002B83F9 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD7F752B75A9E800F05DBA /* Event.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		B8EF26FB2B8FB07000F98FA2 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -650,7 +658,6 @@
 				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				46909E3B2B9693A500E99274 /* SignInMutation.graphql.swift in Sources */,
-				B8CD7F762B75A9E800F05DBA /* Event.swift in Sources */,
 				95D327002B8FED88002A7DDA /* Event.swift in Sources */,
 				46909E472B9693A500E99274 /* SchemaMetadata.graphql.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
