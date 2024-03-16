@@ -52,8 +52,6 @@
 		53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C7704D2B9A79EF00455FC5 /* ProfileView.swift */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
-		958A5DDD2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
-		958A5DDE2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6E2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
@@ -632,7 +630,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				958A5DDD2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
 				206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -642,7 +639,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				206C8F912AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift in Sources */,
-				958A5DDE2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
 				206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
