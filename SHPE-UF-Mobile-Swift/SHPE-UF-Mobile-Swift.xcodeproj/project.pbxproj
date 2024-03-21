@@ -54,6 +54,7 @@
 		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
 		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
 		52A67A592B91642D00D21F73 /* PlaceholderForLandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */; };
+		951F6E702BABE00C001FDB50 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E6E2BABE00C001FDB50 /* CoreUserModel.xcdatamodeld */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
@@ -61,7 +62,6 @@
 		958A5E6E2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */; };
 		958CB0292B9D0370002B83F9 /* OpeningScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 958CB0282B9D0370002B83F9 /* OpeningScreen.storyboard */; };
-		958CB02F2B9D79AD002B83F9 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 958CB02B2B9D79AD002B83F9 /* CoreUserModel.xcdatamodeld */; };
 		958CB0302B9D79AD002B83F9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB02C2B9D79AD002B83F9 /* DataManager.swift */; };
 		958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0322B9D7F93002B83F9 /* CheckCore.swift */; };
 		958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */; };
@@ -158,12 +158,12 @@
 		528D72BD2B74648600702D0B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderForLandingPageView.swift; sourceTree = "<group>"; };
+		951F6E6F2BABE00C001FDB50 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppViewModel.swift; sourceTree = "<group>"; };
 		958CB0282B9D0370002B83F9 /* OpeningScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OpeningScreen.storyboard; sourceTree = "<group>"; };
 		958CB02C2B9D79AD002B83F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
-		958CB02E2B9D79AD002B83F9 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		958CB0322B9D7F93002B83F9 /* CheckCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCore.swift; sourceTree = "<group>"; };
 		958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCoreViewModel.swift; sourceTree = "<group>"; };
 		958CB0362B9D89E3002B83F9 /* TempSignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempSignOutView.swift; sourceTree = "<group>"; };
@@ -479,7 +479,7 @@
 		958CB02D2B9D79AD002B83F9 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
-				958CB02B2B9D79AD002B83F9 /* CoreUserModel.xcdatamodeld */,
+				951F6E6E2BABE00C001FDB50 /* CoreUserModel.xcdatamodeld */,
 				958CB02C2B9D79AD002B83F9 /* DataManager.swift */,
 			);
 			path = coreData;
@@ -680,13 +680,13 @@
 				46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */,
 				46909E462B9693A500E99274 /* RedeemPointsInput.graphql.swift in Sources */,
 				46909E482B9693A500E99274 /* SHPESchema.graphql.swift in Sources */,
-				958CB02F2B9D79AD002B83F9 /* CoreUserModel.xcdatamodeld in Sources */,
 				4632E47C2B6B64170048782D /* SHPEito.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				95D291042B8D317E004AC28B /* SignInViewLight.swift in Sources */,
 				46909E452B9693A500E99274 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
 				5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */,
+				951F6E702BABE00C001FDB50 /* CoreUserModel.xcdatamodeld in Sources */,
 				46909E3A2B9693A500E99274 /* RegisterUserMutation.graphql.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
@@ -882,7 +882,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
+				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -914,7 +914,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
+				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1067,14 +1067,14 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		958CB02B2B9D79AD002B83F9 /* CoreUserModel.xcdatamodeld */ = {
+		951F6E6E2BABE00C001FDB50 /* CoreUserModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				958CB02E2B9D79AD002B83F9 /* CoreUserModel.xcdatamodel */,
+				951F6E6F2BABE00C001FDB50 /* CoreUserModel.xcdatamodel */,
 			);
-			currentVersion = 958CB02E2B9D79AD002B83F9 /* CoreUserModel.xcdatamodel */;
+			currentVersion = 951F6E6F2BABE00C001FDB50 /* CoreUserModel.xcdatamodel */;
 			name = CoreUserModel.xcdatamodeld;
-			path = "/Users/danielparra/Desktop/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
+			path = "/Users/danielparra/Desktop/SHPE/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
