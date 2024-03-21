@@ -9,31 +9,31 @@
 import SwiftUI
 
 struct CircularProgessViewDark: View {
-    
+   
     var progress: Double
     
     
     @State private var drawingStroke = false
     let animation = Animation
-        .easeOut(duration: 3)
-        .delay(0.5)
+            .easeOut(duration: 3)
+            .delay(0.5)
     
     var body: some View {
         ZStack {
             
             Circle()
                 .stroke(Color(red: 0.49, green: 0.51, blue: 0.56), lineWidth: 70)
-            
+           
             Circle()
                 .trim(from: 0, to: drawingStroke ? CGFloat(self.progress) : 0)
                 .stroke(
                     LinearGradient(
-                        stops: [
-                            Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
-                            Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 0.98),
-                        ],
-                        startPoint: UnitPoint(x: 0.5, y: 0),
-                        endPoint: UnitPoint(x: 0.5, y: 1)
+                    stops: [
+                    Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
+                    Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 0.98),
+                    ],
+                    startPoint: UnitPoint(x: 0.5, y: 0),
+                    endPoint: UnitPoint(x: 0.5, y: 1)
                     ),
                     style: StrokeStyle(lineWidth: 70, lineCap: .butt))
             
@@ -51,7 +51,7 @@ struct CircularProgessViewDark: View {
                 self.drawingStroke = true
             }
         }
-        
+            
     }
 }
 
