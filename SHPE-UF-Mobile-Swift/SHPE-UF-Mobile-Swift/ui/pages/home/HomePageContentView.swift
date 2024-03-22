@@ -5,42 +5,27 @@ import SwiftUI
 struct HomePageContentView: View {
     @StateObject private var appVM:AppViewModel = AppViewModel.appVM
     @Environment(\.colorScheme) var colorScheme
-    @State private var isCalendarSelected = true
-    @State private var isPointsSelected = false
-    @State private var isProfileSelected = false
+    @State private var selectedTab: Int = 0
     
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab){
             HomeView()
+                .tag(0)
                 .tabItem {
-                    Button(action: {
-                        isCalendarSelected.toggle()
-                    }){
-                        Image(colorScheme == .dark ? "icon_calendar":"icon_calendar")
-                    }
-                    
+                    Image(selectedTab == 0 ? "icon_calendar" : colorScheme == .dark ? "unclicked_calendar":"unclicked_calendar_light")
                 }
             
             PointsView(vm: PointsViewModel(shpeito: appVM.shpeito))
+                .tag(1)
                 .tabItem {
-                    Button(action: {
-                        isPointsSelected.toggle()
-                    }){
-                        Image(colorScheme == .dark ? "dark_leaderboard":"Leaderboard")
-                    }
-                        
-                    
+                    Image(selectedTab == 1 ? "clicked_leaderboard" : colorScheme == .dark ? "dark_leaderboard":"Leaderboard")
+
                 }
             
             Text("Profile")
+                .tag(2)
                 .tabItem {
-                    Button(action: {
-                        isProfileSelected.toggle()
-                    }){
-                        Image(colorScheme == .dark ? "dark_customer":"Customer")
-                    }
-                    
-                    
+                    Image(selectedTab == 2 ? "clicked_customer" : colorScheme == .dark ? "dark_customer":"Customer")
                 }
         }
     }
