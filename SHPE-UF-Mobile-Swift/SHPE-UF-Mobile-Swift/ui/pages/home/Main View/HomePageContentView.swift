@@ -19,7 +19,6 @@ struct HomePageContentView: View {
                 .tag(1)
                 .tabItem {
                     Image(selectedTab == 1 ? "clicked_leaderboard" : colorScheme == .dark ? "dark_leaderboard":"Leaderboard")
-
                 }
             
             Text("Profile")
