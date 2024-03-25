@@ -9,21 +9,21 @@
 import SwiftUI
 
 struct CircularProgessView: View {
-   
+    
     var progress: Double
     
     @State private var drawingStroke = false
     
     let animation = Animation
-            .easeOut(duration: 3)
-            .delay(0.5)
+        .easeOut(duration: 3)
+        .delay(0.5)
     
     var body: some View {
         ZStack {
             
             Circle()
                 .stroke(Color(red: 0.6, green: 0.63, blue: 0.7), lineWidth: 70)
-           
+            
             Circle()
                 .trim(from: 0, to: drawingStroke ? CGFloat(self.progress) : 0)
                 .stroke(
@@ -36,10 +36,15 @@ struct CircularProgessView: View {
         .padding()
         .animation(animation, value: drawingStroke)
         .onAppear {
-            drawingStroke.toggle()
-    
-        }
+            // Reset the animation state
+            self.drawingStroke = false
             
+            // Slight delay to ensure the animation can restart smoothly
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.drawingStroke = true
+            }
+        }
+        
     }
 }
 
