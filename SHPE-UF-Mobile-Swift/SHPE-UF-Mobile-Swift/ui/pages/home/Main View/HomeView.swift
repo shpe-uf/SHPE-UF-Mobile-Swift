@@ -94,6 +94,12 @@ struct HomeView: View {
                                                                     // Update displayed month based on the next event
                                                                     displayedMonth = dateHelper.getMonth(for: viewModel.events[nextEventIndex].start.dateTime)
                                                                 }
+                                                                else
+                                                                {
+                                                                    let priorEventIndex = max(index - 2, 0)
+                                                                    // Update displayed month based on the next event
+                                                                    displayedMonth = dateHelper.getMonth(for: viewModel.events[priorEventIndex].start.dateTime)
+                                                                }
                                                             }
                                                     }
                                                 )
