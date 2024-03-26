@@ -25,9 +25,17 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+		2A1912762B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A1912752B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf */; };
+		2A1912782B91402600A440E5 /* Univers LT Std 65 Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A1912772B91402600A440E5 /* Univers LT Std 65 Bold.otf */; };
+		2A19127A2B91425B00A440E5 /* Univers LT Std 45 Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A1912792B91425B00A440E5 /* Univers LT Std 45 Light.otf */; };
 		2AA597C12B6B697F00EE7F59 /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA597C02B6B697E00EE7F59 /* PointsUI.swift */; };
 		2AA597C32B6B699000EE7F59 /* ReedemPointsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA597C22B6B699000EE7F59 /* ReedemPointsButton.swift */; };
 		2AA597C52B6B69A300EE7F59 /* ReedemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA597C42B6B69A300EE7F59 /* ReedemView.swift */; };
+		2AA7852D2B87DBE7000B6A34 /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA7852C2B87DBE7000B6A34 /* SingleEventView.swift */; };
+		2AA7852F2B87DC19000B6A34 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA7852E2B87DC19000B6A34 /* TableView.swift */; };
+		2AA785312B87DC55000B6A34 /* CircularProgessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA785302B87DC55000B6A34 /* CircularProgessView.swift */; };
+		2AA7854D2B8806AA000B6A34 /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2AA7854C2B8806AA000B6A34 /* Viga-Regular.ttf */; };
+		2AA785502B880967000B6A34 /* Univers LT Std 75 Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2AA7854F2B880967000B6A34 /* Univers LT Std 75 Black.otf */; };
 		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5DDD2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
@@ -136,9 +144,18 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		2A1912752B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 55 Oblique.otf"; sourceTree = "<group>"; };
+		2A1912772B91402600A440E5 /* Univers LT Std 65 Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 65 Bold.otf"; sourceTree = "<group>"; };
+		2A1912792B91425B00A440E5 /* Univers LT Std 45 Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 45 Light.otf"; sourceTree = "<group>"; };
 		2AA597C02B6B697E00EE7F59 /* PointsUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointsUI.swift; path = ../../../../../../../../Downloads/PointsUI.swift; sourceTree = "<group>"; };
 		2AA597C22B6B699000EE7F59 /* ReedemPointsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReedemPointsButton.swift; path = ../../../../../../../../Downloads/ReedemPointsButton.swift; sourceTree = "<group>"; };
 		2AA597C42B6B69A300EE7F59 /* ReedemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReedemView.swift; path = ../../../../../../../../Downloads/ReedemView.swift; sourceTree = "<group>"; };
+		2AA7852C2B87DBE7000B6A34 /* SingleEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventView.swift; sourceTree = "<group>"; };
+		2AA7852E2B87DC19000B6A34 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		2AA785302B87DC55000B6A34 /* CircularProgessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgessView.swift; sourceTree = "<group>"; };
+		2AA7854C2B8806AA000B6A34 /* Viga-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Viga-Regular.ttf"; sourceTree = "<group>"; };
+		2AA7854E2B880787000B6A34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		2AA7854F2B880967000B6A34 /* Univers LT Std 75 Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 75 Black.otf"; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUser.graphql.swift; sourceTree = "<group>"; };
@@ -214,6 +231,12 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				2AA7854E2B880787000B6A34 /* Info.plist */,
+				2A1912792B91425B00A440E5 /* Univers LT Std 45 Light.otf */,
+				2A1912772B91402600A440E5 /* Univers LT Std 65 Bold.otf */,
+				2A1912752B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf */,
+				2AA7854F2B880967000B6A34 /* Univers LT Std 75 Black.otf */,
+				2AA7854C2B8806AA000B6A34 /* Viga-Regular.ttf */,
 				20CF4A1C2AE7423400916EC6 /* data */,
 				20CF4A1D2AE7424100916EC6 /* ui */,
 				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
@@ -257,6 +280,9 @@
 				2AA597C02B6B697E00EE7F59 /* PointsUI.swift */,
 				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
 				20CF4A392AE747A800916EC6 /* PointsViewModel.swift */,
+				2AA7852C2B87DBE7000B6A34 /* SingleEventView.swift */,
+				2AA7852E2B87DC19000B6A34 /* TableView.swift */,
+				2AA785302B87DC55000B6A34 /* CircularProgessView.swift */,
 			);
 			path = points;
 			sourceTree = "<group>";
@@ -536,12 +562,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				95D370992B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
+				2A19127A2B91425B00A440E5 /* Univers LT Std 45 Light.otf in Resources */,
 				958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
+				2AA785502B880967000B6A34 /* Univers LT Std 75 Black.otf in Resources */,
+				2AA7854D2B8806AA000B6A34 /* Viga-Regular.ttf in Resources */,
+				2A1912782B91402600A440E5 /* Univers LT Std 65 Bold.otf in Resources */,
 				95D3709D2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */,
 				206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */,
 				206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */,
 				95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
 				95D370952B6472AE00B2C5A4 /* RedeemPoints.graphql.swift in Resources */,
+				2A1912762B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf in Resources */,
 				95D370A12B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -584,6 +615,7 @@
 				95D371182B64825500B2C5A4 /* Query.graphql.swift in Sources */,
 				2AA597C32B6B699000EE7F59 /* ReedemPointsButton.swift in Sources */,
 				95D371242B64825500B2C5A4 /* SchemaMetadata.graphql.swift in Sources */,
+				2AA7852D2B87DBE7000B6A34 /* SingleEventView.swift in Sources */,
 				95D371092B64825500B2C5A4 /* GetUserPointsQuery.graphql.swift in Sources */,
 				95D371032B64825500B2C5A4 /* SignInMutation.graphql.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
@@ -598,6 +630,7 @@
 				95D371122B64825500B2C5A4 /* Mutation.graphql.swift in Sources */,
 				95D370FD2B64825500B2C5A4 /* RedeemPointsMutation.graphql.swift in Sources */,
 				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
+				2AA785312B87DC55000B6A34 /* CircularProgessView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
 				95D3711E2B64825500B2C5A4 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
@@ -607,6 +640,7 @@
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
 				95D371002B64825500B2C5A4 /* RegisterUserMutation.graphql.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
+				2AA7852F2B87DC19000B6A34 /* TableView.swift in Sources */,
 				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
 				95D371212B64825500B2C5A4 /* RedeemPointsInput.graphql.swift in Sources */,
 				20CF4A272AE745F900916EC6 /* SHPEito.swift in Sources */,
@@ -809,6 +843,7 @@
 				DEVELOPMENT_TEAM = 4KV2SNV228;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -840,6 +875,7 @@
 				DEVELOPMENT_TEAM = 4KV2SNV228;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

@@ -92,11 +92,11 @@ final class PointsViewModel:ObservableObject {
                 {
                     print("Success!")
                     // Do something with the data
-                    self.shpeito.fallPercentile = fallPercentile //Update the model
+                    self.shpeito.fallPercentile = fallPercentile
                     self.shpeito.springPercentile = springPercentile
                     self.shpeito.summerPercentile = summerPercentile
                     
-                    self.fallPercentile = fallPercentile // Update the information being displayed
+                    self.fallPercentile = fallPercentile
                     self.springPercentile = springPercentile
                     self.summerPercentile = summerPercentile
                 }
@@ -149,6 +149,7 @@ final class PointsViewModel:ObservableObject {
         }
     }
     
+    // redeem code
     func redeemCode(code: String, guests: Int = 0)
     {
         
@@ -191,6 +192,4 @@ final class PointsViewModel:ObservableObject {
             }
         }
     }
-    
-    
 }
