@@ -98,7 +98,6 @@ struct PointsView: View {
                     
                     Text("Total Points: \(vm.points)")
                         .font(.system(size: 20)).bold()
-                      .foregroundColor(Color(red: 0, green: 0.12, blue: 0.21))
                     
                     PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: fallGradient)
                     
