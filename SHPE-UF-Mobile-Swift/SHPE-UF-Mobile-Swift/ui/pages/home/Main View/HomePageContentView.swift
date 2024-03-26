@@ -21,7 +21,7 @@ struct HomePageContentView: View {
                     Image(selectedTab == 1 ? "clicked_leaderboard" : colorScheme == .dark ? "dark_leaderboard":"Leaderboard")
                 }
             
-            Text("Profile")
+            TempSignOutView()
                 .tag(2)
                 .tabItem {
                     Image(selectedTab == 2 ? "clicked_customer" : colorScheme == .dark ? "dark_customer":"Customer")
