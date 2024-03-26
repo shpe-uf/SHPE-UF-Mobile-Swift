@@ -17,6 +17,7 @@ struct CustomTextFieldStyle: ViewModifier {
 
 struct SignInView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) private var viewContext
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: SignInViewModel
     @State public var username = ""
@@ -134,7 +135,7 @@ struct SignInView: View {
                 
                 // Sign In Button
                 Button(action: {
-                    viewModel.signIn(username: username, password: password)
+                    viewModel.signIn(username: username, password: password, viewContext: viewContext)
                     viewModel.signInButtonClicked = true
                 }) {
                     Text("Sign In")
@@ -164,7 +165,7 @@ struct SignInView: View {
                         .font(Font.custom("Univers LT Std", size: 14))
                         .foregroundColor(Color("lblue"))
                         .onTapGesture {
-                            appVM.setPageIndex(index: 0)
+                            appVM.setPageIndex(index: 1)
                         }
                 }
                 
