@@ -4,7 +4,6 @@ import SwiftUI
 
 struct SHPEUFAppView: View {
     @StateObject private var manager: DataManager = DataManager()
-    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
     @StateObject var appVM:AppViewModel = AppViewModel.appVM
     var body: some View
     {

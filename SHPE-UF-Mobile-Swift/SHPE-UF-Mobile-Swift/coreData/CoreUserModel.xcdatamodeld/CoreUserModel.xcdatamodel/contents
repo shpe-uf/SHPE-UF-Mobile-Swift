@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E214" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
-        <attribute name="bookMarkedTasks" optional="YES" attributeType="Transformable"/>
-        <attribute name="bookmarks" optional="YES" attributeType="Transformable"/>
-        <attribute name="classes" optional="YES" attributeType="Transformable"/>
         <attribute name="confirmed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="country" optional="YES" attributeType="String"/>
         <attribute name="createdAt" optional="YES" attributeType="String"/>
@@ -14,7 +11,6 @@
         <attribute name="firstName" optional="YES" attributeType="String"/>
         <attribute name="graduating" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="internships" optional="YES" attributeType="Transformable"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
         <attribute name="listServ" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="loginTime" optional="YES" attributeType="Date"/>
@@ -24,7 +20,6 @@
         <attribute name="photo" optional="YES" attributeType="String"/>
         <attribute name="points" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="sex" optional="YES" attributeType="String"/>
-        <attribute name="socialMedia" optional="YES" attributeType="Transformable"/>
         <attribute name="springPercentile" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="springPoints" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="summerPercentile" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
