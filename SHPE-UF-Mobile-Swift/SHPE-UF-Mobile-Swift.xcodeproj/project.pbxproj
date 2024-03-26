@@ -62,6 +62,10 @@
 		958A5E6E2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */; };
 		958CB0292B9D0370002B83F9 /* OpeningScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 958CB0282B9D0370002B83F9 /* OpeningScreen.storyboard */; };
+		958CB0302B9D79AD002B83F9 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB02C2B9D79AD002B83F9 /* DataManager.swift */; };
+		958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0322B9D7F93002B83F9 /* CheckCore.swift */; };
+		958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */; };
+		958CB0372B9D89E3002B83F9 /* TempSignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0362B9D89E3002B83F9 /* TempSignOutView.swift */; };
 		95D291042B8D317E004AC28B /* SignInViewLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D291032B8D317E004AC28B /* SignInViewLight.swift */; };
 		95D327002B8FED88002A7DDA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D326FF2B8FED87002A7DDA /* Event.swift */; };
 		95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */; };
@@ -163,6 +167,10 @@
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppViewModel.swift; sourceTree = "<group>"; };
 		958CB0282B9D0370002B83F9 /* OpeningScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OpeningScreen.storyboard; sourceTree = "<group>"; };
+		958CB02C2B9D79AD002B83F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		958CB0322B9D7F93002B83F9 /* CheckCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCore.swift; sourceTree = "<group>"; };
+		958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCoreViewModel.swift; sourceTree = "<group>"; };
+		958CB0362B9D89E3002B83F9 /* TempSignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempSignOutView.swift; sourceTree = "<group>"; };
 		95D291032B8D317E004AC28B /* SignInViewLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewLight.swift; sourceTree = "<group>"; };
 		95D326FF2B8FED87002A7DDA /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUser.graphql.swift; sourceTree = "<group>"; };
@@ -358,6 +366,7 @@
 		20CF4A292AE7467300916EC6 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
 				20CF4A2A2AE746CE00916EC6 /* signIn */,
 				20CF4A282AE7466400916EC6 /* home */,
@@ -498,6 +507,25 @@
 				B8A10DA42B817793006BC59D /* NotificationViewModel.swift */,
 			);
 			path = "Notifcation View";
+			sourceTree = "<group>";
+		};
+		958CB02D2B9D79AD002B83F9 /* coreData */ = {
+			isa = PBXGroup;
+			children = (
+				951F6E6E2BABE00C001FDB50 /* CoreUserModel.xcdatamodeld */,
+				958CB02C2B9D79AD002B83F9 /* DataManager.swift */,
+			);
+			path = coreData;
+			sourceTree = "<group>";
+		};
+		958CB0312B9D7F62002B83F9 /* startup */ = {
+			isa = PBXGroup;
+			children = (
+				958CB0322B9D7F93002B83F9 /* CheckCore.swift */,
+				958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */,
+				958CB0362B9D89E3002B83F9 /* TempSignOutView.swift */,
+			);
+			path = startup;
 			sourceTree = "<group>";
 		};
 		B8EF26FB2B8FB07000F98FA2 /* Font */ = {
@@ -677,9 +705,11 @@
 				46909E402B9693A500E99274 /* User.graphql.swift in Sources */,
 				46909E432B9693A500E99274 /* Query.graphql.swift in Sources */,
 				958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */,
+				958CB0302B9D79AD002B83F9 /* DataManager.swift in Sources */,
 				46909E422B9693A500E99274 /* Event.graphql.swift in Sources */,
 				46909E3C2B9693A500E99274 /* GetUserEventsQuery.graphql.swift in Sources */,
 				46909DFA2B96907D00E99274 /* UserEvent.swift in Sources */,
+				958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */,
 				46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */,
 				46909E462B9693A500E99274 /* RedeemPointsInput.graphql.swift in Sources */,
 				46909E482B9693A500E99274 /* SHPESchema.graphql.swift in Sources */,
@@ -689,17 +719,20 @@
 				46909E452B9693A500E99274 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
 				5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */,
+				951F6E702BABE00C001FDB50 /* CoreUserModel.xcdatamodeld in Sources */,
 				46909E3A2B9693A500E99274 /* RegisterUserMutation.graphql.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
 				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				46909E3B2B9693A500E99274 /* SignInMutation.graphql.swift in Sources */,
+				958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */,
 				95D327002B8FED88002A7DDA /* Event.swift in Sources */,
 				46909E472B9693A500E99274 /* SchemaMetadata.graphql.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
 				B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				958CB0372B9D89E3002B83F9 /* TempSignOutView.swift in Sources */,
 				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				46909E3E2B9693A500E99274 /* GetUserPointsQuery.graphql.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
@@ -886,7 +919,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
+				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -918,7 +951,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
+				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
