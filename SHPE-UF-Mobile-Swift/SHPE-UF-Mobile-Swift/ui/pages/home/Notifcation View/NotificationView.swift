@@ -22,7 +22,7 @@ struct NotificationView: View {
     // A flag to manage notification permissions for all event types
     @State private var allowForAll = false
     
-    @StateObject var viewNotificationModel = NotificationViewModel()
+    @StateObject var viewNotificationModel = NotificationViewModel.instance
     
     var body: some View {
         // Stack the views vertically with spacing
@@ -66,15 +66,15 @@ struct NotificationView: View {
                     // Horizontal stack for event type buttons
                     HStack(spacing: 30) {
                         // Each event type button with its corresponding label and icon
-                        eventButtonSection(eventName: "GBM", eventIcon: "Business_Group", isSelected: $isGBMSelected)
-                        eventButtonSection(eventName: "Info Sessions", eventIcon: "Info", isSelected: $isInfoSelected)
-                        eventButtonSection(eventName: "Workshops", eventIcon: "Training", isSelected: $isWorkShopSelected)
+                        eventButtonSection(eventName: "GBM", eventIcon: "Business_Group", isSelected: $viewNotificationModel.isGBMSelected)
+                        eventButtonSection(eventName: "Info Sessions", eventIcon: "Info", isSelected: $viewNotificationModel.isInfoSelected)
+                        eventButtonSection(eventName: "Workshops", eventIcon: "Training", isSelected: $viewNotificationModel.isWorkShopSelected)
                     }
                     
                     // Horizontal stack for Volunteering and Socials buttons
                     HStack(spacing: 30){
-                        eventButtonSection(eventName: "Volunteering", eventIcon: "Volunteering", isSelected: $isVolunteeringSelected)
-                        eventButtonSection(eventName: "Socials", eventIcon: "Users", isSelected: $isSocialSelected)
+                        eventButtonSection(eventName: "Volunteering", eventIcon: "Volunteering", isSelected: $viewNotificationModel.isVolunteeringSelected)
+                        eventButtonSection(eventName: "Socials", eventIcon: "Users", isSelected: $viewNotificationModel.isSocialSelected)
                     }
 
                     Spacer()
@@ -90,16 +90,16 @@ struct NotificationView: View {
                        isSocialSelected = allowForAll
                         if allowForAll {
                             viewNotificationModel.turnOnEventNotification(eventType: "GBM")
-                            viewNotificationModel.turnOnEventNotification(eventType: "Info")
-                            viewNotificationModel.turnOnEventNotification(eventType: "Workshop")
+                            viewNotificationModel.turnOnEventNotification(eventType: "Info Sessions")
+                            viewNotificationModel.turnOnEventNotification(eventType: "Workshops")
                             viewNotificationModel.turnOnEventNotification(eventType: "Volunteering")
-                            viewNotificationModel.turnOnEventNotification(eventType: "Social")
+                            viewNotificationModel.turnOnEventNotification(eventType: "Socials")
                         } else {
                             viewNotificationModel.turnOffEventNotification(eventType: "GBM")
-                            viewNotificationModel.turnOffEventNotification(eventType: "Info")
-                            viewNotificationModel.turnOffEventNotification(eventType: "Workshop")
+                            viewNotificationModel.turnOffEventNotification(eventType: "Info Sessions")
+                            viewNotificationModel.turnOffEventNotification(eventType: "Workshops")
                             viewNotificationModel.turnOffEventNotification(eventType: "Volunteering")
-                            viewNotificationModel.turnOffEventNotification(eventType: "Social")
+                            viewNotificationModel.turnOffEventNotification(eventType: "Socials")
                         }
                             
                     }){
@@ -132,7 +132,6 @@ struct NotificationView: View {
     private func eventButtonSection(eventName: String, eventIcon: String, isSelected: Binding<Bool>) -> some View {
         VStack(spacing: 20) {
             Button(action: {
-                isSelected.wrappedValue.toggle()
                 if isSelected.wrappedValue {
                     viewNotificationModel.turnOnEventNotification(eventType: eventName)
                 } else {

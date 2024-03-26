@@ -13,6 +13,32 @@ class NotificationViewModel : ObservableObject {
     static let instance  = NotificationViewModel()
     @ObservedObject var viewModel = HomeViewModel()
     
+    @Published var isGBMSelected = false
+    @Published var isInfoSelected = false
+    @Published var isWorkShopSelected = false
+    @Published var isVolunteeringSelected = false
+    @Published var isSocialSelected = false
+    
+    private init () {}
+    
+    private func buttonClicked(eventType:String)
+    {
+        switch eventType {
+        case "GBM":
+            isGBMSelected.toggle()
+        case "Info Sessions":
+            isInfoSelected.toggle()
+        case "Workshops":
+            isWorkShopSelected.toggle()
+        case "Volunteering":
+            isVolunteeringSelected.toggle()
+        case "Socials":
+            isSocialSelected.toggle()
+        default:
+            print("Invalid Notificatiion Type")
+        }
+    }
+    
     func checkForPermission() {
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.getNotificationSettings { settings in
@@ -41,6 +67,7 @@ class NotificationViewModel : ObservableObject {
     
     
     func turnOnEventNotification(eventType: String) {
+        buttonClicked(eventType: eventType)
         for event in viewModel.events {
             if event.eventType == eventType {
                 var notificationDate = event.start.dateTime
@@ -63,6 +90,7 @@ class NotificationViewModel : ObservableObject {
     }
     
     func turnOffEventNotification(eventType: String) {
+        buttonClicked(eventType: eventType)
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [eventType])
     }

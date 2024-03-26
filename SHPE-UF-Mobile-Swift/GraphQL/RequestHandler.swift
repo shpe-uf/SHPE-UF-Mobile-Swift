@@ -11,7 +11,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://fbf0-2605-ad80-10-49a4-4481-6487-1e8b-be39.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://edc8-128-227-1-40.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
