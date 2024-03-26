@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Foundation
+
 
 struct PointsView: View {
     
     @StateObject var vm : PointsViewModel
     
     @State private var redeem = false;
+    private let currentMonth:Int = Calendar.current.component(.month, from: Date())
     
     // REFACTOR
     
@@ -60,15 +63,15 @@ struct PointsView: View {
                 ZStack {
                     
                     
-                    CircularProgessView(progress: Double(vm.springPercentile) / 100)
+                    CircularProgessView(progress: Double( currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile) / 100)
                         
                     
                     
                     VStack {
-                        Text("SPRING:")
+                        Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
                             .font(.title)
                             .bold()
-                        Text("\(stringWithOrdinalSuffix(from : vm.springPercentile))")
+                        Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
                             .font(.title)
                             .bold()
                         Text("Percentile")
