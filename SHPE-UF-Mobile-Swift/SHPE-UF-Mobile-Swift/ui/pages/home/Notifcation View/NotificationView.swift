@@ -22,7 +22,7 @@ struct NotificationView: View {
     // A flag to manage notification permissions for all event types
     @State private var allowForAll = false
     
-    @ObservedObject var viewNotificationModel = NotificationViewModel()
+    @StateObject var viewNotificationModel = NotificationViewModel()
     
     var body: some View {
         // Stack the views vertically with spacing
