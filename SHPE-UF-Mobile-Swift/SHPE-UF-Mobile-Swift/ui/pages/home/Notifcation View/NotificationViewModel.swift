@@ -68,21 +68,24 @@ class NotificationViewModel : ObservableObject {
     }
     
     func dispatchNotification(event: Event, date: Date) {
-        let identifier = event.eventType
-        let title = "Upcoming Event: \(event.summary)"
-        let body = "Event starts soon!"
+        let identifier = event.eventType //TODO: Change this to event Id:::eventType
+        
+        let title = "Upcoming Event: \(event.summary)" //TODO: Change to event Title OR <EVENT_TYPE>: Title
+        let body = "Event starts soon!" // Some message that gives information about time and location
         
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
-        content.sound = .default
+        content.sound = .default // Kinda cool if we could make our own notification sound 👀
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date), repeats: false)
         
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         
         let notificationCenter = UNUserNotificationCenter.current()
+        
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
+        
         notificationCenter.add(request)
     }
 }
