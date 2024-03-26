@@ -14,7 +14,7 @@ This repository contains the code for the SHPE UF iOS Mobile Application 🐊
   * [What now?](#what-now)
   * [Resources](#resources)
 
-## SHPE-Itroduction
+## SHPE-Introduction
 SHPE, or the Society of Hispanic Professional Engineers at the University of Florida, aims to maximize its impact on the world by promoting STEM awareness, access, support, and development within the Hispanic community. The goal of this application is to allow our community easy access to several professional, academic and communal resoures.
 
 **Ok, but why should I use SHPE UF iOS?** 🤷
