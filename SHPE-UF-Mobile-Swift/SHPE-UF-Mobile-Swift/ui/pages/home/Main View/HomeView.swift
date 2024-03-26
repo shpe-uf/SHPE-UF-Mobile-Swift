@@ -2,70 +2,14 @@
 //
 import SwiftUI
 
-struct Constants {
-    static let BackgroundColor: Color = Color(red: 0.93, green: 0.93, blue: 0.93) // Default background color
-    static let darkModeBackground: Color = Color(red: 0, green: 0.12, blue: 0.21) // Dark blue for dark mode
-    static let DescriptionHeaderColor: Color = Color(red: 0, green: 0.12, blue: 0.21) // Color for headers in descriptions
-    static let lightTextColor: Color = Color.white // Text color for dark mode
-    static let NotificationsSelectIcon: Color = Color(red: 0.72, green: 0.72, blue: 0.72) // Color for notification icons
-    static let DescriptionTextColor: Color = Color(red: 0.25, green: 0.25, blue: 0.25) // Color for text in descriptions
-    static let DashedLineColor: Color = Color.black // Color for dashed lines
-    static let DayTextColor: Color = Color(red: 0.42, green: 0.42, blue: 0.42) // Text color for days
-    static let DayNumberTextColor: Color = Color(red: 0.26, green: 0.26, blue: 0.26) // Text color for day numbers
-    static let orange: Color = Color(red: 0.82, green: 0.35, blue: 0.09) // Custom orange color
-    static let teal: Color = Color(red: 0.26, green: 0.46, blue: 0.48) // Custom teal color
-    static let blue: Color = Color(red: 0, green: 0.44, blue: 0.76) // Custom blue color
-    static let grey: Color = Color(red: 0.23, green: 0.23, blue: 0.23) // Custom grey color
-    static let green: Color = Color(red: 0.17, green: 0.34, blue: 0.09) // Custom green color
-    static let yellow: Color = Color(red: 0.69, green: 0.54, blue: 0) // Custom yellow color
-    static let pink: Color = Color(red: 0.75, green: 0.29, blue: 0.51) // Custom pink color
-    static let iconColor: Color = Color.black // Icon color for light mode
-    static let darkModeIcon: Color = Color.white // Icon color for dark mode
-}
-
-struct DateHelper {
-    // Gets the current month as a string
-    func getCurrentMonth() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM"
-        return dateFormatter.string(from: Date())
-    }
-
-    // Gets the time in hour and minutes AM/PM format
-    func getTime(for date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm a"
-        return dateFormatter.string(from: date)
-    }
-
-    // Gets the full date format for an event
-    func getDayFull(for date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, yyyy"
-        return dateFormatter.string(from: date)
-    }
-
-    // Gets the day abbreviation (e.g., Mon, Tue)
-    func getDayAbbreviation(for date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "E"
-        return dateFormatter.string(from: date)
-    }
-
-    // Gets the day number from a date
-    func getDayNumber(for date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d"
-        return dateFormatter.string(from: date)
-    }
-}
-
 struct HomeView: View {
+    //Variables for the view model
     @Environment(\.colorScheme) var colorScheme // Detects the system's color scheme (dark or light mode)
-    let dateHelper = DateHelper() // Date helper instance for manipulating dates
-    @ObservedObject var viewModel = HomeViewModel() // ViewModel for managing the view's state
-    @State private var isNotificationButtonPagePresented = false // State for managing notification button presentation
-
+    let dateHelper = DateHelper()
+    @ObservedObject var viewModel = HomeViewModel()
+    @State private var isNotificationButtonPagePresented = false
+    @State private var displayedMonth: String = ""
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -75,7 +19,7 @@ struct HomeView: View {
                         .frame(height: 93)
                     HStack(spacing: 20) {
                         // Displaying the current month
-                        Text(dateHelper.getCurrentMonth())
+                        Text(displayedMonth)
                             .font(Font.custom("Viga-Regular", size: 24))
                             .foregroundColor(.white)
                             .frame(width: 107, height: 0, alignment: .topLeading)
@@ -94,79 +38,110 @@ struct HomeView: View {
                 }
 
                 // Main content area
-                ZStack {
+                ZStack{
                     ScrollView {
-                        VStack(spacing: 20) {
-                            // Loop through events and display them
-                            ForEach(viewModel.events.indices, id: \.self) { index in
-                                let event = viewModel.events[index]
-                                let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
-                                let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
-                                
-                                // Event row with date and event details
-                                HStack {
-                                    // Display date only for the first event or when the day changes
-                                    if index == 0 || !sameDay(viewModel.events[index - 1], viewModel.events[index]) {
-                                        VStack(alignment: .center, spacing: 0) {
-                                            Text(abrDateString)
-                                                .font(Font.custom("UniversLTStd", size: 14))
-                                                .multilineTextAlignment(.center)
-                                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayTextColor)
-                                                .frame(width: 35, height: 15, alignment: .top)
-                                            Text(numDateString)
-                                                .font(Font.custom("UniversLTStd", size: 20))
-                                                .multilineTextAlignment(.center)
-                                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                                                .frame(width: 26, height: 16, alignment: .top)
-                                        }
-                                        .padding(.horizontal, 2)
-                                        .padding(.top, 4)
-                                        .padding(.bottom, 8)
-                                        .frame(width: 39, height: 45, alignment: .top)
-                                    } else {
-                                        VStack { }
+                        ScrollViewReader { proxy in
+                            LazyVStack(spacing: 20) {
+                                // Loop through events and display them
+                                ForEach(viewModel.events.indices, id: \.self) { index in
+                                    let event = viewModel.events[index]
+                                    let currentMonth = dateHelper.getMonth(for: event.start.dateTime)
+                                    let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
+                                    let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
+                                    
+                                    // Event row with date and event details
+                                    HStack {
+                                        // Display date only for the first event or when the day changes
+                                        if index == 0 || !sameDay(viewModel.events[index - 1], viewModel.events[index]) {
+                                            
+                                            
+                                            VStack(alignment: .center, spacing: 0) {
+                                                Text(abrDateString)
+                                                    .font(Font.custom("UniversLTStd", size: 14))
+                                                    .multilineTextAlignment(.center)
+                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayTextColor)
+                                                    .frame(width: 35, height: 15, alignment: .top)
+                                                Text(numDateString)
+                                                    .font(Font.custom("UniversLTStd", size: 20))
+                                                    .multilineTextAlignment(.center)
+                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                                                    .frame(width: 26, height: 16, alignment: .top)
+                                            }
                                             .padding(.horizontal, 2)
                                             .padding(.top, 4)
                                             .padding(.bottom, 8)
                                             .frame(width: 39, height: 45, alignment: .top)
+                                        } else {
+                                            VStack { }
+                                                .padding(.horizontal, 2)
+                                                .padding(.top, 4)
+                                                .padding(.bottom, 8)
+                                                .frame(width: 39, height: 45, alignment: .top)
+                                        }
+                                        
+                                        // Navigation link to detailed event information
+                                        NavigationLink(destination: eventInfo(event: viewModel.events[index])) {
+                                            eventBox(event: viewModel.events[index])
+                                                .frame(width: 324, height: 69)
+                                                .background(
+                                                    GeometryReader { geometry in
+                                                        Color.clear
+                                                            .onChange(of: geometry.frame(in: .global).maxY) {
+                                                                // Check if the event box is about to move out of view
+                                                                if geometry.frame(in: .global).maxY < UIScreen.main.bounds.height * 0.1 {
+                                                                    // Get the index of the next event
+                                                                    let nextEventIndex = min(index + 2, viewModel.events.count - 1)
+                                                                    // Update displayed month based on the next event
+                                                                    displayedMonth = dateHelper.getMonth(for: viewModel.events[nextEventIndex].start.dateTime)
+                                                                }
+                                                                else
+                                                                {
+                                                                    let priorEventIndex = max(index - 2, 0)
+                                                                    // Update displayed month based on the next event
+                                                                    displayedMonth = dateHelper.getMonth(for: viewModel.events[priorEventIndex].start.dateTime)
+                                                                }
+                                                            }
+                                                    }
+                                                )
+                                            
+                                        }
                                     }
+                                   
                                     
-                                    // Navigation link to detailed event information
-                                    NavigationLink(destination: eventInfo(event: viewModel.events[index])) {
-                                        RectangleBox(event: viewModel.events[index])
-                                            .frame(width: 324, height: 69)
+                                    // Dashed line separator for events on different days
+                                    if index != viewModel.events.indices.last && !sameDay(viewModel.events[index], viewModel.events[index + 1]) {
+                                        HStack{
+                                            Rectangle()
+                                                .foregroundColor(.clear)
+                                                .frame(width: 39, height: 1, alignment: .top)
+                                            Rectangle()
+                                                .frame(width: 301, height: 1, alignment: .center)
+                                                .foregroundColor(.clear)
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 1)
+                                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                        .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
+                                                )
+                                        }
+                                        
                                     }
-                                }
-                                
-                                // Dashed line separator for events on different days
-                                if index != viewModel.events.indices.last && !sameDay(viewModel.events[index], viewModel.events[index + 1]) {
-                                    HStack{
-                                        Rectangle()
-                                            .foregroundColor(.clear)
-                                            .frame(width: 39, height: 1, alignment: .top)
-                                        Rectangle()
-                                            .frame(width: 301, height: 1, alignment: .center)
-                                            .foregroundColor(.clear)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 1)
-                                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
-                                            )
-                                    }
-                                    
                                 }
                             }
+                            .padding(.bottom, 100)
+                            .padding()
+                            .frame(maxWidth: .infinity)
                         }
-                        .padding(.bottom, 100)
-                        .padding()
+                        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                         .frame(maxWidth: .infinity)
                     }
-                    .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
-                    .frame(maxWidth: .infinity)
                 }
             }
             .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
             .edgesIgnoringSafeArea(.all)
+        }
+        .onAppear {
+            // Initialize lastUpdatedVisibleMonths with initial visible months
+            displayedMonth = dateHelper.getCurrentMonth()
         }
     }
     
@@ -305,7 +280,8 @@ struct eventInfo: View {
                         .frame(width: 300, alignment: .leading)
                         .padding(10)
                         // Event description text
-                        Text("Join us for our 1st Spring GBM next Wednesday for exciting announcements, upcoming events, and free food!")
+                        //Need to have event  description variables in the future
+                        Text("")
                           .font(Font.custom("UniversLTStd", size: 18))
                           .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                           .frame(width: 297,height: 200, alignment: .topLeading)
@@ -342,7 +318,7 @@ struct eventInfo: View {
 }
 
 
-struct RectangleBox: View {
+struct eventBox: View {
     var event: Event
     @Environment(\.colorScheme) var colorScheme
     

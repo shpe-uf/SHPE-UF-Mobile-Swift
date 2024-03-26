@@ -11,7 +11,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://f63d-2601-58a-8100-af30-ec7a-ef1e-3cf1-2420.ngrok-free.app/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://fbf0-2605-ad80-10-49a4-4481-6487-1e8b-be39.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -408,7 +408,6 @@ class RequestHandler
                         if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                         {
                             var eventsList:[Event] = []
-                            print("ITEMS:")
                             if let items = jsonObject["items"] as? (any Sequence)
                             {
                                 for item in items
