@@ -54,6 +54,8 @@
 		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
 		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
 		52A67A592B91642D00D21F73 /* PlaceholderForLandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */; };
+		951F6E7B2BB262C5001FDB50 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E772BB262C5001FDB50 /* CoreUserModel.xcdatamodeld */; };
+		951F6E7C2BB262C5001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E782BB262C5001FDB50 /* DataManager.swift */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
@@ -155,6 +157,8 @@
 		528D72BD2B74648600702D0B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderForLandingPageView.swift; sourceTree = "<group>"; };
+		951F6E782BB262C5001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		951F6E7A2BB262C5001FDB50 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppViewModel.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				951F6E792BB262C5001FDB50 /* coreData */,
 				20CF4A1C2AE7423400916EC6 /* data */,
 				20CF4A1D2AE7424100916EC6 /* ui */,
 				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
@@ -440,6 +445,15 @@
 				46909E362B9693A500E99274 /* RedeemPointsInput.graphql.swift */,
 			);
 			path = InputObjects;
+			sourceTree = "<group>";
+		};
+		951F6E792BB262C5001FDB50 /* coreData */ = {
+			isa = PBXGroup;
+			children = (
+				951F6E772BB262C5001FDB50 /* CoreUserModel.xcdatamodeld */,
+				951F6E782BB262C5001FDB50 /* DataManager.swift */,
+			);
+			path = coreData;
 			sourceTree = "<group>";
 		};
 		958A5DC82B5850A900D1BAE4 /* GraphQL */ = {
@@ -690,6 +704,7 @@
 				46909E3E2B9693A500E99274 /* GetUserPointsQuery.graphql.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
+				951F6E7C2BB262C5001FDB50 /* DataManager.swift in Sources */,
 				46909E3D2B9693A500E99274 /* GetPercentilesQuery.graphql.swift in Sources */,
 				46909E442B9693A500E99274 /* SchemaConfiguration.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
@@ -699,6 +714,7 @@
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
 				46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
+				951F6E7B2BB262C5001FDB50 /* CoreUserModel.xcdatamodeld in Sources */,
 				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
 				B8264CEF2BAE5D4B005CED1B /* Constants.swift in Sources */,
 				523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */,
@@ -1053,6 +1069,20 @@
 			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		951F6E772BB262C5001FDB50 /* CoreUserModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				951F6E7A2BB262C5001FDB50 /* CoreUserModel.xcdatamodel */,
+			);
+			currentVersion = 951F6E7A2BB262C5001FDB50 /* CoreUserModel.xcdatamodel */;
+			name = CoreUserModel.xcdatamodeld;
+			path = "/Users/danielparra/Desktop/SHPE/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 206C8F6A2AE181FF0081A35A /* Project object */;
 }
