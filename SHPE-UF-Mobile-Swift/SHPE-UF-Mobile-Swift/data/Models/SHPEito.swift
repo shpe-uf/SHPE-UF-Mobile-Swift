@@ -9,6 +9,7 @@ class SHPEito
         self.password = password
         self.remember = remember
         self.photoURL = URL(string: photo)
+        self.name = firstName + " " + lastName
         self.firstName = firstName
         self.lastName = lastName
         self.year = year
@@ -35,6 +36,7 @@ class SHPEito
         self.password = ""
         self.remember = ""
         self.photoURL = nil
+        self.name = ""
         self.firstName = ""
         self.lastName = ""
         self.year = ""
@@ -58,6 +60,7 @@ class SHPEito
     @Published var password: String
     @Published var remember: String
     @Published var photoURL: URL?
+    @Published var name:String
     @Published var firstName:String
     @Published var lastName:String
     @Published var year: String
@@ -83,6 +86,10 @@ class SHPEito
     @Published var gender:String = "Male"
     @Published var ethnicity:String = "Hispanic"
     @Published var originCountry:String = "Cuba"
+    @Published var graduationYear:String = "2026"
+    @Published var classes:[String] = ["Data Structures", "Discrete Structures", "Calculus 3"]
+    @Published var internships:[String] = ["Microsoft", "Apple", "Google"]
+    @Published var links:[URL] = [URL(string: "https://www.linkedin.com/in/david-denis-/")!]
     
     func loadProfileImage()
     {
