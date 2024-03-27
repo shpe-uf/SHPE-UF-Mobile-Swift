@@ -1,259 +1,331 @@
 import SwiftUI
-import UIKit
-// Add this extension at the top of your Swift file
-extension Locale {
-    static let countryNames: [String] = {
-        var countries: [String] = []
-        for code in NSLocale.isoCountryCodes {
-            let id = NSLocale.localeIdentifier(fromComponents: [NSLocale.Key.countryCode.rawValue: code])
-            let name = NSLocale(localeIdentifier: "en_UK").displayName(forKey: NSLocale.Key.identifier, value: id) ?? "Country not found for code: \(code)"
-            countries.append(name)
-        }
-        return countries.sorted()
-    }()
-}
 
-struct RegisterView: View {
-    @State var firstnameInput: String = ""
-    @State var lastnameInput: String = ""
-    @State var usernameInput: String = ""
-    @State var passwordInput: String = ""
-    @State var emailInput: String = ""
-    @State var passwordConfirmInput: String = ""
-    
-    @State var majorInput: String = ""
-    @State var yearInput: String = ""
-    @State var thisYearInput: String = ""
-    @State var originInput: String = ""
-    @State var ethnicityInput: String = ""
-    @State var genderInput: String = ""
-    
-    @State private var selectedMajorIndex = 0
-    let majorOptions =
-    [
-      "Aerospace Engineering",
-      "Agricultural & Biological Engineering",
-      "Biomedical Engineering",
-      "Chemical Engineering",
-      "Civil Engineering",
-      "Coastal & Oceanographic Engineering",
-      "Computer Engineering",
-      "Computer Science",
-      "Digital Arts & Sciences",
-      "Electrical Engineering",
-      "Environmental Engineering Sciences",
-      "Human-Centered Computing",
-      "Industrial & Systems Engineering",
-      "Materials Science & Engineering",
-      "Mechanical Engineering",
-      "Nuclear Engineering"
-    ];
 
-    let yearOptions =
-    [
-      "1st Year",
-      "2nd Year",
-      "3rd Year",
-      "4th Year",
-      "5th Year or Higher",
-      "Graduate",
-      "Ph.D."
-    ];
-
-    let thisYearOptions =
-    [
-        "Not Graduating",
-        "Fall Semester",
-        "Spring Semester",
-        "Summer Semester"
-    ]
+struct RegisterView: View
+{
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM
+    @StateObject var viewModel: RegisterViewModel = RegisterViewModel()
     
-    let originOptions = Locale.countryNames // Use the country names from the extension
-    
-    let ethnicityOptions =
-    [
-      "Option I",
-      "Option II",
-      "Option III",
-      "American Indian or Alaska Native",
-      "Asian",
-      "Black or African American",
-      "Hispanic/Latino",
-      "Native Hawaiian or Other Pacific Islander",
-      "White",
-      "Two or more ethnicities",
-      "Prefer not to answer"
-    ];
-
-    let genderOptions = ["Male", "Female", "Non-Binary", "Other", "Prefer not to answer"]
-    
-    @State private var isMajorDropdownOpen = false
-    @State private var isYearDropdownOpen = false
-    @State private var isThisYearDropdownOpen = false
-    @State private var isOriginDropdownOpen = false
-    @State private var isEthnicityDropdownOpen = false
-    @State private var isGenderDropdownOpen = false
-
     var body: some View
     {
         ZStack
         {
-            ScrollView
+            
+            Color(red: 0.82, green: 0.35, blue: 0.09)
+                .ignoresSafeArea()
+            
+            //gator pic
+            Rectangle()
+              .foregroundColor(.clear)
+              .background(
+                Image(colorScheme == .dark ? "Gator" : "Gator2")
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
+                  .frame(width: 306, height: 197)
+                  .clipped()
+                  .offset(y: colorScheme == .dark ? -UIScreen.main.bounds.height * 0.305 : -UIScreen.main.bounds.height * 0.325)
+              )
+              
+            
+            //dark blue box
+            VStack
             {
-                VStack
+                //scrolling bar
+                HStack
                 {
-                    Image("shpe_logo")
-                        .resizable()
-                        .frame(width: UIScreen.main.bounds.width * 0.3, height: UIScreen.main.bounds.width * 0.3)
+                    //bar 1
+                    Rectangle()
+                      .foregroundColor(.clear)
+                      .frame(width: 106, height: 5)
+                      .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                      .cornerRadius(1)
                     
-                    TextField("First Name", text: $firstnameInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                        .padding(.top, 60)
-                    TextField("Last Name", text: $lastnameInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                    TextField("Major", text: $majorInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            isMajorDropdownOpen.toggle()
-                        }
-                    
-                    // Show the Major Picker when isMajorDropdownOpen is true
-                    if isMajorDropdownOpen {
-                        Picker("Major", selection: $selectedMajorIndex) {
-                            ForEach(0..<majorOptions.count, id: \.self) { index in
-                                Text(majorOptions[index]).tag(index)
-                            }
-                        }
-                        .pickerStyle(.wheel) // You can change the style as needed
-                        .padding(.horizontal)
-                    }
-                    
-                    TextField("Year", text: $yearInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            isYearDropdownOpen.toggle()
-                        }
-                    
-                    // Show the Year Picker when isYearDropdownOpen is true
-                    if isYearDropdownOpen {
-                        Picker("Year", selection: $yearInput) {
-                            ForEach(yearOptions, id: \.self) { option in
-                                Text(option).tag(option)
-                            }
-                        }
-                        .pickerStyle(.wheel) // You can change the style as needed
-                        .padding(.horizontal)
-                    }
-                    
-                    TextField("Graduating this year?", text: $thisYearInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            isThisYearDropdownOpen.toggle()
-                        }
-                    
-                    // Show the ThisYear Picker when isThisYearDropdownOpen is true
-                    if isThisYearDropdownOpen {
-                        Picker("Graduating this year?", selection: $thisYearInput) {
-                            ForEach(thisYearOptions, id: \.self) { option in
-                                Text(option).tag(option)
-                            }
-                        }
-                        .pickerStyle(.wheel) // You can change the style as needed
-                        .padding(.horizontal)
-                    }
-                    
-                    TextField("Country of Origin", text: $originInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            isOriginDropdownOpen.toggle()
-                        }
-                    
-                    // Show the Origin Picker when isOriginDropdownOpen is true
-                    if isOriginDropdownOpen {
-                        Picker("Country of Origin", selection: $originInput) {
-                            ForEach(originOptions, id: \.self) { option in
-                                Text(option).tag(option)
-                            }
-                        }
-                        .pickerStyle(.wheel) // You can change the style as needed
-                        .padding(.horizontal)
-                    }
-                    
-                    TextField("Ethnicity", text: $ethnicityInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            isEthnicityDropdownOpen.toggle()
-                        }
-                    
-                    // Show the Ethnicity Picker when isEthnicityDropdownOpen is true
-                    if isEthnicityDropdownOpen {
-                        Picker("Ethnicity", selection: $ethnicityInput) {
-                            ForEach(ethnicityOptions, id: \.self) { option in
-                                Text(option).tag(option)
-                            }
-                        }
-                        .pickerStyle(.wheel) // You can change the style as needed
-                        .padding(.horizontal)
-                    }
-                    
-                    TextField("Gender", text: $genderInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            isGenderDropdownOpen.toggle()
-                        }
-                    
-                    // Show the Gender Picker when isGenderDropdownOpen is true
-                    if isGenderDropdownOpen {
-                        Picker("Gender", selection: $genderInput) {
-                            ForEach(genderOptions, id: \.self) { option in
-                                Text(option).tag(option)
-                            }
-                        }
-                        .pickerStyle(.wheel) // You can change the style as needed
-                        .padding(.horizontal)
-                    }
-                    
-                    TextField("Username", text: $usernameInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                    TextField("UF/SF Email", text: $emailInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                    TextField("Password", text: $passwordInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
-                    TextField("Confirm Password", text: $passwordConfirmInput)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.horizontal)
+                    //bar 2
+                    Rectangle()
+                      .foregroundColor(.clear)
+                      .frame(width: 106, height: 5)
+                      .background(viewModel.viewIndex >= 1 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
+                      .cornerRadius(1)
+                    //bar 3
+                    Rectangle()
+                      .foregroundColor(.clear)
+                      .frame(width: 106, height: 5)
+                      .background(viewModel.viewIndex >= 2 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
+                      .cornerRadius(1)
                 }
-                .zIndex(10)
-                .padding(.vertical, 80)
+                .padding()
+                .padding(.vertical)
+               
                 
+                NavigationView
+                {
+                    ZStack
+                    {
+                        Color(red: 0, green: 0.12, blue: 0.21)
+                            .ignoresSafeArea()
+                        VStack
+                        {
+                            //welcome textbox
+                            HStack(alignment: .bottom) 
+                            {
+                                VStack(alignment: .leading) 
+                                {
+                                    Text("Welcome to SHPE!")
+                                      .font(Font.custom("Univers LT Std", size: 14))
+                                      .foregroundColor(Color("whiteText"))
+                                    
+                                    //register textbox
+                                    Text("Register")
+                                      .font(Font.custom("Viga-Regular", size: 46))
+                                      .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
+                                      .frame(maxWidth: .infinity, alignment: .topLeading)
+                                }
+                                
+                                Spacer()
+                                
+                                //shpe logo
+                                Image("swift.shpelogo")
+                                  .resizable()
+                                  .aspectRatio(contentMode: .fill)
+                                  .frame(width: 50, height: 50)
+                                  .clipped()
+                            }
+                            .padding(.horizontal)
+                        
+                        
+                            Spacer()
+                            
+                            //fields
+                            VStack(alignment: .leading)
+                            {
+    
+                                Text("UF Email")
+                                    .font(Font.custom("Univers LT Std", size: 16))
+                                    .foregroundColor(Color("whiteText"))
+                                    .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                                HStack(spacing: 0) 
+                                {
+                                    Image("swift.littleletter")
+                                        .padding(.horizontal, 12)
+                                    TextField("", text: $viewModel.emailInput)
+                                        .frame(maxWidth: .infinity)
+                                        .foregroundStyle(Color.black)
+                                        .autocapitalization(.none)
+                                        .autocorrectionDisabled()
+                                        .onChange(of: viewModel.emailInput) { _ in}
+                                }
+                                .padding(.vertical, 2.75)
+                                .frame(width: 270, height: 37.64706)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                
+                                //email validation
+                                if !viewModel.validateEmail()
+                                {
+                                    Text("Invalid email format")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                                
+                                //username
+                                Text("Username")
+                                  .font(Font.custom("Univers LT Std", size: 16))
+                                  .foregroundColor(Color("whiteText"))
+                                  .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                                HStack(spacing: 0)
+                                {
+                                    Image("swift.littlepfp")
+                                        .padding(.horizontal, 12)
+                                    TextField("", text: $viewModel.usernameInput)
+                                        .frame(maxWidth: .infinity)
+                                        .foregroundStyle(Color.black)
+                                        .autocapitalization(.none)
+                            .autocorrectionDisabled()
+                                        .onChange(of: viewModel.emailInput) { _ in}
+                                }
+                                .padding(.vertical, 2.75)
+                                .frame(width: 270, height: 37.64706)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                
+                                //username validation
+                                if !viewModel.validateUsername()
+                                {
+                                    Text("6-20 characters, no special characters except periods (.) & underscores (_)")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                                
+                                //password
+                                Text("Password")
+                                  .font(Font.custom("Univers LT Std", size: 16))
+                                  .foregroundColor(Color("whiteText"))
+                                  .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                                HStack(spacing: 0)
+                                {
+                                    Image("swift.littlelock")
+                                        .padding(.horizontal, 12)
+                                    if viewModel.viewPassword
+                                    {
+                                        TextField("", text: $viewModel.passwordInput)
+                                            .frame(maxWidth: .infinity)
+                                            .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
+                                            .onChange(of: viewModel.passwordInput) { _ in }
+                                            
+                                    }
+                                    else
+                                    {
+                                        SecureField("", text: $viewModel.passwordInput)
+                                            .frame(maxWidth: .infinity)
+                                            .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
+                                            .onChange(of: viewModel.passwordInput) { _ in }
+                                           
+                                    }
+                                    
+                                    Image(viewModel.viewPassword ? "swift.littlepfp" :"Eye Closed")
+                                        .frame(width: 22.32634, height: 14.58338)
+                                        .padding(.horizontal, 12)
+                                        .onTapGesture {
+                                            viewModel.viewPassword.toggle()
+                                        }
+                                }
+                                .padding(.vertical, 2.75)
+                                .frame(width: 270, height: 37.64706)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                
+                                // Display validation result
+                                if !viewModel.validatePassword() {
+                                    Text("Minimum 8 characters with lowercase, uppercase, number, & special character")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+
+                                
+                                //confirm password
+                                Text("Confirm Password")
+                                  .font(Font.custom("Univers LT Std", size: 16))
+                                  .foregroundColor(Color("whiteText"))
+                                  .frame(height: 16.47059, alignment: .topLeading)
+                                HStack(spacing: 0)
+                                {
+                                    Image("swift.littlelock")
+                                        .padding(.horizontal, 12)
+                                    if viewModel.viewConfirmPassword
+                                    {
+                                        TextField("", text: $viewModel.passwordConfirmInput)
+                                            .frame(maxWidth: .infinity)
+                                            .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
+                                            .onChange(of: viewModel.passwordConfirmInput) { newValue in }
+                                        
+                                    }
+                                    else
+                                    {
+                                        SecureField("", text: $viewModel.passwordConfirmInput)
+                                            .frame(maxWidth: .infinity)
+                                            .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
+                                            .onChange(of: viewModel.passwordConfirmInput) { newValue in }
+                                          
+                                    }
+                                    
+                                    Image(viewModel.viewConfirmPassword ? "swift.littlepfp" : "Eye Closed")
+                                        .frame(width: 22.32634, height: 14.58338)
+                                        .padding(.horizontal, 12)
+                                        .onTapGesture
+                                        {
+                                            viewModel.viewConfirmPassword.toggle()
+                                        }
+                                }
+                                .padding(.vertical, 2.75)
+                                .frame(width: 270, height: 37.64706)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                
+                                // Display validation result
+                                if !viewModel.validateConfirmPassword() 
+                                {
+                                    Text("Passwords must match")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                                Spacer()
+                                
+                            }
+                            .padding(.horizontal, 50)
+                            Spacer()
+                            
+                            //create account button
+                            Button(action:
+                            {
+//                                if viewModel.isRegisterValid() 
+//                                {
+                                    viewModel.shouldNavigate = true
+                               // }
+                            })
+                            {
+                                Text("Create Account")
+                                    .font(Font.custom("Univers LT Std", size: 16))
+                                    .foregroundColor(.white)
+                                    .frame(width: 351, height: 42)
+                                    .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                                    .cornerRadius(20)
+                            }
+
+                            NavigationLink(destination: PersonalView(viewModel: self.viewModel)
+                                .navigationBarHidden(true), isActive: $viewModel.shouldNavigate) 
+                            {
+                                EmptyView()
+                            }
+                            .isDetailLink(false)
+                            .hidden()
+                    
+                            Spacer()
+                            
+                            //sign in
+                            HStack
+                            {
+                                Text("Already have an account?")
+                                  .font(Font.custom("Univers LT Std", size: 14))
+                                  .foregroundColor(Color("whiteText"))
+
+                                //todo add link to sign in when its made
+                                Text("Sign In")
+                                  .font(Font.custom("Univers LT Std", size: 14))
+                                  .foregroundColor(Color("lblue"))
+                                  .onTapGesture {
+                                      appVM.setPageIndex(index: 0)
+                                  }
+                            }
+                            .padding(.bottom, 40)
+                        
+                        }
+                        .background(Color("darkBlue"))
+                    }
+                    
+                }
+                .background(Color("darkBlue"))
             }
-            .ignoresSafeArea()
-            .zIndex(10)
-            // Gradient Background
-            LinearGradient(gradient: Gradient(colors: [Color("rblue"), Color("rorange")]), startPoint: .topTrailing, endPoint: .bottomLeading)
-            LinearGradient(gradient: Gradient(colors: [Color("lorange").opacity(0.1), Color("lblue").opacity(0.4)]), startPoint: .bottomTrailing, endPoint: .topLeading)
-            LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]), startPoint: .topTrailing, endPoint: .bottom)
+            .onAppear
+            {
+                viewModel.viewIndex = 0
+            }
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
+            .background(Color("darkBlue"))
+            .padding(.top, UIScreen.main.bounds.height * 0.17)
         }
-        .ignoresSafeArea()
-        .navigationBarTitle("Test", displayMode: .inline)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarHidden(false)
+        
     }
 }
 
-struct RegisterView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegisterView()
-    }
-}
+#Preview(body: {
+    RegisterView()
+})

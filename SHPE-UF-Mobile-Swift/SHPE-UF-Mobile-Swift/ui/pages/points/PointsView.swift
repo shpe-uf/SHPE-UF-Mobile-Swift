@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Foundation
+
 
 struct PointsView: View {
     
     @StateObject var vm : PointsViewModel
     
     @State private var redeem = false;
+    private let currentMonth:Int = Calendar.current.component(.month, from: Date())
     
     // REFACTOR
     
@@ -30,6 +33,7 @@ struct PointsView: View {
                                                          startPoint: UnitPoint(x: 0.5, y: 0),
                                                          endPoint: UnitPoint(x: 0.5, y: 1))
     
+    let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Miscellaneous", "Corporate Event", "Social"]
     
     var body: some View {
         
@@ -42,7 +46,7 @@ struct PointsView: View {
                     
                     Rectangle()
                         .foregroundColor(.clear)
-                        .frame(width: .infinity, height: 100)
+                        .frame(width: UIScreen.main.bounds.width, height: 100)
                         .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .ignoresSafeArea()
                     
@@ -59,15 +63,15 @@ struct PointsView: View {
                 ZStack {
                     
                     
-                    CircularProgessView(progress: Double(vm.springPercentile) / 100)
+                    CircularProgessView(progress: Double( currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile) / 100)
                         
                     
                     
                     VStack {
-                        Text("SPRING:")
+                        Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
                             .font(.title)
                             .bold()
-                        Text("\(stringWithOrdinalSuffix(from : vm.springPercentile))")
+                        Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
                             .font(.title)
                             .bold()
                         Text("Percentile")
@@ -97,7 +101,6 @@ struct PointsView: View {
                     
                     Text("Total Points: \(vm.points)")
                         .font(.system(size: 20)).bold()
-                      .foregroundColor(Color(red: 0, green: 0.12, blue: 0.21))
                     
                     PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: fallGradient)
                     
@@ -110,20 +113,20 @@ struct PointsView: View {
                 
                 
                 VStack(spacing: 35) {
-                    TableView()
-                    TableView(title: "SOCIALS")
-                    TableView(title: "CABINET\nMEETING")
+                    ForEach(keys, id: \.self) { key in
+                        TableView(vm: vm, title: key)
+                    }
                 }
                 .padding()
+                .padding(.bottom, 150)
                     
             }
         }
-            
         .sheet(isPresented: $redeem, content: {
             ReedemView(vm: vm)
         })
-        .backgroundStyle(.black)
         .ignoresSafeArea()
+        .background(Color("darkBlue"))
         
         
     }

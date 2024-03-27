@@ -5,12 +5,13 @@
 //  Created by Daniel Parra on 1/17/24.
 //
 
+
 import Foundation
 import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://5765-128-227-1-16.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://fbf0-2605-ad80-10-49a4-4481-6487-1e8b-be39.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -54,7 +55,7 @@ class RequestHandler
         }
     }
     
-    // MARK: Register/SignIn Page Functions
+    //MARK: Register/SignIn Page Functions
     
     // RegisterUserMutation <= RegisterUser.graphql
     // Input: firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true"
@@ -85,6 +86,46 @@ class RequestHandler
             completion(responseDict)
         }
     }
+    
+
+//    func registerUser(firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true", completion: @escaping ([String:Any])->Void) 
+//        {
+//        
+//        let registerInput = SHPESchema.RegisterInput(firstName: firstName, lastName: lastName, major: major, year: year, graduating: graduating, country: country, ethnicity: ethnicity, sex: sex, username: username, email: email, password: password, confirmPassword: confirmPassword, listServ: listServ)
+//        
+//        let validInput = GraphQLNullable(registerInput)
+//        
+//        apolloClient.perform(mutation: SHPESchema.RegisterUserMutation(registerInput: validInput)) 
+//        { result in
+//            
+//            switch result 
+//            {
+//            case .success(let graphQLResult):
+//                if let data = graphQLResult.data, graphQLResult.errors == nil 
+//                {
+//                    // Assuming the mutation returns a success flag as true
+//                    completion(["success": true])
+//                }
+//                else if let errors = graphQLResult.errors 
+//                {
+//                    // Handle and return errors
+//                    print("GraphQL Errors: \(errors)")
+//                    completion(["error": "Incomplete Request due to GraphQL Errors"])
+//                }
+//            case .failure(let error):
+//                // Handle and return network or parsing error
+//                print("Network or Parsing Error: \(error)")
+//                completion(["error": "Incomplete Request due to Network or Parsing Error"])
+//            }
+//        }
+//    }
+
+
+    
+    
+    
+    
+    
     
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String
@@ -367,7 +408,6 @@ class RequestHandler
                         if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                         {
                             var eventsList:[Event] = []
-                            print("ITEMS:")
                             if let items = jsonObject["items"] as? (any Sequence)
                             {
                                 for item in items

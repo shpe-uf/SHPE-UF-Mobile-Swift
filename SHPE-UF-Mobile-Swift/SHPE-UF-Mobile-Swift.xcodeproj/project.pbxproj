@@ -16,8 +16,6 @@
 		206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */; };
 		20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A202AE7441700916EC6 /* SignIn.swift */; };
 		20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A232AE7446500916EC6 /* MongoDB.swift */; };
-		20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2B2AE7472600916EC6 /* RegisterView.swift */; };
-		20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */; };
 		20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2F2AE7475500916EC6 /* SignInView.swift */; };
 		20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A352AE7478400916EC6 /* HomeViewModel.swift */; };
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
@@ -47,14 +45,28 @@
 		46909E462B9693A500E99274 /* RedeemPointsInput.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E362B9693A500E99274 /* RedeemPointsInput.graphql.swift */; };
 		46909E472B9693A500E99274 /* SchemaMetadata.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E372B9693A500E99274 /* SchemaMetadata.graphql.swift */; };
 		46909E482B9693A500E99274 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E382B9693A500E99274 /* SHPESchema.graphql.swift */; };
+		46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E492B96952000E99274 /* PointsViewDark.swift */; };
+		46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */; };
 		46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418C2B7EC7DB0083F81C /* TableView.swift */; };
 		46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418E2B7EC82B0083F81C /* SingleEventView.swift */; };
 		53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C7704D2B9A79EF00455FC5 /* ProfileView.swift */; };
-		958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 958A5DC22B584C8400D1BAE4 /* Apollo */; };
+		523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398D2B7DD0990019C353 /* AcademicInfoView.swift */; };
+		5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */; };
+		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
+		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
+		52A67A592B91642D00D21F73 /* PlaceholderForLandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */; };
+		951F6E7B2BB262C5001FDB50 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E772BB262C5001FDB50 /* CoreUserModel.xcdatamodeld */; };
+		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
+		951F6E842BB272E5001FDB50 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 951F6E832BB272E5001FDB50 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6E2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
+		958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */; };
+		958CB0292B9D0370002B83F9 /* OpeningScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 958CB0282B9D0370002B83F9 /* OpeningScreen.storyboard */; };
+		958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0322B9D7F93002B83F9 /* CheckCore.swift */; };
+		958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */; };
+		958CB0372B9D89E3002B83F9 /* TempSignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0362B9D89E3002B83F9 /* TempSignOutView.swift */; };
 		95D291042B8D317E004AC28B /* SignInViewLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D291032B8D317E004AC28B /* SignInViewLight.swift */; };
 		95D327002B8FED88002A7DDA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D326FF2B8FED87002A7DDA /* Event.swift */; };
 		95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */; };
@@ -72,6 +84,13 @@
 		95D370A12B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370A02B6473D300B2C5A4 /* SignIn.graphql.swift */; };
 		95D370A22B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370A02B6473D300B2C5A4 /* SignIn.graphql.swift */; };
 		95D370A32B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370A02B6473D300B2C5A4 /* SignIn.graphql.swift */; };
+		B8264CEF2BAE5D4B005CED1B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8264CEE2BAE5D4B005CED1B /* Constants.swift */; };
+		B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8264CF02BAE5E07005CED1B /* DateHelper.swift */; };
+		B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */; };
+		B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA42B817793006BC59D /* NotificationViewModel.swift */; };
+		B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */; };
+		B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */; };
+		B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,8 +123,6 @@
 		206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		20CF4A202AE7441700916EC6 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
 		20CF4A232AE7446500916EC6 /* MongoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoDB.swift; sourceTree = "<group>"; };
-		20CF4A2B2AE7472600916EC6 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
-		20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		20CF4A2F2AE7475500916EC6 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		20CF4A352AE7478400916EC6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
@@ -135,11 +152,26 @@
 		46909E362B9693A500E99274 /* RedeemPointsInput.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemPointsInput.graphql.swift; sourceTree = "<group>"; };
 		46909E372B9693A500E99274 /* SchemaMetadata.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchemaMetadata.graphql.swift; sourceTree = "<group>"; };
 		46909E382B9693A500E99274 /* SHPESchema.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SHPESchema.graphql.swift; sourceTree = "<group>"; };
+		46909E492B96952000E99274 /* PointsViewDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewDark.swift; sourceTree = "<group>"; };
+		46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressViewDark.swift; sourceTree = "<group>"; };
 		46CA418C2B7EC7DB0083F81C /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		46CA418E2B7EC82B0083F81C /* SingleEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventView.swift; sourceTree = "<group>"; };
 		53C7704D2B9A79EF00455FC5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		523C398D2B7DD0990019C353 /* AcademicInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademicInfoView.swift; sourceTree = "<group>"; };
+		5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsView.swift; sourceTree = "<group>"; };
+		528D72BD2B74648600702D0B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
+		52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderForLandingPageView.swift; sourceTree = "<group>"; };
+		951F6E7A2BB262C5001FDB50 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
+		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
+		958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppViewModel.swift; sourceTree = "<group>"; };
+		958CB0282B9D0370002B83F9 /* OpeningScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OpeningScreen.storyboard; sourceTree = "<group>"; };
+		958CB02C2B9D79AD002B83F9 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		958CB0322B9D7F93002B83F9 /* CheckCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCore.swift; sourceTree = "<group>"; };
+		958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckCoreViewModel.swift; sourceTree = "<group>"; };
+		958CB0362B9D89E3002B83F9 /* TempSignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempSignOutView.swift; sourceTree = "<group>"; };
 		95D291032B8D317E004AC28B /* SignInViewLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewLight.swift; sourceTree = "<group>"; };
 		95D326FF2B8FED87002A7DDA /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUser.graphql.swift; sourceTree = "<group>"; };
@@ -147,6 +179,15 @@
 		95D370982B64732000B2C5A4 /* GetPercentiles.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPercentiles.graphql.swift; sourceTree = "<group>"; };
 		95D3709C2B64737A00B2C5A4 /* GetPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoints.graphql.swift; sourceTree = "<group>"; };
 		95D370A02B6473D300B2C5A4 /* SignIn.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.graphql.swift; sourceTree = "<group>"; };
+		B8264CEE2BAE5D4B005CED1B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B8264CF02BAE5E07005CED1B /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		B8A10DA42B817793006BC59D /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageContentView.swift; sourceTree = "<group>"; };
+		B8CD7F752B75A9E800F05DBA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Viga-Regular.ttf"; sourceTree = "<group>"; };
+		B8EF26FE2B8FB40B00F98FA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UniversLTStd.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				958A5DC32B584C8400D1BAE4 /* Apollo in Frameworks */,
+				951F6E842BB272E5001FDB50 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,12 +219,14 @@
 		206C8F692AE181FF0081A35A = {
 			isa = PBXGroup;
 			children = (
+				958CB0282B9D0370002B83F9 /* OpeningScreen.storyboard */,
 				46909E222B9693A500E99274 /* SHPESchema */,
 				958A5DC82B5850A900D1BAE4 /* GraphQL */,
 				206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */,
 				206C8F852AE182020081A35A /* SHPE-UF-Mobile-SwiftTests */,
 				206C8F8F2AE182020081A35A /* SHPE-UF-Mobile-SwiftUITests */,
 				206C8F732AE181FF0081A35A /* Products */,
+				958CB02A2B9D1239002B83F9 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,11 +243,15 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				951F6E792BB262C5001FDB50 /* coreData */,
 				20CF4A1C2AE7423400916EC6 /* data */,
 				20CF4A1D2AE7424100916EC6 /* ui */,
 				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
+				958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */,
 				206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */,
+				B8EF26FB2B8FB07000F98FA2 /* Font */,
 				206C8F792AE182020081A35A /* Assets.xcassets */,
+				B8EF26FE2B8FB40B00F98FA2 /* Info.plist */,
 				206C8F7B2AE182020081A35A /* Preview Content */,
 			);
 			path = "SHPE-UF-Mobile-Swift";
@@ -240,10 +287,12 @@
 			children = (
 				4632E4792B6B64000048782D /* PointsViewModel.swift */,
 				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
+				46909E492B96952000E99274 /* PointsViewDark.swift */,
 				4632E4732B6B575E0048782D /* PointsUI.swift */,
 				4632E4752B6B57A00048782D /* ReedemPointsButton.swift */,
 				4632E4772B6B57A80048782D /* ReedemView.swift */,
 				462B6F492B7180AB00EB575C /* CircularProgessView.swift */,
+				46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */,
 				46CA418C2B7EC7DB0083F81C /* TableView.swift */,
 				46CA418E2B7EC82B0083F81C /* SingleEventView.swift */,
 			);
@@ -253,8 +302,11 @@
 		206C8FA62AE1929D0081A35A /* register */ = {
 			isa = PBXGroup;
 			children = (
-				20CF4A2B2AE7472600916EC6 /* RegisterView.swift */,
-				20CF4A2D2AE7474400916EC6 /* RegisterViewModel.swift */,
+				52A67A582B91642D00D21F73 /* PlaceholderForLandingPageView.swift */,
+				528D72BD2B74648600702D0B /* RegisterView.swift */,
+				5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */,
+				523C398D2B7DD0990019C353 /* AcademicInfoView.swift */,
+				528D72BF2B74649900702D0B /* RegisterViewModel.swift */,
 			);
 			path = register;
 			sourceTree = "<group>";
@@ -306,8 +358,8 @@
 		20CF4A282AE7466400916EC6 /* home */ = {
 			isa = PBXGroup;
 			children = (
-				20CF4A3D2AE747E900916EC6 /* HomeView.swift */,
-				20CF4A352AE7478400916EC6 /* HomeViewModel.swift */,
+				B8264CEC2BAE5C30005CED1B /* Main View */,
+				B8264CED2BAE5C56005CED1B /* Notifcation View */,
 			);
 			path = home;
 			sourceTree = "<group>";
@@ -316,6 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				53C7704C2B9A79BF00455FC5 /* profile */,
+				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
 				20CF4A2A2AE746CE00916EC6 /* signIn */,
 				20CF4A282AE7466400916EC6 /* home */,
@@ -405,6 +458,15 @@
 			path = InputObjects;
 			sourceTree = "<group>";
 		};
+		951F6E792BB262C5001FDB50 /* coreData */ = {
+			isa = PBXGroup;
+			children = (
+				951F6E7D2BB265D3001FDB50 /* DataManager.swift */,
+				951F6E772BB262C5001FDB50 /* CoreUserModel.xcdatamodeld */,
+			);
+			path = coreData;
+			sourceTree = "<group>";
+		};
 		53C7704C2B9A79BF00455FC5 /* profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,6 +490,55 @@
 			path = GraphQL;
 			sourceTree = "<group>";
 		};
+		958CB02A2B9D1239002B83F9 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD7F752B75A9E800F05DBA /* Event.swift */,
+				958CB02C2B9D79AD002B83F9 /* DataManager.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		958CB0312B9D7F62002B83F9 /* startup */ = {
+			isa = PBXGroup;
+			children = (
+				958CB0322B9D7F93002B83F9 /* CheckCore.swift */,
+				958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */,
+				958CB0362B9D89E3002B83F9 /* TempSignOutView.swift */,
+			);
+			path = startup;
+			sourceTree = "<group>";
+		};
+		B8264CEC2BAE5C30005CED1B /* Main View */ = {
+			isa = PBXGroup;
+			children = (
+				B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */,
+				B8264CEE2BAE5D4B005CED1B /* Constants.swift */,
+				B8264CF02BAE5E07005CED1B /* DateHelper.swift */,
+				20CF4A3D2AE747E900916EC6 /* HomeView.swift */,
+				20CF4A352AE7478400916EC6 /* HomeViewModel.swift */,
+			);
+			path = "Main View";
+			sourceTree = "<group>";
+		};
+		B8264CED2BAE5C56005CED1B /* Notifcation View */ = {
+			isa = PBXGroup;
+			children = (
+				B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */,
+				B8A10DA42B817793006BC59D /* NotificationViewModel.swift */,
+			);
+			path = "Notifcation View";
+			sourceTree = "<group>";
+		};
+		B8EF26FB2B8FB07000F98FA2 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */,
+				B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -445,7 +556,7 @@
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
-				958A5DC22B584C8400D1BAE4 /* Apollo */,
+				951F6E832BB272E5001FDB50 /* Apollo */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -520,7 +631,7 @@
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
-				958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				951F6E822BB272E5001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -540,6 +651,8 @@
 			files = (
 				95D370992B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
 				958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
+				B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */,
+				B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */,
 				95D3709D2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */,
 				206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */,
 				46909E212B96936800E99274 /* GetUserEvents.graphql.swift in Resources */,
@@ -547,6 +660,7 @@
 				95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
 				95D370952B6472AE00B2C5A4 /* RedeemPoints.graphql.swift in Resources */,
 				95D370A12B6473D300B2C5A4 /* SignIn.graphql.swift in Resources */,
+				958CB0292B9D0370002B83F9 /* OpeningScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,15 +697,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				528D72BE2B74648600702D0B /* RegisterView.swift in Sources */,
+				52A67A592B91642D00D21F73 /* PlaceholderForLandingPageView.swift in Sources */,
+				528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */,
 				4632E4742B6B575E0048782D /* PointsUI.swift in Sources */,
 				4632E4762B6B57A00048782D /* ReedemPointsButton.swift in Sources */,
 				46909E392B9693A500E99274 /* RedeemPointsMutation.graphql.swift in Sources */,
 				46909E3F2B9693A500E99274 /* GetPointsQuery.graphql.swift in Sources */,
 				46909E402B9693A500E99274 /* User.graphql.swift in Sources */,
 				46909E432B9693A500E99274 /* Query.graphql.swift in Sources */,
+				958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */,
 				46909E422B9693A500E99274 /* Event.graphql.swift in Sources */,
 				46909E3C2B9693A500E99274 /* GetUserEventsQuery.graphql.swift in Sources */,
 				46909DFA2B96907D00E99274 /* UserEvent.swift in Sources */,
+				958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */,
+				46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */,
 				46909E462B9693A500E99274 /* RedeemPointsInput.graphql.swift in Sources */,
 				46909E482B9693A500E99274 /* SHPESchema.graphql.swift in Sources */,
 				4632E47C2B6B64170048782D /* SHPEito.swift in Sources */,
@@ -599,29 +719,40 @@
 				95D291042B8D317E004AC28B /* SignInViewLight.swift in Sources */,
 				46909E452B9693A500E99274 /* RegisterInput.graphql.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
+				5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */,
 				46909E3A2B9693A500E99274 /* RegisterUserMutation.graphql.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
+				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
+				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				46909E3B2B9693A500E99274 /* SignInMutation.graphql.swift in Sources */,
+				958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */,
 				95D327002B8FED88002A7DDA /* Event.swift in Sources */,
 				46909E472B9693A500E99274 /* SchemaMetadata.graphql.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
-				20CF4A2E2AE7474400916EC6 /* RegisterViewModel.swift in Sources */,
+				B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				958CB0372B9D89E3002B83F9 /* TempSignOutView.swift in Sources */,
+				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				46909E3E2B9693A500E99274 /* GetUserPointsQuery.graphql.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				46909E3D2B9693A500E99274 /* GetPercentilesQuery.graphql.swift in Sources */,
+				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
 				46909E442B9693A500E99274 /* SchemaConfiguration.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				20CF4A2C2AE7472600916EC6 /* RegisterView.swift in Sources */,
 				53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */,
+				B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */,
 				4632E4782B6B57A80048782D /* ReedemView.swift in Sources */,
 				4632E47A2B6B64000048782D /* PointsViewModel.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
 				46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
+				951F6E7B2BB262C5001FDB50 /* CoreUserModel.xcdatamodeld in Sources */,
 				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
+				B8264CEF2BAE5D4B005CED1B /* Constants.swift in Sources */,
+				523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */,
 				46909E412B9693A500E99274 /* Mutation.graphql.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -789,11 +920,12 @@
 				DEVELOPMENT_TEAM = 4KV2SNV228;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
+				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = OpeningScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -801,7 +933,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SHPE-UF-Mobile-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "SHPE-UF-Mobile-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -820,11 +952,12 @@
 				DEVELOPMENT_TEAM = 4KV2SNV228;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = SHPE;
+				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = OpeningScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -832,7 +965,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.SHPE-UF-Mobile-Swift";
+				PRODUCT_BUNDLE_IDENTIFIER = "SHPE-UF-Mobile-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -954,23 +1087,37 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+		951F6E822BB272E5001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.8.0;
+				minimumVersion = 1.9.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		958A5DC22B584C8400D1BAE4 /* Apollo */ = {
+		951F6E832BB272E5001FDB50 /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 958A5DC12B584C8400D1BAE4 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			package = 951F6E822BB272E5001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		951F6E772BB262C5001FDB50 /* CoreUserModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				951F6E7A2BB262C5001FDB50 /* CoreUserModel.xcdatamodel */,
+			);
+			currentVersion = 951F6E7A2BB262C5001FDB50 /* CoreUserModel.xcdatamodel */;
+			name = CoreUserModel.xcdatamodeld;
+			path = "/Users/danielparra/Desktop/SHPE/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 206C8F6A2AE181FF0081A35A /* Project object */;
 }
