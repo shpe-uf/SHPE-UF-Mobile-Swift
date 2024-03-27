@@ -75,6 +75,41 @@ class SHPEito
     @Published var fallPercentile : Int
     @Published var springPercentile : Int
     @Published var summerPercentile : Int
+    @Published var profileImage: UIImage?
     //@Published var events: SHPESchema.SignInMutation
     // Any methods that can help with
+    
+    //TODO: GET THESE ATTRIBUTES WHEN FETCHING USER
+    @Published var gender:String = "Male"
+    @Published var ethnicity:String = "Hispanic"
+    @Published var originCountry:String = "Cuba"
+    
+    func loadProfileImage()
+    {
+        if let url = self.photoURL,
+           self.profileImage == nil
+        {
+            URLSession.shared.dataTask(with: url) 
+            { [weak self] (data, response, error) in
+                guard let self = self else { return }
+
+                // Check for errors
+                if let error = error {
+                    print("Error loading image: \(error)")
+                    return
+                }
+
+                // Check if the response contains valid image data
+                guard let data = data, let image = UIImage(data: data) else {
+                    print("Invalid image data")
+                    return
+                }
+
+                // Update the UI on the main queue
+                DispatchQueue.main.async {
+                    self.profileImage = image
+                }
+            }.resume()
+        }
+    }
 }

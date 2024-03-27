@@ -57,7 +57,8 @@
 		53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C7704D2B9A79EF00455FC5 /* ProfileView.swift */; };
 		951F6E7B2BB262C5001FDB50 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E772BB262C5001FDB50 /* CoreUserModel.xcdatamodeld */; };
 		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
-		951F6E842BB272E5001FDB50 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 951F6E832BB272E5001FDB50 /* Apollo */; };
+		951F6E8A2BB3BCAD001FDB50 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 951F6E892BB3BCAD001FDB50 /* Apollo */; };
+		951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
@@ -164,6 +165,7 @@
 		53C7704D2B9A79EF00455FC5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		951F6E7A2BB262C5001FDB50 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppViewModel.swift; sourceTree = "<group>"; };
@@ -195,7 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				951F6E842BB272E5001FDB50 /* Apollo in Frameworks */,
+				951F6E8A2BB3BCAD001FDB50 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				53C7704D2B9A79EF00455FC5 /* ProfileView.swift */,
+				951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";
@@ -556,7 +559,7 @@
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
-				951F6E832BB272E5001FDB50 /* Apollo */,
+				951F6E892BB3BCAD001FDB50 /* Apollo */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -631,7 +634,7 @@
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
-				951F6E822BB272E5001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				951F6E882BB3BCAD001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -736,6 +739,7 @@
 				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				46909E3E2B9693A500E99274 /* GetUserPointsQuery.graphql.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
+				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				46909E3D2B9693A500E99274 /* GetPercentilesQuery.graphql.swift in Sources */,
 				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
@@ -1086,7 +1090,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		951F6E822BB272E5001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+		951F6E882BB3BCAD001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
 			requirement = {
@@ -1097,9 +1101,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		951F6E832BB272E5001FDB50 /* Apollo */ = {
+		951F6E892BB3BCAD001FDB50 /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 951F6E822BB272E5001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			package = 951F6E882BB3BCAD001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
