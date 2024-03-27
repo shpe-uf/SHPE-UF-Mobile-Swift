@@ -269,7 +269,7 @@ struct RegisterView: View
 //                                if viewModel.isRegisterValid() 
 //                                {
                                     viewModel.shouldNavigate = true
-                               // }
+                                //}
                             })
                             {
                                 Text("Create Account")

@@ -15,7 +15,8 @@ struct CustomTextFieldStyle: ViewModifier {
 
 
 
-struct SignInView: View {
+struct SignInView: View 
+{
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
@@ -25,12 +26,30 @@ struct SignInView: View {
     @State private var isHovered = false
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
+    let toastDuration = 4.0
     
-    var body: some View {
-        ZStack {
-            
+    
+    var body: some View 
+    {
+        ZStack
+        {
+            if appVM.showToast
+            {
+                  ToastView(message: "Please check your email to\nconfirm your account!")
+                  .transition(.move(edge: .top).combined(with: .opacity))
+                  .zIndex(999) // Ensure the toast is above other content
+                  .offset(y: -UIScreen.main.bounds.height * 0.325)
+                  .onAppear
+                    {
+                      // Start the timer to dismiss the toast after `toastDuration` seconds
+                      DispatchQueue.main.asyncAfter(deadline: .now() + toastDuration) {
+                          appVM.showToast = false
+                      }
+                    }
+            }
             Color(red: 0.82, green: 0.35, blue: 0.09)
                 .ignoresSafeArea()
+            
             
             //gator pic
             Rectangle()
@@ -178,10 +197,45 @@ struct SignInView: View {
     }
 }
 
-struct SignInView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignInView(viewModel: SignInViewModel(shpeito:
-                                SHPEito()
-                          ))
+struct ToastView: View
+{
+    var message: String
+    
+    var body: some View
+    {
+        Rectangle()
+          .foregroundColor(.clear)
+          .frame(width: 304, height: 70)
+          .background(Color(red: 0.3, green: 0.3, blue: 0.3))
+          .cornerRadius(40)
+        HStack
+        {
+            Rectangle()
+              .foregroundColor(.clear)
+              .frame(width: 35, height: 32)
+              .background(
+            Image("shpe_logo")
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(width: 35, height: 32)
+              .clipped()
+              )
+            
+              .padding(.trailing, 10)
+            Text(message)
+                .font(Font.custom("Viga", size: 15))
+                .foregroundColor(.white)
+                .frame(width: 195, height: 45, alignment: .topLeading)
+        }
+        
+    }
+}
+
+
+struct SignInView_Previews: PreviewProvider 
+{
+    static var previews: some View 
+    {
+        SignInView(viewModel: SignInViewModel(shpeito:SHPEito()))
     }
 }
