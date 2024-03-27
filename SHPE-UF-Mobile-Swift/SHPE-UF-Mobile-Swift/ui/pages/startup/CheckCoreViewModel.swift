@@ -40,6 +40,8 @@ final class CheckCoreViewModel: ObservableObject {
                 let springPercentile = Int(foundUser.springPoints)
                 let summerPercentile = Int(foundUser.springPercentile)
                 
+                appVM.darkMode = foundUser.darkMode
+                
                 appVM.shpeito = SHPEito(username: username, password: "* * * * *", remember: "", firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, fallPoints: fallPoints, summerPoints: summerPoints, springPoints: springPoints, points: points, fallPercentile: fallPercentile, springPercentile: springPercentile, summerPercentile: summerPercentile)
                 
                 appVM.setPageIndex(index: 2)
