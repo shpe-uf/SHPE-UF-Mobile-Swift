@@ -7,6 +7,8 @@ struct AcademicView : View
     @Environment(\.presentationMode) var isPresented
     @StateObject var viewModel: RegisterViewModel
     
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+    
     var body: some View
     {
         ZStack
@@ -187,17 +189,18 @@ struct AcademicView : View
                             // Your existing content
                             Button(action:
                             {
-                                if viewModel.isAcademicValid()
-                                {
+//                                if viewModel.isAcademicValid()
+//                                {
                                     
                                     viewModel.registerUser()
-                                    viewModel.showToast = true
+                                    appVM.showToast = true
+                                    appVM.setPageIndex(index: 0)
                                     // Hide toast after 3 seconds
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3)
-                                    {
-                                        viewModel.showToast = false
-                                    }
-                                }
+//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3)
+//                                    {
+//                                        viewModel.showToast = false
+//                                    }
+                               // }
                            
                             })
                             {
@@ -210,12 +213,7 @@ struct AcademicView : View
                             }
                             .animation(.default, value: viewModel.showToast)
                             
-                            if viewModel.showToast && viewModel.isAcademicValid()
-                              {
-                                  ToastView(message: "Registered!")
-                                  .transition(.move(edge: .top).combined(with: .opacity))
-                                  .zIndex(2) // Ensure the toast is above other content
-                              }
+                        
                         }
                     }
                 }
@@ -231,22 +229,6 @@ struct AcademicView : View
     }
 }
 
-
-struct ToastView: View 
-{
-    var message: String
-    
-    var body: some View 
-    {
-        Text(message)
-            .padding()
-            .background(Color.yellow)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-            .shadow(radius: 10)
-            .padding(.top, 44)
-    }
-}
 
 #Preview(body: {
     AcademicView(viewModel: RegisterViewModel())
