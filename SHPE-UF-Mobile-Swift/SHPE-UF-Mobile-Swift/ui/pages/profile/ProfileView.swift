@@ -8,473 +8,522 @@
 import SwiftUI
 
 struct ProfileView: View {
-        @State private var isEditing = false
-        @State private var name = "Daniel Dovale"
-        @State private var username = "d.dovale"
-        @State private var email = "ddovale2004@example.com"
-    @State private var gender = 0
-        let genderoptions = ["Male", "Female", "Option 3"]
-    @State private var ehtnicity = 0
-        let ethnicityoptions = ["Hispanic", "African American", "White", "Asian", "Native American/Alaskan Native", "Native Hawaiian/Pacific Islander", "Middle Eastern/North African", "Multiethnic"]
-    @State private var origin = 0
-        let originoptions = ["x", "x", "z"]
-    @State private var year = 0
-        let yearoptions = ["Freshman", "Sophomore", "Junior", "Senior", "5th Year"]
-    @State private var grad = 0
-        let gradoptions = ["2024", "2025", "2026", "2027", "2028"]
-    
-    @State private var enteredClasses: String = ""
-    @State private var selectedClasses: [String] = []
-    
-    @State private var enteredInternships: String = ""
-    @State private var selectedInternships: [String] = []
-
     @Environment(\.colorScheme) private var colorScheme
+    
+    @EnvironmentObject var manager: DataManager
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
+    @StateObject var coreVM:CheckCoreViewModel = CheckCoreViewModel()
+    
+    @StateObject var vm:ProfileViewModel
+    
     var body: some View {
-        
-        
-        ScrollView {
-            VStack {
-                ZStack {
-                    let backgroundcircle = colorScheme == .dark ? "Background CircleD" : "Background CircleL"
-                    
-                    let topbackground = colorScheme == .dark ? "TopBackgroundD" : "TopBackgroundL"
-                    
+        ScrollView 
+        {
+            VStack
+            {
+                ZStack
+                {
                     let profilePFP = colorScheme == .dark ? "DefaultPFPD" : "DefaultPFPL"
                     
-                    Color("Profile-Background")
-                        .edgesIgnoringSafeArea(.all)
+                    Image(colorScheme == .dark ? "Gator" : "Gator2")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 180, height: 200)
+                        .offset(x:-UIScreen.main.bounds.width*0.42, y: colorScheme == .dark ? 40 : 30)
+                        
                     
-                    Image(topbackground)
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width:420,height:550)
-                        .padding(.top, -1200)
-                        .padding(.leading,30)
-                    //.padding(.leading,0.5)
-                    //Background circle dimensions:
-                    Image(backgroundcircle)
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width:1900,height:520)
-                        .padding(.top, -880)
-                        .padding(.leading,0.5)
+                    CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
+                            .fill(Color("Profile-Background"))
+                            .frame(width: UIScreen.main.bounds.width * 1.9, height: 150)
+                            .padding(.top, 100)
                     
                     Image(profilePFP)
                         .renderingMode(.original)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width:130,height:380)
-                        .padding(.top, -1060)
-                        .padding(.leading,0.5)
+                        .frame(width:130,height:130)
+                        .padding(.top, 60)
                     
-                    VStack{
-                        let ButtonEdit = colorScheme == .dark ? "ButtonEditD" : "ButtonEditDL"
-                        // Button represented by an image
-                        Image(ButtonEdit) // Replace "yourImageName" with the name of your image asset
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 170, height: 200)
-                            .padding(.top, 120)
-                            .padding(.leading,0.5)// Adjust size as needed
-                        
-                        let AccountInfo = colorScheme == .dark ? "AccountInfoD" : "AccountInfoL"
-                        // Button represented by an image
-                        Image(AccountInfo) // Replace "yourImageName" with the name of your image asset
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 140, height: 200)
-                            .padding(.top, -150)
-                            .padding(.leading,-170)// Adjust size as needed
-                        
-                        VStack(spacing: 2){
-                            let Rect = colorScheme == .dark ? "RecD" : "RecL"
-                            // Button represented by an image
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
+                    Text("\(vm.shpeito.firstName) \(vm.shpeito.lastName)")
+                        .font(Font.custom("Viga-Regular", size: 24))
+                        .offset(y:120)
+                }
+                .frame(maxWidth:.infinity)
+                .background(Color("profile-orange"))
+                
+                    
+                VStack
+                {
+                    
+                    Button {
+                        print("edit")
+                    } label: {
+                        HStack
+                        {
+                            Text("Edit Profile")
+                                .foregroundStyle(Color.white)
+                                .padding(10)
+                            Image("pencil")
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -95)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 20, height: 20)
+                        }
+                        .padding(.horizontal)
+                        .background(Color("orangeButton"))
+                        .cornerRadius(50)
+                    }
+                    .padding(.top, 10)
+
+                    VStack(spacing: 2)
+                    {
+                        
+                        Text("ACCOUNT INFO")
+                            .font(Font.custom("Viga-Regular", size: 20))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(20)
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("ProfileIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:25,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("NameIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:57,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
-                                
-                                Text("\(name)")
-                                    .font(.system(size: 15))
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:190,height:100)
-                                    .padding(.top, -100)
-                                    .padding(.leading,-210)
-                                
+                                Text("NAME")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            
-                            Image(Rect)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            
-                            HStack{
+                            Text("\(vm.shpeito.firstName) \(vm.shpeito.lastName)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("ProfileIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:25,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("UsernameIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:110,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
-                                
-                                Text("\(username)")
-                                    .font(.system(size: 15))
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:190,height:100)
-                                    .padding(.top, -105)
-                                    .padding(.leading,-230)
+                                Text("USERNAME")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            
-                            HStack{
+                            Text("\(vm.shpeito.username)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("MessageIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:25,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-125)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("EmailIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:60,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-90)
-                                
-                                Text("\(email)")
-                                    .font(.system(size: 15))
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:200,height:100)
-                                    .padding(.top, -105)
-                                    .padding(.leading,-140)
+                                Text("EMAIL")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            
-                            HStack{
+                            Text("\(vm.shpeito.email)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("GenderIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:33,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-160)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("GenderWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:80,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
-                                
-                                //add drop down option to display gender
+                                Text("GENDER")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            
-                            HStack{
-                                Image("GlobeIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:30,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
-                                
-                                Image("EthnicityIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:100,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
-                            }
-                            
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            
-                            HStack{
-                                Image("GlobeIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:30,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
-                                
-                                Image("OriginIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:160,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-90)
-                            }
-                            
-                            
-                            
+                            Text("\(vm.shpeito.gender)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
                         }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
                         
-                        //let EducationInfo = colorScheme == .dark ? "EducationInfoD" : "EducationInfoL"
-                        // Button represented by an image
-                        Image("EducationInfoD") // Replace "yourImageName" with the name of your image asset
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 140, height: 200)
-                            .padding(.top, -100)
-                            .padding(.leading,-160)// Adjust size as needed
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
+                                Image("GlobeIcon")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
+                                
+                                Text("ETHNICITY")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Text("\(vm.shpeito.ethnicity)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
                         
-                        VStack(spacing: 2){
-                            let Rect = colorScheme == .dark ? "RecD" : "RecL"
-                            // Button represented by an image
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -95)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
+                                Image("GlobeIcon")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
+                                
+                                Text("ORIGIN COUNTRY")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Text("\(vm.shpeito.originCountry)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        // Eductaion Info
+                        Text("EDUCATION INFO")
+                            .font(Font.custom("Viga-Regular", size: 20))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(20)
+                            .padding(.top, 10)
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("YearIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:30,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("YearWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:50,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
+                                Text("YEAR")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
+                            Text("\(vm.shpeito.originCountry)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("GradIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:25,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-105)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("GraduationWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:180,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-75)
+                                Text("GRADUATION YEAR")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
+                            Text("\(vm.shpeito.originCountry)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("ClassesIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:25,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("ClassesWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:90,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
-                                
-                               
+                                Text("CLASSES")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
-                
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
+                            Text("\(vm.shpeito.originCountry)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("InternshipsIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:30,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("InternshipsWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:130,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
+                                Text("INTERNSHIPS")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -35)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
+                            Text("\(vm.shpeito.originCountry)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
                                 Image("LinksIcon")
                                     .renderingMode(.original)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width:30,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
                                 
-                                Image("LinksWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:60,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-120)
+                                Text("LINKS")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Text("\(vm.shpeito.originCountry)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
                         }
-                        //let EducationInfo = colorScheme == .dark ? "EducationInfoD" : "EducationInfoL"
-                        // Button represented by an image
-                        Image("Appereance") // Replace "yourImageName" with the name of your image asset
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 120, height: 200)
-                            .padding(.top, -100)
-                            .padding(.leading,-175)// Adjust size as needed
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
                         
-                        VStack(spacing: 2){
-                            let Rect = colorScheme == .dark ? "RecD" : "RecL"
-                            // Button represented by an image
-                            
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
+                        // Appearance
+                        Text("APPEARANCE")
+                            .font(Font.custom("Viga-Regular", size: 20))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(20)
+                            .padding(.top, 10)
+                        
+                        HStack
+                        {
+                            Image("LightIcon")
+                                .renderingMode(.original)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 140)
-                                .padding(.top, -95)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
-                                Image("LightIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:40,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-155)
-                                
-                                Image("LightModeWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:115,height:100)
-                                    .padding(.top, -150)
-                                    .padding(.leading,-110)
-                            }
+                                .frame(width:25,height:25)
+                                .padding(.trailing, 10)
+                                .padding(20)
                             
-                            Image(Rect) // Replace "yourImageName" with the name of your image asset
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 450, height: 260)
-                                .padding(.top, -95)
-                                .padding(.leading,0)// Adjust size as needed
-                            HStack{
-                                Image("DarkModeIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:30,height:100)
-                                    .padding(.top, -200)
-                                    .padding(.leading,-155)
-                                
-                                Image("DarkModeWord")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:110,height:100)
-                                    .padding(.top, -200)
-                                    .padding(.leading,-120)
-                            }
+                            Text("Light Mode")
+                                .font(Font.custom("Viga-Regular", size: 20))
+                                .foregroundStyle(Color("profile-orange"))
+                            
+                            Spacer()
+                            
+                            Circle()
+                                .frame(width: 30)
+                                .foregroundStyle(Color("whiteBox"))
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
+                                )
+                                .padding(.trailing, 20)
                         }
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        HStack
+                        {
+                            Image("DarkModeIcon")
+                                .renderingMode(.original)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width:25,height:25)
+                                .padding(.trailing, 10)
+                                .padding(20)
+                            
+                            Text("Dark Mode")
+                                .font(Font.custom("Viga-Regular", size: 20))
+                                .foregroundStyle(Color("profile-orange"))
+                            
+                            Spacer()
+                            
+                            Circle()
+                                .frame(width: 30)
+                                .foregroundStyle(Color("whiteBox"))
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
+                                )
+                                .padding(.trailing, 20)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        
+                        Button {
+                            if !user.isEmpty
+                            {
+                                coreVM.deleteUserItemToCore(viewContext: viewContext, user: user[0])
+                                AppViewModel.appVM.setPageIndex(index: 0)
+                            }
+                            else
+                            {
+                                print("Expected User in Core")
+                            }
+                        } label: {
+                            HStack
+                            {
+                                Text("Sign Out")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color.white)
+                                    .padding(10)
+                                Image("signOut")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 20, height: 20)
+                            }
+                            .padding(.horizontal)
+                            .background(Color.red)
+                            .cornerRadius(50)
+                        }
+                        .padding(.vertical, 30)
                     }
+                    .frame(width: UIScreen.main.bounds.width)
                     
                 }
+                
             }
+            .background(Color("Profile-Background"))
         }
+        .ignoresSafeArea()
+        .background(Color("profile-orange"))
     }
 }
+
+struct CurvedTopRectangle: Shape {
+    let cornerRadius: CGFloat
+    let curveHeight: CGFloat
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        let width = rect.width
+        let height = rect.height
+        
+        // Start drawing path from top-left corner
+        path.move(to: CGPoint(x: 0, y: curveHeight))
+        
+        // Draw straight line to top-center
+//        path.addLine(to: CGPoint(x: width / 2, y: 0))
+        
+        // Draw quadratic curve to top-right corner
+        path.addQuadCurve(to: CGPoint(x: width, y: curveHeight), control: CGPoint(x: width / 2, y: 0))
+        
+        // Draw straight line to bottom-right corner
+        path.addLine(to: CGPoint(x: width, y: height))
+        
+        // Draw bottom-right corner
+        path.addLine(to: CGPoint(x: 0, y: height))
+        
+        // Close the path
+        path.closeSubpath()
+        
+        return path
+    }
+}
+
 #Preview {
-    ProfileView()
+    ProfileView(vm:ProfileViewModel(shpeito: SHPEito(
+            username: "dvera0322",
+            password: "",
+            remember: "true",
+            photo: "",
+            firstName: "David",
+            lastName: "Denis",
+            year: "2",
+            major: "Computer Science",
+            id: "642f7f80e8839f0014e8be9b",
+            token: "",
+            confirmed: true,
+            updatedAt: "",
+            createdAt: "",
+            email: "denisdavid@ufl.edu",
+            fallPoints: 20,
+            summerPoints: 17,
+            springPoints: 30,
+            points: 67,
+            fallPercentile: 93,
+            springPercentile: 98,
+            summerPercentile: 78)
+    ))
 }
     
 
