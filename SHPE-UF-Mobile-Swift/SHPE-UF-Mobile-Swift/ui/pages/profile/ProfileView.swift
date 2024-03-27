@@ -7,13 +7,15 @@
 
 import SwiftUI
 
-struct ProfileView: View {
+struct ProfileView: View 
+{
     @Environment(\.colorScheme) private var colorScheme
     
     @EnvironmentObject var manager: DataManager
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
     @StateObject var coreVM:CheckCoreViewModel = CheckCoreViewModel()
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
     
     @StateObject var vm:ProfileViewModel
     
@@ -23,13 +25,13 @@ struct ProfileView: View {
         {
             ZStack
             {
-                let profilePFP = colorScheme == .dark ? "DefaultPFPD" : "DefaultPFPL"
+                let profilePFP = appVM.darkMode ? "DefaultPFPD" : "DefaultPFPL"
                 
-                Image(colorScheme == .dark ? "Gator" : "Gator2")
+                Image(appVM.darkMode ? "Gator" : "Gator2")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 180, height: 200)
-                    .offset(x:-UIScreen.main.bounds.width*0.42, y: colorScheme == .dark ? 40 : 30)
+                    .offset(x:-UIScreen.main.bounds.width*0.42, y: appVM.darkMode ? 40 : 30)
                     
                 
                 CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
@@ -37,12 +39,36 @@ struct ProfileView: View {
                         .frame(width: UIScreen.main.bounds.width * 1.9, height: 150)
                         .padding(.top, 100)
                 
-                Image(profilePFP)
-                    .renderingMode(.original)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width:130,height:130)
-                    .padding(.top, 60)
+                if let selectedImage = vm.selectedImage,
+                    vm.isEditing
+                {
+                    Image(uiImage: selectedImage)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width:130,height:130)
+                        .cornerRadius(100)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 100)
+                                .stroke( Color("Profile-Background") , lineWidth: 5)
+                        )
+                        .padding(.top, 60)
+                        
+                }
+                else if let profileImage = vm.shpeito.profileImage
+                {
+                    
+                }
+                else
+                {
+                    Image(profilePFP)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:130,height:130)
+                        .padding(.top, 60)
+                }
+                
                 
                 if vm.isEditing
                 {
@@ -59,7 +85,11 @@ struct ProfileView: View {
                         )
                         .offset(x:45, y:-10)
                         .onTapGesture {
-                            print("upload photo")
+                            vm.showImagePicker.toggle()
+                        }
+                        .sheet(isPresented: $vm.showImagePicker, onDismiss: {})
+                        {
+                            ImagePicker(selectedImage: $vm.selectedImage, sourceType: .photoLibrary)
                         }
                 }
                 
@@ -137,7 +167,7 @@ struct ProfileView: View {
                             
                             if vm.isEditing
                             {
-                                TextField("vm.shpeito.name", text: $vm.shpeito.name)
+                                TextField(vm.newName, text: $vm.newName)
                                     .font(.system(size: 16))
                                     .padding(.top, 5)
                                     .frame(width: 270)
@@ -235,13 +265,22 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Text("\(vm.shpeito.gender)")
-                                .font(.system(size: 16))
-                                .padding(.top, 5)
+                            if vm.isEditing
+                            {
+                                DropDown(vm: vm, change: $vm.newGender, options: vm.genderoptions, width: 120)
+                            }
+                            else
+                            {
+                                Text("\(vm.shpeito.gender)")
+                                    .font(.system(size: 16))
+                                    .padding(.top, 5)
+                            }
+                            
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
+                        .zIndex(5)
                         
                         VStack(alignment: .leading)
                         {
@@ -260,13 +299,21 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Text("\(vm.shpeito.ethnicity)")
-                                .font(.system(size: 16))
-                                .padding(.top, 5)
+                            if vm.isEditing
+                            {
+                                DropDown(vm: vm, change: $vm.newEthnicity, options: vm.ethnicityoptions, width: 240)
+                            }
+                            else
+                            {
+                                Text("\(vm.shpeito.ethnicity)")
+                                    .font(.system(size: 16))
+                                    .padding(.top, 5)
+                            }
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
+                        .zIndex(4)
                         
                         VStack(alignment: .leading)
                         {
@@ -285,13 +332,21 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Text("\(vm.shpeito.originCountry)")
-                                .font(.system(size: 16))
-                                .padding(.top, 5)
+                            if vm.isEditing
+                            {
+                                DropDown(vm: vm, change: $vm.newOriginCountry, options: vm.originoptions, width: 240)
+                            }
+                            else
+                            {
+                                Text("\(vm.shpeito.originCountry)")
+                                    .font(.system(size: 16))
+                                    .padding(.top, 5)
+                            }
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
+                        .zIndex(3)
                         
                         // Eductaion Info
                         Text("EDUCATION INFO")
@@ -317,13 +372,21 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Text("\(vm.shpeito.year)")
-                                .font(.system(size: 16))
-                                .padding(.top, 5)
+                            if vm.isEditing
+                            {
+                                DropDown(vm: vm, change: $vm.newYear, options: vm.yearoptions, width: 200)
+                            }
+                            else
+                            {
+                                Text("\(vm.shpeito.year)")
+                                    .font(.system(size: 16))
+                                    .padding(.top, 5)
+                            }
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
+                        .zIndex(2)
                         
                         VStack(alignment: .leading)
                         {
@@ -342,13 +405,21 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Text("\(vm.shpeito.graduationYear)")
-                                .font(.system(size: 16))
-                                .padding(.top, 5)
+                            if vm.isEditing
+                            {
+                                DropDown(vm: vm, change: $vm.newGradYear, options: vm.gradoptions, width: 100)
+                            }
+                            else
+                            {
+                                Text("\(vm.shpeito.graduationYear)")
+                                    .font(.system(size: 16))
+                                    .padding(.top, 5)
+                            }
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
+                        .zIndex(1)
                         
                         VStack(alignment: .leading)
                         {
@@ -367,16 +438,38 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            ForEach(vm.shpeito.classes, id:\.self)
+                            if vm.isEditing
                             {
-                                classStr in
-                                
-                                Text(classStr)
-                                    .font(.system(size: 16))
-                                    .padding(.top, 5)
-                                
+                                MultipleLabels(placeholder: "Add your classes here", change: $vm.newClasses, validationFunction: {_ in true})
+                                    .frame(height: {
+                                        var count:CGFloat = 0
+                                        for item in vm.newClasses
+                                        {
+                                            count += CGFloat(item.count)
+                                        }
+                                        return ceil( count / 20.0 ) * 50 + 70
+                                    }())
                             }
-                            
+                            else
+                            {
+                                ScrollView
+                                {
+                                    VStack
+                                    {
+                                        ForEach(vm.shpeito.classes, id:\.self)
+                                        {
+                                            classStr in
+                                            
+                                            Text(classStr)
+                                                .font(.system(size: 16))
+                                                .padding(.top, 5)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            
+                                        }
+                                    }
+                                }
+                                .frame(height: vm.shpeito.classes.count > 3 ? 100 : 33 * CGFloat(vm.shpeito.classes.count))
+                            }
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
@@ -399,14 +492,37 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            ForEach(vm.shpeito.internships, id:\.self)
+                            if vm.isEditing
                             {
-                                internship in
-                                
-                                Text(internship)
-                                    .font(.system(size: 16))
-                                    .padding(.top, 5)
-                                
+                                MultipleLabels(placeholder: "Add your internships here", change: $vm.newInternships, validationFunction: {_ in true})
+                                    .frame(height: {
+                                        var count:CGFloat = 0
+                                        for item in vm.newInternships
+                                        {
+                                            count += CGFloat(item.count)
+                                        }
+                                        return ceil( count / 20.0 ) * 50 + 70
+                                    }())
+                            }
+                            else
+                            {
+                                ScrollView
+                                {
+                                    VStack
+                                    {
+                                        ForEach(vm.shpeito.internships, id:\.self)
+                                        {
+                                            internship in
+                                            
+                                            Text(internship)
+                                                .font(.system(size: 16))
+                                                .padding(.top, 5)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            
+                                        }
+                                    }
+                                }
+                                .frame(height: vm.shpeito.internships.count > 3 ? 100 : 33 * CGFloat(vm.shpeito.internships.count))
                             }
                         }
                         .padding(20)
@@ -430,18 +546,49 @@ struct ProfileView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            ForEach(vm.shpeito.links, id:\.self)
+                            if vm.isEditing
                             {
-                                link in
-                                
-                                Text(link.absoluteString)
-                                    .font(.system(size: 16))
-                                    .padding(.top, 5)
-                                    .onTapGesture {
-                                        UIApplication.shared.open(link)
+                                MultipleLabels(placeholder: "Add your links here", change: $vm.newLinks, validationFunction: {urlString in
+                                    if let url = URL(string: urlString) {
+                                        // URL initialization succeeded, so the string is a valid URL
+                                        return UIApplication.shared.canOpenURL(url)
                                     }
-                                
+                                    return false
+                                })
+                                    .frame(height: {
+                                        var count:CGFloat = 0
+                                        for item in vm.newLinks
+                                        {
+                                            count += CGFloat(item.count)
+                                        }
+                                        return ceil( count / 20.0 ) * 50 + 70
+                                    }())
                             }
+                            else
+                            {
+                                ScrollView
+                                {
+                                    VStack
+                                    {
+                                        ForEach(vm.shpeito.links, id:\.self)
+                                        {
+                                            link in
+                                            
+                                            Text(link.absoluteString)
+                                                .font(.system(size: 16))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.top, 5)
+                                                .onTapGesture {
+                                                    UIApplication.shared.open(link)
+                                                }
+                                            
+                                        }
+                                    }
+                                }
+                                .frame(height: vm.shpeito.links.count > 3 ? 100 : 33 * CGFloat(vm.shpeito.links.count))
+                            }
+                            
+                            
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
@@ -470,7 +617,7 @@ struct ProfileView: View {
                             
                             Spacer()
                             
-                            if colorScheme != .dark
+                            if !appVM.darkMode
                             {
                                 Image("checkmark")
                                     .resizable()
@@ -488,6 +635,9 @@ struct ProfileView: View {
                                             .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
                                     )
                                     .padding(.trailing, 20)
+                                    .onTapGesture {
+                                        appVM.setDarkMode(bool: false, user: user)
+                                    }
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -509,7 +659,7 @@ struct ProfileView: View {
                             
                             Spacer()
                             
-                            if colorScheme == .dark
+                            if appVM.darkMode
                             {
                                 Image("checkmark")
                                     .resizable()
@@ -527,6 +677,9 @@ struct ProfileView: View {
                                             .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
                                     )
                                     .padding(.trailing, 20)
+                                    .onTapGesture {
+                                        appVM.setDarkMode(bool: true, user: user)
+                                    }
                             }
                         }
                         .frame(maxWidth: .infinity)
@@ -586,6 +739,7 @@ struct ProfileView: View {
                                 
                                 Button {
                                     print("cancel changes")
+                                    vm.clearFields()
                                     vm.isEditing = false
                                 } label: {
                                     Text("Cancel")
@@ -613,6 +767,7 @@ struct ProfileView: View {
         }
         .ignoresSafeArea()
         .background(Color("Profile-Background"))
+        .preferredColorScheme(appVM.darkMode ? .dark : .light)
         
         
     }
@@ -644,6 +799,242 @@ struct CurvedTopRectangle: Shape {
         path.closeSubpath()
         
         return path
+    }
+}
+
+struct DropDown:View
+{
+    @StateObject var vm: ProfileViewModel
+    @Binding var change: String
+    
+    let options: [String]
+    let width: CGFloat
+    @State private var toggle:Bool = false
+    
+    var body: some View {
+        VStack
+        {
+            HStack
+            {
+                Text(change)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.down")
+                    .rotationEffect(toggle ? .degrees(180) : .zero)
+            }
+            .frame(width: width)
+            .overlay(Rectangle().frame(height: 1).padding(.top, 35))
+            .onTapGesture {
+                withAnimation(.easeInOut)
+                {
+                    toggle.toggle()
+                }
+            }
+            
+            if toggle
+            {
+                ScrollView
+                {
+                    VStack(alignment: .leading)
+                    {
+                        ForEach(options, id:\.self)
+                        {
+                            option in
+                            
+                            Text(option)
+                                .font(.system(size: 16))
+                                .foregroundStyle(Color.black)
+                                .padding(5)
+                                .frame(width: width - 10, alignment: .leading)
+                                .onTapGesture {
+                                    change = option
+                                }
+                        }
+                    }
+                    .padding(.vertical, 10)
+                }
+                .frame(width: width, height: options.count > 4 ? 165 : 45 * CGFloat(options.count))
+                .background(Color("lightGray"))
+                .clipped(antialiased: false)
+                .cornerRadius(10)
+            }
+        }
+        .padding(.top, toggle ? options.count > 4 ? 175 : 45 * CGFloat(options.count) + 10 : 0)
+        .frame(height: 35)
+    }
+}
+
+typealias ValidationFunction = (String) -> Bool
+
+struct MultipleLabels:View {
+    let placeholder:String
+    @Binding var change: [String]
+    let validationFunction: ValidationFunction
+    
+    @State private var input:String = ""
+    @State private var invalidInputMessage:String = ""
+    
+    
+    var body: some View {
+        VStack
+        {
+            HStack
+            {
+                TextField(placeholder, text: $input)
+                    .font(.system(size: 16))
+                    .padding(.top, 5)
+                    .frame(width: 270)
+                    .overlay(Rectangle().frame(height: 1).padding(.top, 35))
+                
+                Spacer()
+                
+                Button {
+                    if change.contains(input)
+                    {
+                        invalidInputMessage = "Input already exists"
+                    }
+                    else if validationFunction(input)
+                    {
+                        invalidInputMessage = ""
+                        change.append(input)
+                    }
+                    else
+                    {
+                        invalidInputMessage = "Invalid Input"
+                    }
+                    input = ""
+                } label: {
+                    Image("addButton")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 30, height: 30)
+                        .opacity(input.isEmpty ? 0.5 : 1)
+                }
+                .disabled(input.isEmpty)
+                
+            }
+            
+            Text(invalidInputMessage)
+                .foregroundStyle(Color.red)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            GeometryReader { geometry in
+                self.generateContent(in: geometry, list: change)
+            }
+                        
+        }
+        .padding(.vertical, 20)
+    }
+    
+    private func generateContent(in g: GeometryProxy, list:[String]) -> some View {
+        var width = CGFloat.zero
+        var height = CGFloat.zero
+
+        return 
+            VStack
+            {
+                ZStack(alignment: .topLeading)
+                {
+                    ForEach(list, id: \.self)
+                    { item in
+                        self.item(for: item)
+                            .padding([.horizontal, .vertical], 4)
+                            .alignmentGuide(.leading, computeValue: { d in
+                                if (abs(width - d.width) > g.size.width)
+                                {
+                                    width = 0
+                                    height -= d.height
+                                }
+                                let result = width
+                                if item == list.last! {
+                                    width = 0 //last item
+                                } else {
+                                    width -= d.width
+                                }
+                                return result
+                            })
+                            .alignmentGuide(.top, computeValue: {d in
+                                let result = height
+                                if item == list.last! {
+                                    height = 0 // last item
+                                }
+                                return result
+                            })
+                        }
+                    }
+            }
+            .padding(.top, 20)
+        }
+        
+        func item(for text: String) -> some View {
+            HStack
+            {
+                Text(text)
+                    .font(Font.custom("Manrope-Light", size: 16))
+                    .padding(.all, 5)
+                    .padding(.leading, 5)
+                    .font(.body)
+                    
+                Image("xMark")
+                    .resizable()
+                    .frame(width: 16, height: 16)
+                    .padding(.all, 5)
+                    .onTapGesture {
+                        var index = 0
+                        for interest in change
+                        {
+                           if text == interest
+                            {
+                               change.remove(at: index)
+                            }
+                            index += 1
+                        }
+                    }
+                
+            }
+            .background(Color("buttonColor"))
+            .foregroundColor(Color.white)
+            .cornerRadius(20)
+        }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    var sourceType: UIImagePickerController.SourceType
+    @Environment(\.presentationMode) var presentationMode
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = sourceType
+        imagePicker.delegate = context.coordinator
+        return imagePicker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+    
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let parent: ImagePicker
+        
+        init(parent: ImagePicker) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.selectedImage = image
+            }
+            
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
     }
 }
 

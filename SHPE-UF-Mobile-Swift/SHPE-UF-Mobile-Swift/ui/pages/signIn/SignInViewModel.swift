@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import CoreData
 
 final class SignInViewModel: ObservableObject {
@@ -8,6 +9,7 @@ final class SignInViewModel: ObservableObject {
     // Out of View variables (Models)
     @Published var shpeito: SHPEito
     @Published var viewPassword: Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     // Initialize SignInViewModel
     init(shpeito: SHPEito) {
@@ -159,6 +161,8 @@ final class SignInViewModel: ObservableObject {
         user.fallPercentile = Int64(shpeito.fallPercentile)
         user.springPercentile = Int64(shpeito.springPercentile)
         user.summerPercentile = Int64(shpeito.summerPercentile)
+        user.darkMode = colorScheme == .dark
+        
         do { try viewContext.save() } catch { print("Could not save to Core") }
     }
 
