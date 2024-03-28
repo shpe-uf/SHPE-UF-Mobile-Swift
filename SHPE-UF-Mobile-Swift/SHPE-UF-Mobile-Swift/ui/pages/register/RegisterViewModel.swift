@@ -3,6 +3,7 @@ import SwiftUI
 import UIKit
 import Combine
 
+//foundation framework of all the countries of the world
 extension Locale
 {
     static let countryNames: [String] =
@@ -18,18 +19,6 @@ extension Locale
     }()
 }
 
-struct TransparentTextFieldStyle: TextFieldStyle
-{
-    func _body(configuration: TextField<Self._Label>) -> some View
-    {
-        configuration
-            .padding(10)
-            .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color.gray, lineWidth: 1))
-            .shadow(radius: 2)
-    }
-}
-
-
 @MainActor
 class RegisterViewModel: ObservableObject
 {
@@ -43,34 +32,30 @@ class RegisterViewModel: ObservableObject
     @Published var passwordInput: String = ""
     @Published var emailInput: String = ""
     @Published var passwordConfirmInput: String = ""
-    @Published var majorInput: String = ""
-    @Published var classYearInput: String = ""
-    @Published var gradYearInput: String = ""
-    @Published var originInput: String = ""
-    @Published var ethnicityInput: String = ""
-    @Published var genderInput: String = ""
+    @Published var majorInput: String = "Select"
+    @Published var classYearInput: String = "Select"
+    @Published var gradYearInput: String = "Select"
+    @Published var originInput: String = "Select"
+    @Published var ethnicityInput: String = "Select"
+    @Published var genderInput: String = "Select"
     
     //picker indexs
     @Published var selectedMajorIndex: Int = 0
     @Published var selectedYearIndex: Int = 0
     @Published var selectedThisYearIndex: Int = 0
-    @Published var selectedOriginIndex: Int? = nil
+    @Published var selectedOriginIndex: Int? = 0
 
     
     @Published var viewPassword:Bool = false
     @Published var viewConfirmPassword:Bool = false
     @Published var viewIndex:Int = 0
-    {
-        didSet
-        {
-            print("New Index \(viewIndex)")
-        }
-    }
     
-    //nav bools
-    @Published var shouldNavigate: Bool = false
-    @Published var shouldNavigate1: Bool = false
-    @Published var shouldNavigate2: Bool = false
+//    {
+//        didSet
+//        {
+//            print("New Index \(viewIndex)")
+//        }
+//    }
     
     // Controls the visibility of the toast
     @Published var showToast = false
@@ -148,6 +133,7 @@ class RegisterViewModel: ObservableObject
     
     //origin options from locale
     let originOptions = Locale.countryNames
+    
     
     //VALIDATION SECTION
     
@@ -250,22 +236,13 @@ class RegisterViewModel: ObservableObject
     {
         return validateMajorSelected() && validateClassYearSelected() && validateGradYearSelected()
     }
-
-        // Existing properties and methods
-
-        // Add a method to reset the registration process
-    func resetRegistrationProcess() {
-            // Assuming RegisterViewModel is accessible or observable here
-            // Reset viewIndex to 0
-            // You might need to adjust this based on your actual architecture
-            RegisterViewModel().viewIndex = 0
-        }
     
     //register user
     func registerUser()
     {
         requestHandler.registerUser(firstName: firstnameInput, lastName: lastnameInput, major: majorInput, year: classYearInput, graduating: gradYearInput, country: originInput, ethnicity: ethnicityInput, sex: genderInput, username: usernameInput, email: emailInput, password: passwordInput, confirmPassword: passwordConfirmInput)
-        { dict in if dict["error"] != nil
+        { 
+            dict in if dict["error"] != nil
             {
                 print("Error occurred during registration")
                     return
