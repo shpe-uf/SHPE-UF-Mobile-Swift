@@ -28,7 +28,7 @@ struct AcademicView : View
                         
                         //page 2 name
                         Text("Academic Info")
-                          .font(Font.custom("Viga-Regular", size: 46))
+                          .font(Font.custom("Viga-Regular", size: 42))
                           .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                           .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
@@ -73,7 +73,7 @@ struct AcademicView : View
                         .onChange(of: viewModel.majorInput) { _ in }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .frame(width: 270, height: 37.64706)
+                    .frame(width: 200, height: 37.64706)
                     .background(Color.white)
                     .cornerRadius(10)
                     

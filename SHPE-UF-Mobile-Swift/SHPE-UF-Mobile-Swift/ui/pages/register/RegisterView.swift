@@ -71,12 +71,12 @@ struct RegisterView: View
                             {
                                 VStack(alignment: .leading) 
                                 {
-                                    Text("Welcome to SHPE!")
+                                    Text("     Welcome to SHPE!")
                                       .font(Font.custom("Univers LT Std", size: 14))
                                       .foregroundColor(Color("whiteText"))
                                     
                                     //register textbox
-                                    Text("Register")
+                                    Text(" Register")
                                       .font(Font.custom("Viga-Regular", size: 46))
                                       .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                                       .frame(maxWidth: .infinity, alignment: .topLeading)
@@ -103,8 +103,8 @@ struct RegisterView: View
                                 Text("UF Email")
                                     .font(Font.custom("Univers LT Std", size: 16))
                                     .foregroundColor(Color("whiteText"))
-                                    .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
-                                HStack(spacing: 0) 
+                                    .frame(width: 150, height: 16.47059, alignment: .topLeading)
+                                HStack(spacing: 0)
                                 {
                                     Image("swift.littleletter")
                                         .padding(.horizontal, 12)
@@ -152,7 +152,7 @@ struct RegisterView: View
                                 //username validation
                                 if !viewModel.validateUsername()
                                 {
-                                    Text("6-20 characters, no special characters except periods (.) & underscores (_)")
+                                    Text("6-20 characters, periods, & underscores")
                                         .font(.caption)
                                         .foregroundColor(.red)
                                 }
@@ -200,8 +200,10 @@ struct RegisterView: View
                                 .cornerRadius(10)
                                 
                                 // Display validation result
-                                if !viewModel.validatePassword() {
-                                    Text("Minimum 8 characters with lowercase, uppercase, number, & special character")
+                                if !viewModel.validatePassword() 
+                                {
+                                    Text("8+ characters, lowercase, uppercase, number, & special character")
+                                        .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                                         .font(.caption)
                                         .foregroundColor(.red)
                                 }
