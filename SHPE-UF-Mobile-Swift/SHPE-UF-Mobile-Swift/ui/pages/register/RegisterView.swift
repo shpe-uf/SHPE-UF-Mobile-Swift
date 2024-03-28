@@ -60,8 +60,8 @@ struct RegisterView: View
                 .padding(.vertical)
                
                 
-                NavigationView
-                {
+//                NavigationView
+//                {
                     ZStack
                     {
                         Color(red: 0, green: 0.12, blue: 0.21)
@@ -272,7 +272,7 @@ struct RegisterView: View
                             {
 //                                if viewModel.isRegisterValid() 
 //                                {
-                                    viewModel.shouldNavigate = true
+                                    viewModel.viewIndex = 1
                                 //}
                             })
                             {
@@ -283,14 +283,14 @@ struct RegisterView: View
                                     .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                                     .cornerRadius(20)
                             }
-
-                            NavigationLink(destination: PersonalView(viewModel: self.viewModel)
-                                .navigationBarHidden(true), isActive: $viewModel.shouldNavigate) 
-                            {
-                                EmptyView()
-                            }
-                            .isDetailLink(false)
-                            .hidden()
+                            
+//                            NavigationLink(destination: PersonalView(viewModel: self.viewModel)
+//                                .navigationBarHidden(true), isActive: $viewModel.shouldNavigate) 
+//                            {
+//                                EmptyView()
+//                            }
+//                            .isDetailLink(false)
+//                            .hidden()
                     
                             Spacer()
                             
@@ -315,8 +315,20 @@ struct RegisterView: View
                         }
                         .background(Color("darkBlue"))
                     }
-                    
-                }
+                    .overlay(
+                    Group {
+                        if viewModel.viewIndex == 1 
+                        {
+                            PersonalView(viewModel: viewModel)
+                                .transition(.move(edge: .trailing))
+                        } else if viewModel.viewIndex == 2 {
+                            AcademicView(viewModel: viewModel)
+                                .transition(.move(edge: .trailing))
+                        }
+                        // Add more conditions for other views as needed
+                    }
+                )
+                //}
                 .background(Color("darkBlue"))
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)

@@ -232,9 +232,6 @@ struct PersonalView : View
                     Button
                     {
                         viewModel.viewIndex = 0
-                        isPresented.wrappedValue.dismiss()
-                        viewModel.resetRegistrationProcess()
-                        
                     }
                     label:
                     {
@@ -246,27 +243,46 @@ struct PersonalView : View
                     }
                     .padding(.horizontal)
 
-                    //nav to academicview
-                    NavigationLink(destination: AcademicView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate1)
+                    Button(action: 
                     {
-                        //continue button
-                        Button(action:
-                        {
-//                           
-//                            if viewModel.isPersonalValid() 
-//                            {
-                                viewModel.shouldNavigate1 = true
-                           // }
+//                    if viewModel.isPersonalValid()
+//                        {
+                            viewModel.viewIndex = 2 // Move to AcademicView if valid
+//                        }
+//                        else
+//                        {
+//                                // Handle invalid input, possibly show an alert
+//                        }
                         })
-                        {
-                            Text("Continue")
-                              .font(Font.custom("Univers LT Std", size: 16))
-                              .foregroundColor(.white)
-                              .frame(width: 250, height: 42)
-                              .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                              .cornerRadius(20)
-                        }
+                    {
+                        Text("Continue")
+                            .font(Font.custom("Univers LT Std", size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 250, height: 42)
+                            .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                            .cornerRadius(20)
                     }
+//                    //nav to academicview
+//                    NavigationLink(destination: AcademicView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate1)
+//                    {
+//                        //continue button
+//                        Button(action:
+//                        {
+////                           
+////                            if viewModel.isPersonalValid() 
+////                            {
+//                                viewModel.shouldNavigate1 = true
+//                           // }
+//                        })
+//                        {
+//                            Text("Continue")
+//                              .font(Font.custom("Univers LT Std", size: 16))
+//                              .foregroundColor(.white)
+//                              .frame(width: 250, height: 42)
+//                              .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+//                              .cornerRadius(20)
+//                        }
+//                    }
                 
                 }
                 .padding(.bottom, 40)
