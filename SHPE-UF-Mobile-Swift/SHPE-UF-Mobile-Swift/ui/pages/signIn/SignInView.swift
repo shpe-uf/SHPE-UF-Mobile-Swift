@@ -179,7 +179,7 @@ struct SignInView: View
                     Text("Don’t have an acccount?")
                       .font(Font.custom("Univers LT Std", size: 14))
                       .foregroundColor(Color("whiteText"))
-                      .frame(width:162, height:17)
+                      .frame(width:180, height:17)
                     Text("Sign Up")
                         .font(Font.custom("Univers LT Std", size: 14))
                         .foregroundColor(Color("lblue"))

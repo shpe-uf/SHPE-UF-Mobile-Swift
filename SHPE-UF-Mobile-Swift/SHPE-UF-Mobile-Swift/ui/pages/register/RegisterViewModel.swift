@@ -54,7 +54,7 @@ class RegisterViewModel: ObservableObject
     @Published var selectedMajorIndex: Int = 0
     @Published var selectedYearIndex: Int = 0
     @Published var selectedThisYearIndex: Int = 0
-    @Published var selectedOriginIndex: Int? = nil // Optional if no initial selection
+    @Published var selectedOriginIndex: Int? = nil
 
     
     @Published var viewPassword:Bool = false
@@ -94,7 +94,8 @@ class RegisterViewModel: ObservableObject
         "Industrial & Systems Engineering",
         "Materials Science & Engineering",
         "Mechanical Engineering",
-        "Nuclear Engineering"
+        "Nuclear Engineering",
+        "Other"
     ]
     
     //year options
