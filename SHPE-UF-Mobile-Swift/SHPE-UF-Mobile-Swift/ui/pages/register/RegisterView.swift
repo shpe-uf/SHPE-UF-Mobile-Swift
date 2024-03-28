@@ -335,3 +335,26 @@ struct RegisterView: View
 {
     RegisterView()
 })          
+
+
+
+//Positive Test Cases (Should Return True)
+//These are examples that should pass your validation criteria:
+//
+//username_1 - Contains an underscore and a digit, within the length requirement.
+//user.name - Contains a period, within the length requirement.
+//User1234 - Combination of uppercase letters and digits, within the length requirement.
+//______ - Exactly 6 characters, all underscores.
+//user.name123 - Mixed characters with periods and digits.
+//a.b_c123 - Mixed characters within the length requirement.
+
+
+//Negative Test Cases (Should Return False)
+//These examples should fail one or more of your validation criteria:
+//
+//usr - Less than 6 characters.
+//usernameiswaytoolongforthis - More than 20 characters.
+//user name - Contains a space, which is not allowed based on the assumed regex.
+//user*name - Contains an asterisk, a character not allowed.
+//user,name - Contains a comma, which is not in the list of allowed characters.
+//user!name - Contains an exclamation mark, indicating an invalid character.
