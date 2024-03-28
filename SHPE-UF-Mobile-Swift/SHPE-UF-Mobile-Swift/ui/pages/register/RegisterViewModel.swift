@@ -22,10 +22,9 @@ extension Locale
 @MainActor
 class RegisterViewModel: ObservableObject
 {
-    
     private let requestHandler = RequestHandler()
     
-    //inputs
+    //field inputs
     @Published var firstnameInput: String = ""
     @Published var lastnameInput: String = ""
     @Published var usernameInput: String = ""
@@ -39,25 +38,20 @@ class RegisterViewModel: ObservableObject
     @Published var ethnicityInput: String = "Select"
     @Published var genderInput: String = "Select"
     
-    //picker indexs
+    //picker indexes
     @Published var selectedMajorIndex: Int = 0
     @Published var selectedYearIndex: Int = 0
     @Published var selectedThisYearIndex: Int = 0
     @Published var selectedOriginIndex: Int? = 0
 
-    
+    //reveal password and confirm password bools
     @Published var viewPassword:Bool = false
     @Published var viewConfirmPassword:Bool = false
+    
+    //index to inc or dec for view
     @Published var viewIndex:Int = 0
     
-//    {
-//        didSet
-//        {
-//            print("New Index \(viewIndex)")
-//        }
-//    }
-    
-    // Controls the visibility of the toast
+    //controls the visibility of the toast
     @Published var showToast = false
     
     //major options
@@ -132,8 +126,8 @@ class RegisterViewModel: ObservableObject
     ]
     
     //origin options from locale
-    let originOptions = Locale.countryNames
-    
+    let originOptions = ["Select"] + Locale.countryNames
+
     
     //VALIDATION SECTION
     
@@ -237,7 +231,7 @@ class RegisterViewModel: ObservableObject
         return validateMajorSelected() && validateClassYearSelected() && validateGradYearSelected()
     }
     
-    //register user
+    //register the user with all given function
     func registerUser()
     {
         requestHandler.registerUser(firstName: firstnameInput, lastName: lastnameInput, major: majorInput, year: classYearInput, graduating: gradYearInput, country: originInput, ethnicity: ethnicityInput, sex: genderInput, username: usernameInput, email: emailInput, password: passwordInput, confirmPassword: passwordConfirmInput)
