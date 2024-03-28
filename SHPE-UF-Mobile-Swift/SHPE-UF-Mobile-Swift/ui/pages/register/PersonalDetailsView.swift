@@ -121,7 +121,9 @@ struct PersonalView : View
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 26.0, height: 26.0)
                                 .padding(.horizontal, 7)
+                            
                             Spacer()
+
                             Picker("", selection: $viewModel.genderInput)
                             {
                                 ForEach(viewModel.genderOptions, id: \.self)
@@ -159,7 +161,9 @@ struct PersonalView : View
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 26.0, height: 26.0)
                                 .padding(.horizontal, 7)
+                            
                             Spacer()
+ 
                             Picker("", selection: $viewModel.ethnicityInput)
                             {
                                 ForEach(viewModel.ethnicityOptions, id: \.self)
@@ -197,16 +201,19 @@ struct PersonalView : View
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 26.0, height: 26.0)
                                 .padding(.horizontal, 7)
+                            
                             Spacer()
-                            Picker("", selection: $viewModel.originInput)
+
+                            Picker("Country of Origin", selection: $viewModel.selectedOriginIndex)
                             {
-                                ForEach(viewModel.originOptions, id: \.self)
+                                Text("Select").tag(0 as Int?) // Explicitly cast tag as Optional<Int>
+                                ForEach(Array(viewModel.originOptions.enumerated()), id: \.element) 
                                 {
-                                    option in Text(option).tag(option)
+                                    index, option in Text(option).tag(index + 1 as Int?)
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.originInput) { _ in }
+                            .onChange(of: viewModel.selectedOriginIndex) { newIndex in }
                         }
                         .pickerStyle(MenuPickerStyle())
                         .frame(width: 270, height: 37.64706)
@@ -249,10 +256,7 @@ struct PersonalView : View
 //                        {
                             viewModel.viewIndex = 2 // Move to AcademicView if valid
 //                        }
-//                        else
-//                        {
-//                                // Handle invalid input, possibly show an alert
-//                        }
+                      
                         })
                     {
                         Text("Continue")
@@ -262,46 +266,17 @@ struct PersonalView : View
                             .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                             .cornerRadius(20)
                     }
-//                    //nav to academicview
-//                    NavigationLink(destination: AcademicView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate1)
-//                    {
-//                        //continue button
-//                        Button(action:
-//                        {
-////                           
-////                            if viewModel.isPersonalValid() 
-////                            {
-//                                viewModel.shouldNavigate1 = true
-//                           // }
-//                        })
-//                        {
-//                            Text("Continue")
-//                              .font(Font.custom("Univers LT Std", size: 16))
-//                              .foregroundColor(.white)
-//                              .frame(width: 250, height: 42)
-//                              .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-//                              .cornerRadius(20)
-//                        }
-//                    }
-                
+
                 }
                 .padding(.bottom, 40)
             }
             .background(Color("darkBlue"))
         }
-        
-        //move the orange bar
-        .onAppear
-        {
-            print("im 1 now")
-            viewModel.viewIndex = 1
-
-        }
-
     }
 }
 
-#Preview(body: {
+#Preview(body: 
+{
     PersonalView(viewModel: RegisterViewModel())
 })
 

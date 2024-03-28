@@ -62,6 +62,7 @@ struct AcademicView : View
                             .frame(width: 26.0, height: 26.0)
                             .padding(.horizontal, 7)
                         Spacer()
+
                         Picker("", selection: $viewModel.majorInput)
                         {
                             ForEach(viewModel.majorOptions, id: \.self)
@@ -99,6 +100,7 @@ struct AcademicView : View
                             .padding(.horizontal, 7)
                         
                         Spacer()
+
                         Picker("", selection: $viewModel.classYearInput)
                         {
                             ForEach(viewModel.classYearOptions, id: \.self)
@@ -137,6 +139,7 @@ struct AcademicView : View
                             .padding(.horizontal, 7)
                         
                             Spacer()
+
                             Picker("", selection: $viewModel.gradYearInput)
                             {
                                 ForEach(viewModel.gradYearOptions, id: \.self)
@@ -151,6 +154,7 @@ struct AcademicView : View
                     .frame(width: 270, height: 37.64706)
                     .background(Color.white)
                     .cornerRadius(10)
+                    
                     //grdaution year validation
                     if !viewModel.validateGradYearSelected()
                     {
@@ -181,12 +185,8 @@ struct AcademicView : View
                     }
                     .padding(.horizontal)
 
-                    //nav back to landing page
-//                    NavigationLink(destination: placeholderForLandingPageView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate2)
-//                    {
                         VStack
                         {
-                            // Your existing content
                             Button(action:
                             {
 //                                if viewModel.isAcademicValid()
@@ -195,11 +195,7 @@ struct AcademicView : View
                                     viewModel.registerUser()
                                     appVM.showToast = true
                                     appVM.setPageIndex(index: 0)
-                                    // Hide toast after 3 seconds
-//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3)
-//                                    {
-//                                        viewModel.showToast = false
-//                                    }
+                                   
                                // }
                            
                             })
@@ -221,16 +217,12 @@ struct AcademicView : View
             }
             .background(Color("darkBlue"))
         }
-        .onAppear 
-        {
-            viewModel.viewIndex = 2
-        }
-        .navigationBarBackButtonHidden(true)
     }
 }
 
 
-#Preview(body: {
+#Preview(body: 
+{
     AcademicView(viewModel: RegisterViewModel())
 })
 

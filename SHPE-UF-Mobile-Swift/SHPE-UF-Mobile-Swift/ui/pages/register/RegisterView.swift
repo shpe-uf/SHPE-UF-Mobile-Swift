@@ -59,9 +59,6 @@ struct RegisterView: View
                 .padding()
                 .padding(.vertical)
                
-                
-//                NavigationView
-//                {
                     ZStack
                     {
                         Color(red: 0, green: 0.12, blue: 0.21)
@@ -204,8 +201,8 @@ struct RegisterView: View
                                 // Display validation result
                                 if !viewModel.validatePassword() 
                                 {
-                                    Text("8+ characters, lowercase, uppercase, number, & special character")
-                                        .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                                    Text("8+ characters, lowercase, uppercase, \nnumber, & special character")
+                                        .frame(width: 250, height: 50, alignment: .topLeading)
                                         .font(.caption)
                                         .foregroundColor(.red)
                                 }
@@ -284,13 +281,6 @@ struct RegisterView: View
                                     .cornerRadius(20)
                             }
                             
-//                            NavigationLink(destination: PersonalView(viewModel: self.viewModel)
-//                                .navigationBarHidden(true), isActive: $viewModel.shouldNavigate) 
-//                            {
-//                                EmptyView()
-//                            }
-//                            .isDetailLink(false)
-//                            .hidden()
                     
                             Spacer()
                             
@@ -316,34 +306,32 @@ struct RegisterView: View
                         .background(Color("darkBlue"))
                     }
                     .overlay(
-                    Group {
-                        if viewModel.viewIndex == 1 
+                    Group
+                    {
+                        if viewModel.viewIndex == 1
                         {
                             PersonalView(viewModel: viewModel)
                                 .transition(.move(edge: .trailing))
-                        } else if viewModel.viewIndex == 2 {
-                            AcademicView(viewModel: viewModel)
-                                .transition(.move(edge: .trailing))
                         }
-                        // Add more conditions for other views as needed
+                        else if viewModel.viewIndex == 2
+                        {
+                            AcademicView(viewModel: viewModel)
+                               .transition(.move(edge: .trailing))
+                        }
+                        
                     }
                 )
-                //}
+                
                 .background(Color("darkBlue"))
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
             .background(Color("darkBlue"))
             .padding(.top, UIScreen.main.bounds.height * 0.17)
         }
-        
-//        if(viewModel.viewIndex == 0)
-//        {
-//            print("I'm 0 now")
-//        }
-        
     }
 }
 
-#Preview(body: {
+#Preview(body:
+{
     RegisterView()
 })          
