@@ -251,6 +251,16 @@ class RegisterViewModel: ObservableObject
         return validateMajorSelected() && validateClassYearSelected() && validateGradYearSelected()
     }
 
+        // Existing properties and methods
+
+        // Add a method to reset the registration process
+    func resetRegistrationProcess() {
+            // Assuming RegisterViewModel is accessible or observable here
+            // Reset viewIndex to 0
+            // You might need to adjust this based on your actual architecture
+            RegisterViewModel().viewIndex = 0
+        }
+    
     //register user
     func registerUser()
     {
