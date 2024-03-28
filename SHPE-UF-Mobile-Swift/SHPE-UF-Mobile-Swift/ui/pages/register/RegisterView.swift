@@ -95,11 +95,11 @@ struct RegisterView: View
                         
                             Spacer()
                             
-                            //fields
+                            //user fields
                             VStack(alignment: .leading)
                             {
     
-                                Text("UF Email")
+                                Text("UF/SF Email")
                                     .font(Font.custom("Univers LT Std", size: 16))
                                     .foregroundColor(Color("whiteText"))
                                     .frame(width: 150, height: 16.47059, alignment: .topLeading)
@@ -140,7 +140,7 @@ struct RegisterView: View
                                         .frame(maxWidth: .infinity)
                                         .foregroundStyle(Color.black)
                                         .autocapitalization(.none)
-                            .autocorrectionDisabled()
+                                        .autocorrectionDisabled()
                                         .onChange(of: viewModel.emailInput) { _ in}
                                 }
                                 .padding(.vertical, 2.75)
@@ -156,6 +156,7 @@ struct RegisterView: View
                                         .foregroundColor(.red)
                                 }
                                 
+                                
                                 //password
                                 Text("Password")
                                   .font(Font.custom("Univers LT Std", size: 16))
@@ -167,6 +168,7 @@ struct RegisterView: View
                                         .padding(.horizontal, 12)
                                     if viewModel.viewPassword
                                     {
+                                        //show password
                                         TextField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
@@ -177,6 +179,7 @@ struct RegisterView: View
                                     }
                                     else
                                     {
+                                        //hide password
                                         SecureField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
@@ -186,7 +189,8 @@ struct RegisterView: View
                                            
                                     }
                                     
-                                    Image(viewModel.viewPassword ? "swift.littlepfp" :"Eye Closed")
+                                    //open eye if viewPassword is true, closed eye if false
+                                    Image(viewModel.viewPassword ? "open_eye" :"Eye Closed")
                                         .frame(width: 22.32634, height: 14.58338)
                                         .padding(.horizontal, 12)
                                         .onTapGesture {
@@ -198,8 +202,8 @@ struct RegisterView: View
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 
-                                // Display validation result
-                                if !viewModel.validatePassword() 
+                                //password validation
+                                if !viewModel.validatePassword()
                                 {
                                     Text("8+ characters, lowercase, uppercase, \nnumber, & special character")
                                         .frame(width: 250, height: 50, alignment: .topLeading)
@@ -219,6 +223,7 @@ struct RegisterView: View
                                         .padding(.horizontal, 12)
                                     if viewModel.viewConfirmPassword
                                     {
+                                        //show confirm password
                                         TextField("", text: $viewModel.passwordConfirmInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
@@ -229,6 +234,7 @@ struct RegisterView: View
                                     }
                                     else
                                     {
+                                        //hide confirm password
                                         SecureField("", text: $viewModel.passwordConfirmInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
@@ -238,7 +244,8 @@ struct RegisterView: View
                                           
                                     }
                                     
-                                    Image(viewModel.viewConfirmPassword ? "swift.littlepfp" : "Eye Closed")
+                                    //open eye if viewConfirmPassword is true, closed eye if false
+                                    Image(viewModel.viewConfirmPassword ? "open_eye" : "Eye Closed")
                                         .frame(width: 22.32634, height: 14.58338)
                                         .padding(.horizontal, 12)
                                         .onTapGesture
@@ -251,8 +258,8 @@ struct RegisterView: View
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 
-                                // Display validation result
-                                if !viewModel.validateConfirmPassword() 
+                                //confirm password validation
+                                if !viewModel.validateConfirmPassword()
                                 {
                                     Text("Passwords must match")
                                         .font(.caption)
@@ -281,21 +288,20 @@ struct RegisterView: View
                                     .cornerRadius(20)
                             }
                             
-                    
                             Spacer()
                             
-                            //sign in
                             HStack
                             {
+                                //account text
                                 Text("Already have an account?")
                                   .font(Font.custom("Univers LT Std", size: 14))
                                   .foregroundColor(Color("whiteText"))
 
-                                //todo add link to sign in when its made
+                                //button to move back to sign in page
                                 Text("Sign In")
                                   .font(Font.custom("Univers LT Std", size: 14))
                                   .foregroundColor(Color("lblue"))
-                                  .onTapGesture 
+                                  .onTapGesture
                                   {
                                       appVM.setPageIndex(index: 0)
                                   }
@@ -305,14 +311,18 @@ struct RegisterView: View
                         }
                         .background(Color("darkBlue"))
                     }
+                
+                    //nav link alternative to switch views
                     .overlay(
                     Group
                     {
+                        //switch to PersonalDetailsView
                         if viewModel.viewIndex == 1
                         {
                             PersonalView(viewModel: viewModel)
                                 .transition(.move(edge: .trailing))
                         }
+                        //switch to AcademicView
                         else if viewModel.viewIndex == 2
                         {
                             AcademicView(viewModel: viewModel)
@@ -338,23 +348,4 @@ struct RegisterView: View
 
 
 
-//Positive Test Cases (Should Return True)
-//These are examples that should pass your validation criteria:
-//
-//username_1 - Contains an underscore and a digit, within the length requirement.
-//user.name - Contains a period, within the length requirement.
-//User1234 - Combination of uppercase letters and digits, within the length requirement.
-//______ - Exactly 6 characters, all underscores.
-//user.name123 - Mixed characters with periods and digits.
-//a.b_c123 - Mixed characters within the length requirement.
 
-
-//Negative Test Cases (Should Return False)
-//These examples should fail one or more of your validation criteria:
-//
-//usr - Less than 6 characters.
-//usernameiswaytoolongforthis - More than 20 characters.
-//user name - Contains a space, which is not allowed based on the assumed regex.
-//user*name - Contains an asterisk, a character not allowed.
-//user,name - Contains a comma, which is not in the list of allowed characters.
-//user!name - Contains an exclamation mark, indicating an invalid character.

@@ -26,7 +26,6 @@ struct SignInView: View
     @State private var isHovered = false
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
-    let toastDuration = 4.0
     
     
     var body: some View 
@@ -37,14 +36,18 @@ struct SignInView: View
             {
                   ToastView(message: "Please check your email to\nconfirm your account!")
                   .transition(.move(edge: .top).combined(with: .opacity))
-                  .zIndex(999) // Ensure the toast is above other content
+                  .zIndex(999)
                   .offset(y: -UIScreen.main.bounds.height * 0.325)
                   .onAppear
                     {
                       // Start the timer to dismiss the toast after `toastDuration` seconds
-                      DispatchQueue.main.asyncAfter(deadline: .now() + toastDuration) {
-                          appVM.showToast = false
-                      }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + viewModel.toastDuration)
+                        {
+                          withAnimation
+                          {
+                              appVM.showToast = false
+                          }
+                        }
                     }
             }
             Color(red: 0.82, green: 0.35, blue: 0.09)
@@ -205,7 +208,7 @@ struct ToastView: View
     {
         Rectangle()
           .foregroundColor(.clear)
-          .frame(width: 304, height: 70)
+          .frame(width: 332, height: 75)
           .background(Color(red: 0.3, green: 0.3, blue: 0.3))
           .cornerRadius(40)
         HStack
@@ -217,7 +220,7 @@ struct ToastView: View
             Image("shpe_logo")
               .resizable()
               .aspectRatio(contentMode: .fill)
-              .frame(width: 35, height: 32)
+              .frame(width: 42, height: 37)
               .clipped()
               )
             

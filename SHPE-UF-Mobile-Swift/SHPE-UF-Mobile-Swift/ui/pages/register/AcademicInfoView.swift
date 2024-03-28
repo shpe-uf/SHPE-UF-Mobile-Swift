@@ -21,12 +21,12 @@ struct AcademicView : View
                 {
                     VStack(alignment: .leading)
                     {
-                        //top message
+                        //header message
                         Text("Enter your current education details")
                           .font(Font.custom("Univers LT Std", size: 14))
                           .foregroundColor(Color("whiteText"))
                         
-                        //page 2 name
+                        //academic info header
                         Text("Academic Info")
                           .font(Font.custom("Viga-Regular", size: 42))
                           .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
@@ -41,11 +41,10 @@ struct AcademicView : View
                       .clipped()
                 }
                 .padding(.horizontal)
-            
-            
+                    
                 Spacer()
                 
-                //fields
+                //user fields
                 VStack(alignment: .leading)
                 {
                     //major
@@ -63,6 +62,7 @@ struct AcademicView : View
                             .padding(.horizontal, 7)
                         Spacer()
 
+                        //dropdown for major
                         Picker("", selection: $viewModel.majorInput)
                         {
                             ForEach(viewModel.majorOptions, id: \.self)
@@ -78,6 +78,7 @@ struct AcademicView : View
                     .background(Color.white)
                     .cornerRadius(10)
                     
+                    //major validation
                     if !viewModel.validateMajorSelected()
                     {
                         Text("Invalid major format")
@@ -85,7 +86,8 @@ struct AcademicView : View
                             .foregroundColor(.red)
                     }
                     
-                    //class Year
+                    
+                    //class year
                     Text("Class Year")
                         .font(Font.custom("Univers LT Std", size: 16))
                         .foregroundColor(Color("whiteText"))
@@ -101,6 +103,7 @@ struct AcademicView : View
                         
                         Spacer()
 
+                        //dropdown for class year
                         Picker("", selection: $viewModel.classYearInput)
                         {
                             ForEach(viewModel.classYearOptions, id: \.self)
@@ -124,6 +127,7 @@ struct AcademicView : View
                             .foregroundColor(.red)
                     }
                  
+                    
                     //graduation year
                     Text("Graduation Year")
                         .font(Font.custom("Univers LT Std", size: 16))
@@ -140,6 +144,7 @@ struct AcademicView : View
                         
                             Spacer()
 
+                            //dropdown for graduation year
                             Picker("", selection: $viewModel.gradYearInput)
                             {
                                 ForEach(viewModel.gradYearOptions, id: \.self)
@@ -169,7 +174,7 @@ struct AcademicView : View
                 
                 HStack
                 {
-                    //back button
+                    //back button to PersonalDetailsView
                     Button
                     {
                         viewModel.viewIndex = 1
@@ -189,14 +194,16 @@ struct AcademicView : View
                         {
                             Button(action:
                             {
+                                //move to sign in if valid
 //                                if viewModel.isAcademicValid()
 //                                {
-                                    
                                     viewModel.registerUser()
-                                    appVM.showToast = true
+                                    withAnimation
+                                    {
+                                        appVM.showToast = true
+                                    }
                                     appVM.setPageIndex(index: 0)
-                                   
-                               // }
+                                //}
                            
                             })
                             {
@@ -211,7 +218,6 @@ struct AcademicView : View
                             
                         
                         }
-                    //}
                 }
                 .padding(.bottom, 40)
             }

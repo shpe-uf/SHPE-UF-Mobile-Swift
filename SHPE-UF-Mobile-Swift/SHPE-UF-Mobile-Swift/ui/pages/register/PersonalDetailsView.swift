@@ -19,12 +19,12 @@ struct PersonalView : View
                 {
                     VStack(alignment: .leading)
                     {
-                        //top message
+                        //header message
                         Text("Enter your info to finalize your profile")
                           .font(Font.custom("Univers LT Std", size: 14))
                           .foregroundColor(Color("whiteText"))
                         
-                        //page 2 name
+                        //personal details header
                         Text("Personal Details")
                           .font(Font.custom("Viga-Regular", size: 37))
                           .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
@@ -43,13 +43,13 @@ struct PersonalView : View
             
                 Spacer()
                 
-                //fields
+                //user fields
                 ScrollView
                 {
                     
                     VStack(alignment: .leading)
                     {
-                        //firstname
+                        //first name
                         Text("First Name")
                           .font(Font.custom("Univers LT Std", size: 16))
                           .foregroundColor(Color("whiteText"))
@@ -123,7 +123,8 @@ struct PersonalView : View
                                 .padding(.horizontal, 7)
                             
                             Spacer()
-
+                            
+                            //dropdown for gender
                             Picker("", selection: $viewModel.genderInput)
                             {
                                 ForEach(viewModel.genderOptions, id: \.self)
@@ -163,7 +164,8 @@ struct PersonalView : View
                                 .padding(.horizontal, 7)
                             
                             Spacer()
- 
+                            
+                            //dropdown for ethnicity
                             Picker("", selection: $viewModel.ethnicityInput)
                             {
                                 ForEach(viewModel.ethnicityOptions, id: \.self)
@@ -203,22 +205,26 @@ struct PersonalView : View
                                 .padding(.horizontal, 7)
                             
                             Spacer()
-
-                            Picker("Country of Origin", selection: $viewModel.selectedOriginIndex)
+                            
+                            //dropdown for origin
+                            Picker("", selection: $viewModel.originInput)
                             {
-                                Text("Select").tag(0 as Int?) // Explicitly cast tag as Optional<Int>
-                                ForEach(Array(viewModel.originOptions.enumerated()), id: \.element) 
-                                {
-                                    index, option in Text(option).tag(index + 1 as Int?)
-                                }
-                            }
-                            .accentColor(.black)
-                            .onChange(of: viewModel.selectedOriginIndex) { newIndex in }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .frame(width: 270, height: 37.64706)
-                        .background(Color.white)
-                        .cornerRadius(10)
+                               ForEach(viewModel.originOptions, id: \.self)
+                               {
+                                   option in Text(option).tag(option)
+                               }
+                           }
+                           .accentColor(.black)
+                           .onChange(of: viewModel.originInput) { _ in }
+                       }
+                       .pickerStyle(MenuPickerStyle())
+                       .frame(width: 270, height: 37.64706)
+                       .background(Color.white)
+                       .cornerRadius(10)
+                       .pickerStyle(MenuPickerStyle())
+                       .frame(width: 270, height: 37.64706)
+                       .background(Color.white)
+                       .cornerRadius(10)
                         
                         //origin validation
                         if !viewModel.validateCountryOfOriginSelected()
@@ -252,12 +258,13 @@ struct PersonalView : View
 
                     Button(action: 
                     {
-//                    if viewModel.isPersonalValid()
+                        //move to AcademicView if valid
+//                        if viewModel.isPersonalValid()
 //                        {
-                            viewModel.viewIndex = 2 // Move to AcademicView if valid
-//                        }
-                      
-                        })
+                            viewModel.viewIndex = 2
+                        //}
+                    })
+                    
                     {
                         Text("Continue")
                             .font(Font.custom("Univers LT Std", size: 16))

@@ -1,13 +1,17 @@
 import Foundation
 import CoreData
 
-final class SignInViewModel: ObservableObject {
+final class SignInViewModel: ObservableObject
+{
     // Private variables like the Apollo endpoint
     private var requestHandler = RequestHandler()
     
     // Out of View variables (Models)
     @Published var shpeito: SHPEito
     @Published var viewPassword: Bool = false
+    
+    //Toast duration
+    @Published var toastDuration = 3.0
     
     // Initialize SignInViewModel
     init(shpeito: SHPEito) {
