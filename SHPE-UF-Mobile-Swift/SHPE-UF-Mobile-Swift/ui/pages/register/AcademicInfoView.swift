@@ -168,7 +168,7 @@ struct AcademicView : View
                     //back button
                     Button
                     {
-                        isPresented.wrappedValue.dismiss()
+                        viewModel.viewIndex = 1
                         
                     }
                     label:
@@ -182,8 +182,8 @@ struct AcademicView : View
                     .padding(.horizontal)
 
                     //nav back to landing page
-                    NavigationLink(destination: placeholderForLandingPageView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate2)
-                    {
+//                    NavigationLink(destination: placeholderForLandingPageView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate2)
+//                    {
                         VStack
                         {
                             // Your existing content
@@ -215,7 +215,7 @@ struct AcademicView : View
                             
                         
                         }
-                    }
+                    //}
                 }
                 .padding(.bottom, 40)
             }
