@@ -231,11 +231,9 @@ struct PersonalView : View
                     //back button
                     Button
                     {
-                        DispatchQueue.main.async
-                        {
-                            viewModel.viewIndex = 0
-                        }
+                        viewModel.viewIndex = 0
                         isPresented.wrappedValue.dismiss()
+                        viewModel.resetRegistrationProcess()
                         
                     }
                     label:
@@ -275,13 +273,13 @@ struct PersonalView : View
             }
             .background(Color("darkBlue"))
         }
+        
         //move the orange bar
         .onAppear
         {
-            DispatchQueue.main.async
-            {
-                viewModel.viewIndex = 1
-            }
+            print("im 1 now")
+            viewModel.viewIndex = 1
+
         }
 
     }

@@ -73,7 +73,7 @@ struct AcademicView : View
                         .onChange(of: viewModel.majorInput) { _ in }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .frame(width: 200, height: 37.64706)
+                    .frame(width: 270, height: 37.64706)
                     .background(Color.white)
                     .cornerRadius(10)
                     

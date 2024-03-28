@@ -4,8 +4,10 @@ import SwiftUI
 struct RegisterView: View
 {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: RegisterViewModel = RegisterViewModel()
+    
     
     var body: some View
     {
@@ -26,7 +28,7 @@ struct RegisterView: View
                   .clipped()
                   .offset(y: colorScheme == .dark ? -UIScreen.main.bounds.height * 0.305 : -UIScreen.main.bounds.height * 0.325)
               )
-              
+            
             
             //dark blue box
             VStack
@@ -303,7 +305,8 @@ struct RegisterView: View
                                 Text("Sign In")
                                   .font(Font.custom("Univers LT Std", size: 14))
                                   .foregroundColor(Color("lblue"))
-                                  .onTapGesture {
+                                  .onTapGesture 
+                                  {
                                       appVM.setPageIndex(index: 0)
                                   }
                             }
@@ -316,18 +319,19 @@ struct RegisterView: View
                 }
                 .background(Color("darkBlue"))
             }
-            .onAppear
-            {
-                viewModel.viewIndex = 0
-            }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
             .background(Color("darkBlue"))
             .padding(.top, UIScreen.main.bounds.height * 0.17)
         }
+        
+//        if(viewModel.viewIndex == 0)
+//        {
+//            print("I'm 0 now")
+//        }
         
     }
 }
 
 #Preview(body: {
     RegisterView()
-})
+})          
