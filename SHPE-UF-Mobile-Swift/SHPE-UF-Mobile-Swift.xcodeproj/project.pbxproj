@@ -25,6 +25,7 @@
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
+		2A09A4E92BB4E7030061C41D /* Univers LT Std 65 Bold Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A09A4E82BB4E7030061C41D /* Univers LT Std 65 Bold Oblique.otf */; };
 		2A1912762B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A1912752B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf */; };
 		2A1912782B91402600A440E5 /* Univers LT Std 65 Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A1912772B91402600A440E5 /* Univers LT Std 65 Bold.otf */; };
 		2A19127A2B91425B00A440E5 /* Univers LT Std 45 Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A1912792B91425B00A440E5 /* Univers LT Std 45 Light.otf */; };
@@ -144,6 +145,7 @@
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		2A09A4E82BB4E7030061C41D /* Univers LT Std 65 Bold Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 65 Bold Oblique.otf"; sourceTree = "<group>"; };
 		2A1912752B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 55 Oblique.otf"; sourceTree = "<group>"; };
 		2A1912772B91402600A440E5 /* Univers LT Std 65 Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 65 Bold.otf"; sourceTree = "<group>"; };
 		2A1912792B91425B00A440E5 /* Univers LT Std 45 Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Univers LT Std 45 Light.otf"; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			children = (
 				2AA7854E2B880787000B6A34 /* Info.plist */,
 				2A1912792B91425B00A440E5 /* Univers LT Std 45 Light.otf */,
+				2A09A4E82BB4E7030061C41D /* Univers LT Std 65 Bold Oblique.otf */,
 				2A1912772B91402600A440E5 /* Univers LT Std 65 Bold.otf */,
 				2A1912752B90F8BC00A440E5 /* Univers LT Std 55 Oblique.otf */,
 				2AA7854F2B880967000B6A34 /* Univers LT Std 75 Black.otf */,
@@ -568,6 +571,7 @@
 				2AA7854D2B8806AA000B6A34 /* Viga-Regular.ttf in Resources */,
 				2A1912782B91402600A440E5 /* Univers LT Std 65 Bold.otf in Resources */,
 				95D3709D2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */,
+				2A09A4E92BB4E7030061C41D /* Univers LT Std 65 Bold Oblique.otf in Resources */,
 				206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */,
 				206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */,
 				95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
