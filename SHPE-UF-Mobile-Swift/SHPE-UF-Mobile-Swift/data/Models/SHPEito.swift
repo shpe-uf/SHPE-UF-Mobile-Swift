@@ -3,12 +3,23 @@ import SwiftUI
 
 class SHPEito
 {
-    init(username: String, password: String, remember: String, photo:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String, fallPoints:Int,summerPoints:Int,springPoints:Int, points: Int = 0, fallPercentile: Int = 0, springPercentile: Int = 0, summerPercentile: Int = 0)
+    init(
+        username: String, password: String, remember: String, base64StringPhoto:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String,
+        
+        gender:String, ethnicity:String, originCountry:String, graduationYear:String, classes:[String], internships:[String], links:[String],
+         
+         fallPoints:Int,summerPoints:Int,springPoints:Int, points: Int, fallPercentile: Int, springPercentile: Int, summerPercentile: Int)
     {
         self.username = username
         self.password = password
         self.remember = remember
-        self.photoURL = URL(string: photo)
+        
+        if let imageData = Data(base64Encoded: base64StringPhoto, options: .ignoreUnknownCharacters),
+           let image = UIImage(data: imageData)
+        {
+            self.profileImage = image
+        }
+        
         self.name = firstName + " " + lastName
         self.firstName = firstName
         self.lastName = lastName
@@ -20,6 +31,26 @@ class SHPEito
         self.updatedAt = updatedAt
         self.createdAt = createdAt
         self.email = email
+        
+        self.gender = gender
+        self.ethnicity = ethnicity
+        self.originCountry = originCountry
+        self.graduationYear = graduationYear
+        self.classes = classes
+        self.internships = internships
+        self.links = {
+            var linkArray:[URL] = []
+            for link in links {
+                if let url = URL(string:link)
+                {
+                    linkArray.append(url)
+                }
+            }
+            return linkArray
+        }()
+        
+        
+        
         self.fallPoints = fallPoints
         self.summerPoints = summerPoints
         self.springPoints = springPoints
@@ -35,7 +66,6 @@ class SHPEito
         self.username = ""
         self.password = ""
         self.remember = ""
-        self.photoURL = nil
         self.name = ""
         self.firstName = ""
         self.lastName = ""
@@ -54,12 +84,18 @@ class SHPEito
         self.fallPercentile = 0
         self.springPercentile = 0
         self.summerPercentile = 0
+        self.gender = ""
+        self.ethnicity = ""
+        self.originCountry = ""
+        self.graduationYear = ""
+        self.classes = []
+        self.internships = []
+        self.links = []
     }
     
     @Published var username: String
     @Published var password: String
     @Published var remember: String
-    @Published var photoURL: URL?
     @Published var name:String
     @Published var firstName:String
     @Published var lastName:String
@@ -79,44 +115,34 @@ class SHPEito
     @Published var springPercentile : Int
     @Published var summerPercentile : Int
     @Published var profileImage: UIImage?
-    //@Published var events: SHPESchema.SignInMutation
-    // Any methods that can help with
+    @Published var gender:String
+    @Published var ethnicity:String
+    @Published var originCountry:String
+    @Published var graduationYear:String
+    @Published var classes:[String]
+    @Published var internships:[String]
+    @Published var links:[URL]
     
-    //TODO: GET THESE ATTRIBUTES WHEN FETCHING USER
-    @Published var gender:String = "Male"
-    @Published var ethnicity:String = "Hispanic"
-    @Published var originCountry:String = "Cuba"
-    @Published var graduationYear:String = "2026"
-    @Published var classes:[String] = ["Data Structures", "Discrete Structures", "Calculus 3"]
-    @Published var internships:[String] = ["Microsoft", "Apple", "Google"]
-    @Published var links:[URL] = [URL(string: "https://www.linkedin.com/in/david-denis-/")!]
-    
-    func loadProfileImage()
+    func setLinks(links:[String])
     {
-        if let url = self.photoURL,
-           self.profileImage == nil
+        for link in links
         {
-            URLSession.shared.dataTask(with: url) 
-            { [weak self] (data, response, error) in
-                guard let self = self else { return }
-
-                // Check for errors
-                if let error = error {
-                    print("Error loading image: \(error)")
-                    return
-                }
-
-                // Check if the response contains valid image data
-                guard let data = data, let image = UIImage(data: data) else {
-                    print("Invalid image data")
-                    return
-                }
-
-                // Update the UI on the main queue
-                DispatchQueue.main.async {
-                    self.profileImage = image
-                }
-            }.resume()
+            if let url = URL(string: link),
+               !self.links.contains(url)
+            {
+                self.links.append(url)
+            }
         }
+    }
+    
+    func absoluteStringsOfLinks()->[String]
+    {
+        var stringArray:[String] = []
+        
+        for link in self.links
+        {
+            stringArray.append(link.absoluteString)
+        }
+        return stringArray
     }
 }

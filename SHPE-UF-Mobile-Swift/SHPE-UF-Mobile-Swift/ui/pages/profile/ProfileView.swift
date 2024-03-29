@@ -57,7 +57,17 @@ struct ProfileView: View
                 }
                 else if let profileImage = vm.shpeito.profileImage
                 {
-                    
+                    Image(uiImage: profileImage)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width:130,height:130)
+                        .cornerRadius(100)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 100)
+                                .stroke( Color("Profile-Background") , lineWidth: 5)
+                        )
+                        .padding(.top, 60)
                 }
                 else
                 {
@@ -280,7 +290,7 @@ struct ProfileView: View
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
-                        .zIndex(5)
+                        .zIndex(6)
                         
                         VStack(alignment: .leading)
                         {
@@ -313,7 +323,7 @@ struct ProfileView: View
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
-                        .zIndex(4)
+                        .zIndex(5)
                         
                         VStack(alignment: .leading)
                         {
@@ -346,7 +356,7 @@ struct ProfileView: View
                         .padding(20)
                         .frame(maxWidth: .infinity)
                         .background(Color("whiteBox"))
-                        .zIndex(3)
+                        .zIndex(4)
                         
                         // Eductaion Info
                         Text("EDUCATION INFO")
@@ -354,6 +364,39 @@ struct ProfileView: View
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(20)
                             .padding(.top, 10)
+                        
+                        VStack(alignment: .leading)
+                        {
+                            HStack
+                            {
+                                Image("GradIcon")
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width:25,height:25)
+                                    .padding(.trailing, 10)
+                                
+                                Text("MAJOR")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .foregroundStyle(Color("profile-orange"))
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            if vm.isEditing
+                            {
+                                DropDown(vm: vm, change: $vm.newMajor, options: vm.majorOptions, width: 200)
+                            }
+                            else
+                            {
+                                Text("\(vm.shpeito.major)")
+                                    .font(.system(size: 16))
+                                    .padding(.top, 5)
+                            }
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("whiteBox"))
+                        .zIndex(3)
                         
                         VStack(alignment: .leading)
                         {
@@ -721,7 +764,7 @@ struct ProfileView: View
                             {
                                 Button {
                                     print("save changes")
-                                    vm.isEditing = false
+                                    vm.saveEditsToProfile(user: user, viewContext: viewContext)
                                 } label: {
                                     Text("Save")
                                         .foregroundStyle(Color.white)
@@ -760,6 +803,7 @@ struct ProfileView: View
                         
                     }
                     .frame(width: UIScreen.main.bounds.width)
+                    .padding(.bottom, 100)
                     
                 }
             }
@@ -882,6 +926,8 @@ struct MultipleLabels:View {
             HStack
             {
                 TextField(placeholder, text: $input)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(TextInputAutocapitalization(.none))
                     .font(.system(size: 16))
                     .padding(.top, 5)
                     .frame(width: 270)
@@ -1026,7 +1072,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let image = info[.originalImage] as? UIImage {
-                parent.selectedImage = image
+                parent.selectedImage = image.resize()
             }
             
             parent.presentationMode.wrappedValue.dismiss()
@@ -1043,7 +1089,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             username: "dvera0322",
             password: "",
             remember: "true",
-            photo: "",
+            base64StringPhoto: "",
             firstName: "David",
             lastName: "Denis",
             year: "Sophmore",
@@ -1054,6 +1100,13 @@ struct ImagePicker: UIViewControllerRepresentable {
             updatedAt: "",
             createdAt: "",
             email: "denisdavid@ufl.edu",
+            gender: "Male",
+            ethnicity: "Hispanic",
+            originCountry: "Cuba",
+            graduationYear: "2026",
+            classes: ["Data Structures", "Discrete Structures"],
+            internships: ["Apple"],
+            links: ["google.com"],
             fallPoints: 20,
             summerPoints: 17,
             springPoints: 30,

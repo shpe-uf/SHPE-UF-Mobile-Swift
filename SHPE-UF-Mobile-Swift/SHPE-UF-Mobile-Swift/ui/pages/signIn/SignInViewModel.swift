@@ -30,7 +30,6 @@ final class SignInViewModel: ObservableObject {
         self.fallPoints=shpeito.fallPoints
         self.summerPoints=shpeito.summerPoints
         self.springPoints=shpeito.springPoints
-        self.photoURL = shpeito.photoURL
         //self.events=shpeito.events
         
         // Any setup steps you need...
@@ -54,7 +53,6 @@ final class SignInViewModel: ObservableObject {
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
-    @Published var photoURL: URL?
     //@Published var events: SHPESchema.SignInMutation
     //store all of this to model
     // SignInMutation <= SignIn.graphql
@@ -99,27 +97,17 @@ final class SignInViewModel: ObservableObject {
                    let createdAt = data["createdAt"] as? String,
                    let email = data["email"] as? String,
                    let username = data["username"] as? String,
-                   let fallPoints = data["fallPoints"] as? Int,
-                   let springPoints = data["springPoints"] as? Int,
-                   let summerPoints = data["summerPoints"] as? Int,
+                   let gender = data["gender"] as? String,
+                   let ethnicity = data["ethnicity"] as? String,
+                   let originCountry = data["originCountry"] as? String,
+                   let graduationYear = data["graduationYear"] as? String,
+                   let classes = data["classes"] as? [String],
+                   let internships = data["internships"] as? [String],
+                   let links = data["links"] as? [String],
                    let photo = data["photo"] as? String
                 {
                     //TODO: Finish adding fields to the SHPEito
-                    self.shpeito.firstName = firstName
-                    self.shpeito.lastName = lastName
-                    self.shpeito.year = year
-                    self.shpeito.major = major
-                    self.shpeito.id = id
-                    self.shpeito.token = token
-                    self.shpeito.confirmed = confirmed
-                    self.shpeito.updatedAt = updatedAt
-                    self.shpeito.createdAt = createdAt
-                    self.shpeito.email = email
-                    self.shpeito.username = username
-                    self.shpeito.fallPoints = fallPoints
-                    self.shpeito.springPoints = springPoints
-                    self.shpeito.summerPoints = summerPoints
-                    self.shpeito.photoURL = URL(string: photo)
+                    self.shpeito = SHPEito(username: username, password: password, remember: "True", base64StringPhoto: photo, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: 0, summerPoints: 0, springPoints: 0, points: 0, fallPercentile: 0, springPercentile: 0, summerPercentile: 0)
                     
                     // Store user in core memory
                     self.addUserItemToCore(viewContext: viewContext)
@@ -142,7 +130,7 @@ final class SignInViewModel: ObservableObject {
     {
         let user = User(context: viewContext)
         user.username = shpeito.username
-        user.photo = shpeito.photoURL?.absoluteString ?? ""
+        user.photo = shpeito.profileImage?.jpegData(compressionQuality: 0.0)
         user.firstName = shpeito.firstName
         user.lastName = shpeito.lastName
         user.year = shpeito.year
@@ -154,6 +142,15 @@ final class SignInViewModel: ObservableObject {
         user.createdAt = shpeito.createdAt
         user.loginTime = Date()
         user.email = shpeito.email
+        
+        user.ethnicity = shpeito.ethnicity
+        user.gender = shpeito.gender
+        user.country = shpeito.originCountry
+        user.graduating = shpeito.graduationYear
+        user.classes = shpeito.classes as NSObject
+        user.internships = shpeito.internships as NSObject
+        user.links = shpeito.absoluteStringsOfLinks() as NSObject
+        
         user.fallPoints = Int64(shpeito.fallPoints)
         user.summerPoints = Int64(shpeito.summerPoints)
         user.springPoints = Int64(shpeito.springPoints)
@@ -161,7 +158,7 @@ final class SignInViewModel: ObservableObject {
         user.fallPercentile = Int64(shpeito.fallPercentile)
         user.springPercentile = Int64(shpeito.springPercentile)
         user.summerPercentile = Int64(shpeito.summerPercentile)
-        user.darkMode = colorScheme == .dark
+        user.darkMode = AppViewModel.appVM.darkMode
         
         do { try viewContext.save() } catch { print("Could not save to Core") }
     }
