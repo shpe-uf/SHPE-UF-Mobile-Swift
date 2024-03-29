@@ -201,6 +201,7 @@ struct AcademicView : View
                                     viewModel.registerUser()
                                     withAnimation
                                     {
+                                        appVM.toastMessage = "Please check your email to\nconfirm your account!"
                                         appVM.showToast = true
                                     }
                                     appVM.setPageIndex(index: 0)

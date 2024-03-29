@@ -105,69 +105,70 @@ final class SignInViewModel: ObservableObject
             // Check that no error was detected
             if let error = data["error"] as? String {
                 // Handle different error types
-                switch error {
-                                case "Wrong credentials.":
-                                    self.error = "Incorrect username or password."
-                                case "User not found.":
-                                    self.error = "User account not found."
-                                case "Network Error":
-                                    self.error = "Could not connect to the backend."
-                                case "Errors":
-                                    if username.isEmpty || password.isEmpty {
-                                        self.error = "Missing username and/or password."
-                                    } 
-                                    else{
-                                        self.error = "Unexpected error occurred."
-                                        }
-                                default:
-                                    self.error = "Unexpected error occurred."
-                                }
-                                return print(self.error)
+                switch error 
+                {
+                    case "Wrong credentials.":
+                        self.error = "Incorrect username or password."
+                    case "User not found.":
+                        self.error = "User account not found."
+                    case "Network Error":
+                        self.error = "Could not establish a connection to server. Try again later."
+                    case "Errors":
+                        if username.isEmpty || password.isEmpty {
+                            self.error = "Missing username and/or password."
+                        }
+                        else{
+                            self.error = "Unexpected error occurred. Try again later."
+                            }
+                    default:
+                        self.error = "Unexpected error occurred. Try again later."
+                }
+                
+                AppViewModel.appVM.toastMessage = self.error
+                withAnimation(.easeIn(duration: 0.3))
+                {
+                    AppViewModel.appVM.showToast = true
+                }
+                
+                    
+                return print(self.error)
             } else {
                 self.isCommunicating = true
                 if self.isCommunicating == true{
                     print("Is communicating.")
                 }
                 // Process successful sign-in
-                if let userData = data["userData"] as? [String: Any] {
-                    if let firstName = userData["firstName"] as? String,
-                       let lastName = userData["lastName"] as? String,
-                       let year = userData["year"] as? String,
-                       let major = userData["major"] as? String,
-                       let id = userData["id"] as? String,
-                       let token = userData["token"] as? String,
-                       let confirmed = userData["confirmed"] as? Bool,
-                       let updatedAt = userData["updatedAt"] as? String,
-                       let createdAt = userData["createdAt"] as? String,
-                       let email = userData["email"] as? String,
-                       let username = userData["username"] as? String,
-                       let fallPoints = userData["fallPoints"] as? Int,
-                       let springPoints = userData["springPoints"] as? Int,
-                       let summerPoints = userData["summerPoints"] as? Int,
-                       let photo = userData["photo"] as? String {
-                        // Update SHPEito with user data
-                        self.shpeito.firstName = firstName
-                        self.shpeito.lastName = lastName
-                        self.shpeito.year = year
-                        self.shpeito.major = major
-                        self.shpeito.id = id
-                        self.shpeito.token = token
-                        self.shpeito.confirmed = confirmed
-                        self.shpeito.updatedAt = updatedAt
-                        self.shpeito.createdAt = createdAt
-                        self.shpeito.email = email
-                        self.shpeito.username = username
-                        self.shpeito.fallPoints = fallPoints
-                        self.shpeito.springPoints = springPoints
-                        self.shpeito.summerPoints = summerPoints
-                        self.shpeito.photoURL = URL(string: photo)
-                        
-                        // Store user in core memory
-                        self.addUserItemToCore(viewContext: viewContext)
-                        
-                        AppViewModel.appVM.setPageIndex(index: 2)
-                        AppViewModel.appVM.shpeito = self.shpeito
-                    }
+                if let firstName = data["firstName"] as? String,
+                   let lastName = data["lastName"] as? String,
+                   let year = data["year"] as? String,
+                   let major = data["major"] as? String,
+                   let id = data["id"] as? String,
+                   let token = data["token"] as? String,
+                   let confirmed = data["confirmed"] as? Bool,
+                   let updatedAt = data["updatedAt"] as? String,
+                   let createdAt = data["createdAt"] as? String,
+                   let email = data["email"] as? String,
+                   let username = data["username"] as? String,
+                   let gender = data["gender"] as? String,
+                   let ethnicity = data["ethnicity"] as? String,
+                   let originCountry = data["originCountry"] as? String,
+                   let graduationYear = data["graduationYear"] as? String,
+                   let classes = data["classes"] as? [String],
+                   let internships = data["internships"] as? [String],
+                   let links = data["links"] as? [String],
+                   let photo = data["photo"] as? String
+                {
+                    let prefixToRemove = "data:image/jpeg;base64,"
+                    let base64StringPhoto = photo.replacingOccurrences(of: prefixToRemove, with: "")
+                    //TODO: Finish adding fields to the SHPEito
+                    self.shpeito = SHPEito(username: username, password: password, remember: "True", base64StringPhoto: base64StringPhoto, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: 0, summerPoints: 0, springPoints: 0, points: 0, fallPercentile: 0, springPercentile: 0, summerPercentile: 0)
+
+                    
+                    // Store user in core memory
+                    self.addUserItemToCore(viewContext: viewContext)
+                    
+                    AppViewModel.appVM.setPageIndex(index: 2)
+                    AppViewModel.appVM.shpeito = self.shpeito
                 }
                 print("Success")
                 
@@ -209,40 +210,6 @@ final class SignInViewModel: ObservableObject
         user.summerPercentile = Int64(shpeito.summerPercentile)
         user.darkMode = AppViewModel.appVM.darkMode
         
-        do { try viewContext.save() } catch { print("Could not save to Core") }
-    }
-
-    // Add this function to Profile View Model for sign out function
-    func deleteUserItemToCore(viewContext:NSManagedObjectContext, user:User)
-    {
-        viewContext.delete(user)
-        do { try viewContext.save() } catch { print("Could not save to Core") }
-    }
-
-
-    
-    private func addUserItemToCore(viewContext: NSManagedObjectContext) {
-        let user = User(context: viewContext)
-        user.username = shpeito.username
-        user.photo = shpeito.photoURL?.absoluteString ?? ""
-        user.firstName = shpeito.firstName
-        user.lastName = shpeito.lastName
-        user.year = shpeito.year
-        user.major = shpeito.major
-        user.id = shpeito.id
-        user.token = shpeito.token
-        user.confirmed = shpeito.confirmed
-        user.updatedAt = shpeito.updatedAt
-        user.createdAt = shpeito.createdAt
-        user.loginTime = Date()
-        user.email = shpeito.email
-        user.fallPoints = Int64(shpeito.fallPoints)
-        user.summerPoints = Int64(shpeito.summerPoints)
-        user.springPoints = Int64(shpeito.springPoints)
-        user.points = Int64(shpeito.points)
-        user.fallPercentile = Int64(shpeito.fallPercentile)
-        user.springPercentile = Int64(shpeito.springPercentile)
-        user.summerPercentile = Int64(shpeito.summerPercentile)
         do { try viewContext.save() } catch { print("Could not save to Core") }
     }
 
