@@ -87,6 +87,47 @@ class RequestHandler
         }
     }
     
+    
+    /*
+     Input:
+        username:String
+        email:String
+     Output:
+        ["usernameExists":Bool,
+         "emailExists":Bool]
+     */
+    func validateUsernameAndEmail(username:String, email:String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetUsersQuery())
+        {
+            response in
+            
+            guard let data = try? response.get().data
+            else {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            var outputDict = [
+                "usernameExists":false,
+                "emailExists":false
+            ]
+            for user in data.getUsers ?? []
+            {
+                outputDict["usernameExists"] = user?.username == username
+                outputDict["emailExists"] = user?.email == email
+                
+                if outputDict["usernameExists"]! && outputDict["emailExists"]! {break}
+            }
+            
+            completion(outputDict)
+            return
+        }
+    }
+    
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String
     // Successful Output: [

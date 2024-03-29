@@ -54,6 +54,11 @@ class RegisterViewModel: ObservableObject
     //controls the visibility of the toast
     @Published var showToast = false
     
+    @Published var userNameExists = ""
+    @Published var emailExists = ""
+    
+    @Published var loading:Bool = false
+    
     //major options
     //keep the spaces in the string,
     //it's a loophole for the calculatePickerHeight function to work for some specific picker options
@@ -165,6 +170,30 @@ class RegisterViewModel: ObservableObject
         let usernamePattern = "^[\\w.]{6,20}$"
         let usernamePredicate = NSPredicate(format:"SELF MATCHES %@", usernamePattern)
         return usernamePredicate.evaluate(with: usernameInput)
+    }
+    
+    func validateUsernameAndEmail()
+    {
+        requestHandler.validateUsernameAndEmail(username: usernameInput, email: emailInput) { [self] dict in
+            if dict["error"] == nil,
+               let userBool = dict["usernameExists"] as? Bool,
+               let emailBool = dict["emailExists"] as? Bool
+            {
+                userNameExists = userBool ? "This username already exists." : ""
+                emailExists = emailBool ? "An account with this email already exists." : ""
+                
+                if !userBool && !emailBool
+                {
+                    viewIndex = 1
+                }
+            }
+            else
+            {
+                userNameExists = "Could not connect to server, try again later..."
+                emailExists = "Could not connect to server, try again later..."
+            }
+            loading = false
+        }
     }
 
     //validate password

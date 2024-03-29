@@ -230,8 +230,9 @@ struct PersonalView : View
                                 .foregroundColor(.red)
                         }
                     }
+                    .padding(.horizontal, 50)
                 }
-                .padding(.horizontal, 50)
+//                .padding(.horizontal, 50)
                 
                 Spacer()
                 

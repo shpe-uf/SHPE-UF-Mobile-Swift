@@ -53,7 +53,7 @@ struct AcademicView : View
                         .foregroundColor(Color("whiteText"))
                         .frame(width: 250, alignment: .topLeading)
 
-                    HStack(spacing: 0) 
+                    HStack(spacing: 0)
                     {
                         Image("swift.littlebook")
                             .resizable()
@@ -63,7 +63,7 @@ struct AcademicView : View
 
                         Spacer()
 
-                        Picker("", selection: $viewModel.majorInput) 
+                        Picker("", selection: $viewModel.majorInput)
                         {
                             ForEach(viewModel.majorOptions, id: \.self) { option in
                                 Text(option).tag(option)
@@ -189,9 +189,6 @@ struct AcademicView : View
                     }
                     .padding(.horizontal)
 
-                    //nav back to landing page
-                    NavigationLink(destination: LandingPageView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate2)
-                    {
                         VStack
                         {
                             Button(action:
@@ -229,9 +226,7 @@ struct AcademicView : View
 }
 
 
-#Preview(body: 
+#Preview(body:
 {
     AcademicView(viewModel: RegisterViewModel())
 })
-
-

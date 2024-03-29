@@ -7,6 +7,12 @@ struct RegisterView: View
     @Environment(\.presentationMode) var presentationMode
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: RegisterViewModel = RegisterViewModel()
+    @State var errorMessageDict:[Int:Bool] = [
+        0: false,
+        1: false,
+        2: false,
+        3: false
+    ]
     
     
     var body: some View
@@ -42,6 +48,9 @@ struct RegisterView: View
                       .frame(width: 106, height: 5)
                       .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                       .cornerRadius(1)
+                      .onTapGesture {
+                          viewModel.viewIndex = 0
+                      }
                     
                     //bar 2
                     Rectangle()
@@ -49,12 +58,18 @@ struct RegisterView: View
                       .frame(width: 106, height: 5)
                       .background(viewModel.viewIndex >= 1 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
                       .cornerRadius(1)
+                      .onTapGesture {
+                          viewModel.viewIndex = 1
+                      }
                     //bar 3
                     Rectangle()
                       .foregroundColor(.clear)
                       .frame(width: 106, height: 5)
                       .background(viewModel.viewIndex >= 2 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
                       .cornerRadius(1)
+                      .onTapGesture {
+                          viewModel.viewIndex = 2
+                      }
                 }
                 .padding()
                 .padding(.vertical)
@@ -112,15 +127,24 @@ struct RegisterView: View
                                         .foregroundStyle(Color.black)
                                         .autocapitalization(.none)
                                         .autocorrectionDisabled()
-                                        .onChange(of: viewModel.emailInput) { _ in}
+                                        .onSubmit {
+                                            errorMessageDict[0] = !viewModel.validateEmail()
+                                        }
                                 }
                                 .padding(.vertical, 2.75)
                                 .frame(width: 270, height: 37.64706)
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 
+                                if viewModel.emailExists.count > 0
+                                {
+                                    Text(viewModel.emailExists)
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                                
                                 //email validation
-                                if !viewModel.validateEmail()
+                                if errorMessageDict[0]!
                                 {
                                     Text("Invalid email format")
                                         .font(.caption)
@@ -141,15 +165,24 @@ struct RegisterView: View
                                         .foregroundStyle(Color.black)
                                         .autocapitalization(.none)
                                         .autocorrectionDisabled()
-                                        .onChange(of: viewModel.emailInput) { _ in}
+                                        .onSubmit {
+                                            errorMessageDict[1] = !viewModel.validateUsername()
+                                        }
                                 }
                                 .padding(.vertical, 2.75)
                                 .frame(width: 270, height: 37.64706)
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 
+                                if viewModel.userNameExists.count > 0
+                                {
+                                    Text(viewModel.userNameExists)
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                                
                                 //username validation
-                                if !viewModel.validateUsername()
+                                if errorMessageDict[1]!
                                 {
                                     Text("6-20 characters, periods, & underscores")
                                         .font(.caption)
@@ -174,7 +207,9 @@ struct RegisterView: View
                                             .foregroundStyle(Color.black)
                                             .autocapitalization(.none)
                                             .autocorrectionDisabled()
-                                            .onChange(of: viewModel.passwordInput) { _ in }
+                                            .onSubmit {
+                                                errorMessageDict[2] = !viewModel.validatePassword()
+                                            }
                                             
                                     }
                                     else
@@ -185,7 +220,9 @@ struct RegisterView: View
                                             .foregroundStyle(Color.black)
                                             .autocapitalization(.none)
                                             .autocorrectionDisabled()
-                                            .onChange(of: viewModel.passwordInput) { _ in }
+                                            .onSubmit {
+                                                errorMessageDict[2] = !viewModel.validatePassword()
+                                            }
                                            
                                     }
                                     
@@ -203,7 +240,7 @@ struct RegisterView: View
                                 .cornerRadius(10)
                                 
                                 //password validation
-                                if !viewModel.validatePassword()
+                                if errorMessageDict[2]!
                                 {
                                     Text("8+ characters, lowercase, uppercase, \nnumber, & special character")
                                         .frame(width: 250, height: 50, alignment: .topLeading)
@@ -229,7 +266,9 @@ struct RegisterView: View
                                             .foregroundStyle(Color.black)
                                             .autocapitalization(.none)
                                             .autocorrectionDisabled()
-                                            .onChange(of: viewModel.passwordConfirmInput) { newValue in }
+                                            .onSubmit {
+                                                errorMessageDict[3] = !viewModel.validateConfirmPassword()
+                                            }
                                         
                                     }
                                     else
@@ -240,7 +279,9 @@ struct RegisterView: View
                                             .foregroundStyle(Color.black)
                                             .autocapitalization(.none)
                                             .autocorrectionDisabled()
-                                            .onChange(of: viewModel.passwordConfirmInput) { newValue in }
+                                            .onSubmit {
+                                                errorMessageDict[3] = !viewModel.validateConfirmPassword()
+                                            }
                                           
                                     }
                                     
@@ -259,7 +300,7 @@ struct RegisterView: View
                                 .cornerRadius(10)
                                 
                                 //confirm password validation
-                                if !viewModel.validateConfirmPassword()
+                                if errorMessageDict[3]!
                                 {
                                     Text("Passwords must match")
                                         .font(.caption)
@@ -274,13 +315,19 @@ struct RegisterView: View
                             //create account button
                             Button(action:
                             {
-//                                if viewModel.isRegisterValid() 
-//                                {
-                                    viewModel.viewIndex = 1
-                                //}
+                                errorMessageDict[0] = !viewModel.validateEmail()
+                                errorMessageDict[1] = !viewModel.validateUsername()
+                                errorMessageDict[2] = !viewModel.validatePassword()
+                                errorMessageDict[3] = !viewModel.validateConfirmPassword()
+                                
+                                if !errorMessageDict[0]! && !errorMessageDict[1]! && !errorMessageDict[2]! && !errorMessageDict[3]!
+                                {
+                                    viewModel.loading = true
+                                    viewModel.validateUsernameAndEmail()
+                                }
                             })
                             {
-                                Text("Create Account")
+                                Text(viewModel.loading ? "Loading..." : "Create Account")
                                     .font(Font.custom("Univers LT Std", size: 16))
                                     .foregroundColor(.white)
                                     .frame(width: 351, height: 42)
@@ -320,13 +367,11 @@ struct RegisterView: View
                         if viewModel.viewIndex == 1
                         {
                             PersonalView(viewModel: viewModel)
-                                .transition(.move(edge: .trailing))
                         }
                         //switch to AcademicView
                         else if viewModel.viewIndex == 2
                         {
                             AcademicView(viewModel: viewModel)
-                               .transition(.move(edge: .trailing))
                         }
                         
                     }
