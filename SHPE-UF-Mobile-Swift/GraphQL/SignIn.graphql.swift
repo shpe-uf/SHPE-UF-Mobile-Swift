@@ -3,8 +3,6 @@ mutation SignIn($username: String!, $password: String!, $remember: String!) {
     year
     username
     updatedAt
-    summerPoints
-    springPoints
     confirmed
     createdAt
     email
@@ -15,13 +13,19 @@ mutation SignIn($username: String!, $password: String!, $remember: String!) {
       semester
       points
     }
-    fallPoints
     id
     firstName
     lastName
     major
     photo
     token
+    country
+    ethnicity
+    graduating
+    internships
+    classes
+    sex
+    socialMedia
+    permission
   }
 }
-
