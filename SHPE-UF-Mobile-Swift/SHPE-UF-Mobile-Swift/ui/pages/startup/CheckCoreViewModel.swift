@@ -57,13 +57,13 @@ final class CheckCoreViewModel: ObservableObject {
             else
             {
                 print("User exists but could not access all data necessary")
-                appVM.setPageIndex(index: 0)
+                appVM.setPageIndex(index: 3)
             }
         }
         else
         {
             print("No Users in Core")
-            appVM.setPageIndex(index: 0)
+            appVM.setPageIndex(index: 3)
         }
     }
     
