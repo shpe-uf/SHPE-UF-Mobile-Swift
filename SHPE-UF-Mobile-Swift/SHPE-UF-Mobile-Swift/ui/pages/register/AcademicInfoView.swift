@@ -193,6 +193,9 @@ struct AcademicView : View
                             Button(action:
                             {
                                 //move to sign in if valid
+                                viewModel.majorPickerInteracted = true
+                                viewModel.classYearPickerInteracted = true
+                                viewModel.gradYearPickerInteracted = true
                                 if viewModel.isAcademicValid()
                                 {
                                     viewModel.registerUser()
@@ -220,6 +223,10 @@ struct AcademicView : View
                 .padding(.bottom, 40)
             }
             .background(Color("darkBlue"))
+        }
+        .onAppear
+        {
+            viewModel.onLastPage = true
         }
     }
 }
