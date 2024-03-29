@@ -180,7 +180,7 @@ struct AcademicView : View
                     .padding(.horizontal)
 
                     //nav back to landing page
-                    NavigationLink(destination: placeholderForLandingPageView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate2)
+                    NavigationLink(destination: LandingPageView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate2)
                     {
                         VStack
                         {
