@@ -3,6 +3,7 @@ import SwiftUI
 import UIKit
 import Combine
 
+//foundation framework of all the countries of the world
 extension Locale
 {
     static let countryNames: [String] =
@@ -18,83 +19,95 @@ extension Locale
     }()
 }
 
-struct TransparentTextFieldStyle: TextFieldStyle
-{
-    func _body(configuration: TextField<Self._Label>) -> some View
-    {
-        configuration
-            .padding(10)
-            .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color.gray, lineWidth: 1))
-            .shadow(radius: 2)
-    }
-}
-
-
 @MainActor
 class RegisterViewModel: ObservableObject
 {
-    
     private let requestHandler = RequestHandler()
     
-    //inputs
+    init () {
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: Date())
+        
+        var yearsList: [String] = ["Select"]
+        for i in 0..<5 {
+            let year = String(currentYear + i)
+            yearsList.append(year)
+        }
+        
+        self.gradYearOptions = yearsList
+    }
+    
+    //field inputs
     @Published var firstnameInput: String = ""
     @Published var lastnameInput: String = ""
     @Published var usernameInput: String = ""
     @Published var passwordInput: String = ""
     @Published var emailInput: String = ""
     @Published var passwordConfirmInput: String = ""
-    @Published var majorInput: String = ""
-    @Published var classYearInput: String = ""
-    @Published var gradYearInput: String = ""
-    @Published var originInput: String = ""
-    @Published var ethnicityInput: String = ""
-    @Published var genderInput: String = ""
+    @Published var majorInput: String = "Select"
+    @Published var classYearInput: String = "Select"
+    @Published var gradYearInput: String = "Select"
+    @Published var originInput: String = "Select"
+    @Published var ethnicityInput: String = "Select"
+    @Published var genderInput: String = "Select"
     
-    //picker indexs
+    //picker indexes
     @Published var selectedMajorIndex: Int = 0
     @Published var selectedYearIndex: Int = 0
     @Published var selectedThisYearIndex: Int = 0
-    @Published var selectedOriginIndex: Int? = nil // Optional if no initial selection
+    @Published var selectedOriginIndex: Int? = 0
 
-    
+    //reveal password and confirm password bools
     @Published var viewPassword:Bool = false
     @Published var viewConfirmPassword:Bool = false
+    
+    //index to inc or dec for view
     @Published var viewIndex:Int = 0
-    {
-        didSet
-        {
-            print("New Index \(viewIndex)")
-        }
-    }
     
-    //nav bools
-    @Published var shouldNavigate: Bool = false
-    @Published var shouldNavigate1: Bool = false
-    @Published var shouldNavigate2: Bool = false
-    
-    // Controls the visibility of the toast
+    //controls the visibility of the toast
     @Published var showToast = false
     
+    @Published var userNameExists = ""
+    @Published var emailExists = ""
+    
+    @Published var loading:Bool = false
+    @Published var onLastPage:Bool = false
+    //validation bool for checking user input after hitting return, giving them the correction warning
+    @Published var emailValidated = false
+    @Published var usernameValidated = false
+    @Published var passwordValidated = false
+    @Published var firstNameValidated = false
+    @Published var lastNameValidated = false
+    @Published var genderPickerInteracted = false
+    @Published var ethnicityPickerInteracted = false
+    @Published var originPickerInteracted = false
+    @Published var majorPickerInteracted = false
+    @Published var classYearPickerInteracted = false
+    @Published var gradYearPickerInteracted = false
+    
     //major options
+    //keep the spaces in the string,
+    //it's a loophole for the calculatePickerHeight function to work for some specific picker options
     let majorOptions =
     [
         "Select",
-        "Aerospace Engineering",
-        "Agricultural & Biological Engineering",
-        "Biomedical Engineering",
+        "Aerospace Engineering              ",
+        "Agricultural Engineering             ",
+        "Biomedical Engineering           ",
         "Chemical Engineering",
         "Civil Engineering",
-        "Coastal & Oceanographic Engineering",
+        "Oceanographic Engineering         ",
         "Computer Engineering",
         "Computer Science",
-        "Digital Arts & Sciences",
+        "Digital Arts & Sciences        ",
         "Electrical Engineering",
-        "Environmental Engineering Sciences",
-        "Human-Centered Computing",
+        "Environmental Engineering       ",
+        "Human-Centered Computing            ",
         "Industrial & Systems Engineering",
         "Materials Science & Engineering",
-        "Mechanical Engineering",
-        "Nuclear Engineering"
+        "Mechanical Engineering           ",
+        "Nuclear Engineering",
+        "Other"
     ]
     
     //year options
@@ -111,26 +124,21 @@ class RegisterViewModel: ObservableObject
     ]
     
     //graduation year options
-    let gradYearOptions =
-    [
-        "Select",
-        "Not Graduating",
-        "Fall Semester",
-        "Spring Semester",
-        "Summer Semester"
-    ]
+    var gradYearOptions:[String] = []
     
     //ethncity options
+    //keep the spaces in the string,
+    //it's a loophole for the calculatePickerHeight function to work for some specific picker options
     let ethnicityOptions =
     [
         "Select",
         "American Indian or Alaska Native",
         "Asian",
-        "Black or African American",
+        "Black or African American        ",
         "Hispanic/Latino",
         "Native Hawaiian or Other Pacific Islander",
         "White",
-        "Two or more ethnicities",
+        "Two or more ethnicities       ",
         "Prefer not to answer"
     ]
     
@@ -146,7 +154,25 @@ class RegisterViewModel: ObservableObject
     ]
     
     //origin options from locale
-    let originOptions = Locale.countryNames
+    let originOptions = ["Select"] + Locale.countryNames
+
+    //calculates dynamic height based on text length
+    func calculatePickerHeight(for option: String, maxWidth: CGFloat, fontSize: CGFloat) -> CGFloat 
+    {
+        let charPerLine = maxWidth / (fontSize * 0.6) //estimate chars per line, adjust 0.6 based on font
+        let linesNeeded = ceil(CGFloat(option.count) / charPerLine)
+        let lineHeight = fontSize * 1.2 //adjust based on font and line spacing
+
+        //dynamic padding adjustment
+        let basePadding: CGFloat = 20 //minimum padding
+        let additionalPaddingPerLine: CGFloat = 15 //additional padding for each line needed
+        let dynamicPadding = basePadding + (additionalPaddingPerLine * (linesNeeded - 1))
+
+        let calculatedHeight = linesNeeded * lineHeight + dynamicPadding //add dynamic padding
+        let minHeight: CGFloat = 37.64706 //minimum height so they all match
+
+        return max(calculatedHeight, minHeight) //return the larger of the calculated height or the minimum height
+    }
     
     //VALIDATION SECTION
     
@@ -164,6 +190,30 @@ class RegisterViewModel: ObservableObject
         let usernamePattern = "^[\\w.]{6,20}$"
         let usernamePredicate = NSPredicate(format:"SELF MATCHES %@", usernamePattern)
         return usernamePredicate.evaluate(with: usernameInput)
+    }
+    
+    func validateUsernameAndEmail()
+    {
+        requestHandler.validateUsernameAndEmail(username: usernameInput, email: emailInput) { [self] dict in
+            if dict["error"] == nil,
+               let userBool = dict["usernameExists"] as? Bool,
+               let emailBool = dict["emailExists"] as? Bool
+            {
+                userNameExists = userBool ? "This username already exists." : ""
+                emailExists = emailBool ? "An account with this email already exists." : ""
+                
+                if !userBool && !emailBool
+                {
+                    viewIndex = 1
+                }
+            }
+            else
+            {
+                userNameExists = "Could not connect to server, try again later..."
+                emailExists = "Could not connect to server, try again later..."
+            }
+            loading = false
+        }
     }
 
     //validate password
@@ -223,6 +273,7 @@ class RegisterViewModel: ObservableObject
     //validate all inputs in personalDetailsView
     func isPersonalValid() -> Bool
     {
+        
        return validateFirstName() && validateLastName() && validateGenderSelected() && validateEthnicitySelected() && validateCountryOfOriginSelected()
     }
     
@@ -249,12 +300,13 @@ class RegisterViewModel: ObservableObject
     {
         return validateMajorSelected() && validateClassYearSelected() && validateGradYearSelected()
     }
-
-    //register user
+    
+    //register the user with all given function
     func registerUser()
     {
         requestHandler.registerUser(firstName: firstnameInput, lastName: lastnameInput, major: majorInput, year: classYearInput, graduating: gradYearInput, country: originInput, ethnicity: ethnicityInput, sex: genderInput, username: usernameInput, email: emailInput, password: passwordInput, confirmPassword: passwordConfirmInput)
-        { dict in if dict["error"] != nil
+        { 
+            dict in if dict["error"] != nil
             {
                 print("Error occurred during registration")
                     return
