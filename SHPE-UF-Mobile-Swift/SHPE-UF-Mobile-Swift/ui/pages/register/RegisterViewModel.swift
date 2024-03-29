@@ -58,6 +58,18 @@ class RegisterViewModel: ObservableObject
     @Published var emailExists = ""
     
     @Published var loading:Bool = false
+    //validation bool for checking user input after hitting return, giving them the correction warning
+    @Published var emailValidated = false
+    @Published var usernameValidated = false
+    @Published var passwordValidated = false
+    @Published var firstNameValidated = false
+    @Published var lastNameValidated = false
+    @Published var genderPickerInteracted = false
+    @Published var ethnicityPickerInteracted = false
+    @Published var originPickerInteracted = false
+    @Published var majorPickerInteracted = false
+    @Published var classYearPickerInteracted = false
+    @Published var gradYearPickerInteracted = false
     
     //major options
     //keep the spaces in the string,
@@ -138,20 +150,21 @@ class RegisterViewModel: ObservableObject
     let originOptions = ["Select"] + Locale.countryNames
 
     //calculates dynamic height based on text length
-    func calculatePickerHeight(for option: String, maxWidth: CGFloat, fontSize: CGFloat) -> CGFloat {
-        let charPerLine = maxWidth / (fontSize * 0.6) // Estimate chars per line. Adjust 0.6 based on your font
+    func calculatePickerHeight(for option: String, maxWidth: CGFloat, fontSize: CGFloat) -> CGFloat 
+    {
+        let charPerLine = maxWidth / (fontSize * 0.6) //estimate chars per line, adjust 0.6 based on font
         let linesNeeded = ceil(CGFloat(option.count) / charPerLine)
-        let lineHeight = fontSize * 1.2 // Adjust based on your font and desired line spacing
+        let lineHeight = fontSize * 1.2 //adjust based on font and line spacing
 
-        // Dynamic padding adjustment
-        let basePadding: CGFloat = 20 // Minimum padding
-        let additionalPaddingPerLine: CGFloat = 15 // Additional padding for each line needed
+        //dynamic padding adjustment
+        let basePadding: CGFloat = 20 //minimum padding
+        let additionalPaddingPerLine: CGFloat = 15 //additional padding for each line needed
         let dynamicPadding = basePadding + (additionalPaddingPerLine * (linesNeeded - 1))
 
-        let calculatedHeight = linesNeeded * lineHeight + dynamicPadding // Add dynamic padding
-        let minHeight: CGFloat = 37.64706 // Define minimum height
+        let calculatedHeight = linesNeeded * lineHeight + dynamicPadding //add dynamic padding
+        let minHeight: CGFloat = 37.64706 //minimum height so they all match
 
-        return max(calculatedHeight, minHeight) // Return the larger of the calculated height or the minimum height
+        return max(calculatedHeight, minHeight) //return the larger of the calculated height or the minimum height
     }
     
     //VALIDATION SECTION
