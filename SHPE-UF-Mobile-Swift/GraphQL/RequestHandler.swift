@@ -5,12 +5,13 @@
 //  Created by Daniel Parra on 1/17/24.
 //
 
+
 import Foundation
 import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://5765-128-227-1-16.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "http://127.0.0.1:4000/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -54,7 +55,7 @@ class RequestHandler
         }
     }
     
-    // MARK: Register/SignIn Page Functions
+    //MARK: Register/SignIn Page Functions
     
     // RegisterUserMutation <= RegisterUser.graphql
     // Input: firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true"
@@ -86,6 +87,46 @@ class RequestHandler
         }
     }
     
+
+//    func registerUser(firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true", completion: @escaping ([String:Any])->Void) 
+//        {
+//        
+//        let registerInput = SHPESchema.RegisterInput(firstName: firstName, lastName: lastName, major: major, year: year, graduating: graduating, country: country, ethnicity: ethnicity, sex: sex, username: username, email: email, password: password, confirmPassword: confirmPassword, listServ: listServ)
+//        
+//        let validInput = GraphQLNullable(registerInput)
+//        
+//        apolloClient.perform(mutation: SHPESchema.RegisterUserMutation(registerInput: validInput)) 
+//        { result in
+//            
+//            switch result 
+//            {
+//            case .success(let graphQLResult):
+//                if let data = graphQLResult.data, graphQLResult.errors == nil 
+//                {
+//                    // Assuming the mutation returns a success flag as true
+//                    completion(["success": true])
+//                }
+//                else if let errors = graphQLResult.errors 
+//                {
+//                    // Handle and return errors
+//                    print("GraphQL Errors: \(errors)")
+//                    completion(["error": "Incomplete Request due to GraphQL Errors"])
+//                }
+//            case .failure(let error):
+//                // Handle and return network or parsing error
+//                print("Network or Parsing Error: \(error)")
+//                completion(["error": "Incomplete Request due to Network or Parsing Error"])
+//            }
+//        }
+//    }
+
+
+    
+    
+    
+    
+    
+    
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String
     // Successful Output: [
@@ -106,20 +147,27 @@ class RequestHandler
     //    "photo": String, => You may want to turn this into a Swift URL type by doing this => URL(string: <photo>)
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
-    func signIn(username:String, password:String, completion: @escaping ([String:Any])->Void)
-    {
-        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false"))
-        {
-            response in
-            guard let data = try? response.get().data
-            else
-            {
-                print("ERROR: Incomplete Request\nError Message:\(response)")
-                
-                // Package with data (ERROR ❌)
-                completion(["error":"Incomplete Request"])
+    
+    
+    
+    func signIn(username: String, password: String, completion: @escaping ([String: Any]) -> Void) {
+        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false")) { response in
+            guard let data = try? response.get().data else {
+                if let errorMessage = self.extractErrorMessage(from: response) {
+                    // Print the extracted error message
+                    print("ERROR: \(errorMessage)\nError Message: \(response)")
+                    
+                    // Package with data (ERROR ❌)
+                    completion(["error": errorMessage])
+                } else {
+                    print("ERROR: Incomplete Request\nError Message: \(response)")
+                    
+                    // Package with data (ERROR ❌)
+                    completion(["error": "Incomplete Request"])
+                }
                 return
             }
+            
             // Package with data (SUCCESS ✅)
             let login = data.login
             let responseDict = [
@@ -144,6 +192,22 @@ class RequestHandler
             completion(responseDict)
         }
     }
+    
+    private func extractErrorMessage(from response: Result<Apollo.GraphQLResult<SHPE_UF_Mobile_Swift.SHPESchema.SignInMutation.Data>, Error>) -> String? {
+        do {
+            let graphqlResponse = try response.get()
+            if let errors = graphqlResponse.errors {
+                // Extract the error message from GraphQL errors
+                let errorMessage = errors.map { $0.localizedDescription }.joined(separator: ", ")
+                return errorMessage
+            } else {
+                return nil // No error message extracted
+            }
+        } catch {
+            return error.localizedDescription
+        }
+    }
+
     
     // MARK: Points Page Funcations
     
@@ -367,7 +431,6 @@ class RequestHandler
                         if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
                         {
                             var eventsList:[Event] = []
-                            print("ITEMS:")
                             if let items = jsonObject["items"] as? (any Sequence)
                             {
                                 for item in items
