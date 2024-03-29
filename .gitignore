@@ -9,6 +9,8 @@
 */*/*/xcuserdata/*.xcuserdatad/
 *.xcuserstate
 */*/*/*.xcuserstate
+*/xcshareddata/
+*/*/xcshareddata/
 */*/*/xcshareddata/
 *.xcodeproj/xcuserdata/
 */*/*/*.xcworkspace/xcuserdata/

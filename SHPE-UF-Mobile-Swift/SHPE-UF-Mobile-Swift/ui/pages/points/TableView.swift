@@ -10,18 +10,22 @@ import SwiftUI
 
 struct TableView: View {
     
-    var title: String = "GBM"
+    @StateObject var vm : PointsViewModel
+    
+    var title: String = "General Body Meeting"
+    
     
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0) {
             
             VStack {
-                Text(title)
+                Text(title.uppercased())
                     .font(.system(size: 40)).italic().bold()
                     .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
-
-
+                    
+                
+                
             }
             
             VStack {
@@ -70,11 +74,16 @@ struct TableView: View {
                         
                         
                         
-                        SingleEventView()
-                        SingleEventView()
-                        SingleEventView(last: true)
                         
-                   
+                        
+                        ForEach(vm.categorizedEvents[title] ?? [], id: \.self) { event in
+                            
+                            SingleEventView(last: vm.categorizedEvents[title]?.last?.name == event.name, name: event.name, date: formattedDate(date: event.date), points: event.points)
+                        }
+                        
+                        
+                        
+                        
                         
                     }
                 }
@@ -90,10 +99,51 @@ struct TableView: View {
         }
     }
     
+    
+    
+    func formattedDate(date: Date) -> String {
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy" // Customize the date format here
+        return dateFormatter.string(from: date)
+        
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        TableView()
+        TableView(vm: PointsViewModel(shpeito:
+                                        SHPEito(
+                                                username: "dvera0322",
+                                                password: "",
+                                                remember: "true",
+                                                base64StringPhoto: "",
+                                                firstName: "David",
+                                                lastName: "Denis",
+                                                year: "Sophmore",
+                                                major: "Computer Science",
+                                                id: "642f7f80e8839f0014e8be9b",
+                                                token: "",
+                                                confirmed: true,
+                                                updatedAt: "",
+                                                createdAt: "",
+                                                email: "denisdavid@ufl.edu",
+                                                gender: "Male",
+                                                ethnicity: "Hispanic",
+                                                originCountry: "Cuba",
+                                                graduationYear: "2026",
+                                                classes: ["Data Structures", "Discrete Structures"],
+                                                internships: ["Apple"],
+                                                links: ["google.com"],
+                                                fallPoints: 20,
+                                                summerPoints: 17,
+                                                springPoints: 30,
+                                                points: 67,
+                                                fallPercentile: 93,
+                                                springPercentile: 98,
+                                                summerPercentile: 78)
+                                     ))
     }
 }

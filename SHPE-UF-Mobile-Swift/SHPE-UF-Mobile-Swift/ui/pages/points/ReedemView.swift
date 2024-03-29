@@ -113,22 +113,33 @@ struct ReedemView: View {
 #Preview {
     ReedemView(vm: PointsViewModel(shpeito:
                                     SHPEito(
-                                        username: "dvera0322",
+                                            username: "dvera0322",
                                             password: "",
                                             remember: "true",
-                                            photo: "",
+                                            base64StringPhoto: "",
                                             firstName: "David",
-                                            lastName: "Vera",
-                                            year: "2",
+                                            lastName: "Denis",
+                                            year: "Sophmore",
                                             major: "Computer Science",
-                                            id: "",
+                                            id: "642f7f80e8839f0014e8be9b",
                                             token: "",
                                             confirmed: true,
                                             updatedAt: "",
                                             createdAt: "",
-                                            email: "david.vera@ufl.edu",
-                                            fallPoints: 2,
-                                            summerPoints: 2,
-                                            springPoints: 2)
+                                            email: "denisdavid@ufl.edu",
+                                            gender: "Male",
+                                            ethnicity: "Hispanic",
+                                            originCountry: "Cuba",
+                                            graduationYear: "2026",
+                                            classes: ["Data Structures", "Discrete Structures"],
+                                            internships: ["Apple"],
+                                            links: ["google.com"],
+                                            fallPoints: 20,
+                                            summerPoints: 17,
+                                            springPoints: 30,
+                                            points: 67,
+                                            fallPercentile: 93,
+                                            springPercentile: 98,
+                                            summerPercentile: 78)
                                   ))
 }
