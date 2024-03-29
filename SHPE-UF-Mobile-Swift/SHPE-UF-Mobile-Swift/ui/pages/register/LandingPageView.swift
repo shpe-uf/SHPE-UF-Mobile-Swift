@@ -107,7 +107,7 @@ struct LandingPageView: View {
                 .padding()
                 .foregroundColor(.white)
                 .background(Color.darkdarkBlue)
-                .cornerRadius(10)
+                .cornerRadius(25)
                 .padding(.bottom, 50)
             }
             .gesture(
