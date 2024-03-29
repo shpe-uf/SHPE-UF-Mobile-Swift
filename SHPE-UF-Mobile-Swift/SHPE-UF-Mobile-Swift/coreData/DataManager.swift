@@ -20,7 +20,51 @@ class DataManager: NSObject, ObservableObject {
         super.init()
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error {
-                fatalError("Failed to load Core Data stack: \(error)")
+                self.attemptMigration()
+            }
+        }
+    }
+    
+    private func attemptMigration() {
+        let persistentStoreCoordinator = container.persistentStoreCoordinator
+        let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("CoreUserModel.sqlite")
+
+        
+        let migrationOptions: [AnyHashable: Any] = [
+            NSMigratePersistentStoresAutomaticallyOption: true,
+            NSInferMappingModelAutomaticallyOption: true
+        ]
+        
+        do {
+            try persistentStoreCoordinator.addPersistentStore(
+                ofType: NSSQLiteStoreType,
+                configurationName: nil,
+                at: storeURL,
+                options: migrationOptions
+            )
+            print("Migration successful")
+        } catch {
+            print("Migration failed, clearing core of models: \(error)")
+            self.clearCoreData()
+        }
+    }
+    
+    private func clearCoreData() {
+        let context = container.viewContext
+
+        // Fetch all entities
+        let entityNames = container.managedObjectModel.entities.compactMap { $0.name }
+
+        for entityName in entityNames {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+            do {
+                try context.execute(deleteRequest)
+                try context.save()
+                print("Cleared Core Data for entity \(entityName)")
+            } catch {
+                print("Failed to clear Core Data for entity \(entityName): \(error)")
             }
         }
     }
