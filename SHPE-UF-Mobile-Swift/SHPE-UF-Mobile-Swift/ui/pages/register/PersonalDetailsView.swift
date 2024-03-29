@@ -160,7 +160,7 @@ struct PersonalView : View
                             Image("swift.littleearth")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 26.0, height: 26.0)
+                                .frame(width: 23.0, height: 26.0)
                                 .padding(.horizontal, 7)
                             
                             Spacer()
@@ -177,7 +177,7 @@ struct PersonalView : View
                             .onChange(of: viewModel.ethnicityInput) { _ in }
                         }
                         .padding(.vertical, 2.75)
-                        .frame(width: 270, height: 37.64706)
+                        .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.ethnicityInput, maxWidth: 270, fontSize: 16))
                         .background(Color.white)
                         .cornerRadius(10)
                         
@@ -201,7 +201,7 @@ struct PersonalView : View
                             Image("swift.littleearth")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 26.0, height: 26.0)
+                                .frame(width: 23.0, height: 26.0)
                                 .padding(.horizontal, 7)
                             
                             Spacer()
@@ -218,11 +218,7 @@ struct PersonalView : View
                            .onChange(of: viewModel.originInput) { _ in }
                        }
                        .pickerStyle(MenuPickerStyle())
-                       .frame(width: 270, height: 37.64706)
-                       .background(Color.white)
-                       .cornerRadius(10)
-                       .pickerStyle(MenuPickerStyle())
-                       .frame(width: 270, height: 37.64706)
+                       .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.originInput, maxWidth: 270, fontSize: 18))
                        .background(Color.white)
                        .cornerRadius(10)
                         

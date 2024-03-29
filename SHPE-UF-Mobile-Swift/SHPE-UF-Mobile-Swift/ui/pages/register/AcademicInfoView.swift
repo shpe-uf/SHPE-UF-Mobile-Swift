@@ -45,36 +45,35 @@ struct AcademicView : View
                 Spacer()
                 
                 //user fields
-                VStack(alignment: .leading)
+                VStack(alignment: .leading, spacing: 10)
                 {
                     //major
                     Text("Major")
                         .font(Font.custom("Univers LT Std", size: 16))
                         .foregroundColor(Color("whiteText"))
-                        .frame(width: 200, height: 16.47059, alignment: .topLeading)
-                    
-                    HStack(spacing: 0)
+                        .frame(width: 250, alignment: .topLeading)
+
+                    HStack(spacing: 0) 
                     {
                         Image("swift.littlebook")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 26.0, height: 26.0)
-                            .padding(.horizontal, 7)
+                            .frame(width: 23.0, height: 23.0)
+                            .padding(.leading, 7)
+
                         Spacer()
 
-                        //dropdown for major
-                        Picker("", selection: $viewModel.majorInput)
+                        Picker("", selection: $viewModel.majorInput) 
                         {
-                            ForEach(viewModel.majorOptions, id: \.self)
-                            {
-                                option in Text(option).tag(option)
+                            ForEach(viewModel.majorOptions, id: \.self) { option in
+                                Text(option).tag(option)
                             }
                         }
                         .accentColor(.black)
                         .onChange(of: viewModel.majorInput) { _ in }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .frame(width: 270, height: 37.64706)
+                    .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.majorInput, maxWidth: 270, fontSize: 16))
                     .background(Color.white)
                     .cornerRadius(10)
                     
@@ -91,7 +90,7 @@ struct AcademicView : View
                     Text("Class Year")
                         .font(Font.custom("Univers LT Std", size: 16))
                         .foregroundColor(Color("whiteText"))
-                        .frame(width: 200, height: 16.47059, alignment: .topLeading)
+                        .frame(width: 200, alignment: .topLeading)
                     
                     HStack(spacing: 0)
                     {
@@ -115,7 +114,7 @@ struct AcademicView : View
                         .onChange(of: viewModel.classYearInput) { _ in }
                     }
                     .pickerStyle(MenuPickerStyle())
-                    .frame(width: 270, height: 37.64706)
+                    .frame(width: 270)
                     .background(Color.white)
                     .cornerRadius(10)
                     
