@@ -70,7 +70,7 @@ struct AcademicView : View
                             }
                         }
                         .accentColor(.black)
-                        .onChange(of: viewModel.majorInput) { _ in }
+                        .onChange(of: viewModel.majorInput) { _ in viewModel.majorPickerInteracted = true }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.majorInput, maxWidth: 270, fontSize: 16))
@@ -78,7 +78,7 @@ struct AcademicView : View
                     .cornerRadius(10)
                     
                     //major validation
-                    if !viewModel.validateMajorSelected()
+                    if !viewModel.validateMajorSelected() && viewModel.majorPickerInteracted
                     {
                         Text("Invalid major format")
                             .font(.caption)
@@ -105,13 +105,13 @@ struct AcademicView : View
                         //dropdown for class year
                         Picker("", selection: $viewModel.classYearInput)
                         {
-                            ForEach(viewModel.classYearOptions, id: \.self)
+                            ForEach(viewModel.classYearOptions, id: \.self) 
                             {
                                 option in Text(option).tag(option)
                             }
                         }
                         .accentColor(.black)
-                        .onChange(of: viewModel.classYearInput) { _ in }
+                        .onChange(of: viewModel.classYearInput) { _ in viewModel.classYearPickerInteracted = true }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(width: 270)
@@ -119,7 +119,7 @@ struct AcademicView : View
                     .cornerRadius(10)
                     
                     //class year validation
-                    if !viewModel.validateClassYearSelected()
+                    if !viewModel.validateClassYearSelected() && viewModel.classYearPickerInteracted
                     {
                         Text("Invalid class year format")
                             .font(.caption)
@@ -143,16 +143,16 @@ struct AcademicView : View
                         
                             Spacer()
 
-                            //dropdown for graduation year
-                            Picker("", selection: $viewModel.gradYearInput)
+                        //dropdown for graduation year
+                        Picker("", selection: $viewModel.gradYearInput)
+                        {
+                            ForEach(viewModel.gradYearOptions, id: \.self) 
                             {
-                                ForEach(viewModel.gradYearOptions, id: \.self)
-                                {
-                                    option in Text(option).tag(option)
-                                }
+                                option in Text(option).tag(option)
                             }
-                            .accentColor(.black)
-                            .onChange(of: viewModel.gradYearInput) { _ in }
+                        }
+                        .accentColor(.black)
+                        .onChange(of: viewModel.gradYearInput) { _ in viewModel.gradYearPickerInteracted = true }
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(width: 270, height: 37.64706)
@@ -160,13 +160,12 @@ struct AcademicView : View
                     .cornerRadius(10)
                     
                     //grdaution year validation
-                    if !viewModel.validateGradYearSelected()
+                    if !viewModel.validateGradYearSelected() && viewModel.gradYearPickerInteracted 
                     {
                         Text("Invalid graduation year format")
                             .font(.caption)
                             .foregroundColor(.red)
                     }
-
                 }
          
                 Spacer()
@@ -194,15 +193,15 @@ struct AcademicView : View
                             Button(action:
                             {
                                 //move to sign in if valid
-//                                if viewModel.isAcademicValid()
-//                                {
+                                if viewModel.isAcademicValid()
+                                {
                                     viewModel.registerUser()
                                     withAnimation
                                     {
                                         appVM.showToast = true
                                     }
                                     appVM.setPageIndex(index: 0)
-                                //}
+                                }
                            
                             })
                             {

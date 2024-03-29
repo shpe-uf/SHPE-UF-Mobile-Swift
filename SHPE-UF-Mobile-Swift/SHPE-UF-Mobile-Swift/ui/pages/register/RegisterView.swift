@@ -112,7 +112,7 @@ struct RegisterView: View
                                         .foregroundStyle(Color.black)
                                         .autocapitalization(.none)
                                         .autocorrectionDisabled()
-                                        .onChange(of: viewModel.emailInput) { _ in}
+                                        .onSubmit { viewModel.emailValidated = true }
                                 }
                                 .padding(.vertical, 2.75)
                                 .frame(width: 270, height: 37.64706)
@@ -120,12 +120,13 @@ struct RegisterView: View
                                 .cornerRadius(10)
                                 
                                 //email validation
-                                if !viewModel.validateEmail()
+                                if !viewModel.validateEmail() && viewModel.emailValidated
                                 {
                                     Text("Invalid email format")
                                         .font(.caption)
                                         .foregroundColor(.red)
                                 }
+
                                 
                                 //username
                                 Text("Username")
@@ -141,7 +142,8 @@ struct RegisterView: View
                                         .foregroundStyle(Color.black)
                                         .autocapitalization(.none)
                                         .autocorrectionDisabled()
-                                        .onChange(of: viewModel.emailInput) { _ in}
+                                        .keyboardType(.default)
+                                        .onSubmit { viewModel.usernameValidated = true }
                                 }
                                 .padding(.vertical, 2.75)
                                 .frame(width: 270, height: 37.64706)
@@ -149,7 +151,7 @@ struct RegisterView: View
                                 .cornerRadius(10)
                                 
                                 //username validation
-                                if !viewModel.validateUsername()
+                                if !viewModel.validateUsername() && viewModel.usernameValidated
                                 {
                                     Text("6-20 characters, periods, & underscores")
                                         .font(.caption)
@@ -166,36 +168,39 @@ struct RegisterView: View
                                 {
                                     Image("swift.littlelock")
                                         .padding(.horizontal, 12)
-                                    if viewModel.viewPassword
+                                    if viewModel.viewPassword 
                                     {
-                                        //show password
                                         TextField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
                                             .autocapitalization(.none)
                                             .autocorrectionDisabled()
-                                            .onChange(of: viewModel.passwordInput) { _ in }
-                                            
+                                            //as soon as the user types the first character, consider the input as being validated for display
+                                            .onChange(of: viewModel.passwordInput)
+                                            {
+                                                newValue in  viewModel.passwordValidated = !newValue.isEmpty
+                                            }
                                     }
+                                    
                                     else
                                     {
-                                        //hide password
                                         SecureField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
                                             .autocapitalization(.none)
                                             .autocorrectionDisabled()
-                                            .onChange(of: viewModel.passwordInput) { _ in }
-                                           
+                                            //as soon as the user types the first character, consider the input as being validated for display
+                                            .onChange(of: viewModel.passwordInput) 
+                                            {
+                                                newValue in viewModel.passwordValidated = !newValue.isEmpty
+                                            }
                                     }
                                     
                                     //open eye if viewPassword is true, closed eye if false
                                     Image(viewModel.viewPassword ? "open_eye" :"Eye Closed")
                                         .frame(width: 22.32634, height: 14.58338)
                                         .padding(.horizontal, 12)
-                                        .onTapGesture {
-                                            viewModel.viewPassword.toggle()
-                                        }
+                                        .onTapGesture { viewModel.viewPassword.toggle() }
                                 }
                                 .padding(.vertical, 2.75)
                                 .frame(width: 270, height: 37.64706)
@@ -203,14 +208,14 @@ struct RegisterView: View
                                 .cornerRadius(10)
                                 
                                 //password validation
-                                if !viewModel.validatePassword()
+                                if !viewModel.validatePassword() && viewModel.passwordValidated 
                                 {
-                                    Text("8+ characters, lowercase, uppercase, \nnumber, & special character")
+                                    Text("8+ characters, lowercase, uppercase, number, & special character")
                                         .frame(width: 250, height: 50, alignment: .topLeading)
                                         .font(.caption)
                                         .foregroundColor(.red)
                                 }
-
+                            
                                 
                                 //confirm password
                                 Text("Confirm Password")
@@ -274,10 +279,10 @@ struct RegisterView: View
                             //create account button
                             Button(action:
                             {
-//                                if viewModel.isRegisterValid() 
-//                                {
+                                if viewModel.isRegisterValid() 
+                                {
                                     viewModel.viewIndex = 1
-                                //}
+                                }
                             })
                             {
                                 Text("Create Account")
