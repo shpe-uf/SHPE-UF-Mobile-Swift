@@ -55,24 +55,26 @@ class RegisterViewModel: ObservableObject
     @Published var showToast = false
     
     //major options
+    //keep the spaces in the string,
+    //it's a loophole for the calculatePickerHeight function to work for some specific picker options
     let majorOptions =
     [
         "Select",
-        "Aerospace Engineering",
-        "Agricultural & Biological Engineering",
-        "Biomedical Engineering",
+        "Aerospace Engineering              ",
+        "Agricultural Engineering             ",
+        "Biomedical Engineering           ",
         "Chemical Engineering",
         "Civil Engineering",
-        "Coastal & Oceanographic Engineering",
+        "Oceanographic Engineering         ",
         "Computer Engineering",
         "Computer Science",
-        "Digital Arts & Sciences",
+        "Digital Arts & Sciences        ",
         "Electrical Engineering",
-        "Environmental Engineering Sciences",
-        "Human-Centered Computing",
+        "Environmental Engineering       ",
+        "Human-Centered Computing            ",
         "Industrial & Systems Engineering",
         "Materials Science & Engineering",
-        "Mechanical Engineering",
+        "Mechanical Engineering           ",
         "Nuclear Engineering",
         "Other"
     ]
@@ -101,16 +103,18 @@ class RegisterViewModel: ObservableObject
     ]
     
     //ethncity options
+    //keep the spaces in the string,
+    //it's a loophole for the calculatePickerHeight function to work for some specific picker options
     let ethnicityOptions =
     [
         "Select",
         "American Indian or Alaska Native",
         "Asian",
-        "Black or African American",
+        "Black or African American        ",
         "Hispanic/Latino",
         "Native Hawaiian or Other Pacific Islander",
         "White",
-        "Two or more ethnicities",
+        "Two or more ethnicities       ",
         "Prefer not to answer"
     ]
     
@@ -128,6 +132,22 @@ class RegisterViewModel: ObservableObject
     //origin options from locale
     let originOptions = ["Select"] + Locale.countryNames
 
+    //calculates dynamic height based on text length
+    func calculatePickerHeight(for option: String, maxWidth: CGFloat, fontSize: CGFloat) -> CGFloat {
+        let charPerLine = maxWidth / (fontSize * 0.6) // Estimate chars per line. Adjust 0.6 based on your font
+        let linesNeeded = ceil(CGFloat(option.count) / charPerLine)
+        let lineHeight = fontSize * 1.2 // Adjust based on your font and desired line spacing
+
+        // Dynamic padding adjustment
+        let basePadding: CGFloat = 20 // Minimum padding
+        let additionalPaddingPerLine: CGFloat = 15 // Additional padding for each line needed
+        let dynamicPadding = basePadding + (additionalPaddingPerLine * (linesNeeded - 1))
+
+        let calculatedHeight = linesNeeded * lineHeight + dynamicPadding // Add dynamic padding
+        let minHeight: CGFloat = 37.64706 // Define minimum height
+
+        return max(calculatedHeight, minHeight) // Return the larger of the calculated height or the minimum height
+    }
     
     //VALIDATION SECTION
     
