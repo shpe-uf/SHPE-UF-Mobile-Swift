@@ -18,7 +18,7 @@ extension UIImage {
         }
     
     func resize() -> UIImage? {
-            let newSize = CGSize(width: self.size.width / 8, height: self.size.height / 8)
+            let newSize = CGSize(width: self.size.width / 16, height: self.size.height / 16)
             let renderer = UIGraphicsImageRenderer(size: newSize)
             return renderer.image { (context) in
                 self.draw(in: CGRect(origin: .zero, size: newSize))
