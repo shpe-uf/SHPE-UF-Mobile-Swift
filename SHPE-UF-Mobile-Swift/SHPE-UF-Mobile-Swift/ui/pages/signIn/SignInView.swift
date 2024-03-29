@@ -16,6 +16,9 @@ struct CustomTextFieldStyle: ViewModifier {
 
 
 struct SignInView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) private var viewContext
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: SignInViewModel
     @State public var username = ""
     @State public var password = ""
@@ -23,207 +26,171 @@ struct SignInView: View {
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
     
-    
-    
     var body: some View {
-        NavigationView{
-            ZStack {
+        ZStack {
+            
+            Color(red: 0.82, green: 0.35, blue: 0.09)
+                .ignoresSafeArea()
+            
+            //gator pic
+            Rectangle()
+              .foregroundColor(.clear)
+              .background(
+                Image(colorScheme == .dark ? "Gator" : "Gator2")
+                  .resizable()
+                  .aspectRatio(contentMode: .fill)
+                  .frame(width: 306, height: 197)
+                  .clipped()
+              )
+              .offset(y: colorScheme == .dark ? -UIScreen.main.bounds.height * 0.305 : -UIScreen.main.bounds.height * 0.325)
+            
+            
+            VStack
+            {
+                // SHPE Logo Image
+                Image("shpe_logo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 93, height: 86)
+                    .padding(.top,30)
+                                                
+                // SIGN IN Text
+                Text("SIGN IN")
+                    .font(Font.custom("Viga-Regular", size: 50))
+                    .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
+                    .padding(.top, 20)
+                    .padding(.bottom, 50)
                 
-                // Dark Blue Background
-                Color(red: 1/255, green: 31/255, blue: 53/255)
-                    .edgesIgnoringSafeArea(.all)
                 
-                
-                // Image and Sign In Text
-                VStack {
+                // Email Text
+                VStack(alignment: .leading)
+                {
+                    Text("Username")
+                      .font(Font.custom("Univers LT Std", size: 16))
+                      .foregroundColor(Color("whiteText"))
                     
-                    // SHPE Logo Image
-                    Image("SHPE Logo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 93, height: 86)
-                        .opacity(0)
-                        .padding(.top,20)
-                    
-                    //.clipped()
-                    
-                    // SIGN IN Text
-                    Text("SIGN IN")
-                        .font(Font.custom("VigaRegular", size: 50))
-                        .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
-                        .frame(width: 200, height: 42, alignment: .topLeading)
-                }
-                .padding(.top, -300)
-                // Orange Rectangle with Gator Image
-                GeometryReader { geometry in
-                    ZStack {
-                        
-                        Rectangle()
-                            .frame(width: 393, height: 93)
-                            .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09)) // Orange color
-                            .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46)
-                        
-                        // Gator Image
-                        Image("Gator")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 306, height: 197) // Adjust the size here
-                            .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 46 + 125 / 2) // Adjust the y position to center the image within the rectangle
-                        
-                        Rectangle()
-                            .frame(width: 393, height: 120)
-                            .foregroundColor(Color(red: 1/255, green: 31/255, blue: 53/255)) // Orange color
-                            .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 150)
-                        
-                        // SHPE Logo Image
-                        Image("SHPE Logo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 93, height: 86)
-                            .position(x: geometry.size.width / 2, y: geometry.safeAreaInsets.top + 115 + 125 / 2)
-                        
-                    }
-                }
-                .edgesIgnoringSafeArea(.top)
-                
-                
-                VStack {
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 173, height: 34)
-                            .cornerRadius(10)
-                            .foregroundColor(Color.white)
-                            .padding(.leading,-140)
+                    HStack(spacing: 0)
+                    {
+                        Image("swift.littlepfp")
+                            .padding(.horizontal, 12)
                         
                         TextField("", text: $username)
-                            .modifier(CustomTextFieldStyle(padding: 40, cornerRadius: 10))
-                        //.background(Color.white)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .frame(height: 38)
-                            .frame(width: 310, height: 38)
-                            .padding(.leading, 3)
+                            .padding(.leading, 3) // Adjust to make space for the image
                             .foregroundColor(.black)
                             .autocapitalization(.none)
-                        Image("Profile Circle")
-                            .resizable()
-                            .frame(width: 22, height: 22)
-                            .padding(.leading, -145)
-                        Text("Username")
-                            .font(Font.custom("Univers LT Std", size: 16))
-                            .foregroundColor(Color.white)
-                            .frame(width: 300, height: 13.47059, alignment: .topLeading)
-                            .padding(.top,-40)
-                        
-                        
+                            .autocorrectionDisabled()
                     }
-                    .padding(.bottom,30)
-                    
-                    
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 173, height: 34)
-                            .cornerRadius(10)
-                            .foregroundColor(Color.white)
-                            .padding(.leading,-140)
-                        if isPasswordVisible{
-                            TextField("", text: $password)
-                                .modifier(CustomTextFieldStyle(padding: 40, cornerRadius: 10))
-                                //.background(Color.white)
-                                .frame(height: 38)
-                                .frame(width: 310, height: 38)
-                                .padding(.leading, 3)
-                                .foregroundColor(.black)
-                                .autocapitalization(.none)
-                            Image("Lock 3")
-                                .resizable()
-                                .frame(width: 22, height: 22)
-                                .padding(.leading, -145)
-                            
-                            
-                        }else{
-                            SecureField("", text: $password)
-                                .modifier(CustomTextFieldStyle(padding: 40, cornerRadius: 10))
-                                //.background(Color.white)
-                                .frame(height: 38)
-                                .frame(width: 310, height: 38)
-                                .padding(.leading, 3)
-                                .foregroundColor(.black)
-                                .autocapitalization(.none)
-                            Image("Lock 3")
-                                .resizable()
-                                .frame(width: 22, height: 22)
-                                .padding(.leading, -145)
-                        }
-                        
-                        HStack {
-                            Image(systemName: isPasswordVisible ? "eye.slash.fill" : "eye.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 22.32634, height: 14.58338)
-                                .padding(.leading, 250)
-                                .onTapGesture {
-                                    isPasswordVisible.toggle()
-                                }
-                        }
-                        
-                        
-                        // Email Text
-                        Text("Password")
-                            .font(Font.custom("Univers LT Std", size: 16))
-                            .foregroundColor(Color.white)
-                            .frame(width: 300, height: 13.47059, alignment: .topLeading)
-                            .padding(.top,-40)
-                        
-                        
-                    }
-                    .padding(.bottom,38)
-                    
-                    ZStack {
-                        Rectangle()
-                            .fill(isHovered ? Color(red: 147/255, green: 56/255, blue: 21/255) : Color(red: 0.82, green: 0.35, blue: 0.09))
-                            .frame(width: 267, height: 42)
-                            .cornerRadius(100)
-                            .padding()
-                        
-                        Button(action: {
-                            viewModel.signIn(username: username, password: password)
-                            viewModel.signInButtonClicked = true
-                            
-                            // Reset the signInButtonClicked flag after signIn method is called
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                viewModel.signInButtonClicked = false
-                            }
-                        }) {
-                            Text("Sign In")
-                                .font(Font.custom("Viga", size: 16))
-                                .foregroundColor(Color.white)
-                        }
-
-
-                    }
-                    .disabled(viewModel.signInButtonClicked)
-                    .onHover { hovering in
-                        isHovered = true
-                        isHovered = hovering
-                    }
-                    
-                    HStack {
-                        Text("Don’t have an account? ")
-                            .font(Font.custom("Univers LT Std", size: 14))
-                            .foregroundColor(Color.white)
-                        //change to register page later
-                        NavigationLink(destination: exampleView()) {
-                            Text("Sign Up")
-                                .font(Font.custom("Univers LT Std", size: 14))
-                                .foregroundColor(Color(red: 0.58, green: 0.88, blue: 1))
-                        }
-                    }
-                    .frame(width: 260, height: 17)
-
-
+                    .padding(.vertical, 2.75)
+                    .frame(width: 270, height: 37.64706)
+                    .background(Color.white)
+                    .cornerRadius(10)
                 }
-                .padding(.top, 130)
+                
+                // Password Text
+                VStack(alignment: .leading)
+                {
+                    Text("Password")
+                      .font(Font.custom("Univers LT Std", size: 16))
+                      .foregroundColor(Color("whiteText"))
+                    
+                    HStack(spacing: 0)
+                    {
+                        Image("swift.littlelock")
+                            .padding(.horizontal, 12)
+                        
+                        if viewModel.viewPassword
+                        {
+                            TextField("", text: $password)
+                                .frame(height: 38)
+                                .padding(.leading, 3) // Adjust to make space for the image
+                                .foregroundColor(.black)
+                                .autocapitalization(.none)
+                                .autocorrectionDisabled()
+                        }
+                        else
+                        {
+                            SecureField("", text: $password)
+                                .frame(height: 38)
+                                .padding(.leading, 3) // Adjust to make space for the image
+                                .foregroundColor(.black)
+                                .autocapitalization(.none)
+                                .autocorrectionDisabled()
+                        }
+                        
+                        Image(viewModel.viewPassword ? "Eye Open" :"Eye Closed")
+                            .frame(width: 22.32634, height: 14.58338)
+                            .background(Color.white)
+                            .padding(.horizontal, 12)
+                            .onTapGesture {
+                                viewModel.viewPassword.toggle()
+                            }
+                    }
+                    .padding(.vertical, 2.75)
+                    .frame(width: 270, height: 37.64706)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                }
+                .padding(.bottom, 50)
+                
+                
+                // Sign In Button
+                Button(action: {
+                    viewModel.signIn(username: username, password: password, viewContext: viewContext)
+                    viewModel.signInButtonClicked = true
+                }) {
+                    Text("Sign In")
+                        .font(Font.custom("Viga-Regular", size: 16))
+                        .foregroundColor(Color.white)
+                        .frame(width: 267, height: 42)
+                        .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                        .cornerRadius(100)
+                        .padding()
+                }
+                .disabled(viewModel.signInButtonClicked)
+
+                
+                HStack
+                {
+                    Text("Don’t have an acccount?")
+                      .font(Font.custom("Univers LT Std", size: 14))
+                      .foregroundColor(Color("whiteText"))
+                      .frame(width:162, height:17)
+                    Text("Sign Up")
+                        .font(Font.custom("Univers LT Std", size: 14))
+                        .foregroundColor(Color("lblue"))
+                        .onTapGesture {
+                            appVM.setPageIndex(index: 1)
+                        }
+                }
+                
+                Spacer()
             }
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
+            .background(Color("darkBlue"))
+            .padding(.top, UIScreen.main.bounds.height * 0.17)
+            
+            if viewModel.signInButtonClicked {
+                if self.viewModel.isCommunicating == true{
+                    Text("Connecting....")
+                        .foregroundColor(.black)
+                        .font(.caption)
+                        .padding(.top,260)
+                    
+                }
+                
+                
+                
+                
+                else if !viewModel.error.isEmpty{
+                    Text(self.viewModel.error)
+                            .foregroundColor(.red)
+                            .font(.caption)
+                            .padding(.bottom,60)
+                    }
+            
+                
+            }
+            
         }
     }
 }
@@ -231,24 +198,7 @@ struct SignInView: View {
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
         SignInView(viewModel: SignInViewModel(shpeito:
-                                SHPEito(
-                                    username: "",
-                                    password: "",
-                                        remember: "true",
-                                        photo: "",
-                                        firstName: "",
-                                        lastName: "",
-                                        year: "",
-                                        major: "",
-                                        id: "",
-                                        token: "",
-                                        confirmed: true,
-                                        updatedAt: "",
-                                        createdAt: "",
-                                        email: "",
-                                        fallPoints: 0,
-                                        summerPoints: 0,
-                                        springPoints: 0)
+                                SHPEito()
                           ))
     }
 }
