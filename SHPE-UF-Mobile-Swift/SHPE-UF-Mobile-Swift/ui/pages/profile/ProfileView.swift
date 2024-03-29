@@ -679,7 +679,7 @@ struct ProfileView: View
                                     )
                                     .padding(.trailing, 20)
                                     .onTapGesture {
-                                        appVM.setDarkMode(bool: false, user: user)
+                                        appVM.setDarkMode(bool: false, user: user, viewContext: viewContext)
                                     }
                             }
                         }
@@ -721,7 +721,7 @@ struct ProfileView: View
                                     )
                                     .padding(.trailing, 20)
                                     .onTapGesture {
-                                        appVM.setDarkMode(bool: true, user: user)
+                                        appVM.setDarkMode(bool: true, user: user, viewContext: viewContext)
                                     }
                             }
                         }
