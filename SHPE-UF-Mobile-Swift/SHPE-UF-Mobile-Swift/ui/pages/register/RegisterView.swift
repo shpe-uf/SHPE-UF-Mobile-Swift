@@ -49,7 +49,10 @@ struct RegisterView: View
                       .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                       .cornerRadius(1)
                       .onTapGesture {
-                          viewModel.viewIndex = 0
+                          if viewModel.onLastPage
+                          {
+                              viewModel.viewIndex = 0
+                          }
                       }
                     
                     //bar 2
@@ -59,7 +62,10 @@ struct RegisterView: View
                       .background(viewModel.viewIndex >= 1 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
                       .cornerRadius(1)
                       .onTapGesture {
-                          viewModel.viewIndex = 1
+                          if viewModel.onLastPage
+                          {
+                              viewModel.viewIndex = 1
+                          }
                       }
                     //bar 3
                     Rectangle()
@@ -68,7 +74,10 @@ struct RegisterView: View
                       .background(viewModel.viewIndex >= 2 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
                       .cornerRadius(1)
                       .onTapGesture {
-                          viewModel.viewIndex = 2
+                          if viewModel.onLastPage
+                          {
+                              viewModel.viewIndex = 2
+                          }
                       }
                 }
                 .padding()

@@ -24,6 +24,19 @@ class RegisterViewModel: ObservableObject
 {
     private let requestHandler = RequestHandler()
     
+    init () {
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: Date())
+        
+        var yearsList: [String] = ["Select"]
+        for i in 0..<5 {
+            let year = String(currentYear + i)
+            yearsList.append(year)
+        }
+        
+        self.gradYearOptions = yearsList
+    }
+    
     //field inputs
     @Published var firstnameInput: String = ""
     @Published var lastnameInput: String = ""
@@ -58,6 +71,7 @@ class RegisterViewModel: ObservableObject
     @Published var emailExists = ""
     
     @Published var loading:Bool = false
+    @Published var onLastPage:Bool = false
     //validation bool for checking user input after hitting return, giving them the correction warning
     @Published var emailValidated = false
     @Published var usernameValidated = false
@@ -110,14 +124,7 @@ class RegisterViewModel: ObservableObject
     ]
     
     //graduation year options
-    let gradYearOptions =
-    [
-        "Select",
-        "Not Graduating",
-        "Fall Semester",
-        "Spring Semester",
-        "Summer Semester"
-    ]
+    var gradYearOptions:[String] = []
     
     //ethncity options
     //keep the spaces in the string,
@@ -266,6 +273,7 @@ class RegisterViewModel: ObservableObject
     //validate all inputs in personalDetailsView
     func isPersonalValid() -> Bool
     {
+        
        return validateFirstName() && validateLastName() && validateGenderSelected() && validateEthnicitySelected() && validateCountryOfOriginSelected()
     }
     

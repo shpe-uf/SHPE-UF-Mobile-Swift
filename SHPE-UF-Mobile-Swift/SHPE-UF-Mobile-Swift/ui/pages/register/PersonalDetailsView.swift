@@ -132,9 +132,9 @@ struct PersonalView : View
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.genderInput) { _ in
+                            .onChange(of: viewModel.genderInput, {
                                 viewModel.genderPickerInteracted = true
-                            }
+                            })
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: 37.64706)
@@ -175,7 +175,7 @@ struct PersonalView : View
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.ethnicityInput) { _ in viewModel.ethnicityPickerInteracted = true }
+                            .onChange(of: viewModel.ethnicityInput, { viewModel.ethnicityPickerInteracted = true })
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.ethnicityInput, maxWidth: 270, fontSize: 16))
@@ -216,7 +216,7 @@ struct PersonalView : View
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.originInput) { _ in viewModel.originPickerInteracted = true }
+                            .onChange(of: viewModel.originInput, { viewModel.originPickerInteracted = true })
                        }
                        .pickerStyle(MenuPickerStyle())
                        .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.originInput, maxWidth: 270, fontSize: 18))
@@ -257,12 +257,16 @@ struct PersonalView : View
                     Button(action: 
                     {
                         //move to AcademicView if valid
+                        viewModel.firstNameValidated = true
+                        viewModel.lastNameValidated = true
+                        viewModel.genderPickerInteracted = true
+                        viewModel.ethnicityPickerInteracted = true
+                        viewModel.originPickerInteracted = true
                         if viewModel.isPersonalValid()
                         {
                             viewModel.viewIndex = 2
                         }
                     })
-                    
                     {
                         Text("Continue")
                             .font(Font.custom("Univers LT Std", size: 16))

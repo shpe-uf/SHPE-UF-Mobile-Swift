@@ -117,8 +117,8 @@ class RequestHandler
             ]
             for user in data.getUsers ?? []
             {
-                outputDict["usernameExists"] = user?.username == username
-                outputDict["emailExists"] = user?.email == email
+                outputDict["usernameExists"] = outputDict["usernameExists"]! ? true : user?.username == username
+                outputDict["emailExists"] = outputDict["emailExists"]! ? true : user?.email == email
                 
                 if outputDict["usernameExists"]! && outputDict["emailExists"]! {break}
             }
