@@ -152,20 +152,27 @@ class RequestHandler
     //    "photo": String, => You may want to turn this into a Swift URL type by doing this => URL(string: <photo>)
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
-    func signIn(username:String, password:String, completion: @escaping ([String:Any])->Void)
-    {
-        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false"))
-        {
-            response in
-            guard let data = try? response.get().data
-            else
-            {
-                print("ERROR: Incomplete Request\nError Message:\(response)")
-                
-                // Package with data (ERROR ❌)
-                completion(["error":"Incomplete Request"])
+    
+    
+    
+    func signIn(username: String, password: String, completion: @escaping ([String: Any]) -> Void) {
+        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false")) { response in
+            guard let data = try? response.get().data else {
+                if let errorMessage = self.extractErrorMessage(from: response) {
+                    // Print the extracted error message
+                    print("ERROR: \(errorMessage)\nError Message: \(response)")
+                    
+                    // Package with data (ERROR ❌)
+                    completion(["error": errorMessage])
+                } else {
+                    print("ERROR: Incomplete Request\nError Message: \(response)")
+                    
+                    // Package with data (ERROR ❌)
+                    completion(["error": "Incomplete Request"])
+                }
                 return
             }
+            
             // Package with data (SUCCESS ✅)
             let login = data.login
             let responseDict = [
@@ -195,6 +202,22 @@ class RequestHandler
             completion(responseDict)
         }
     }
+    
+    private func extractErrorMessage(from response: Result<Apollo.GraphQLResult<SHPE_UF_Mobile_Swift.SHPESchema.SignInMutation.Data>, Error>) -> String? {
+        do {
+            let graphqlResponse = try response.get()
+            if let errors = graphqlResponse.errors {
+                // Extract the error message from GraphQL errors
+                let errorMessage = errors.map { $0.localizedDescription }.joined(separator: ", ")
+                return errorMessage
+            } else {
+                return nil // No error message extracted
+            }
+        } catch {
+            return error.localizedDescription
+        }
+    }
+
     
     // MARK: Points Page Funcations
     
