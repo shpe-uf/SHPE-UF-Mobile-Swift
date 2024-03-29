@@ -1,16 +1,35 @@
-//
-//  ContentView.swift
-//  SHPE-UF-Mobile-Swift
-//
-//  Created by Jesus Lopez on 10/19/23.
-//
+
 
 import SwiftUI
 
 struct SHPEUFAppView: View {
-    let requestHandler = RequestHandler()
-    var body: some View {
-        PointsView(vm: PointsViewModel(shpeito: SHPEito()))
+    @StateObject private var manager: DataManager = DataManager()
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+    
+    var body: some View
+    {
+        switch(appVM.pageIndex){
+        case -1:
+            CheckCore()
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, manager.container.viewContext)
+        case 0:
+            SignInView(viewModel: SignInViewModel(shpeito: appVM.shpeito))
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, manager.container.viewContext)
+        case 1:
+            RegisterView(viewModel: RegisterViewModel())
+                .transition(.move(edge: .bottom))
+        case 2:
+            HomePageContentView()
+                .transition(.move(edge: .trailing))
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, manager.container.viewContext)
+        case 3:
+            LandingPageView(viewModel: RegisterViewModel())
+        default:
+            Text("Out of Index Error...")
+        }
     }
 }
 
@@ -18,18 +37,3 @@ struct SHPEUFAppView: View {
 #Preview {
     SHPEUFAppView()
 }
-
-
-/*
- PointsView(vm: PointsViewModel(shpeito:
-                                 SHPEito(id: "642f7f80e8839f0014e8be9b",
-                                         name: "David Denis",
-                                         points: 0,
-                                         fallPoints: 0,
-                                         springPoints: 0,
-                                         summerPoints: 0,
-                                         fallPercentile: 0,
-                                         springPercentile: 0,
-                                         summerPercentile: 0)
-                               ))
- */

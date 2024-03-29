@@ -11,7 +11,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "http://127.0.0.1:4000/")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://edc8-128-227-1-40.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -87,45 +87,46 @@ class RequestHandler
         }
     }
     
-
-//    func registerUser(firstName: String, lastName: String, major: String, year: String, graduating: String, country: String, ethnicity: String, sex: String, username: String, email: String, password: String, confirmPassword: String, listServ: String = "true", completion: @escaping ([String:Any])->Void) 
-//        {
-//        
-//        let registerInput = SHPESchema.RegisterInput(firstName: firstName, lastName: lastName, major: major, year: year, graduating: graduating, country: country, ethnicity: ethnicity, sex: sex, username: username, email: email, password: password, confirmPassword: confirmPassword, listServ: listServ)
-//        
-//        let validInput = GraphQLNullable(registerInput)
-//        
-//        apolloClient.perform(mutation: SHPESchema.RegisterUserMutation(registerInput: validInput)) 
-//        { result in
-//            
-//            switch result 
-//            {
-//            case .success(let graphQLResult):
-//                if let data = graphQLResult.data, graphQLResult.errors == nil 
-//                {
-//                    // Assuming the mutation returns a success flag as true
-//                    completion(["success": true])
-//                }
-//                else if let errors = graphQLResult.errors 
-//                {
-//                    // Handle and return errors
-//                    print("GraphQL Errors: \(errors)")
-//                    completion(["error": "Incomplete Request due to GraphQL Errors"])
-//                }
-//            case .failure(let error):
-//                // Handle and return network or parsing error
-//                print("Network or Parsing Error: \(error)")
-//                completion(["error": "Incomplete Request due to Network or Parsing Error"])
-//            }
-//        }
-//    }
-
-
     
-    
-    
-    
-    
+    /*
+     Input:
+        username:String
+        email:String
+     Output:
+        ["usernameExists":Bool,
+         "emailExists":Bool]
+     */
+    func validateUsernameAndEmail(username:String, email:String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetUsersQuery())
+        {
+            response in
+            
+            guard let data = try? response.get().data
+            else {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            var outputDict = [
+                "usernameExists":false,
+                "emailExists":false
+            ]
+            for user in data.getUsers ?? []
+            {
+                outputDict["usernameExists"] = outputDict["usernameExists"]! ? true : user?.username == username
+                outputDict["emailExists"] = outputDict["emailExists"]! ? true : user?.email == email
+                
+                if outputDict["usernameExists"]! && outputDict["emailExists"]! {break}
+            }
+            
+            completion(outputDict)
+            return
+        }
+    }
     
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String
@@ -141,9 +142,13 @@ class RequestHandler
     //    "createdAt": String,
     //    "email": String,
     //    "username": String,
-    //    "fallPoints": Int,
-    //    "springPoints": Int,
-    //    "summerPoints": Int,
+    //    "ethnicity": String,
+    //    "gender": String,
+    //    "originCountry": String
+    //    "graduationYear": String
+    //    "classes": [String]
+    //    "internships": [String]
+    //    "links": [String]
     //    "photo": String, => You may want to turn this into a Swift URL type by doing this => URL(string: <photo>)
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
@@ -182,11 +187,16 @@ class RequestHandler
                 "createdAt": login.createdAt,
                 "email": login.email,
                 "username": login.username,
-                "fallPoints": login.fallPoints,
-                "springPoints": login.springPoints,
-                "summerPoints": login.summerPoints,
                 "photo": login.photo,
-                "events": login.events
+                "events": login.events,
+                "ethnicity": login.ethnicity,
+                "gender": login.sex,
+                "originCountry": login.country,
+                "graduationYear": login.graduating,
+                "classes": login.classes,
+                "internships": login.internships,
+                "links": login.socialMedia
+                
             ]
             
             completion(responseDict)
@@ -371,6 +381,72 @@ class RequestHandler
            
             
             completion(responseDict)
+        }
+    }
+    
+    // MARK: Profile Page
+
+    /*
+        Input:
+            firstName: String
+            lastName: String
+            classes: [String]
+            country: String
+            ethnicity: String
+            graduatingYear: String
+            internships: [String]
+            major: String
+            photo: String
+            gender: String
+            links: [String]
+            year: String
+            email: String
+        Output:
+            Bool
+      */
+
+    func postEditsToProfile(firstName:String, lastName: String, classes: [String], country: String, ethnicity:String, graduationYear:String, internships: [String], major:String, photo:String, gender:String, links:[String], year:String, email:String, completion: @escaping (([String: Any])->Void))
+    {
+        var classesValues = {
+            var array:Array<String?> = []
+            for value in classes {
+                array.append(value)
+            }
+            return array
+        }()
+        
+        var internshipValues = {
+            var array:Array<String?> = []
+            for value in internships {
+                array.append(value)
+            }
+            return array
+        }()
+        
+        var linkValues = {
+            var array:Array<String?> = []
+            for value in links {
+                array.append(value)
+            }
+            return array
+        }()
+        
+        apolloClient.perform(mutation: SHPESchema.EditUserProfileMutation(editUserProfileInput:GraphQLNullable( SHPESchema.EditUserProfileInput(email: email, firstName: firstName, lastName: lastName, photo: "data:image/jpeg;base64," + photo, major: major, year: year, graduating: graduationYear, country: country, ethnicity: ethnicity, sex: gender, classes: .some(classesValues), internships: .some(internshipValues), socialMedia: .some(linkValues)))))
+        {
+            response in
+            
+            guard (try? response.get().data) != nil
+            else
+            {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            completion(["success":true])
+            return
         }
     }
     
@@ -585,3 +661,4 @@ class RequestHandler
         return Organizer(email: email, selfValue: selfValue)
     }
 }
+

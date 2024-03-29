@@ -31,6 +31,7 @@ final class PointsViewModel:ObservableObject {
         self.summerPoints = shpeito.summerPoints
         self.username = shpeito.username
         self.id = shpeito.id
+        self.categorizedEvents = [:]
         
         setShpeitoPoints()
         setShpeitoPercentiles()
@@ -50,11 +51,12 @@ final class PointsViewModel:ObservableObject {
     @Published var summerPoints : Int
     @Published var username : String
     @Published var id : String
+    @Published var categorizedEvents: [String: [UserEvent]]
 
     
     // Methods to call in View
     func setShpeitoPoints()
-    {
+    { 
         requestHandler.fetchUserPoints(userId: shpeito.id) { data in
             // Check that no error was detected
             if data["error"] == nil
@@ -198,9 +200,6 @@ final class PointsViewModel:ObservableObject {
     
     func getUserEvents()
     {
-        
-        print("HERE!")
-        
         requestHandler.getUserEvents(userId: self.id) { data in
             // Check that no error was detected
             if data["error"] == nil
@@ -213,6 +212,8 @@ final class PointsViewModel:ObservableObject {
                     // Do something with the data\
                     
                     print(data)
+                    
+                    self.categorizedEvents = eventbyCategory
                    
                 }
                 else

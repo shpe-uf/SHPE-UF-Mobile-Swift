@@ -1,7 +1,9 @@
 import Foundation
+import SwiftUI
 import CoreData
 
-final class SignInViewModel: ObservableObject {
+final class SignInViewModel: ObservableObject
+{
     // Private variables like the Apollo endpoint
     private var requestHandler = RequestHandler()
     
@@ -9,6 +11,10 @@ final class SignInViewModel: ObservableObject {
     @Published var shpeito: SHPEito
     @Published var viewPassword: Bool = false
     @Published var error: String = "" // Error message variable
+    @Environment(\.colorScheme) var colorScheme
+    
+    //Toast duration
+    @Published var toastDuration = 3.0
     
     // Indicator for ongoing communication
     @Published var isCommunicating: Bool = false
@@ -20,19 +26,18 @@ final class SignInViewModel: ObservableObject {
         self.password = shpeito.password
         self.remember = shpeito.remember
         self.firstName = shpeito.firstName
-        self.lastName = shpeito.lastName
-        self.year = shpeito.year
-        self.major = shpeito.major
-        self.id = shpeito.id
-        self.token = shpeito.token
-        self.confirmed = shpeito.confirmed
-        self.updatedAt = shpeito.updatedAt
-        self.createdAt = shpeito.createdAt
-        self.email = shpeito.email
-        self.fallPoints = shpeito.fallPoints
-        self.summerPoints = shpeito.summerPoints
-        self.springPoints = shpeito.springPoints
-        self.photoURL = shpeito.photoURL
+        self.lastName=shpeito.lastName
+        self.year=shpeito.year
+        self.major=shpeito.major
+        self.id=shpeito.id
+        self.token=shpeito.token
+        self.confirmed=shpeito.confirmed
+        self.updatedAt=shpeito.updatedAt
+        self.createdAt=shpeito.createdAt
+        self.email=shpeito.email
+        self.fallPoints=shpeito.fallPoints
+        self.summerPoints=shpeito.summerPoints
+        self.springPoints=shpeito.springPoints
         //self.events=shpeito.events
        
     }
@@ -55,7 +60,6 @@ final class SignInViewModel: ObservableObject {
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
-    @Published var photoURL: URL?
     //@Published var events: SHPESchema.SignInMutation
     //store all of this to model
     // SignInMutation <= SignIn.graphql
@@ -80,10 +84,7 @@ final class SignInViewModel: ObservableObject {
     //]
     
     // Methods to call in View
-    func signIn(username: String, password: String, viewContext: NSManagedObjectContext) {
-        
-        
-        
+    func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {
         // Set the username and password to the SHPEito model
         self.shpeito.username = username
         self.shpeito.password = password
@@ -173,6 +174,52 @@ final class SignInViewModel: ObservableObject {
             }
         }
     }
+    
+    private func addUserItemToCore(viewContext:NSManagedObjectContext)
+    {
+        let user = User(context: viewContext)
+        user.username = shpeito.username
+        user.photo = shpeito.profileImage?.jpegData(compressionQuality: 0.0)
+        user.firstName = shpeito.firstName
+        user.lastName = shpeito.lastName
+        user.year = shpeito.year
+        user.major = shpeito.major
+        user.id = shpeito.id
+        user.token = shpeito.token
+        user.confirmed = shpeito.confirmed
+        user.updatedAt = shpeito.updatedAt
+        user.createdAt = shpeito.createdAt
+        user.loginTime = Date()
+        user.email = shpeito.email
+        
+        user.ethnicity = shpeito.ethnicity
+        user.gender = shpeito.gender
+        user.country = shpeito.originCountry
+        user.graduating = shpeito.graduationYear
+        user.classes = shpeito.classes as NSObject
+        user.internships = shpeito.internships as NSObject
+        user.links = shpeito.absoluteStringsOfLinks() as NSObject
+        
+        user.fallPoints = Int64(shpeito.fallPoints)
+        user.summerPoints = Int64(shpeito.summerPoints)
+        user.springPoints = Int64(shpeito.springPoints)
+        user.points = Int64(shpeito.points)
+        user.fallPercentile = Int64(shpeito.fallPercentile)
+        user.springPercentile = Int64(shpeito.springPercentile)
+        user.summerPercentile = Int64(shpeito.summerPercentile)
+        user.darkMode = AppViewModel.appVM.darkMode
+        
+        do { try viewContext.save() } catch { print("Could not save to Core") }
+    }
+
+    // Add this function to Profile View Model for sign out function
+    func deleteUserItemToCore(viewContext:NSManagedObjectContext, user:User)
+    {
+        viewContext.delete(user)
+        do { try viewContext.save() } catch { print("Could not save to Core") }
+    }
+
+
     
     private func addUserItemToCore(viewContext: NSManagedObjectContext) {
         let user = User(context: viewContext)

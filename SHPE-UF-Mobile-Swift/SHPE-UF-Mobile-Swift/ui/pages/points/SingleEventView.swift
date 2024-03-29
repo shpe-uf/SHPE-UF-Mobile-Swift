@@ -11,6 +11,10 @@ struct SingleEventView: View {
     
     var last: Bool = false
     
+    var name: String = "Fall GBM\n6"
+    var date: String = "11/08/2023"
+    var points: Int = 1
+    
     var body: some View {
         
         VStack(spacing: 0) {
@@ -18,29 +22,30 @@ struct SingleEventView: View {
             ZStack(alignment: .center) {
                 Rectangle()
                     .foregroundColor(.clear)
-                    .frame(width: 370, height: 100)
+                    .frame(width: 370, height: 75)
                     .background(Color(red: 0.93, green: 0.93, blue: 0.93))
                 
                 
                 HStack {
-                    Text("Fall GBM\n6 ")
-                        .font(Font.custom("Univers LT Std", size: 20))
+                    Text(name)
+                        .font(Font.custom("Univers LT Std", size: 15))
                         .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
                         .frame(width: 100, height: 50)
                         .padding(.trailing)
                     
                     
                     
-                    Text("11/08/2023")
-                        .font(Font.custom("Univers LT Std", size: 20))
+                    Text(date)
+                        .font(Font.custom("Univers LT Std", size: 15))
                         .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
                         .frame(width: 100, height: 50)
                         .padding(.leading)
+                       
                     
                     
                     
-                    Text("1")
-                        .font(Font.custom("Univers LT Std", size: 20))
+                    Text("\(points)")
+                        .font(Font.custom("Univers LT Std", size: 15))
                         .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
                         .frame(width: 100, height: 50)
                         .padding(.leading)
