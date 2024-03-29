@@ -150,6 +150,7 @@ struct RegisterView: View
                                         .font(.caption)
                                         .foregroundColor(.red)
                                 }
+
                                 
                                 //username
                                 Text("Username")
@@ -199,9 +200,8 @@ struct RegisterView: View
                                 {
                                     Image("swift.littlelock")
                                         .padding(.horizontal, 12)
-                                    if viewModel.viewPassword
+                                    if viewModel.viewPassword 
                                     {
-                                        //show password
                                         TextField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
@@ -212,9 +212,9 @@ struct RegisterView: View
                                             }
                                             
                                     }
+                                    
                                     else
                                     {
-                                        //hide password
                                         SecureField("", text: $viewModel.passwordInput)
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
@@ -230,9 +230,7 @@ struct RegisterView: View
                                     Image(viewModel.viewPassword ? "open_eye" :"Eye Closed")
                                         .frame(width: 22.32634, height: 14.58338)
                                         .padding(.horizontal, 12)
-                                        .onTapGesture {
-                                            viewModel.viewPassword.toggle()
-                                        }
+                                        .onTapGesture { viewModel.viewPassword.toggle() }
                                 }
                                 .padding(.vertical, 2.75)
                                 .frame(width: 270, height: 37.64706)
@@ -242,12 +240,12 @@ struct RegisterView: View
                                 //password validation
                                 if errorMessageDict[2]!
                                 {
-                                    Text("8+ characters, lowercase, uppercase, \nnumber, & special character")
+                                    Text("8+ characters, lowercase, uppercase, number, & special character")
                                         .frame(width: 250, height: 50, alignment: .topLeading)
                                         .font(.caption)
                                         .foregroundColor(.red)
                                 }
-
+                            
                                 
                                 //confirm password
                                 Text("Confirm Password")

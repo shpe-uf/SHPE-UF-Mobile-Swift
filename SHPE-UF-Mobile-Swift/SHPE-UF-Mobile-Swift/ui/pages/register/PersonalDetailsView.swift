@@ -63,7 +63,7 @@ struct PersonalView : View
                                 .foregroundStyle(Color.black)
                                 .autocapitalization(.none)
                                 .autocorrectionDisabled()
-                                .onChange(of: viewModel.firstnameInput) { _ in}
+                                .onSubmit { viewModel.firstNameValidated = true }
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: 37.64706)
@@ -71,13 +71,13 @@ struct PersonalView : View
                         .cornerRadius(10)
                         
                         //first name validation
-                        if !viewModel.validateFirstName()
+                        if !viewModel.validateFirstName() && viewModel.firstNameValidated 
                         {
                             Text("3-20 characters, no special characters or numbers")
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
-
+                        
                         
                         //last name
                         Text("Last Name")
@@ -93,7 +93,7 @@ struct PersonalView : View
                                 .foregroundStyle(Color.black)
                                 .autocapitalization(.none)
                                 .autocorrectionDisabled()
-                                .onChange(of: viewModel.lastnameInput) { _ in}
+                                .onSubmit { viewModel.lastNameValidated = true }
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: 37.64706)
@@ -101,7 +101,7 @@ struct PersonalView : View
                         .cornerRadius(10)
                         
                         //last name validation
-                        if !viewModel.validateLastName()
+                        if !viewModel.validateLastName() && viewModel.lastNameValidated 
                         {
                             Text("3-20 characters, no special characters or numbers")
                                 .font(.caption)
@@ -125,15 +125,16 @@ struct PersonalView : View
                             Spacer()
                             
                             //dropdown for gender
-                            Picker("", selection: $viewModel.genderInput)
+                            Picker("", selection: $viewModel.genderInput) 
                             {
-                                ForEach(viewModel.genderOptions, id: \.self)
-                                {
-                                    option in Text(option).tag(option)
+                                ForEach(viewModel.genderOptions, id: \.self) { option in
+                                    Text(option).tag(option)
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.genderInput) { _ in }
+                            .onChange(of: viewModel.genderInput) { _ in
+                                viewModel.genderPickerInteracted = true
+                            }
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: 37.64706)
@@ -141,9 +142,9 @@ struct PersonalView : View
                         .cornerRadius(10)
                         
                         //gender validation
-                        if !viewModel.validateGenderSelected() 
+                        if !viewModel.validateGenderSelected() && viewModel.genderPickerInteracted 
                         {
-                            Text("Ethnicity is required")
+                            Text("Gender selection is required")
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
@@ -166,15 +167,15 @@ struct PersonalView : View
                             Spacer()
                             
                             //dropdown for ethnicity
-                            Picker("", selection: $viewModel.ethnicityInput)
+                            Picker("", selection: $viewModel.ethnicityInput) 
                             {
-                                ForEach(viewModel.ethnicityOptions, id: \.self)
+                                ForEach(viewModel.ethnicityOptions, id: \.self) 
                                 {
                                     option in Text(option).tag(option)
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.ethnicityInput) { _ in }
+                            .onChange(of: viewModel.ethnicityInput) { _ in viewModel.ethnicityPickerInteracted = true }
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.ethnicityInput, maxWidth: 270, fontSize: 16))
@@ -182,7 +183,7 @@ struct PersonalView : View
                         .cornerRadius(10)
                         
                         //ethnicity validation
-                        if !viewModel.validateEthnicitySelected()
+                        if !viewModel.validateEthnicitySelected() && viewModel.ethnicityPickerInteracted
                         {
                             Text("Ethnicity is required")
                                 .font(.caption)
@@ -209,13 +210,13 @@ struct PersonalView : View
                             //dropdown for origin
                             Picker("", selection: $viewModel.originInput)
                             {
-                               ForEach(viewModel.originOptions, id: \.self)
-                               {
-                                   option in Text(option).tag(option)
-                               }
-                           }
-                           .accentColor(.black)
-                           .onChange(of: viewModel.originInput) { _ in }
+                                ForEach(viewModel.originOptions, id: \.self)
+                                {
+                                    option in Text(option).tag(option)
+                                }
+                            }
+                            .accentColor(.black)
+                            .onChange(of: viewModel.originInput) { _ in viewModel.originPickerInteracted = true }
                        }
                        .pickerStyle(MenuPickerStyle())
                        .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.originInput, maxWidth: 270, fontSize: 18))
@@ -223,7 +224,7 @@ struct PersonalView : View
                        .cornerRadius(10)
                         
                         //origin validation
-                        if !viewModel.validateCountryOfOriginSelected()
+                        if !viewModel.validateCountryOfOriginSelected() && viewModel.originPickerInteracted 
                         {
                             Text("Country of Origin is required")
                                 .font(.caption)
@@ -256,10 +257,10 @@ struct PersonalView : View
                     Button(action: 
                     {
                         //move to AcademicView if valid
-//                        if viewModel.isPersonalValid()
-//                        {
+                        if viewModel.isPersonalValid()
+                        {
                             viewModel.viewIndex = 2
-                        //}
+                        }
                     })
                     
                     {
