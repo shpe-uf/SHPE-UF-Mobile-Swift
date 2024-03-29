@@ -734,7 +734,7 @@ struct ProfileView: View
                                 if !user.isEmpty
                                 {
                                     coreVM.deleteUserItemToCore(viewContext: viewContext, user: user[0])
-                                    AppViewModel.appVM.setPageIndex(index: 0)
+                                    AppViewModel.appVM.setPageIndex(index: 3)
                                 }
                                 else
                                 {
