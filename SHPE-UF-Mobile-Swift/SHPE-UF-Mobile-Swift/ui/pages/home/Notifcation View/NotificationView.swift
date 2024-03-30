@@ -107,7 +107,7 @@ struct NotificationView: View {
                            Text(allowForAll ? "Remove all" : "Allow for all")
                                .font(Font.custom("UniversLTStd", size: 16))
                                .foregroundColor(.white)
-                               .frame(width: 106.88688, height: 15.94444, alignment: .topLeading)
+                               .frame(width: 106.88688, height: 15.94444, alignment: .center)
                        }
                        .frame(width: 254, height: 41)
                     }
@@ -173,9 +173,5 @@ struct NotificationView: View {
         }
         CoreFunctions().editUserNotificationSettings(users: user, viewContext: viewContext, shpeito: AppViewModel.appVM.shpeito)
     }
-}
-
-#Preview{
-    NotificationView(viewModel: HomeViewModel())
 }
     

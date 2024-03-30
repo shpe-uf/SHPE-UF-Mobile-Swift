@@ -30,7 +30,8 @@ struct SingleEventView: View {
                     Text(name)
                         .font(Font.custom("Univers LT Std", size: 15))
                         .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
-                        .frame(width: 100, height: 50)
+                        .padding(.leading, 20)
+                        .frame(width: 100, height: 50, alignment: .leading)
                         .padding(.trailing)
                     
                     

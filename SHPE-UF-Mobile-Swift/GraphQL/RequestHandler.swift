@@ -11,7 +11,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://304d-2605-ad80-10-49a4-f401-2f82-dc-3b34.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: ProcessInfo.processInfo.environment["SERVER_LINK"]!)!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -250,7 +250,8 @@ class RequestHandler
                 "springPoints": data.redeemPoints.springPoints,
                 "springPercentile": data.redeemPoints.springPercentile,
                 "summerPoints": data.redeemPoints.summerPoints,
-                "summerPercentile": data.redeemPoints.summerPercentile
+                "summerPercentile": data.redeemPoints.summerPercentile,
+                "points": data.redeemPoints.points
             ]
             
             let events = data.redeemPoints.events.map({ event in
@@ -277,7 +278,7 @@ class RequestHandler
             for event in events {
                 if (eventsByCategory[event.category] != nil)
                 {
-                    eventsByCategory[event.category]!.append(event)
+                    eventsByCategory[event.category]!.insert(event, at:0)
                 }
                 else
                 {
@@ -400,7 +401,7 @@ class RequestHandler
             for event in events {
                 if (eventsByCategory[event.category] != nil)
                 {
-                    eventsByCategory[event.category]!.append(event)
+                    eventsByCategory[event.category]!.insert(event, at: 0)
                 }
                 else
                 {
@@ -616,6 +617,7 @@ class RequestHandler
         
         // Optional Fields
         let location = dictionary["location"] as? String ?? nil
+        let description = dictionary["description"] as? String ?? nil
 
         let event = Event(
             created: created,
@@ -633,7 +635,8 @@ class RequestHandler
             status: status,
             summary: summary,
             updated: updated,
-            location: location
+            location: location,
+            description: description
         )
         
         return event
