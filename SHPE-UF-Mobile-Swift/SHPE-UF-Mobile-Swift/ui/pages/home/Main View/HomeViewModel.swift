@@ -41,6 +41,19 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func getUpcomingEvents()->[Event]
+    {
+        var upcomingEvents:[Event] = []
+        for event in events
+        {
+            if event.start.dateTime > Date()
+            {
+                upcomingEvents.append(event)
+            }
+        }
+        return upcomingEvents
+    }
+    
     private func updateEventTypes() {
             for index in 0..<events.count {
                 let event = events[index]
@@ -81,7 +94,7 @@ final class HomeViewModel: ObservableObject {
                                              eventType: event.eventType,
                                              htmlLink: event.htmlLink,
                                              iCalUID: event.iCalUID,
-                                             id: event.id,
+                                             identifier: event.identifier,
                                              kind: event.kind,
                                              organizer: event.organizer,
                                              sequence: event.sequence,
