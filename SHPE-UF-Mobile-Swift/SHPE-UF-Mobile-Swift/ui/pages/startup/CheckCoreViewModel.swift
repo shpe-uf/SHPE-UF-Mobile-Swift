@@ -49,6 +49,12 @@ final class CheckCoreViewModel: ObservableObject {
                 print("Dark Mode: \(foundUser.darkMode)")
                 AppViewModel.appVM.darkMode = foundUser.darkMode
                 
+                NotificationViewModel.instance.isGBMSelected = foundUser.gbmNotif
+                NotificationViewModel.instance.isInfoSelected = foundUser.infoNotif
+                NotificationViewModel.instance.isWorkShopSelected = foundUser.workNotif
+                NotificationViewModel.instance.isVolunteeringSelected = foundUser.volNotif
+                NotificationViewModel.instance.isSocialSelected = foundUser.socialNotif
+                                
                 AppViewModel.appVM.shpeito = SHPEito(username: username, password: "* * * * *", remember: "", base64StringPhoto: photo, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: fallPoints, summerPoints: summerPoints, springPoints: springPoints, points: points, fallPercentile: fallPercentile, springPercentile: springPercentile, summerPercentile: summerPercentile)
                 
                 AppViewModel.appVM.setPageIndex(index: 2)

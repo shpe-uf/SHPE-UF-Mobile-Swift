@@ -17,7 +17,7 @@ struct Event {
     var eventType: String
     let htmlLink: String
     let iCalUID: String
-    let id: String
+    let identifier: String
     let kind: String?
     let organizer: Organizer
     let sequence: Int

@@ -51,6 +51,20 @@ class CoreFunctions
         }
     }
     
+    func editUserNotificationSettings(users:FetchedResults<User>, viewContext:NSManagedObjectContext, shpeito:SHPEito)
+    {
+        if let user = users.first
+        {
+            user.gbmNotif = NotificationViewModel.instance.isGBMSelected
+            user.infoNotif = NotificationViewModel.instance.isInfoSelected
+            user.workNotif = NotificationViewModel.instance.isWorkShopSelected
+            user.volNotif = NotificationViewModel.instance.isVolunteeringSelected
+            user.socialNotif = NotificationViewModel.instance.isSocialSelected
+            
+            do { try viewContext.save() } catch { print("Could not save user notification settings to Core") }
+        }
+    }
+    
     func saveRedeemedEvents(events:FetchedResults<CoreUserEvent>, viewContext:NSManagedObjectContext, userEvents:[UserEvent])
     {
         for event in userEvents {
@@ -63,5 +77,64 @@ class CoreFunctions
         }
         
         do { try viewContext.save() } catch {print("Could not save \(userEvents.count) User Even to Core")}
+    }
+    
+    func saveCalendarEvent(events:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext, calendarEvents:[Event])
+    {
+        for event in calendarEvents {
+            let coreCalEvent = CalendarEvent(context: viewContext)
+            coreCalEvent.identifier = event.identifier
+            coreCalEvent.eventType = event.eventType
+            coreCalEvent.location = event.location ?? ""
+            coreCalEvent.summary = event.summary
+            coreCalEvent.start = event.start.dateTime
+            coreCalEvent.end = event.end.dateTime
+        }
+        
+        do { try viewContext.save() } catch {print("Could not save \(calendarEvents.count) User Even to Core")}
+    }
+    
+    func removeCalendarEventFromCore(viewContext:NSManagedObjectContext, coreEvent:CalendarEvent)
+    {
+        viewContext.delete(coreEvent)
+        do { try viewContext.save() } catch { print("Could not update calendar events in Core") }
+    }
+    
+    func updateCalendarEvent(events:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)
+    {
+        var coreEventsToRemove:[CalendarEvent] = []
+        for event in events
+        {
+            if let startDate = event.start
+            {
+                if startDate < Date()
+                {
+                    coreEventsToRemove.append(event)
+                }
+            }
+        }
+        for eventToRemove in coreEventsToRemove
+        {
+            viewContext.delete(eventToRemove)
+        }
+        do { try viewContext.save() } catch { print("Could not update calendar events in Core") }
+    }
+    
+    func mapCoreEventToEvent(events:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)->[Event]
+    {
+        var eventObjectArray:[Event] = []
+        for event in events
+        {
+            if let start = event.start,
+               let end = event.end,
+               let summary = event.summary,
+               let identifier = event.identifier,
+               let eventType = event.eventType
+            {
+                eventObjectArray.append(Event(created: Date(), creator: Creator(email: "", selfValue: 0), end: EventDateTime(dateTime: end, timeZone: "EST"), etag: "", eventType: eventType, htmlLink: "", iCalUID: "", identifier: identifier, kind: "", organizer: Organizer(email: "", selfValue: 0), sequence: 0, start: EventDateTime(dateTime: start, timeZone: "EST"), status: "", summary: summary, updated: Date(), location: event.location))
+            }
+            
+        }
+        return eventObjectArray
     }
 }
