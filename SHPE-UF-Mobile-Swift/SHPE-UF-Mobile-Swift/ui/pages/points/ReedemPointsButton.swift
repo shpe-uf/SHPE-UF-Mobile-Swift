@@ -1,4 +1,3 @@
-//
 //  ReedemPointsButton.swift
 //  UIDemo
 //
@@ -13,23 +12,18 @@ struct ReedemPointsButton: View {
         
         
         ZStack {
-            
             Rectangle()
-            .foregroundColor(.clear)
-            .frame(width: 797, height: 136)
-            .background(Color(red: 0.04, green: 0.13, blue: 0.35))
-            .cornerRadius(60)
-            
-            Text("Redeem Code")
-                .foregroundStyle(.white)
-                .font(Font.custom("Univers LT Std", size: 23))
-                .bold()
+              .foregroundColor(.clear)
+              .frame(width: 797, height: 136)
+              .background(Color(red: 0.04, green: 0.13, blue: 0.35))
+              .cornerRadius(60)
+              .frame(width: 280, height: 50)
+            .clipShape(.rect(cornerRadius: 22))
+            Text("Reedem Code")
+                .font(Font.custom("Univers LT Std 65 Bold", size: 20))
+              .foregroundColor(.white)
+              .frame(width: 372, height: 50, alignment: .center)
         }
-        .frame(width: 280, height: 45)
-        .clipShape(.rect(cornerRadius: 20))
-        
-        
-        
     }
 }
 

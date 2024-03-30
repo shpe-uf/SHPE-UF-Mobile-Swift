@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import Foundation
+
 
 struct PointsView: View {
     
     @StateObject var vm : PointsViewModel
     
     @State private var redeem = false;
+    private let currentMonth:Int = Calendar.current.component(.month, from: Date())
     
     // GRADIENTS FOR POINTSUI
     
@@ -45,7 +48,7 @@ struct PointsView: View {
                     
                     Rectangle()
                         .foregroundColor(.clear)
-                        .frame(width: .infinity, height: 100)
+                        .frame(width: UIScreen.main.bounds.width, height: 100)
                         .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .ignoresSafeArea()
                     
@@ -62,15 +65,15 @@ struct PointsView: View {
                 ZStack {
                     
                     
-                    CircularProgessView(progress: Double(vm.springPercentile) / 100)
+                    CircularProgessView(progress: Double( currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile) / 100)
                         
                     
                     
                     VStack {
-                        Text("SPRING:")
+                        Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
                             .font(.title)
                             .bold()
-                        Text("\(stringWithOrdinalSuffix(from : vm.springPercentile))")
+                        Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
                             .font(.title)
                             .bold()
                         Text("Percentile")
@@ -100,7 +103,6 @@ struct PointsView: View {
                     
                     Text("Total Points: \(vm.points)")
                         .font(.system(size: 20)).bold()
-                      .foregroundColor(Color(red: 0, green: 0.12, blue: 0.21))
                     
                     PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: fallGradient)
                     
@@ -118,15 +120,15 @@ struct PointsView: View {
                     }
                 }
                 .padding()
+                .padding(.bottom, 150)
                     
             }
         }
-            
         .sheet(isPresented: $redeem, content: {
             ReedemView(vm: vm)
         })
-        .backgroundStyle(.black)
         .ignoresSafeArea()
+        .background(Color("darkBlue"))
         
         
     }
@@ -156,13 +158,13 @@ struct PointsView: View {
 #Preview {
     PointsView(vm: PointsViewModel(shpeito:
                                     SHPEito(
-                                        username: "dvera0322",
+                                            username: "dvera0322",
                                             password: "",
                                             remember: "true",
-                                            photo: "",
+                                            base64StringPhoto: "",
                                             firstName: "David",
                                             lastName: "Denis",
-                                            year: "2",
+                                            year: "Sophmore",
                                             major: "Computer Science",
                                             id: "650382bf8bda46001440b46e",
                                             token: "",
@@ -170,6 +172,13 @@ struct PointsView: View {
                                             updatedAt: "",
                                             createdAt: "",
                                             email: "denisdavid@ufl.edu",
+                                            gender: "Male",
+                                            ethnicity: "Hispanic",
+                                            originCountry: "Cuba",
+                                            graduationYear: "2026",
+                                            classes: ["Data Structures", "Discrete Structures"],
+                                            internships: ["Apple"],
+                                            links: ["google.com"],
                                             fallPoints: 20,
                                             summerPoints: 17,
                                             springPoints: 30,

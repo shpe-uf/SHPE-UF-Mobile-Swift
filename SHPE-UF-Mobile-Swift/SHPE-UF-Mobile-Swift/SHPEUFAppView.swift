@@ -1,38 +1,39 @@
-//
-//  ContentView.swift
-//  SHPE-UF-Mobile-Swift
-//
-//  Created by Jesus Lopez on 10/19/23.
-//
+
 
 import SwiftUI
 
 struct SHPEUFAppView: View {
-    let requestHandler = RequestHandler()
-    var body: some View {
-        PointsViewDark(vm: PointsViewModel(shpeito:
-                                            SHPEito(
-                                                username: "dvera0322",
-                                                    password: "",
-                                                    remember: "true",
-                                                    photo: "",
-                                                    firstName: "David",
-                                                    lastName: "Denis",
-                                                    year: "2",
-                                                    major: "Computer Science",
-                                                    id: "642f7f80e8839f0014e8be9b",
-                                                    token: "",
-                                                    confirmed: true,
-                                                    updatedAt: "",
-                                                    createdAt: "",
-                                                    email: "denisdavid@ufl.edu",
-                                                    fallPoints: 20,
-                                                    summerPoints: 17,
-                                                    springPoints: 30,
-                                                    points: 67,
-                                                    fallPercentile: 93,
-                                                    springPercentile: 98,
-                                                    summerPercentile: 78)))
+    @StateObject private var manager: DataManager = DataManager()
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+    
+    var body: some View
+    {
+        switch(appVM.pageIndex){
+        case -1:
+            CheckCore()
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, manager.container.viewContext)
+        case 0:
+            SignInView(viewModel: SignInViewModel(shpeito: appVM.shpeito))
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, manager.container.viewContext)
+                .preferredColorScheme(appVM.darkMode ? .dark : .light)
+        case 1:
+            RegisterView(viewModel: RegisterViewModel())
+                .transition(.move(edge: .bottom))
+                .preferredColorScheme(appVM.darkMode ? .dark : .light)
+        case 2:
+            HomePageContentView()
+                .transition(.move(edge: .trailing))
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, manager.container.viewContext)
+                .preferredColorScheme(appVM.darkMode ? .dark : .light)
+        case 3:
+            LandingPageView(viewModel: RegisterViewModel())
+                .preferredColorScheme(appVM.darkMode ? .dark : .light)
+        default:
+            Text("Out of Index Error...")
+        }
     }
 }
 
@@ -40,18 +41,3 @@ struct SHPEUFAppView: View {
 #Preview {
     SHPEUFAppView()
 }
-
-
-/*
- PointsView(vm: PointsViewModel(shpeito:
-                                 SHPEito(id: "642f7f80e8839f0014e8be9b",
-                                         name: "David Denis",
-                                         points: 0,
-                                         fallPoints: 0,
-                                         springPoints: 0,
-                                         summerPoints: 0,
-                                         fallPercentile: 0,
-                                         springPercentile: 0,
-                                         summerPercentile: 0)
-                               ))
- */
