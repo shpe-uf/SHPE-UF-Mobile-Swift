@@ -92,7 +92,7 @@ struct LandingPageView: View {
                 // Button to navigate to RegisterView
                 Button(action: {
                     withAnimation(.easeIn(duration: 0.2)) {
-                        appVM.setPageIndex(index: 1)
+                        appVM.setPageIndex(index: 0)
                     }
                 }) {
                     HStack {

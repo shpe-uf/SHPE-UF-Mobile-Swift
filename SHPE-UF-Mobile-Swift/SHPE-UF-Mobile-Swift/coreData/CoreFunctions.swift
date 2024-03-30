@@ -130,7 +130,7 @@ class CoreFunctions
                let identifier = event.identifier,
                let eventType = event.eventType
             {
-                eventObjectArray.append(Event(created: Date(), creator: Creator(email: "", selfValue: 0), end: EventDateTime(dateTime: end, timeZone: "EST"), etag: "", eventType: eventType, htmlLink: "", iCalUID: "", identifier: identifier, kind: "", organizer: Organizer(email: "", selfValue: 0), sequence: 0, start: EventDateTime(dateTime: start, timeZone: "EST"), status: "", summary: summary, updated: Date(), location: event.location))
+                eventObjectArray.append(Event(created: Date(), creator: Creator(email: "", selfValue: 0), end: EventDateTime(dateTime: end, timeZone: "EST"), etag: "", eventType: eventType, htmlLink: "", iCalUID: "", identifier: identifier, kind: "", organizer: Organizer(email: "", selfValue: 0), sequence: 0, start: EventDateTime(dateTime: start, timeZone: "EST"), status: "", summary: summary, updated: Date(), location: event.location, description: event.desc))
             }
             
         }

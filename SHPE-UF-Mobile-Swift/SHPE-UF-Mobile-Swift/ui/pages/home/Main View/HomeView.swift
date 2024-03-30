@@ -7,12 +7,12 @@ struct HomeView: View {
     //Variables for the view model
     @Environment(\.colorScheme) var colorScheme // Detects the system's color scheme (dark or light mode)
     let dateHelper = DateHelper()
-    @ObservedObject var viewModel = HomeViewModel()
     @State private var isNotificationButtonPagePresented = false
     @State private var displayedMonth: String = ""
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
+    @StateObject var viewModel:HomeViewModel
     
     var body: some View {
         NavigationView {
@@ -217,7 +217,6 @@ struct eventInfo: View {
                     .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                     .cornerRadius(20)
                     VStack{
-                        Spacer(minLength: 75)
                         // Event title and icon
                         HStack{
                             Text(event.summary)
@@ -238,12 +237,12 @@ struct eventInfo: View {
                                     Image(tappedNotification ? "Ellipse_selected" : colorScheme == .dark ? "dark_ellipse" :"Ellipse")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 30, height: 30)
+                                        .frame(width: 35, height: 35)
                                         
                                     Image("Doorbell")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 20, height: 20)
+                                        .frame(width: 25, height: 25)
                                 }
                                 .frame(width: 30, height: 30)
                                 .onTapGesture {
@@ -262,10 +261,10 @@ struct eventInfo: View {
                                 }
                             }
                         }
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 50)
                         .frame(maxWidth: UIScreen.main.bounds.width)
                         .frame(height: 130, alignment: .leading)
-                        Spacer(minLength: 10)
+                        .padding(.top, 100)
                         // Event date
                         HStack(spacing: 20){
                             Rectangle()
@@ -281,6 +280,7 @@ struct eventInfo: View {
                                 .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
+                        .padding(.top, 50)
                         
                         // Event time
                         HStack(spacing: 20){
@@ -313,21 +313,25 @@ struct eventInfo: View {
                               .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
-                        Spacer(minLength: 60)
                         // Event description header
-                        Text("Description:")
-                        .font(Font.custom("UniversLTStd", size: 18))
-                        .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
-                        .frame(width: 300, alignment: .leading)
-                        .padding(10)
-                        // Event description text
-                        //Need to have event  description variables in the future
-                        Text("")
-                          .font(Font.custom("UniversLTStd", size: 18))
-                          .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                          .frame(width: 297,height: 200, alignment: .topLeading)
+                        if let description = event.description
+                        {
+                            Text("Description:")
+                            .font(Font.custom("UniversLTStd", size: 18))
+                            .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
+                            .frame(width: 300, alignment: .leading)
+                            .padding(10)
+                            .padding(.top, 30)
+                            // Event description text
+                            //Need to have event  description variables in the future
+                            Text(description)
+                              .font(Font.custom("UniversLTStd", size: 18))
+                              .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                              .frame(width: 297,height: 200, alignment: .topLeading)
+                        }
+                        
                        
-                        Spacer(minLength: 30)
+                        Spacer()
                     }
                 }
             }
@@ -525,9 +529,4 @@ struct eventBox: View {
             }
         }
    
-}
-
-
-#Preview {
-    HomeView()
 }

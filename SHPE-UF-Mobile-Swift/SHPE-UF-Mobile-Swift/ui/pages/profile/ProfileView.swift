@@ -118,6 +118,9 @@ struct ProfileView: View
                         .overlay(Rectangle().frame(height: 1).padding(.top, 35))
                         .offset(y:120)
                         .frame(width: CGFloat(vm.newName.count) * 15)
+                        .onSubmit {
+                            vm.validateName()
+                        }
                         
                 }
                 else
@@ -191,6 +194,9 @@ struct ProfileView: View
                                     .padding(.top, 5)
                                     .frame(width: 270)
                                     .overlay(Rectangle().frame(height: 1).padding(.top, 35))
+                                    .onSubmit {
+                                        vm.validateName()
+                                    }
                                 
                                 if vm.invalidFirstName
                                 {
@@ -240,13 +246,16 @@ struct ProfileView: View
                             
                             if vm.isEditing
                             {
-                                TextField("vm.shpeito.name", text: $vm.shpeito.username)
+                                TextField(vm.shpeito.username, text: $vm.newUsername)
                                     .autocorrectionDisabled()
                                     .textInputAutocapitalization(.never)
                                     .font(.system(size: 16))
                                     .padding(.top, 5)
                                     .frame(width: 270)
                                     .overlay(Rectangle().frame(height: 1).padding(.top, 35))
+                                    .onSubmit {
+                                        vm.invalidUsername = !vm.validateUsername(input: vm.newUsername)
+                                    }
                                 
                                 if vm.invalidUsername
                                 {

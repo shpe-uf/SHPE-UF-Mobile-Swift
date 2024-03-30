@@ -39,7 +39,7 @@ struct PointsView: View {
     
     // EVENT TYPES
     
-    let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Miscellaneous", "Corporate Event", "Social"]
+    let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Corporate Event", "Social", "Miscellaneous"]
     
     var body: some View {
         
@@ -132,7 +132,10 @@ struct PointsView: View {
                 
                 VStack(spacing: 35) {
                     ForEach(keys, id: \.self) { key in
-                        TableView(vm: vm, title: key)
+                        if !(vm.categorizedEvents[key]?.isEmpty ?? true)
+                        {
+                            TableView(vm: vm, title: key)
+                        }
                     }
                 }
                 .padding()
