@@ -165,11 +165,11 @@ class ProfileViewModel:ObservableObject
             if lastName.isEmpty {self.loadingStatus = .Failure; self.invalidLastName=true; return}
             
             print(String(firstName))
-            let cond1 = validateFirstName(input: String(firstName))
-            let cond2 = validateLastName(input: lastName)
-            let cond3 = validateUsername(input: newUsername)
+            self.invalidFirstName = !validateFirstName(input: String(firstName))
+            self.invalidLastName = !validateLastName(input: lastName)
+            self.invalidUsername = !validateUsername(input: newUsername)
                               
-            if !cond1 || !cond2 || !cond3
+            if self.invalidFirstName || self.invalidLastName || self.invalidUsername
             {
                 self.loadingStatus = .Failure
                 return
@@ -229,7 +229,6 @@ class ProfileViewModel:ObservableObject
     {
         let namePattern = "^[A-Za-z]{3,20}$"
         let namePredicate = NSPredicate(format:"SELF MATCHES %@", namePattern)
-        invalidFirstName = namePredicate.evaluate(with: input)
         return namePredicate.evaluate(with: input)
     }
 
@@ -238,7 +237,6 @@ class ProfileViewModel:ObservableObject
     {
         let namePattern = "^[A-Za-z]{3,20}$"
         let namePredicate = NSPredicate(format:"SELF MATCHES %@", namePattern)
-        invalidLastName = namePredicate.evaluate(with: input)
         return namePredicate.evaluate(with: input)
     }
     
@@ -247,7 +245,20 @@ class ProfileViewModel:ObservableObject
     {
         let usernamePattern = "^[\\w.]{6,20}$"
         let usernamePredicate = NSPredicate(format:"SELF MATCHES %@", usernamePattern)
-        invalidUsername = usernamePredicate.evaluate(with: input)
         return usernamePredicate.evaluate(with: input)
+    }
+    
+    func validateName()
+    {
+        if let range = newName.range(of: "\\s+", options: .regularExpression) {
+            let firstName = newName[..<range.lowerBound]
+            let lastName = newName[range.upperBound...].trimmingCharacters(in: .whitespaces)
+            
+            self.invalidFirstName = !validateFirstName(input: String(firstName))
+            
+            if lastName.isEmpty {self.loadingStatus = .Failure; self.invalidLastName=true; return}
+            
+            self.invalidLastName = !validateLastName(input: lastName)
+        }
     }
 }
