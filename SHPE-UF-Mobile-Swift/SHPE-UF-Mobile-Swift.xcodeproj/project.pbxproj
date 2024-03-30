@@ -67,7 +67,7 @@
 		951F6F042BB6983C001FDB50 /* SchemaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EEF2BB6983C001FDB50 /* SchemaConfiguration.swift */; };
 		951F6F052BB6983C001FDB50 /* SchemaMetadata.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EF02BB6983C001FDB50 /* SchemaMetadata.graphql.swift */; };
 		951F6F062BB6983C001FDB50 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EF22BB6983C001FDB50 /* SHPESchema.graphql.swift */; };
-		951F6F0C2BB71A8C001FDB50 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 951F6F0B2BB71A8C001FDB50 /* Apollo */; };
+		951F6F122BB72961001FDB50 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 951F6F112BB72961001FDB50 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
@@ -206,7 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				951F6F0C2BB71A8C001FDB50 /* Apollo in Frameworks */,
+				951F6F122BB72961001FDB50 /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,7 +582,7 @@
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
-				951F6F0B2BB71A8C001FDB50 /* Apollo */,
+				951F6F112BB72961001FDB50 /* Apollo */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -657,7 +657,7 @@
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
-				951F6F0A2BB71A8C001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				951F6F102BB72961001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -1116,7 +1116,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		951F6F0A2BB71A8C001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+		951F6F102BB72961001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
 			requirement = {
@@ -1127,9 +1127,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		951F6F0B2BB71A8C001FDB50 /* Apollo */ = {
+		951F6F112BB72961001FDB50 /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 951F6F0A2BB71A8C001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			package = 951F6F102BB72961001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
