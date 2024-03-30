@@ -5,11 +5,14 @@ import SwiftUI
 struct HomePageContentView: View {
     @StateObject private var appVM:AppViewModel = AppViewModel.appVM
     @Environment(\.colorScheme) var colorScheme
-    @State private var selectedTab: Int = 0
+    @State private var selectedTab: Int = 1
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     
     var body: some View {
         TabView(selection: $selectedTab){
-            HomeView()
+            HomeView(viewModel: HomeViewModel(coreEvents: coreEvents, viewContext: viewContext))
                 .tag(0)
                 .tabItem {
                     Image(selectedTab == 0 ? "icon_calendar" : colorScheme == .dark ? "unclicked_calendar":"unclicked_calendar_light")
