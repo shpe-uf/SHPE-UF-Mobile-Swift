@@ -64,7 +64,6 @@ final class PointsViewModel:ObservableObject {
                 if let points = data["points"] as? Int,
                    let _ = data["userId"] as? String
                 {
-                    print("Success!")
                     // Do something with the data
                     self.shpeito.points = points //Update the model
                     self.points = points // Update the information being displayed
@@ -72,7 +71,7 @@ final class PointsViewModel:ObservableObject {
                 else
                 {
                     // Handle missing data error
-                    print("Incorrect data")
+                    print("Parsing error:\(data)")
                 }
             }
             else
@@ -94,8 +93,6 @@ final class PointsViewModel:ObservableObject {
                    let springPercentile = data["springPercentile"] as? Int,
                    let summerPercentile = data["summerPercentile"] as? Int
                 {
-                    print("Success!")
-                    print(data)
                     // Do something with the data
                     
                     self.shpeito.fallPercentile = fallPercentile //Update the model
@@ -110,7 +107,7 @@ final class PointsViewModel:ObservableObject {
                 else
                 {
                     // Handle missing data error
-                    print("Incorrect data")
+                    print("Parsing error: \(data)")
                 }
             }
             else
@@ -138,7 +135,6 @@ final class PointsViewModel:ObservableObject {
                    let springPoints = data["springPoints"] as? Int,
                    let summerPoints = data["summerPoints"] as? Int
                 {
-                    print("Success!")
                     // Do something with the data
                     self.shpeito.fallPoints = fallPoints //Update the model
                     self.shpeito.springPoints = springPoints
@@ -151,7 +147,7 @@ final class PointsViewModel:ObservableObject {
                 else
                 {
                     // Handle missing data error
-                    print("Incorrect data")
+                    print("Parsing error: \(data)")
                 }
             }
             else
@@ -164,16 +160,8 @@ final class PointsViewModel:ObservableObject {
     
     func redeemCode(code: String, guests: Int = 0, coreEvents: FetchedResults<CoreUserEvent>, viewContext: NSManagedObjectContext, dismiss: DismissAction)
     {
-        
-        print("HERE")
-        
         requestHandler.redeemPoints(code: code, username: shpeito.username, guests: guests)
         { data in
-            
-            print(self.username)
-            print(data)
-            
-            
             // Check that no error was detected
             if data["error"] == nil
             {
@@ -256,7 +244,7 @@ final class PointsViewModel:ObservableObject {
                 {
                     // Handle missing data error
                     self.categorizedEvents=self.setEventsFromCore(coreEvents: coreEvents)
-                    print("Incorrect data")
+                    print("Parsing error: \(data)")
                 }
             }
             else

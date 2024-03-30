@@ -134,9 +134,6 @@ final class SignInViewModel: ObservableObject
                 return print(self.error)
             } else {
                 self.isCommunicating = true
-                if self.isCommunicating == true{
-                    print("Is communicating.")
-                }
                 // Process successful sign-in
                 if let firstName = data["firstName"] as? String,
                    let lastName = data["lastName"] as? String,
@@ -170,8 +167,6 @@ final class SignInViewModel: ObservableObject
                     AppViewModel.appVM.setPageIndex(index: 2)
                     AppViewModel.appVM.shpeito = self.shpeito
                 }
-                print("Success")
-                
             }
         }
     }
@@ -210,12 +205,12 @@ final class SignInViewModel: ObservableObject
         user.summerPercentile = Int64(shpeito.summerPercentile)
         user.darkMode = AppViewModel.appVM.darkMode
         
-        do { try viewContext.save() } catch { print("Could not save to Core") }
+        do { try viewContext.save() } catch { print("Could not save user to Core") }
     }
 
     // Add this function to Profile View Model for sign out function
     func deleteUserItemToCore(viewContext: NSManagedObjectContext, user: User) {
         viewContext.delete(user)
-        do { try viewContext.save() } catch { print("Could not save to Core") }
+        do { try viewContext.save() } catch { print("Could not delete user from Core") }
     }
 }

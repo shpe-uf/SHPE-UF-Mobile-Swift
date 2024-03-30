@@ -37,7 +37,7 @@ class AppViewModel: ObservableObject
         if !user.isEmpty
         {
             user[0].darkMode = bool
-            do { try viewContext.save() } catch { print("Could not save to Core") }
+            do { try viewContext.save() } catch { print("Could not set dark mode to User in Core") }
         }
     }
 }

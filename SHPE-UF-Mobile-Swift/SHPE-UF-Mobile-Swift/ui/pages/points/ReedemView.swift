@@ -48,6 +48,7 @@ struct ReedemView: View {
                         .background(Color.white)
                         .font(Font.custom("Univers LT Std 55 Oblique", size: 20))
                         .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
                         .cornerRadius(10)
@@ -79,7 +80,6 @@ struct ReedemView: View {
                             Button(action: {
                                 if numberOfGuests > 0 {
                                     numberOfGuests -= 1
-                                    print("subtract")
                                 }
                             })
                             {
@@ -117,7 +117,6 @@ struct ReedemView: View {
                             Button {
                                 if numberOfGuests <= 4 {
                                     numberOfGuests += 1
-                                    print("add")
                                 }
                             } label: {
                                 Image("plus")
@@ -131,7 +130,6 @@ struct ReedemView: View {
                     
                     // Redeem Button
                     Button {
-                        print("Clicked")
                         vm.redeemCode(code: code, guests: numberOfGuests, coreEvents: coreEvents, viewContext: viewContext, dismiss: dismiss)
                     } label: {
                         Text("Redeem")
