@@ -10,6 +10,7 @@ import SwiftUI
 struct CheckCore: View {
     @EnvironmentObject var manager: DataManager
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.colorScheme) private var colorScheme
     @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
     @StateObject var appVM:AppViewModel = AppViewModel.appVM
     @StateObject var viewModel:CheckCoreViewModel = CheckCoreViewModel()
@@ -21,6 +22,7 @@ struct CheckCore: View {
             .aspectRatio(contentMode: .fill)
             .ignoresSafeArea()
             .onAppear(perform: {
+//                appVM.darkMode = colorScheme == .dark
                 viewModel.checkUserInCore(user: user)
             })
             
