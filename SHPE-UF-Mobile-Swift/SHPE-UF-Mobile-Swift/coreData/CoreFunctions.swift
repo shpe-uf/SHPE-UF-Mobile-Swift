@@ -49,6 +49,19 @@ class CoreFunctions
             
             do { try viewContext.save() } catch { print("Could not save to Core") }
         }
+    }
+    
+    func saveRedeemedEvents(events:FetchedResults<CoreUserEvent>, viewContext:NSManagedObjectContext, userEvents:[UserEvent])
+    {
+        for event in userEvents {
+            let coreEvent = CoreUserEvent(context: viewContext)
+            coreEvent.identifier = event.id
+            coreEvent.points = Int16(event.points)
+            coreEvent.name = event.name
+            coreEvent.category = event.category
+            coreEvent.createdAt = event.date
+        }
         
+        do { try viewContext.save() } catch {print("Could not save \(userEvents.count) User Even to Core")}
     }
 }

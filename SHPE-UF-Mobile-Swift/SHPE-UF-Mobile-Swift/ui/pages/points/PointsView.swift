@@ -12,11 +12,15 @@ import Foundation
 struct PointsView: View {
     
     @StateObject var vm : PointsViewModel
+    @EnvironmentObject var manager: DataManager
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CoreUserEvent>
     
     @State private var redeem = false;
     private let currentMonth:Int = Calendar.current.component(.month, from: Date())
     
-    // REFACTOR
+    // GRADIENTS FOR POINTSUI
     
     var fallGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
                                                                Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 1.00)],
@@ -32,6 +36,8 @@ struct PointsView: View {
                                                                  Gradient.Stop(color: Color(red: 0.52, green: 0.8, blue: 1), location: 1.00)],
                                                          startPoint: UnitPoint(x: 0.5, y: 0),
                                                          endPoint: UnitPoint(x: 0.5, y: 1))
+    
+    // EVENT TYPES
     
     let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Miscellaneous", "Corporate Event", "Social"]
     
@@ -63,20 +69,32 @@ struct PointsView: View {
                 ZStack {
                     
                     
-                    CircularProgessView(progress: Double( currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile) / 100)
+                    CircularProgessView(vm: vm, progress: Double( currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile) / 100)
                         
                     
                     
                     VStack {
-                        Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
-                            .font(.title)
-                            .bold()
-                        Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
-                            .font(.title)
-                            .bold()
-                        Text("Percentile")
-                            .font(.title)
-                            .bold()
+                        if vm.gettingPoints
+                        {
+                            Text("Loading")
+                                .font(.title)
+                                .bold()
+                            Text("Points...")
+                                .font(.title)
+                                .bold()
+                        }
+                        else
+                        {
+                            Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
+                                .font(.title)
+                                .bold()
+                            Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
+                                .font(.title)
+                                .bold()
+                            Text("Percentile")
+                                .font(.title)
+                                .bold()
+                        }
                     }
                     
                 }
@@ -127,6 +145,15 @@ struct PointsView: View {
         })
         .ignoresSafeArea()
         .background(Color("darkBlue"))
+        .onAppear(perform: {
+            vm.gettingPoints = vm.points == 0
+            vm.gettingEvents = true
+            vm.setShpeitoPoints()
+            vm.setShpeitoPercentiles()
+            vm.getShpeitoPoints()
+            vm.getUserEvents(coreEvents: coreEvents, viewContext: viewContext)
+            CoreFunctions().editUserInCore(users: user, viewContext: viewContext, shpeito: vm.shpeito)
+        })
         
         
     }
@@ -164,7 +191,7 @@ struct PointsView: View {
                                             lastName: "Denis",
                                             year: "Sophmore",
                                             major: "Computer Science",
-                                            id: "642f7f80e8839f0014e8be9b",
+                                            id: "650382bf8bda46001440b46e",
                                             token: "",
                                             confirmed: true,
                                             updatedAt: "",

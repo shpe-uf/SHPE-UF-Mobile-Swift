@@ -9,7 +9,7 @@ import Foundation
 
 struct UserEvent: Identifiable, Hashable {
     
-    let id = UUID()
+    let id: String
     let name: String
     let category: String
     let points: Int

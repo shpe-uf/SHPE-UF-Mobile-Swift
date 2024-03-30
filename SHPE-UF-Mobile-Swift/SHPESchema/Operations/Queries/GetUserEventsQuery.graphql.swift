@@ -8,7 +8,7 @@ extension SHPESchema {
     static let operationName: String = "GetUserEvents"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"query GetUserEvents($userId: ID!) { getUser(userId: $userId) { __typename events { __typename category name points createdAt } } }"#
+        #"query GetUserEvents($userId: ID!) { getUser(userId: $userId) { __typename events { __typename category name points createdAt id } } }"#
       ))
 
     public var userId: ID
@@ -59,12 +59,14 @@ extension SHPESchema {
             .field("name", String.self),
             .field("points", Int.self),
             .field("createdAt", String.self),
+            .field("id", SHPESchema.ID.self),
           ] }
 
           var category: String { __data["category"] }
           var name: String { __data["name"] }
           var points: Int { __data["points"] }
           var createdAt: String { __data["createdAt"] }
+          var id: SHPESchema.ID { __data["id"] }
         }
       }
     }

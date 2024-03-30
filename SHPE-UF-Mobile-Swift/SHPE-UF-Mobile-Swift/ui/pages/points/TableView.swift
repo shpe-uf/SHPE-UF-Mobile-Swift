@@ -78,7 +78,12 @@ struct TableView: View {
                         
                         ForEach(vm.categorizedEvents[title] ?? [], id: \.self) { event in
                             
-                            SingleEventView(last: vm.categorizedEvents[title]?.last?.name == event.name, name: event.name, date: formattedDate(date: event.date), points: event.points)
+                            SingleEventView(
+                                last: vm.categorizedEvents[title]?.last?.name == event.name,
+                                name: event.name,
+                                date: formattedDate(date: event.date),
+                                points: event.points
+                            )
                         }
                         
                         
