@@ -19,11 +19,14 @@ struct SHPEUFAppView: View {
                 .environment(\.managedObjectContext, manager.container.viewContext)
         case 1:
             RegisterView(viewModel: RegisterViewModel())
+                .transition(.move(edge: .bottom))
         case 2:
             HomePageContentView()
                 .transition(.move(edge: .trailing))
                 .environmentObject(manager)
                 .environment(\.managedObjectContext, manager.container.viewContext)
+        case 3:
+            LandingPageView(viewModel: RegisterViewModel())
         default:
             Text("Out of Index Error...")
         }

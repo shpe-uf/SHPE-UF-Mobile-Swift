@@ -24,6 +24,19 @@ class RegisterViewModel: ObservableObject
 {
     private let requestHandler = RequestHandler()
     
+    init () {
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: Date())
+        
+        var yearsList: [String] = ["Select"]
+        for i in 0..<5 {
+            let year = String(currentYear + i)
+            yearsList.append(year)
+        }
+        
+        self.gradYearOptions = yearsList
+    }
+    
     //field inputs
     @Published var firstnameInput: String = ""
     @Published var lastnameInput: String = ""
@@ -54,6 +67,11 @@ class RegisterViewModel: ObservableObject
     //controls the visibility of the toast
     @Published var showToast = false
     
+    @Published var userNameExists = ""
+    @Published var emailExists = ""
+    
+    @Published var loading:Bool = false
+    @Published var onLastPage:Bool = false
     //validation bool for checking user input after hitting return, giving them the correction warning
     @Published var emailValidated = false
     @Published var usernameValidated = false
@@ -106,14 +124,7 @@ class RegisterViewModel: ObservableObject
     ]
     
     //graduation year options
-    let gradYearOptions =
-    [
-        "Select",
-        "Not Graduating",
-        "Fall Semester",
-        "Spring Semester",
-        "Summer Semester"
-    ]
+    var gradYearOptions:[String] = []
     
     //ethncity options
     //keep the spaces in the string,
@@ -180,6 +191,30 @@ class RegisterViewModel: ObservableObject
         let usernamePredicate = NSPredicate(format:"SELF MATCHES %@", usernamePattern)
         return usernamePredicate.evaluate(with: usernameInput)
     }
+    
+    func validateUsernameAndEmail()
+    {
+        requestHandler.validateUsernameAndEmail(username: usernameInput, email: emailInput) { [self] dict in
+            if dict["error"] == nil,
+               let userBool = dict["usernameExists"] as? Bool,
+               let emailBool = dict["emailExists"] as? Bool
+            {
+                userNameExists = userBool ? "This username already exists." : ""
+                emailExists = emailBool ? "An account with this email already exists." : ""
+                
+                if !userBool && !emailBool
+                {
+                    viewIndex = 1
+                }
+            }
+            else
+            {
+                userNameExists = "Could not connect to server, try again later..."
+                emailExists = "Could not connect to server, try again later..."
+            }
+            loading = false
+        }
+    }
 
     //validate password
     func validatePassword() -> Bool
@@ -238,6 +273,7 @@ class RegisterViewModel: ObservableObject
     //validate all inputs in personalDetailsView
     func isPersonalValid() -> Bool
     {
+        
        return validateFirstName() && validateLastName() && validateGenderSelected() && validateEthnicitySelected() && validateCountryOfOriginSelected()
     }
     

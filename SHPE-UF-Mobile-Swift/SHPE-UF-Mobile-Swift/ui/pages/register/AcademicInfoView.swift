@@ -72,7 +72,7 @@ struct AcademicView : View
                         .foregroundColor(Color("whiteText"))
                         .frame(width: 250, alignment: .topLeading)
 
-                    HStack(spacing: 0) 
+                    HStack(spacing: 0)
                     {
                         Image("swift.littlebook")
                             .resizable()
@@ -82,7 +82,7 @@ struct AcademicView : View
 
                         Spacer()
 
-                        Picker("", selection: $viewModel.majorInput) 
+                        Picker("", selection: $viewModel.majorInput)
                         {
                             ForEach(viewModel.majorOptions, id: \.self) { option in
                                 Text(option).tag(option)
@@ -198,8 +198,11 @@ struct AcademicView : View
                             //move to sign in if valid
                             if viewModel.isAcademicValid()
                             {
-                                viewModel.registerUser()
-                                withAnimation
+                                //move to sign in if valid
+                                viewModel.majorPickerInteracted = true
+                                viewModel.classYearPickerInteracted = true
+                                viewModel.gradYearPickerInteracted = true
+                                if viewModel.isAcademicValid()
                                 {
                                     appVM.showToast = true
                                 }
@@ -224,13 +227,15 @@ struct AcademicView : View
             }
             .background(Color("darkBlue"))
         }
+        .onAppear
+        {
+            viewModel.onLastPage = true
+        }
     }
 }
 
 
-#Preview(body: 
+#Preview(body:
 {
     AcademicView(viewModel: RegisterViewModel())
 })
-
-
