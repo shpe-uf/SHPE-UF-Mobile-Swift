@@ -13,7 +13,7 @@ struct PointsViewDark: View {
     
     @State private var redeem = false;
     
-    // REFACTOR
+    // GRADIENTS FOR POINTSUI
     
     var fallGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
                                                                Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 1.00)],
@@ -165,13 +165,13 @@ struct PointsViewDark: View {
 #Preview {
     PointsViewDark(vm: PointsViewModel(shpeito:
                                         SHPEito(
-                                            username: "dvera0322",
+                                                username: "dvera0322",
                                                 password: "",
                                                 remember: "true",
-                                                photo: "",
+                                                base64StringPhoto: "",
                                                 firstName: "David",
                                                 lastName: "Denis",
-                                                year: "2",
+                                                year: "Sophmore",
                                                 major: "Computer Science",
                                                 id: "642f7f80e8839f0014e8be9b",
                                                 token: "",
@@ -179,6 +179,13 @@ struct PointsViewDark: View {
                                                 updatedAt: "",
                                                 createdAt: "",
                                                 email: "denisdavid@ufl.edu",
+                                                gender: "Male",
+                                                ethnicity: "Hispanic",
+                                                originCountry: "Cuba",
+                                                graduationYear: "2026",
+                                                classes: ["Data Structures", "Discrete Structures"],
+                                                internships: ["Apple"],
+                                                links: ["google.com"],
                                                 fallPoints: 20,
                                                 summerPoints: 17,
                                                 springPoints: 30,

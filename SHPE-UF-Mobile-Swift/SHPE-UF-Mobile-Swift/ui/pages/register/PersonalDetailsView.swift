@@ -19,14 +19,14 @@ struct PersonalView : View
                 {
                     VStack(alignment: .leading)
                     {
-                        //top message
+                        //header message
                         Text("Enter your info to finalize your profile")
                           .font(Font.custom("Univers LT Std", size: 14))
                           .foregroundColor(Color("whiteText"))
                         
-                        //page 2 name
+                        //personal details header
                         Text("Personal Details")
-                          .font(Font.custom("Viga-Regular", size: 46))
+                          .font(Font.custom("Viga-Regular", size: 37))
                           .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                           .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
@@ -43,13 +43,13 @@ struct PersonalView : View
             
                 Spacer()
                 
-                //fields
+                //user fields
                 ScrollView
                 {
                     
                     VStack(alignment: .leading)
                     {
-                        //firstname
+                        //first name
                         Text("First Name")
                           .font(Font.custom("Univers LT Std", size: 16))
                           .foregroundColor(Color("whiteText"))
@@ -63,7 +63,7 @@ struct PersonalView : View
                                 .foregroundStyle(Color.black)
                                 .autocapitalization(.none)
                                 .autocorrectionDisabled()
-                                .onChange(of: viewModel.firstnameInput) { _ in}
+                                .onSubmit { viewModel.firstNameValidated = true }
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: 37.64706)
@@ -71,13 +71,13 @@ struct PersonalView : View
                         .cornerRadius(10)
                         
                         //first name validation
-                        if !viewModel.validateFirstName()
+                        if !viewModel.validateFirstName() && viewModel.firstNameValidated 
                         {
                             Text("3-20 characters, no special characters or numbers")
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
-
+                        
                         
                         //last name
                         Text("Last Name")
@@ -93,7 +93,7 @@ struct PersonalView : View
                                 .foregroundStyle(Color.black)
                                 .autocapitalization(.none)
                                 .autocorrectionDisabled()
-                                .onChange(of: viewModel.lastnameInput) { _ in}
+                                .onSubmit { viewModel.lastNameValidated = true }
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: 37.64706)
@@ -101,7 +101,7 @@ struct PersonalView : View
                         .cornerRadius(10)
                         
                         //last name validation
-                        if !viewModel.validateLastName()
+                        if !viewModel.validateLastName() && viewModel.lastNameValidated 
                         {
                             Text("3-20 characters, no special characters or numbers")
                                 .font(.caption)
@@ -121,16 +121,20 @@ struct PersonalView : View
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 26.0, height: 26.0)
                                 .padding(.horizontal, 7)
+                            
                             Spacer()
-                            Picker("", selection: $viewModel.genderInput)
+                            
+                            //dropdown for gender
+                            Picker("", selection: $viewModel.genderInput) 
                             {
-                                ForEach(viewModel.genderOptions, id: \.self)
-                                {
-                                    option in Text(option).tag(option)
+                                ForEach(viewModel.genderOptions, id: \.self) { option in
+                                    Text(option).tag(option)
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.genderInput) { _ in }
+                            .onChange(of: viewModel.genderInput, {
+                                viewModel.genderPickerInteracted = true
+                            })
                         }
                         .padding(.vertical, 2.75)
                         .frame(width: 270, height: 37.64706)
@@ -138,9 +142,9 @@ struct PersonalView : View
                         .cornerRadius(10)
                         
                         //gender validation
-                        if !viewModel.validateGenderSelected() 
+                        if !viewModel.validateGenderSelected() && viewModel.genderPickerInteracted 
                         {
-                            Text("Ethnicity is required")
+                            Text("Gender selection is required")
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
@@ -157,26 +161,29 @@ struct PersonalView : View
                             Image("swift.littleearth")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 26.0, height: 26.0)
+                                .frame(width: 23.0, height: 26.0)
                                 .padding(.horizontal, 7)
+                            
                             Spacer()
-                            Picker("", selection: $viewModel.ethnicityInput)
+                            
+                            //dropdown for ethnicity
+                            Picker("", selection: $viewModel.ethnicityInput) 
                             {
-                                ForEach(viewModel.ethnicityOptions, id: \.self)
+                                ForEach(viewModel.ethnicityOptions, id: \.self) 
                                 {
                                     option in Text(option).tag(option)
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.ethnicityInput) { _ in }
+                            .onChange(of: viewModel.ethnicityInput, { viewModel.ethnicityPickerInteracted = true })
                         }
                         .padding(.vertical, 2.75)
-                        .frame(width: 270, height: 37.64706)
+                        .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.ethnicityInput, maxWidth: 270, fontSize: 16))
                         .background(Color.white)
                         .cornerRadius(10)
                         
                         //ethnicity validation
-                        if !viewModel.validateEthnicitySelected()
+                        if !viewModel.validateEthnicitySelected() && viewModel.ethnicityPickerInteracted
                         {
                             Text("Ethnicity is required")
                                 .font(.caption)
@@ -195,9 +202,12 @@ struct PersonalView : View
                             Image("swift.littleearth")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 26.0, height: 26.0)
+                                .frame(width: 23.0, height: 26.0)
                                 .padding(.horizontal, 7)
+                            
                             Spacer()
+                            
+                            //dropdown for origin
                             Picker("", selection: $viewModel.originInput)
                             {
                                 ForEach(viewModel.originOptions, id: \.self)
@@ -206,23 +216,24 @@ struct PersonalView : View
                                 }
                             }
                             .accentColor(.black)
-                            .onChange(of: viewModel.originInput) { _ in }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        .frame(width: 270, height: 37.64706)
-                        .background(Color.white)
-                        .cornerRadius(10)
+                            .onChange(of: viewModel.originInput, { viewModel.originPickerInteracted = true })
+                       }
+                       .pickerStyle(MenuPickerStyle())
+                       .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.originInput, maxWidth: 270, fontSize: 18))
+                       .background(Color.white)
+                       .cornerRadius(10)
                         
                         //origin validation
-                        if !viewModel.validateCountryOfOriginSelected()
+                        if !viewModel.validateCountryOfOriginSelected() && viewModel.originPickerInteracted 
                         {
                             Text("Country of Origin is required")
                                 .font(.caption)
                                 .foregroundColor(.red)
                         }
                     }
+                    .padding(.horizontal, 50)
                 }
-                .padding(.horizontal, 50)
+//                .padding(.horizontal, 50)
                 
                 Spacer()
                 
@@ -231,12 +242,7 @@ struct PersonalView : View
                     //back button
                     Button
                     {
-                        DispatchQueue.main.async
-                        {
-                            viewModel.viewIndex = 0
-                        }
-                        isPresented.wrappedValue.dismiss()
-                        
+                        viewModel.viewIndex = 0
                     }
                     label:
                     {
@@ -248,46 +254,38 @@ struct PersonalView : View
                     }
                     .padding(.horizontal)
 
-                    //nav to academicview
-                    NavigationLink(destination: AcademicView(viewModel: self.viewModel), isActive: $viewModel.shouldNavigate1)
+                    Button(action: 
                     {
-                        //continue button
-                        Button(action:
+                        //move to AcademicView if valid
+                        viewModel.firstNameValidated = true
+                        viewModel.lastNameValidated = true
+                        viewModel.genderPickerInteracted = true
+                        viewModel.ethnicityPickerInteracted = true
+                        viewModel.originPickerInteracted = true
+                        if viewModel.isPersonalValid()
                         {
-//                           
-//                            if viewModel.isPersonalValid() 
-//                            {
-                                viewModel.shouldNavigate1 = true
-                           // }
-                        })
-                        {
-                            Text("Continue")
-                              .font(Font.custom("Univers LT Std", size: 16))
-                              .foregroundColor(.white)
-                              .frame(width: 250, height: 42)
-                              .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                              .cornerRadius(20)
+                            viewModel.viewIndex = 2
                         }
+                    })
+                    {
+                        Text("Continue")
+                            .font(Font.custom("Univers LT Std", size: 16))
+                            .foregroundColor(.white)
+                            .frame(width: 250, height: 42)
+                            .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                            .cornerRadius(20)
                     }
-                
+
                 }
                 .padding(.bottom, 40)
             }
             .background(Color("darkBlue"))
         }
-        //move the orange bar
-        .onAppear
-        {
-            DispatchQueue.main.async
-            {
-                viewModel.viewIndex = 1
-            }
-        }
-
     }
 }
 
-#Preview(body: {
+#Preview(body: 
+{
     PersonalView(viewModel: RegisterViewModel())
 })
 

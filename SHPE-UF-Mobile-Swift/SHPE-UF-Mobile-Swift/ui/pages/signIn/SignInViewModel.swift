@@ -1,14 +1,24 @@
 import Foundation
+import SwiftUI
 import CoreData
 
-final class SignInViewModel: ObservableObject {
+final class SignInViewModel: ObservableObject
+{
     // Private variables like the Apollo endpoint
     private var requestHandler = RequestHandler()
     
     // Out of View variables (Models)
     @Published var shpeito: SHPEito
     @Published var viewPassword: Bool = false
+    @Published var error: String = "" // Error message variable
+    @Environment(\.colorScheme) var colorScheme
     
+    //Toast duration
+    @Published var toastDuration = 3.0
+    
+    // Indicator for ongoing communication
+    @Published var isCommunicating: Bool = false
+
     // Initialize SignInViewModel
     init(shpeito: SHPEito) {
         self.shpeito = shpeito
@@ -28,10 +38,8 @@ final class SignInViewModel: ObservableObject {
         self.fallPoints=shpeito.fallPoints
         self.summerPoints=shpeito.summerPoints
         self.springPoints=shpeito.springPoints
-        self.photoURL = shpeito.photoURL
         //self.events=shpeito.events
-        
-        // Any setup steps you need...
+       
     }
     
     // In View variables (What is being DISPLAYED & What is being INTERACTED WITH)
@@ -52,7 +60,6 @@ final class SignInViewModel: ObservableObject {
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
-    @Published var photoURL: URL?
     //@Published var events: SHPESchema.SignInMutation
     //store all of this to model
     // SignInMutation <= SignIn.graphql
@@ -82,10 +89,55 @@ final class SignInViewModel: ObservableObject {
         self.shpeito.username = username
         self.shpeito.password = password
         
+        // Toggle indicator to show ongoing communication
+        self.isCommunicating = true
+        
+        
+        
+        
+        
         requestHandler.signIn(username: username, password: password) { data in
+            
+            // Toggle indicator to hide ongoing communication
+            self.isCommunicating = false
+        
+            
             // Check that no error was detected
-            if data["error"] == nil {
-                // Check if all the data is there and is the correct Type
+            if let error = data["error"] as? String {
+                // Handle different error types
+                switch error 
+                {
+                    case "Wrong credentials.":
+                        self.error = "Incorrect username or password."
+                    case "User not found.":
+                        self.error = "User account not found."
+                    case "Network Error":
+                        self.error = "Could not establish a connection to server. Try again later."
+                    case "Errors":
+                        if username.isEmpty || password.isEmpty {
+                            self.error = "Missing username and/or password."
+                        }
+                        else{
+                            self.error = "Unexpected error occurred. Try again later."
+                            }
+                    default:
+                        self.error = "Unexpected error occurred. Try again later."
+                }
+                
+                AppViewModel.appVM.toastMessage = self.error
+                withAnimation(.easeIn(duration: 0.3))
+                {
+                    AppViewModel.appVM.showToast = true
+                }
+                
+                    
+                return print(self.error)
+            } else {
+                self.isCommunicating = true
+                if self.isCommunicating == true{
+                    print("Is communicating.")
+                }
+                // Process successful sign-in
                 if let firstName = data["firstName"] as? String,
                    let lastName = data["lastName"] as? String,
                    let year = data["year"] as? String,
@@ -97,41 +149,29 @@ final class SignInViewModel: ObservableObject {
                    let createdAt = data["createdAt"] as? String,
                    let email = data["email"] as? String,
                    let username = data["username"] as? String,
-                   let fallPoints = data["fallPoints"] as? Int,
-                   let springPoints = data["springPoints"] as? Int,
-                   let summerPoints = data["summerPoints"] as? Int,
+                   let gender = data["gender"] as? String,
+                   let ethnicity = data["ethnicity"] as? String,
+                   let originCountry = data["originCountry"] as? String,
+                   let graduationYear = data["graduationYear"] as? String,
+                   let classes = data["classes"] as? [String],
+                   let internships = data["internships"] as? [String],
+                   let links = data["links"] as? [String],
                    let photo = data["photo"] as? String
                 {
+                    let prefixToRemove = "data:image/jpeg;base64,"
+                    let base64StringPhoto = photo.replacingOccurrences(of: prefixToRemove, with: "")
                     //TODO: Finish adding fields to the SHPEito
-                    self.shpeito.firstName = firstName
-                    self.shpeito.lastName = lastName
-                    self.shpeito.year = year
-                    self.shpeito.major = major
-                    self.shpeito.id = id
-                    self.shpeito.token = token
-                    self.shpeito.confirmed = confirmed
-                    self.shpeito.updatedAt = updatedAt
-                    self.shpeito.createdAt = createdAt
-                    self.shpeito.email = email
-                    self.shpeito.username = username
-                    self.shpeito.fallPoints = fallPoints
-                    self.shpeito.springPoints = springPoints
-                    self.shpeito.summerPoints = summerPoints
-                    self.shpeito.photoURL = URL(string: photo)
+                    self.shpeito = SHPEito(username: username, password: password, remember: "True", base64StringPhoto: base64StringPhoto, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: 0, summerPoints: 0, springPoints: 0, points: 0, fallPercentile: 0, springPercentile: 0, summerPercentile: 0)
+
                     
                     // Store user in core memory
                     self.addUserItemToCore(viewContext: viewContext)
                     
                     AppViewModel.appVM.setPageIndex(index: 2)
                     AppViewModel.appVM.shpeito = self.shpeito
-                } else {
-                    // Needs to be handled
-                    self.signInButtonClicked = false
-                    print("Incorrect data")
                 }
-            } else {
-                self.signInButtonClicked = false
-                print(data["error"] as Any)
+                print("Success")
+                
             }
         }
     }
@@ -140,7 +180,7 @@ final class SignInViewModel: ObservableObject {
     {
         let user = User(context: viewContext)
         user.username = shpeito.username
-        user.photo = shpeito.photoURL?.absoluteString ?? ""
+        user.photo = shpeito.profileImage?.jpegData(compressionQuality: 0.0)
         user.firstName = shpeito.firstName
         user.lastName = shpeito.lastName
         user.year = shpeito.year
@@ -152,6 +192,15 @@ final class SignInViewModel: ObservableObject {
         user.createdAt = shpeito.createdAt
         user.loginTime = Date()
         user.email = shpeito.email
+        
+        user.ethnicity = shpeito.ethnicity
+        user.gender = shpeito.gender
+        user.country = shpeito.originCountry
+        user.graduating = shpeito.graduationYear
+        user.classes = shpeito.classes as NSObject
+        user.internships = shpeito.internships as NSObject
+        user.links = shpeito.absoluteStringsOfLinks() as NSObject
+        
         user.fallPoints = Int64(shpeito.fallPoints)
         user.summerPoints = Int64(shpeito.summerPoints)
         user.springPoints = Int64(shpeito.springPoints)
@@ -159,21 +208,14 @@ final class SignInViewModel: ObservableObject {
         user.fallPercentile = Int64(shpeito.fallPercentile)
         user.springPercentile = Int64(shpeito.springPercentile)
         user.summerPercentile = Int64(shpeito.summerPercentile)
+        user.darkMode = AppViewModel.appVM.darkMode
+        
         do { try viewContext.save() } catch { print("Could not save to Core") }
     }
 
     // Add this function to Profile View Model for sign out function
-    func deleteUserItemToCore(viewContext:NSManagedObjectContext, user:User)
-    {
+    func deleteUserItemToCore(viewContext: NSManagedObjectContext, user: User) {
         viewContext.delete(user)
         do { try viewContext.save() } catch { print("Could not save to Core") }
     }
-
-
-    
-    // Method to get username
-    func getUsername() -> String {
-        return self.shpeito.username
-    }
 }
-
