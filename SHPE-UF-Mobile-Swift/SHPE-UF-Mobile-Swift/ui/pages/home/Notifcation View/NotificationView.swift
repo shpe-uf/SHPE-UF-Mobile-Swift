@@ -65,15 +65,15 @@ struct NotificationView: View {
                     // Horizontal stack for event type buttons
                     HStack(spacing: 30) {
                         // Each event type button with its corresponding label and icon
-                        eventButtonSection(eventName: "GBM", eventIcon: "Business_Group", isSelected: $viewNotificationModel.isGBMSelected)
-                        eventButtonSection(eventName: "Info Sessions", eventIcon: "Info", isSelected: $viewNotificationModel.isInfoSelected)
-                        eventButtonSection(eventName: "Workshops", eventIcon: "Training", isSelected: $viewNotificationModel.isWorkShopSelected)
+                        eventButtonSection(eventName: "GBM", eventIcon: "Business_Group", isSelected: $viewNotificationModel.isGBMSelected, eventType: "GBM")
+                        eventButtonSection(eventName: "Info Sessions", eventIcon: "Info", isSelected: $viewNotificationModel.isInfoSelected, eventType: "Info")
+                        eventButtonSection(eventName: "Workshops", eventIcon: "Training", isSelected: $viewNotificationModel.isWorkShopSelected, eventType: "Workshop")
                     }
                     
                     // Horizontal stack for Volunteering and Socials buttons
                     HStack(spacing: 30){
-                        eventButtonSection(eventName: "Volunteering", eventIcon: "Volunteering", isSelected: $viewNotificationModel.isVolunteeringSelected)
-                        eventButtonSection(eventName: "Socials", eventIcon: "Users", isSelected: $viewNotificationModel.isSocialSelected)
+                        eventButtonSection(eventName: "Volunteering", eventIcon: "Volunteering", isSelected: $viewNotificationModel.isVolunteeringSelected, eventType: "Volunteering")
+                        eventButtonSection(eventName: "Socials", eventIcon: "Users", isSelected: $viewNotificationModel.isSocialSelected, eventType: "Social")
                     }
 
                     Spacer()
@@ -81,26 +81,22 @@ struct NotificationView: View {
                     // Button to toggle notifications for all event types
                     Button(action: {
                        allowForAll.toggle()
-                       // Update the selection state for all event types
-                        viewNotificationModel.isGBMSelected = allowForAll
-                        viewNotificationModel.isInfoSelected = allowForAll
-                        viewNotificationModel.isWorkShopSelected = allowForAll
-                        viewNotificationModel.isVolunteeringSelected  = allowForAll
-                        viewNotificationModel.isSocialSelected = allowForAll
-                        CoreFunctions().editUserNotificationSettings(users: user, viewContext: viewContext, shpeito: AppViewModel.appVM.shpeito)
+                        
                         if allowForAll {
                             viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "GBM", fetchedEvents: coreEvents, viewContext: viewContext)
-                            viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "Info Sessions", fetchedEvents: coreEvents, viewContext: viewContext)
-                            viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "Workshops", fetchedEvents: coreEvents, viewContext: viewContext)
+                            viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "Info", fetchedEvents: coreEvents, viewContext: viewContext)
+                            viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "Workshop", fetchedEvents: coreEvents, viewContext: viewContext)
                             viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "Volunteering", fetchedEvents: coreEvents, viewContext: viewContext)
-                            viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "Socials", fetchedEvents: coreEvents, viewContext: viewContext)
+                            viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "Social", fetchedEvents: coreEvents, viewContext: viewContext)
                         } else {
                             viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "GBM", fetchedEvents: coreEvents, viewContext: viewContext)
-                            viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "Info Sessions", fetchedEvents: coreEvents, viewContext: viewContext)
-                            viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "Workshops", fetchedEvents: coreEvents, viewContext: viewContext)
+                            viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "Info", fetchedEvents: coreEvents, viewContext: viewContext)
+                            viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "Workshop", fetchedEvents: coreEvents, viewContext: viewContext)
                             viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "Volunteering", fetchedEvents: coreEvents, viewContext: viewContext)
-                            viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "Socials", fetchedEvents: coreEvents, viewContext: viewContext)
+                            viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: "Social", fetchedEvents: coreEvents, viewContext: viewContext)
                         }
+                        
+                        CoreFunctions().editUserNotificationSettings(users: user, viewContext: viewContext, shpeito: AppViewModel.appVM.shpeito)
                             
                     }){
                        ZStack{
@@ -122,6 +118,7 @@ struct NotificationView: View {
         .onAppear {
             // Check for notification permission when the view appears
             viewNotificationModel.checkForPermission()
+            allowForAll = viewNotificationModel.isGBMSelected && viewNotificationModel.isInfoSelected && viewNotificationModel.isSocialSelected && viewNotificationModel.isVolunteeringSelected && viewNotificationModel.isWorkShopSelected
         }
         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .edgesIgnoringSafeArea(.all) // Ignore the safe area to extend to the edges
@@ -129,15 +126,15 @@ struct NotificationView: View {
     }
 
     // Helper function for creating button sections
-    private func eventButtonSection(eventName: String, eventIcon: String, isSelected: Binding<Bool>) -> some View {
+    private func eventButtonSection(eventName: String, eventIcon: String, isSelected: Binding<Bool>, eventType:String) -> some View {
         VStack(spacing: 20) {
             Button(action: {
                 if !isSelected.wrappedValue {
-                    viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: eventName, fetchedEvents: coreEvents, viewContext: viewContext)
-                    saveNotificationSetting(eventType: eventName, state: true)
+                    viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: eventType, fetchedEvents: coreEvents, viewContext: viewContext)
+                    saveNotificationSetting(eventType: eventType, state: true)
                 } else {
-                    viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: eventName, fetchedEvents: coreEvents, viewContext: viewContext)
-                    saveNotificationSetting(eventType: eventName, state: false)
+                    viewNotificationModel.turnOffEventNotification(events: viewModel.events,eventType: eventType, fetchedEvents: coreEvents, viewContext: viewContext)
+                    saveNotificationSetting(eventType: eventType, state: false)
                 }
                 
             }) {
@@ -163,13 +160,13 @@ struct NotificationView: View {
         {
         case "GBM":
             viewNotificationModel.isGBMSelected = state
-        case "Info Sessions":
+        case "Info":
             viewNotificationModel.isInfoSelected = state
-        case "Workshops":
+        case "Workshop":
             viewNotificationModel.isWorkShopSelected = state
         case "Volunteering":
             viewNotificationModel.isVolunteeringSelected = state
-        case "Socials":
+        case "Social":
             viewNotificationModel.isSocialSelected = state
         default:
             print("Invalid notification type")

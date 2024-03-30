@@ -18,7 +18,6 @@ class RequestHandler
     func fetchUserPoints(userId:String, completion: @escaping ([String:Any])->Void)
     {
         // Function was successfully called
-        print("Fetching User Points")
         do
         {
             // Validate inputs
@@ -33,7 +32,6 @@ class RequestHandler
                 guard let data = try? response.get().data else
                 {
                     print("ERROR: Incomplete Request\nError Message:\(response)")
-                    
                     // Package with data (ERROR ❌)
                     completion(["error":"Incomplete Request"])
                     return
@@ -49,7 +47,6 @@ class RequestHandler
         }
         catch
         {
-            print("Invalid Id")
             // Package with data (ERROR ❌)
             completion(["error":"Invalid ID"])
         }
@@ -552,7 +549,6 @@ class RequestHandler
                                 {
                                     guard let object = item as? [String:Any] else
                                     {
-                                        print("Unexpected data type")
                                         completion(([],false,"PARSE_ERROR"))
                                         return
                                     }
@@ -561,10 +557,6 @@ class RequestHandler
                                         let event = try self.extractEvent(from: object)
                                         eventsList.append(event)
                                     } catch {
-                                        print("Error extracting event: \(error)")
-                                        print("\nOBJECT WITH ERROR:")
-                                        print(object)
-                                        print()
                                         continue
                                     }
                                 }

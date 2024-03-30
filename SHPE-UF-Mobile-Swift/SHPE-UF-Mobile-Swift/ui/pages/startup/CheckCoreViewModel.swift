@@ -46,7 +46,6 @@ final class CheckCoreViewModel: ObservableObject {
                 let summerPercentile = Int(foundUser.summerPercentile)
                 let photo = foundUser.photo?.base64EncodedString() ?? ""
 
-                print("Dark Mode: \(foundUser.darkMode)")
                 AppViewModel.appVM.darkMode = foundUser.darkMode
                 
                 NotificationViewModel.instance.isGBMSelected = foundUser.gbmNotif

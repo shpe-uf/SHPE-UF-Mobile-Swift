@@ -240,20 +240,6 @@ struct PersonalView : View
                 HStack
                 {
                     //back button
-                    Button
-                    {
-                        viewModel.viewIndex = 0
-                    }
-                    label:
-                    {
-                        Image(systemName: "arrowshape.turn.up.left.fill")
-                            .foregroundStyle(Color.gray)
-                            .padding()
-                            .background(Color.gray.opacity(0.5))
-                            .cornerRadius(30)
-                    }
-                    .padding(.horizontal)
-
                     Button(action: 
                     {
                         //move to AcademicView if valid
@@ -271,7 +257,7 @@ struct PersonalView : View
                         Text("Continue")
                             .font(Font.custom("Univers LT Std", size: 16))
                             .foregroundColor(.white)
-                            .frame(width: 250, height: 42)
+                            .frame(width: 351, height: 42)
                             .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                             .cornerRadius(20)
                     }
