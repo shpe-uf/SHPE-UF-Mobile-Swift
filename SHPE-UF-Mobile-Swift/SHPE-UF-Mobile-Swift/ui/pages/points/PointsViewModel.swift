@@ -206,7 +206,7 @@ final class PointsViewModel:ObservableObject {
                         self.summerPercentile = summerPercentile
                     }
                     
-                    if let event = data["events"] as? [UserEvent],
+                    if let _ = data["events"] as? [UserEvent],
                        let eventbyCategory = data["eventsByCategory"] as? [String: [UserEvent]]
                     {
                         self.gettingEvents = false
@@ -242,7 +242,7 @@ final class PointsViewModel:ObservableObject {
             if data["error"] == nil
             {
                 // Check if all the data is there and is the correct Type
-                if let event = data["events"] as? [UserEvent],
+                if let _ = data["events"] as? [UserEvent],
                    let eventbyCategory = data["eventsByCategory"] as? [String: [UserEvent]]
                 {
                     self.gettingEvents = false

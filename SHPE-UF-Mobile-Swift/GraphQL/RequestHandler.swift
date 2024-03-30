@@ -70,7 +70,7 @@ class RequestHandler
         {
             response in
             
-            guard let data = try? response.get().data
+            guard let _ = try? response.get().data
             else {
                 print("ERROR: Incomplete Request\nError Message:\(response)")
                 
@@ -193,10 +193,9 @@ class RequestHandler
                 "gender": login.sex,
                 "originCountry": login.country,
                 "graduationYear": login.graduating,
-                "classes": login.classes,
-                "internships": login.internships,
-                "links": login.socialMedia
-                
+                "classes": login.classes ?? [],
+                "internships": login.internships ?? [],
+                "links": login.socialMedia ?? []
             ]
             
             completion(responseDict)
@@ -447,7 +446,7 @@ class RequestHandler
 
     func postEditsToProfile(firstName:String, lastName: String, classes: [String], country: String, ethnicity:String, graduationYear:String, internships: [String], major:String, photo:String, gender:String, links:[String], year:String, email:String, completion: @escaping (([String: Any])->Void))
     {
-        var classesValues = {
+        let classesValues = {
             var array:Array<String?> = []
             for value in classes {
                 array.append(value)
@@ -455,7 +454,7 @@ class RequestHandler
             return array
         }()
         
-        var internshipValues = {
+        let internshipValues = {
             var array:Array<String?> = []
             for value in internships {
                 array.append(value)
@@ -463,7 +462,7 @@ class RequestHandler
             return array
         }()
         
-        var linkValues = {
+        let linkValues = {
             var array:Array<String?> = []
             for value in links {
                 array.append(value)
@@ -634,7 +633,7 @@ class RequestHandler
             eventType: eventType,
             htmlLink: htmlLink,
             iCalUID: iCalUID,
-            id: id,
+            identifier: id,
             kind: kind,
             organizer: organizer,
             sequence: sequence,
