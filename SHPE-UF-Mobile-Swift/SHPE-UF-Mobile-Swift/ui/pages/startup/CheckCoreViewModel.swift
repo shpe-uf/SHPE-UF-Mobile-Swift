@@ -42,8 +42,8 @@ final class CheckCoreViewModel: ObservableObject {
                 let springPoints = Int(foundUser.springPoints)
                 let points = Int(foundUser.points)
                 let fallPercentile = Int(foundUser.fallPercentile)
-                let springPercentile = Int(foundUser.springPoints)
-                let summerPercentile = Int(foundUser.springPercentile)
+                let springPercentile = Int(foundUser.springPercentile)
+                let summerPercentile = Int(foundUser.summerPercentile)
                 let photo = foundUser.photo?.base64EncodedString() ?? ""
 
                 print("Dark Mode: \(foundUser.darkMode)")

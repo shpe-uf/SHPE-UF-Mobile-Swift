@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CircularProgessView: View {
     
+    @StateObject var vm:PointsViewModel
     var progress: Double
     
     @State private var drawingStroke = false
@@ -24,10 +25,11 @@ struct CircularProgessView: View {
             Circle()
                 .stroke(Color(red: 0.6, green: 0.63, blue: 0.7), lineWidth: 70)
             
+            
             Circle()
-                .trim(from: 0, to: drawingStroke ? CGFloat(self.progress) : 0)
+                .trim(from: 0, to: vm.doAnimation ? CGFloat(self.progress) : 0)
                 .stroke(
-                    Color(red: 0.04, green: 0.13, blue: 0.35),
+                    LinearGradient(gradient: Gradient(colors: [Color.bottomBlue, Color.topBlue]), startPoint: .leading, endPoint: .trailing),
                     style: StrokeStyle(lineWidth: 70, lineCap: .butt))
             
         }
@@ -36,18 +38,12 @@ struct CircularProgessView: View {
         .padding()
         .animation(animation, value: drawingStroke)
         .onAppear {
-            // Reset the animation state
-            self.drawingStroke = false
-            
-            // Slight delay to ensure the animation can restart smoothly
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                self.drawingStroke = true
-            }
+            self.drawingStroke = true
         }
         
     }
 }
 
-#Preview {
-    CircularProgessView(progress: 0.87)
-}
+//#Preview {
+//    CircularProgessView(progress: 0.87)
+//}

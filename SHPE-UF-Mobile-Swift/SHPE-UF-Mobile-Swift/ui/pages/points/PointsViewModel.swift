@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import SwiftUI
+import CoreData
 // The View Model will focus on bridging user input through the View and the Model.
 
 // The View Model will be the one to make the service calls and store data in the Model.
@@ -32,12 +33,6 @@ final class PointsViewModel:ObservableObject {
         self.username = shpeito.username
         self.id = shpeito.id
         self.categorizedEvents = [:]
-        
-        setShpeitoPoints()
-        setShpeitoPercentiles()
-        getShpeitoPoints()
-        getUserEvents()
-        
     }
     
     // In View variables (What is being DISPLAYED & What is being INTERACTED WITH)
@@ -52,6 +47,10 @@ final class PointsViewModel:ObservableObject {
     @Published var username : String
     @Published var id : String
     @Published var categorizedEvents: [String: [UserEvent]]
+    
+    @Published var gettingPoints:Bool = false
+    @Published var gettingEvents:Bool = false
+    @Published var doAnimation:Bool = false
 
     
     // Methods to call in View
@@ -63,7 +62,7 @@ final class PointsViewModel:ObservableObject {
             {
                 // Check if all the data is there and is the correct Type
                 if let points = data["points"] as? Int,
-                   let userId = data["userId"] as? String
+                   let _ = data["userId"] as? String
                 {
                     print("Success!")
                     // Do something with the data
@@ -98,6 +97,7 @@ final class PointsViewModel:ObservableObject {
                     print("Success!")
                     print(data)
                     // Do something with the data
+                    
                     self.shpeito.fallPercentile = fallPercentile //Update the model
                     self.shpeito.springPercentile = springPercentile
                     self.shpeito.summerPercentile = summerPercentile
@@ -105,6 +105,7 @@ final class PointsViewModel:ObservableObject {
                     self.fallPercentile = fallPercentile // Update the information being displayed
                     self.springPercentile = springPercentile
                     self.summerPercentile = summerPercentile
+                    
                 }
                 else
                 {
@@ -117,6 +118,12 @@ final class PointsViewModel:ObservableObject {
                 // Handle error response
                 print(data["error"]!)
             }
+            
+            withAnimation(.easeIn(duration: 2))
+            {
+                self.doAnimation = true
+            }
+            self.gettingPoints = false
         }
     }
     
@@ -200,7 +207,7 @@ final class PointsViewModel:ObservableObject {
         }
     }
     
-    func getUserEvents()
+    func getUserEvents(coreEvents: FetchedResults<CoreUserEvent>, viewContext: NSManagedObjectContext)
     {
         requestHandler.getUserEvents(userId: self.id) { data in
             // Check that no error was detected
@@ -210,26 +217,61 @@ final class PointsViewModel:ObservableObject {
                 if let event = data["events"] as? [UserEvent],
                    let eventbyCategory = data["eventsByCategory"] as? [String: [UserEvent]]
                 {
-                    print("Success!")
-                    // Do something with the data\
-                    
-                    print(data)
-                    
+                    self.gettingEvents = false
                     self.categorizedEvents = eventbyCategory
-                   
+                    for events in eventbyCategory.values
+                    {
+                        CoreFunctions().saveRedeemedEvents(events: coreEvents, viewContext: viewContext, userEvents: events)
+                    }
                 }
                 else
                 {
                     // Handle missing data error
+                    self.categorizedEvents=self.setEventsFromCore(coreEvents: coreEvents)
                     print("Incorrect data")
                 }
             }
             else
             {
                 // Handle error response
+                self.categorizedEvents=self.setEventsFromCore(coreEvents: coreEvents)
                 print(data["error"]!)
             }
         }
+    }
+    
+    private func setEventsFromCore(coreEvents: FetchedResults<CoreUserEvent>) -> [String: [UserEvent]]
+    {
+        let userEvents = {
+            var validEvents:[UserEvent] = []
+            for event in coreEvents
+            {
+                print(event.identifier as Any, event.name as Any, event.category as Any, event.points as Any, event.createdAt as Any)
+                if let id = event.identifier,
+                   let name = event.name,
+                   let category = event.category,
+                   let date = event.createdAt
+                {
+                    validEvents.append(UserEvent(id: id, name: name, category: category, points: Int(event.points), date: date))
+                }
+            }
+            return validEvents
+        }()
+        
+        var eventsByCategory:[String:[UserEvent]] = [:]
+        
+        for event in userEvents {
+            if (eventsByCategory[event.category] != nil)
+            {
+                eventsByCategory[event.category]!.append(event)
+            }
+            else
+            {
+                eventsByCategory[event.category] = [event]
+            }
+        }
+        
+        return eventsByCategory
     }
     
     
