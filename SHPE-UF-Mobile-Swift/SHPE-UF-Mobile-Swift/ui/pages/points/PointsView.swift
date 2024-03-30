@@ -12,6 +12,10 @@ import Foundation
 struct PointsView: View {
     
     @StateObject var vm : PointsViewModel
+    @EnvironmentObject var manager: DataManager
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CoreUserEvent>
     
     @State private var redeem = false;
     private let currentMonth:Int = Calendar.current.component(.month, from: Date())
@@ -65,20 +69,32 @@ struct PointsView: View {
                 ZStack {
                     
                     
-                    CircularProgessView(progress: Double( currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile) / 100)
+                    CircularProgessView(vm: vm, progress: Double( currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile) / 100)
                         
                     
                     
                     VStack {
-                        Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
-                            .font(.title)
-                            .bold()
-                        Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
-                            .font(.title)
-                            .bold()
-                        Text("Percentile")
-                            .font(.title)
-                            .bold()
+                        if vm.gettingPoints
+                        {
+                            Text("Loading")
+                                .font(.title)
+                                .bold()
+                            Text("Points...")
+                                .font(.title)
+                                .bold()
+                        }
+                        else
+                        {
+                            Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
+                                .font(.title)
+                                .bold()
+                            Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
+                                .font(.title)
+                                .bold()
+                            Text("Percentile")
+                                .font(.title)
+                                .bold()
+                        }
                     }
                     
                 }
@@ -129,6 +145,15 @@ struct PointsView: View {
         })
         .ignoresSafeArea()
         .background(Color("darkBlue"))
+        .onAppear(perform: {
+            vm.gettingPoints = vm.points == 0
+            vm.gettingEvents = true
+            vm.setShpeitoPoints()
+            vm.setShpeitoPercentiles()
+            vm.getShpeitoPoints()
+            vm.getUserEvents(coreEvents: coreEvents, viewContext: viewContext)
+            CoreFunctions().editUserInCore(users: user, viewContext: viewContext, shpeito: vm.shpeito)
+        })
         
         
     }

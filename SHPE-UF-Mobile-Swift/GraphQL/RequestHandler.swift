@@ -11,7 +11,7 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://edc8-128-227-1-40.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: "https://304d-2605-ad80-10-49a4-f401-2f82-dc-3b34.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -341,13 +341,14 @@ class RequestHandler
                           let category = event?.category,
                           let points = event?.points,
                           let dateString = event?.createdAt,
-                          let date = formatter.date(from: dateString)
+                          let date = formatter.date(from: dateString),
+                          let id = event?.id
                       {
-                          return UserEvent(name: eventName, category: category, points: points, date: date)
+                          return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
                       }
                       else
                       {
-                          return UserEvent(name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                          return UserEvent(id: "", name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
                       }
                   })
             else
