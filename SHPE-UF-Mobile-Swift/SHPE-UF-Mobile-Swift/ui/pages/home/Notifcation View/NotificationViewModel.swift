@@ -7,17 +7,19 @@
 
 import SwiftUI
 import UserNotifications
+import CoreData
 
 class NotificationViewModel : ObservableObject {
     
     static let instance  = NotificationViewModel()
-    @ObservedObject var viewModel = HomeViewModel()
     
     @Published var isGBMSelected = false
     @Published var isInfoSelected = false
     @Published var isWorkShopSelected = false
     @Published var isVolunteeringSelected = false
     @Published var isSocialSelected = false
+    
+    @Published var pendingNotifications:[Event] = []
     
     private init () {}
     
@@ -65,41 +67,110 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
+    func notifyForSingleEvent(event:Event, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)
+    {
+        var notificationDate = event.start.dateTime
+        if event.start.dateTime != event.end.dateTime {
+            // Notify 30 minutes before the event start time
+            notificationDate = Calendar.current.date(byAdding: .minute, value: -30, to: event.start.dateTime)!
+        } else {
+            // If the event is all-day, notify 12 hours before the start time
+            notificationDate = Calendar.current.date(byAdding: .hour, value: -12, to: event.start.dateTime)!
+        }
+        updatePendingNotifications()
+        pendingNotifications.append(event)
+        dispatchNotification(event: event, date: notificationDate)
+        CoreFunctions().updateCalendarEvent(events: fetchedEvents, viewContext: viewContext)
+        CoreFunctions().saveCalendarEvent(events: fetchedEvents, viewContext: viewContext, calendarEvents: [event])
+    }
     
-    func turnOnEventNotification(eventType: String) {
+    func removeNotificationForSingleEvent(event:Event, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)
+    {
+        let foundEventInCore:CalendarEvent? = {
+            for e in fetchedEvents
+            {
+                if let id = e.identifier,
+                   id == event.identifier
+                {
+                    return e
+                }
+            }
+            return nil
+        }()
+        
+        // Delete event from core
+        if let foundEvent = foundEventInCore
+        {
+            viewContext.delete(foundEvent)
+        }
+        
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [event.identifier + ":::" + event.eventType])
+        updatePendingNotifications()
+        pendingNotifications.removeAll(where: { e in
+            e.identifier == event.identifier
+        })
+    }
+    
+    func turnOnEventNotification(events:[Event], eventType: String, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
         buttonClicked(eventType: eventType)
-        for event in viewModel.events {
+        for event in events {
             if event.eventType == eventType {
                 var notificationDate = event.start.dateTime
-                if event.start.dateTime != event.end.dateTime {
-                    // Notify 4 hours before the event start time
-                    notificationDate = Calendar.current.date(byAdding: .hour, value: -4, to: event.start.dateTime)!
+                let dateHelper = DateHelper()
+                let startTimeString = dateHelper.getTime(for: event.start.dateTime)
+                let endTimeString = dateHelper.getTime(for: event.end.dateTime)
+                
+                if startTimeString != endTimeString {
+                    // Notify 30 minutes before the event start time
+                    notificationDate = Calendar.current.date(byAdding: .minute, value: -30, to: event.start.dateTime)!
                 } else {
-                    // If the event is all-day, notify 12 hours before the start time
-                    notificationDate = Calendar.current.date(byAdding: .hour, value: -12, to: event.start.dateTime)!
+                    // If the event is all-day, notify 24 hours before the start time
+                    notificationDate = Calendar.current.date(byAdding: .hour, value: -24, to: event.start.dateTime)!
                 }
                 
                 // Dispatch notification
+                updatePendingNotifications()
+                pendingNotifications.append(event)
                 dispatchNotification(event: event, date: notificationDate)
-                
-                
-                
-                
+                CoreFunctions().updateCalendarEvent(events: fetchedEvents, viewContext: viewContext)
+                CoreFunctions().saveCalendarEvent(events: fetchedEvents, viewContext: viewContext, calendarEvents: [event])
+
             }
         }
     }
     
-    func turnOffEventNotification(eventType: String) {
+    func turnOffEventNotification(events:[Event], eventType: String, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
         buttonClicked(eventType: eventType)
+        var ids:[String] = []
+        for event in events {
+            if event.eventType == eventType {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "YYYYMMDDHHmm"
+                let identifier = event.identifier + ":::" + event.eventType + ":::" + dateFormatter.string(from: event.start.dateTime)
+                ids.append(identifier)
+                updatePendingNotifications()
+                pendingNotifications.removeAll(where: { e in
+                    e.identifier == event.identifier
+                })
+                removeNotificationForSingleEvent(event: event, fetchedEvents: fetchedEvents, viewContext: viewContext)
+            }
+        }
         let notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: [eventType])
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: ids)
     }
     
     func dispatchNotification(event: Event, date: Date) {
-        let identifier = event.eventType //TODO: Change this to event Id:::eventType
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYYMMDDHHmm"
+        let identifier = event.identifier + ":::" + event.eventType + ":::" + dateFormatter.string(from: event.start.dateTime)
         
-        let title = "Upcoming Event: \(event.summary)" //TODO: Change to event Title OR <EVENT_TYPE>: Title
-        let body = "Event starts soon!" // Some message that gives information about time and location
+        let title = "Upcoming Event"
+        
+        let dateHelper = DateHelper()
+        let startTimeString = dateHelper.getTime(for: event.start.dateTime)
+        let endTimeString = dateHelper.getTime(for: event.end.dateTime)
+        let body = startTimeString != endTimeString ? "\(event.summary) is starting in 30 minutes!" : "Don't forget, \(event.summary) is happening tomorrow!" // Some message that gives information about time and location
         
         let content = UNMutableNotificationContent()
         content.title = title
@@ -108,6 +179,8 @@ class NotificationViewModel : ObservableObject {
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: date), repeats: false)
         
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false) //<= Set the trigger to this if you want to see what the notification looks like
+        
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         
         let notificationCenter = UNUserNotificationCenter.current()
@@ -115,6 +188,13 @@ class NotificationViewModel : ObservableObject {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
         
         notificationCenter.add(request)
+    }
+    
+    private func updatePendingNotifications()
+    {
+        pendingNotifications.removeAll { e in
+            e.start.dateTime < Date()
+        }
     }
 }
 

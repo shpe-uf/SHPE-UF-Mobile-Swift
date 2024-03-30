@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E214" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CalendarEvent" representedClassName="CalendarEvent" syncable="YES" codeGenerationType="class">
+        <attribute name="end" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="eventType" optional="YES" attributeType="String"/>
+        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="location" optional="YES" attributeType="String"/>
+        <attribute name="start" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="summary" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="identifier"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <entity name="CoreUserEvent" representedClassName="CoreUserEvent" syncable="YES" codeGenerationType="class">
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -13,7 +26,7 @@
         </uniquenessConstraints>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
-        <attribute name="classes" optional="YES" attributeType="Transformable"/>
+        <attribute name="classes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <attribute name="confirmed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="country" optional="YES" attributeType="String"/>
         <attribute name="createdAt" optional="YES" attributeType="String"/>
@@ -23,12 +36,14 @@
         <attribute name="fallPercentile" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="fallPoints" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String"/>
+        <attribute name="gbmNotif" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="gender" optional="YES" attributeType="String"/>
         <attribute name="graduating" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="internships" optional="YES" attributeType="Transformable"/>
+        <attribute name="infoNotif" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="internships" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <attribute name="lastName" optional="YES" attributeType="String"/>
-        <attribute name="links" optional="YES" attributeType="Transformable"/>
+        <attribute name="links" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <attribute name="listServ" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="loginTime" optional="YES" attributeType="Date"/>
         <attribute name="major" optional="YES" attributeType="String"/>
@@ -36,6 +51,7 @@
         <attribute name="permission" optional="YES" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="Binary"/>
         <attribute name="points" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="socialNotif" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="springPercentile" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="springPoints" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="summerPercentile" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -43,6 +59,8 @@
         <attribute name="token" optional="YES" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="String"/>
         <attribute name="username" optional="YES" attributeType="String"/>
+        <attribute name="volNotif" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="workNotif" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="year" optional="YES" attributeType="String"/>
         <uniquenessConstraints>
             <uniquenessConstraint>

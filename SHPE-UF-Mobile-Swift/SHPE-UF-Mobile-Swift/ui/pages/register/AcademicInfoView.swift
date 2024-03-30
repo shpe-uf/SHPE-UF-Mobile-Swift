@@ -70,7 +70,7 @@ struct AcademicView : View
                             }
                         }
                         .accentColor(.black)
-                        .onChange(of: viewModel.majorInput) { _ in viewModel.majorPickerInteracted = true }
+                        .onChange(of: viewModel.majorInput, { viewModel.majorPickerInteracted = true })
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.majorInput, maxWidth: 270, fontSize: 16))
@@ -111,7 +111,7 @@ struct AcademicView : View
                             }
                         }
                         .accentColor(.black)
-                        .onChange(of: viewModel.classYearInput) { _ in viewModel.classYearPickerInteracted = true }
+                        .onChange(of: viewModel.classYearInput, { viewModel.classYearPickerInteracted = true })
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(width: 270)
@@ -152,7 +152,7 @@ struct AcademicView : View
                             }
                         }
                         .accentColor(.black)
-                        .onChange(of: viewModel.gradYearInput) { _ in viewModel.gradYearPickerInteracted = true }
+                        .onChange(of: viewModel.gradYearInput, { viewModel.gradYearPickerInteracted = true })
                     }
                     .pickerStyle(MenuPickerStyle())
                     .frame(width: 270, height: 37.64706)
