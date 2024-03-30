@@ -13,7 +13,6 @@ class CoreFunctions
 {
     func editUserInCore(users:FetchedResults<User>, viewContext:NSManagedObjectContext, shpeito:SHPEito)
     {
-        print(users.count)
         if let user = users.first
         {
             user.username = shpeito.username
@@ -136,5 +135,25 @@ class CoreFunctions
             
         }
         return eventObjectArray
+    }
+    
+    func clearCore(events:FetchedResults<CalendarEvent>, users:FetchedResults<User>, userEvents:FetchedResults<CoreUserEvent>, viewContext:NSManagedObjectContext)
+    {
+        for event in events
+        {
+            viewContext.delete(event)
+        }
+        
+        for user in users
+        {
+            viewContext.delete(user)
+        }
+        
+        for event in userEvents
+        {
+            viewContext.delete(event)
+        }
+        
+        do { try viewContext.save() } catch { print("Could not clear core") }
     }
 }
