@@ -33,8 +33,8 @@ extension SHPESchema {
       switch typename {
       case "Mutation": return SHPESchema.Objects.Mutation
       case "User": return SHPESchema.Objects.User
-      case "Query": return SHPESchema.Objects.Query
       case "Event": return SHPESchema.Objects.Event
+      case "Query": return SHPESchema.Objects.Query
       default: return nil
       }
     }

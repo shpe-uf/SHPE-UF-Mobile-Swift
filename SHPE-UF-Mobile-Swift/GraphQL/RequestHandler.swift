@@ -248,11 +248,50 @@ class RequestHandler
             }
             
             // Package with data (SUCCESS ✅)
-            let responseDict = [
+            var responseDict:[String:Any] = [
                 "fallPoints": data.redeemPoints.fallPoints,
+                "fallPercentile":data.redeemPoints.fallPercentile,
                 "springPoints": data.redeemPoints.springPoints,
-                "summerPoints": data.redeemPoints.summerPoints
+                "springPercentile": data.redeemPoints.springPercentile,
+                "summerPoints": data.redeemPoints.summerPoints,
+                "summerPercentile": data.redeemPoints.summerPercentile
             ]
+            
+            let events = data.redeemPoints.events.map({ event in
+                  let formatter = DateFormatter()
+                  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // Match the date format exactly to the string
+                  formatter.timeZone = TimeZone(secondsFromGMT: 0) // Set timezone to UTC
+                  if let eventName = event?.name,
+                      let category = event?.category,
+                      let points = event?.points,
+                      let dateString = event?.createdAt,
+                      let date = formatter.date(from: dateString),
+                      let id = event?.id
+                  {
+                      return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
+                  }
+                  else
+                  {
+                      return UserEvent(id: "", name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                  }
+              })
+            
+            var eventsByCategory:[String:[UserEvent]] = [:]
+            
+            for event in events {
+                if (eventsByCategory[event.category] != nil)
+                {
+                    eventsByCategory[event.category]!.append(event)
+                }
+                else
+                {
+                    eventsByCategory[event.category] = [event]
+                }
+            }
+            
+            // Package with data (SUCCESS ✅)
+            responseDict["events"] = events
+            responseDict["eventsByCategory"] = eventsByCategory
             
             completion(responseDict)
         }

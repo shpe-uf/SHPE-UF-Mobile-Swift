@@ -51,7 +51,7 @@ final class PointsViewModel:ObservableObject {
     @Published var gettingPoints:Bool = false
     @Published var gettingEvents:Bool = false
     @Published var doAnimation:Bool = false
-
+    @Published var invalidCode:Bool = false
     
     // Methods to call in View
     func setShpeitoPoints()
@@ -162,12 +162,13 @@ final class PointsViewModel:ObservableObject {
         }
     }
     
-    func redeemCode(code: String, guests: Int = 0)
+    func redeemCode(code: String, guests: Int = 0, coreEvents: FetchedResults<CoreUserEvent>, viewContext: NSManagedObjectContext, dismiss: DismissAction)
     {
         
         print("HERE")
         
-        requestHandler.redeemPoints(code: code, username: shpeito.username, guests: guests) { data in
+        requestHandler.redeemPoints(code: code, username: shpeito.username, guests: guests)
+        { data in
             
             print(self.username)
             print(data)
@@ -181,7 +182,8 @@ final class PointsViewModel:ObservableObject {
                    let springPoints = data["springPoints"] as? Int,
                    let summerPoints = data["summerPoints"] as? Int
                 {
-                    print("Success!")
+                    self.doAnimation = false
+                    self.invalidCode = false
                     // Do something with the data
                     self.shpeito.fallPoints = fallPoints //Update the model
                     self.shpeito.springPoints = springPoints
@@ -191,18 +193,44 @@ final class PointsViewModel:ObservableObject {
                     self.springPoints = springPoints
                     self.summerPoints = summerPoints
                     
+                    if let fallPercentile = data["fallPercentile"] as? Int,
+                       let springPercentile = data["springPercentile"] as? Int,
+                       let summerPercentile = data["summerPercentile"] as? Int
+                    {
+                        self.shpeito.fallPercentile = fallPercentile
+                        self.shpeito.springPercentile = springPercentile
+                        self.shpeito.summerPercentile = summerPercentile
+                        
+                        self.fallPercentile = fallPercentile
+                        self.springPercentile = springPercentile
+                        self.summerPercentile = summerPercentile
+                    }
                     
+                    if let event = data["events"] as? [UserEvent],
+                       let eventbyCategory = data["eventsByCategory"] as? [String: [UserEvent]]
+                    {
+                        self.gettingEvents = false
+                        self.categorizedEvents = eventbyCategory
+                        for events in eventbyCategory.values
+                        {
+                            CoreFunctions().saveRedeemedEvents(events: coreEvents, viewContext: viewContext, userEvents: events)
+                        }
+                    }
+                    
+                    dismiss()
                 }
                 else
                 {
                     // Handle missing data error
                     print("Incorrect data")
+                    self.invalidCode = true
                 }
             }
             else
             {
                 // Handle error response
                 print(data["error"]!)
+                self.invalidCode = true
             }
         }
     }
