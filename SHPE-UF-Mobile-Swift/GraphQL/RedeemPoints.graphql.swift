@@ -6,6 +6,7 @@ mutation RedeemPoints($redeemPointsInput: RedeemPointsInput) {
     springPercentile
     summerPercentile
     summerPoints
+    points
     events {
       category
       name

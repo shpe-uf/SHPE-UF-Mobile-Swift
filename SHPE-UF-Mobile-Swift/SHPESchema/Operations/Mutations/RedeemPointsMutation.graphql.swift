@@ -8,7 +8,7 @@ extension SHPESchema {
     static let operationName: String = "RedeemPoints"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"mutation RedeemPoints($redeemPointsInput: RedeemPointsInput) { redeemPoints(redeemPointsInput: $redeemPointsInput) { __typename fallPoints fallPercentile springPoints springPercentile summerPercentile summerPoints events { __typename category name points createdAt id } } }"#
+        #"mutation RedeemPoints($redeemPointsInput: RedeemPointsInput) { redeemPoints(redeemPointsInput: $redeemPointsInput) { __typename fallPoints fallPercentile springPoints springPercentile summerPercentile summerPoints points events { __typename category name points createdAt id } } }"#
       ))
 
     public var redeemPointsInput: GraphQLNullable<RedeemPointsInput>
@@ -46,6 +46,7 @@ extension SHPESchema {
           .field("springPercentile", Int.self),
           .field("summerPercentile", Int.self),
           .field("summerPoints", Int.self),
+          .field("points", Int.self),
           .field("events", [Event?].self),
         ] }
 
@@ -55,6 +56,7 @@ extension SHPESchema {
         var springPercentile: Int { __data["springPercentile"] }
         var summerPercentile: Int { __data["summerPercentile"] }
         var summerPoints: Int { __data["summerPoints"] }
+        var points: Int { __data["points"] }
         var events: [Event?] { __data["events"] }
 
         /// RedeemPoints.Event

@@ -26,6 +26,7 @@ struct Event {
     let summary: String
     let updated: Date
     let location: String?
+    let description: String?
 }
 
 struct Creator {

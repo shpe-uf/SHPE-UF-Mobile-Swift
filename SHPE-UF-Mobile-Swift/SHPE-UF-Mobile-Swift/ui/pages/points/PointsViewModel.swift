@@ -176,10 +176,13 @@ final class PointsViewModel:ObservableObject {
                     self.shpeito.fallPoints = fallPoints //Update the model
                     self.shpeito.springPoints = springPoints
                     self.shpeito.summerPoints = summerPoints
+                    self.shpeito.points = data["points"] as? Int ?? fallPoints + springPoints + summerPoints
                     
                     self.fallPoints = fallPoints // Update the information being displayed
                     self.springPoints = springPoints
                     self.summerPoints = summerPoints
+                    self.points = data["points"] as? Int ?? fallPoints + springPoints + summerPoints
+                    
                     
                     if let fallPercentile = data["fallPercentile"] as? Int,
                        let springPercentile = data["springPercentile"] as? Int,
@@ -219,6 +222,11 @@ final class PointsViewModel:ObservableObject {
                 // Handle error response
                 print(data["error"]!)
                 self.invalidCode = true
+            }
+            
+            withAnimation(.easeIn(duration: 2))
+            {
+                self.doAnimation = true
             }
         }
     }
