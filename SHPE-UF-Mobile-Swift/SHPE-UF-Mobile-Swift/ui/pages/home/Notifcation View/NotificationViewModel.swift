@@ -23,19 +23,24 @@ class NotificationViewModel : ObservableObject {
     
     private init () {}
     
-    private func buttonClicked(eventType:String)
+    private func buttonClicked(eventType:String, setTo:Bool? = nil)
     {
         switch eventType {
         case "GBM":
             isGBMSelected.toggle()
-        case "Info Sessions":
+            isGBMSelected = setTo == nil ? isGBMSelected : setTo!
+        case "Info":
             isInfoSelected.toggle()
-        case "Workshops":
+            isInfoSelected = setTo == nil ? isInfoSelected : setTo!
+        case "Workshop":
             isWorkShopSelected.toggle()
+            isWorkShopSelected = setTo == nil ? isWorkShopSelected : setTo!
         case "Volunteering":
             isVolunteeringSelected.toggle()
-        case "Socials":
+            isVolunteeringSelected = setTo == nil ? isVolunteeringSelected : setTo!
+        case "Social":
             isSocialSelected.toggle()
+            isSocialSelected = setTo == nil ? isSocialSelected : setTo!
         default:
             print("Invalid Notificatiion Type")
         }
@@ -113,7 +118,7 @@ class NotificationViewModel : ObservableObject {
     }
     
     func turnOnEventNotification(events:[Event], eventType: String, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
-        buttonClicked(eventType: eventType)
+        buttonClicked(eventType: eventType, setTo: true)
         for event in events {
             if event.eventType == eventType {
                 var notificationDate = event.start.dateTime
@@ -122,8 +127,8 @@ class NotificationViewModel : ObservableObject {
                 let endTimeString = dateHelper.getTime(for: event.end.dateTime)
                 
                 if startTimeString != endTimeString {
-                    // Notify 30 minutes before the event start time
-                    notificationDate = Calendar.current.date(byAdding: .minute, value: -30, to: event.start.dateTime)!
+                    // Notify 15 minutes before the event start time
+                    notificationDate = Calendar.current.date(byAdding: .minute, value: -15, to: event.start.dateTime)!
                 } else {
                     // If the event is all-day, notify 24 hours before the start time
                     notificationDate = Calendar.current.date(byAdding: .hour, value: -24, to: event.start.dateTime)!
@@ -141,7 +146,7 @@ class NotificationViewModel : ObservableObject {
     }
     
     func turnOffEventNotification(events:[Event], eventType: String, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
-        buttonClicked(eventType: eventType)
+        buttonClicked(eventType: eventType, setTo: false)
         var ids:[String] = []
         for event in events {
             if event.eventType == eventType {
@@ -170,7 +175,7 @@ class NotificationViewModel : ObservableObject {
         let dateHelper = DateHelper()
         let startTimeString = dateHelper.getTime(for: event.start.dateTime)
         let endTimeString = dateHelper.getTime(for: event.end.dateTime)
-        let body = startTimeString != endTimeString ? "\(event.summary) is starting in 30 minutes!" : "Don't forget, \(event.summary) is happening tomorrow!" // Some message that gives information about time and location
+        let body = startTimeString != endTimeString ? "\(event.summary) is starting in 15 minutes!" : "Don't forget, \(event.summary) is happening tomorrow!" // Some message that gives information about time and location
         
         let content = UNMutableNotificationContent()
         content.title = title
@@ -188,6 +193,14 @@ class NotificationViewModel : ObservableObject {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: [identifier])
         
         notificationCenter.add(request)
+    }
+    
+    func clearPendingNotifications(fetchedEvents: FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext)
+    {
+        for event in pendingNotifications
+        {
+            self.removeNotificationForSingleEvent(event: event, fetchedEvents: fetchedEvents, viewContext: viewContext)
+        }
     }
     
     private func updatePendingNotifications()

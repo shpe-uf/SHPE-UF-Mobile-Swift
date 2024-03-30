@@ -172,54 +172,38 @@ struct AcademicView : View
                 
                 HStack
                 {
-                    //back button to PersonalDetailsView
-                    Button
+                    VStack
                     {
-                        viewModel.viewIndex = 1
-                        
-                    }
-                    label:
-                    {
-                        Image(systemName: "arrowshape.turn.up.left.fill")
-                            .foregroundStyle(Color.gray)
-                            .padding()
-                            .background(Color.gray.opacity(0.5))
-                            .cornerRadius(30)
-                    }
-                    .padding(.horizontal)
-
-                        VStack
+                        Button(action:
                         {
-                            Button(action:
+                            //move to sign in if valid
+                            viewModel.majorPickerInteracted = true
+                            viewModel.classYearPickerInteracted = true
+                            viewModel.gradYearPickerInteracted = true
+                            if viewModel.isAcademicValid()
                             {
-                                //move to sign in if valid
-                                viewModel.majorPickerInteracted = true
-                                viewModel.classYearPickerInteracted = true
-                                viewModel.gradYearPickerInteracted = true
-                                if viewModel.isAcademicValid()
+                                viewModel.registerUser()
+                                withAnimation
                                 {
-                                    viewModel.registerUser()
-                                    withAnimation
-                                    {
-                                        appVM.toastMessage = "Please check your email to\nconfirm your account!"
-                                        appVM.showToast = true
-                                    }
-                                    appVM.setPageIndex(index: 0)
+                                    appVM.toastMessage = "Please check your email to\nconfirm your account!"
+                                    appVM.showToast = true
                                 }
-                           
-                            })
-                            {
-                                Text("Complete Registration")
-                                    .font(Font.custom("Univers LT Std", size: 16))
-                                    .foregroundColor(.white)
-                                    .frame(width: 250, height: 42)
-                                    .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                                    .cornerRadius(20)
+                                appVM.setPageIndex(index: 0)
                             }
-                            .animation(.default, value: viewModel.showToast)
-                            
-                        
+                       
+                        })
+                        {
+                            Text("Complete Registration")
+                                .font(Font.custom("Univers LT Std", size: 16))
+                                .foregroundColor(.white)
+                                .frame(width: 351, height: 42)
+                                .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                                .cornerRadius(20)
                         }
+                        .animation(.default, value: viewModel.showToast)
+                        
+                    
+                    }
                 }
                 .padding(.bottom, 40)
             }

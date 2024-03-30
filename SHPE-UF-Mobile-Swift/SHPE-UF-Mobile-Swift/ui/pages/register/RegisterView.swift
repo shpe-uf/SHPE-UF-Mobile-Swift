@@ -35,6 +35,22 @@ struct RegisterView: View
                   .offset(y: colorScheme == .dark ? -UIScreen.main.bounds.height * 0.305 : -UIScreen.main.bounds.height * 0.325)
               )
             
+            if viewModel.viewIndex > 0
+            {
+                Button {
+                    viewModel.viewIndex -= 1
+                } label: {
+                    ZStack {
+                        Image("Ellipse_back")
+                            .frame(width: 40, height: 40)
+                        Image("Back")
+                            .frame(width:40, height:70)
+                    }
+                }
+                .zIndex(999)
+                .position(CGPoint(x: 40.0, y: 110.0))
+            }
+            
             
             //dark blue box
             VStack

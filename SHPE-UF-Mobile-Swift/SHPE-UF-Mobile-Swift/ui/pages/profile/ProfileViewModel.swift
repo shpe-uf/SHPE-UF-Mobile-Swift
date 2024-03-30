@@ -77,6 +77,10 @@ class ProfileViewModel:ObservableObject
     
     @Published var loadingStatus:Loading = .NotLoading
     
+    @Published var invalidFirstName:Bool = false
+    @Published var invalidLastName:Bool = false
+    @Published var invalidUsername:Bool = false
+    
     let majorOptions =
     [
         "Aerospace Engineering",
@@ -154,10 +158,22 @@ class ProfileViewModel:ObservableObject
     func saveEditsToProfile(user:FetchedResults<User>, viewContext: NSManagedObjectContext)
     {
         self.loadingStatus = .Loading
+        
         if let range = newName.range(of: "\\s+", options: .regularExpression) {
             let firstName = newName[..<range.lowerBound]
             let lastName = newName[range.upperBound...].trimmingCharacters(in: .whitespaces)
-            if lastName.isEmpty {self.loadingStatus = .Failure}
+            if lastName.isEmpty {self.loadingStatus = .Failure; self.invalidLastName=true; return}
+            
+            print(String(firstName))
+            let cond1 = validateFirstName(input: String(firstName))
+            let cond2 = validateLastName(input: lastName)
+            let cond3 = validateUsername(input: newUsername)
+                              
+            if !cond1 || !cond2 || !cond3
+            {
+                self.loadingStatus = .Failure
+                return
+            }
             
             requestHandler.postEditsToProfile(firstName: String(firstName), lastName: lastName, classes: newClasses, country: newOriginCountry, ethnicity: newEthnicity, graduationYear: newGradYear, internships: newInternships, major: newMajor, photo: selectedImage?.jpegData(compressionQuality: 0.0)?.base64EncodedString() ?? shpeito.profileImage?.jpegData(compressionQuality: 0.0)?.base64EncodedString() ??  "", gender: newGender, links: newLinks, year: newYear, email: shpeito.email)
             { [self] messageDict in
@@ -187,6 +203,9 @@ class ProfileViewModel:ObservableObject
                         return newURLs
                     }()
                     self.shpeito.year = newYear
+                    self.invalidUsername = false
+                    self.invalidFirstName = false
+                    self.invalidLastName = false
                     CoreFunctions().editUserInCore(users: user, viewContext: viewContext, shpeito: self.shpeito)
                     self.loadingStatus = .Success
                 }
@@ -198,7 +217,37 @@ class ProfileViewModel:ObservableObject
             }
             
         } else {
+            self.invalidFirstName = true
+            self.invalidLastName = true
+            validateUsername(input: newUsername)
             self.loadingStatus = .Failure
         }
+    }
+    
+    //validate firstname
+    func validateFirstName(input:String) -> Bool
+    {
+        let namePattern = "^[A-Za-z]{3,20}$"
+        let namePredicate = NSPredicate(format:"SELF MATCHES %@", namePattern)
+        invalidFirstName = namePredicate.evaluate(with: input)
+        return namePredicate.evaluate(with: input)
+    }
+
+    //validate lastname
+    func validateLastName(input:String) -> Bool
+    {
+        let namePattern = "^[A-Za-z]{3,20}$"
+        let namePredicate = NSPredicate(format:"SELF MATCHES %@", namePattern)
+        invalidLastName = namePredicate.evaluate(with: input)
+        return namePredicate.evaluate(with: input)
+    }
+    
+    //validate username
+    func validateUsername(input:String) -> Bool
+    {
+        let usernamePattern = "^[\\w.]{6,20}$"
+        let usernamePredicate = NSPredicate(format:"SELF MATCHES %@", usernamePattern)
+        invalidUsername = usernamePredicate.evaluate(with: input)
+        return usernamePredicate.evaluate(with: input)
     }
 }

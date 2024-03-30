@@ -44,7 +44,6 @@ class DataManager: NSObject, ObservableObject {
                 at: storeURL,
                 options: migrationOptions
             )
-            print("Migration successful")
         } catch {
             print("Migration failed, clearing core of models: \(error)")
             self.clearCoreData()
