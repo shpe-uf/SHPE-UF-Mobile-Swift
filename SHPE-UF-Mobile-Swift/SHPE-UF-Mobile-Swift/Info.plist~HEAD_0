@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Univers LT Std 45 Light.otf</string>
+		<string>Univers LT Std 65 Bold.otf</string>
+		<string>Viga-Regular.ttf</string>
+		<string>Univers LT Std 75 Black.otf</string>
+		<string>Univers LT Std 55 Oblique.otf</string>
+		<string>Univers LT Std 65 Bold Oblique.otf</string>
+	</array>
+</dict>
+</plist>
