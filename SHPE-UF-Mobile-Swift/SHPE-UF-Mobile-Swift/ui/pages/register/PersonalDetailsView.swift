@@ -236,42 +236,44 @@ struct PersonalView : View
                 
                 Spacer()
                 
-                HStack
-                {
-                    //back button
-                    Button
+//                HStack
+//                {
+//                    //back button
+//                    Button
+//                    {
+//                        viewModel.viewIndex = 0
+//                    }
+//                label:
+//                    {
+//                        Image(systemName: "arrowshape.turn.up.left.fill")
+//                            .foregroundStyle(Color.gray)
+//                            .padding()
+//                            .background(Color.gray.opacity(0.5))
+//                            .cornerRadius(30)
+//                    }
+//                    .padding(.horizontal)
+//                }
+                    HStack
                     {
-                        viewModel.viewIndex = 0
-                    }
-                    label:
-                    {
-                        Image(systemName: "arrowshape.turn.up.left.fill")
-                            .foregroundStyle(Color.gray)
-                            .padding()
-                            .background(Color.gray.opacity(0.5))
-                            .cornerRadius(30)
-                    }
-                    .padding(.horizontal)
-
-                    Button(action: 
-                    {
-                        //move to AcademicView if valid
-                        if viewModel.isPersonalValid()
+                        Button(action:
                         {
-                            viewModel.viewIndex = 2
+                            //move to AcademicView if valid
+//                            if viewModel.isPersonalValid()
+//                            {
+                                viewModel.viewIndex = 2
+                           // }
+                        })
+                        
+                        {
+                            Text("Continue")
+                                .font(Font.custom("Univers LT Std", size: 16))
+                                .foregroundColor(.white)
+                                .frame(width: 351, height: 42, alignment: .center)
+                                .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                                .cornerRadius(20)
                         }
-                    })
-                    
-                    {
-                        Text("Continue")
-                            .font(Font.custom("Univers LT Std", size: 16))
-                            .foregroundColor(.white)
-                            .frame(width: 250, height: 42)
-                            .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                            .cornerRadius(20)
                     }
-
-                }
+                //}
                 .padding(.bottom, 40)
             }
             .background(Color("darkBlue"))
