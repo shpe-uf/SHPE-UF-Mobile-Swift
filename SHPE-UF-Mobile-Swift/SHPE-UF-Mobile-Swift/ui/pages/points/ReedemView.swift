@@ -14,6 +14,9 @@ struct ReedemView: View {
     @Environment(\.dismiss) var dismiss
     
     @StateObject var vm : PointsViewModel
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CoreUserEvent>
     
     var body: some View {
         NavigationStack {
@@ -49,6 +52,14 @@ struct ReedemView: View {
                         .multilineTextAlignment(.center)
                         .cornerRadius(10)
                         .padding(.horizontal, 20)
+                    
+                    if vm.invalidCode && !code.isEmpty
+                    {
+                        Text("The event code provided is either invalid or has expired!")
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 10)
+                            .foregroundStyle(Color(red: 0, green: 0.12, blue: 0.21))
+                    }
     
                     Text("Guests")
                         .padding(.top, 30)
@@ -121,9 +132,7 @@ struct ReedemView: View {
                     // Redeem Button
                     Button {
                         print("Clicked")
-                        vm.redeemCode(code: code, guests: numberOfGuests)
-                        vm.setShpeitoPercentiles()
-                        dismiss()
+                        vm.redeemCode(code: code, guests: numberOfGuests, coreEvents: coreEvents, viewContext: viewContext, dismiss: dismiss)
                     } label: {
                         Text("Redeem")
                             .frame(maxWidth: .infinity, maxHeight: 50)
@@ -139,6 +148,9 @@ struct ReedemView: View {
             }
             .ignoresSafeArea()
             .navigationTitle("")
+            .onDisappear(perform: {
+                vm.invalidCode = false
+            })
         }
     }
 }
