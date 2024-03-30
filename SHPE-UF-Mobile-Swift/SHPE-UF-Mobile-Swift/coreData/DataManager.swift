@@ -22,6 +22,8 @@ class DataManager: NSObject, ObservableObject {
             if let error = error {
                 self.attemptMigration()
             }
+            
+            self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         }
     }
     

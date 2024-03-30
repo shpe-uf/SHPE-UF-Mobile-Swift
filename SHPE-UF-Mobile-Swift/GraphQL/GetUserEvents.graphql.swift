@@ -5,6 +5,7 @@ query GetUserEvents($userId: ID!) {
       name
       points
       createdAt
+      id
     }
   }
 }

@@ -43,8 +43,13 @@ struct CircularProgessViewDark: View {
         .padding()
         .animation(.smooth(duration: 2.5), value: drawingStroke)
         .onAppear {
-            drawingStroke.toggle()
-    
+            // Reset the animation state
+            self.drawingStroke = false
+            
+            // Slight delay to ensure the animation can restart smoothly
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                self.drawingStroke = true
+            }
         }
             
     }
