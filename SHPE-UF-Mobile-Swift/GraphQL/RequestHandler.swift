@@ -11,14 +11,13 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: "https://edc8-128-227-1-40.ngrok-free.app")!) // MUST BE NGROK URL or http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string: ProcessInfo.processInfo.environment["SERVER_LINK"]!)!) // MUST BE NGROK URL or http://127.0.0.1:5000/
     
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
     func fetchUserPoints(userId:String, completion: @escaping ([String:Any])->Void)
     {
         // Function was successfully called
-        print("Fetching User Points")
         do
         {
             // Validate inputs
@@ -33,7 +32,6 @@ class RequestHandler
                 guard let data = try? response.get().data else
                 {
                     print("ERROR: Incomplete Request\nError Message:\(response)")
-                    
                     // Package with data (ERROR ❌)
                     completion(["error":"Incomplete Request"])
                     return
@@ -49,7 +47,6 @@ class RequestHandler
         }
         catch
         {
-            print("Invalid Id")
             // Package with data (ERROR ❌)
             completion(["error":"Invalid ID"])
         }
@@ -70,7 +67,7 @@ class RequestHandler
         {
             response in
             
-            guard let data = try? response.get().data
+            guard let _ = try? response.get().data
             else {
                 print("ERROR: Incomplete Request\nError Message:\(response)")
                 
@@ -152,20 +149,27 @@ class RequestHandler
     //    "photo": String, => You may want to turn this into a Swift URL type by doing this => URL(string: <photo>)
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
-    func signIn(username:String, password:String, completion: @escaping ([String:Any])->Void)
-    {
-        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false"))
-        {
-            response in
-            guard let data = try? response.get().data
-            else
-            {
-                print("ERROR: Incomplete Request\nError Message:\(response)")
-                
-                // Package with data (ERROR ❌)
-                completion(["error":"Incomplete Request"])
+    
+    
+    
+    func signIn(username: String, password: String, completion: @escaping ([String: Any]) -> Void) {
+        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false")) { response in
+            guard let data = try? response.get().data else {
+                if let errorMessage = self.extractErrorMessage(from: response) {
+                    // Print the extracted error message
+                    print("ERROR: \(errorMessage)\nError Message: \(response)")
+                    
+                    // Package with data (ERROR ❌)
+                    completion(["error": errorMessage])
+                } else {
+                    print("ERROR: Incomplete Request\nError Message: \(response)")
+                    
+                    // Package with data (ERROR ❌)
+                    completion(["error": "Incomplete Request"])
+                }
                 return
             }
+            
             // Package with data (SUCCESS ✅)
             let login = data.login
             let responseDict = [
@@ -186,15 +190,30 @@ class RequestHandler
                 "gender": login.sex,
                 "originCountry": login.country,
                 "graduationYear": login.graduating,
-                "classes": login.classes,
-                "internships": login.internships,
-                "links": login.socialMedia
-                
+                "classes": login.classes ?? [],
+                "internships": login.internships ?? [],
+                "links": login.socialMedia ?? []
             ]
             
             completion(responseDict)
         }
     }
+    
+    private func extractErrorMessage(from response: Result<Apollo.GraphQLResult<SHPE_UF_Mobile_Swift.SHPESchema.SignInMutation.Data>, Error>) -> String? {
+        do {
+            let graphqlResponse = try response.get()
+            if let errors = graphqlResponse.errors {
+                // Extract the error message from GraphQL errors
+                let errorMessage = errors.map { $0.localizedDescription }.joined(separator: ", ")
+                return errorMessage
+            } else {
+                return nil // No error message extracted
+            }
+        } catch {
+            return error.localizedDescription
+        }
+    }
+
     
     // MARK: Points Page Funcations
     
@@ -225,11 +244,51 @@ class RequestHandler
             }
             
             // Package with data (SUCCESS ✅)
-            let responseDict = [
+            var responseDict:[String:Any] = [
                 "fallPoints": data.redeemPoints.fallPoints,
+                "fallPercentile":data.redeemPoints.fallPercentile,
                 "springPoints": data.redeemPoints.springPoints,
-                "summerPoints": data.redeemPoints.summerPoints
+                "springPercentile": data.redeemPoints.springPercentile,
+                "summerPoints": data.redeemPoints.summerPoints,
+                "summerPercentile": data.redeemPoints.summerPercentile,
+                "points": data.redeemPoints.points
             ]
+            
+            let events = data.redeemPoints.events.map({ event in
+                  let formatter = DateFormatter()
+                  formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // Match the date format exactly to the string
+                  formatter.timeZone = TimeZone(secondsFromGMT: 0) // Set timezone to UTC
+                  if let eventName = event?.name,
+                      let category = event?.category,
+                      let points = event?.points,
+                      let dateString = event?.createdAt,
+                      let date = formatter.date(from: dateString),
+                      let id = event?.id
+                  {
+                      return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
+                  }
+                  else
+                  {
+                      return UserEvent(id: "", name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                  }
+              })
+            
+            var eventsByCategory:[String:[UserEvent]] = [:]
+            
+            for event in events {
+                if (eventsByCategory[event.category] != nil)
+                {
+                    eventsByCategory[event.category]!.insert(event, at:0)
+                }
+                else
+                {
+                    eventsByCategory[event.category] = [event]
+                }
+            }
+            
+            // Package with data (SUCCESS ✅)
+            responseDict["events"] = events
+            responseDict["eventsByCategory"] = eventsByCategory
             
             completion(responseDict)
         }
@@ -318,13 +377,14 @@ class RequestHandler
                           let category = event?.category,
                           let points = event?.points,
                           let dateString = event?.createdAt,
-                          let date = formatter.date(from: dateString)
+                          let date = formatter.date(from: dateString),
+                          let id = event?.id
                       {
-                          return UserEvent(name: eventName, category: category, points: points, date: date)
+                          return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
                       }
                       else
                       {
-                          return UserEvent(name: "", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                          return UserEvent(id: "", name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
                       }
                   })
             else
@@ -341,7 +401,7 @@ class RequestHandler
             for event in events {
                 if (eventsByCategory[event.category] != nil)
                 {
-                    eventsByCategory[event.category]!.append(event)
+                    eventsByCategory[event.category]!.insert(event, at: 0)
                 }
                 else
                 {
@@ -384,7 +444,7 @@ class RequestHandler
 
     func postEditsToProfile(firstName:String, lastName: String, classes: [String], country: String, ethnicity:String, graduationYear:String, internships: [String], major:String, photo:String, gender:String, links:[String], year:String, email:String, completion: @escaping (([String: Any])->Void))
     {
-        var classesValues = {
+        let classesValues = {
             var array:Array<String?> = []
             for value in classes {
                 array.append(value)
@@ -392,7 +452,7 @@ class RequestHandler
             return array
         }()
         
-        var internshipValues = {
+        let internshipValues = {
             var array:Array<String?> = []
             for value in internships {
                 array.append(value)
@@ -400,7 +460,7 @@ class RequestHandler
             return array
         }()
         
-        var linkValues = {
+        let linkValues = {
             var array:Array<String?> = []
             for value in links {
                 array.append(value)
@@ -490,7 +550,6 @@ class RequestHandler
                                 {
                                     guard let object = item as? [String:Any] else
                                     {
-                                        print("Unexpected data type")
                                         completion(([],false,"PARSE_ERROR"))
                                         return
                                     }
@@ -499,10 +558,6 @@ class RequestHandler
                                         let event = try self.extractEvent(from: object)
                                         eventsList.append(event)
                                     } catch {
-                                        print("Error extracting event: \(error)")
-                                        print("\nOBJECT WITH ERROR:")
-                                        print(object)
-                                        print()
                                         continue
                                     }
                                 }
@@ -562,6 +617,7 @@ class RequestHandler
         
         // Optional Fields
         let location = dictionary["location"] as? String ?? nil
+        let description = dictionary["description"] as? String ?? nil
 
         let event = Event(
             created: created,
@@ -571,7 +627,7 @@ class RequestHandler
             eventType: eventType,
             htmlLink: htmlLink,
             iCalUID: iCalUID,
-            id: id,
+            identifier: id,
             kind: kind,
             organizer: organizer,
             sequence: sequence,
@@ -579,7 +635,8 @@ class RequestHandler
             status: status,
             summary: summary,
             updated: updated,
-            location: location
+            location: location,
+            description: description
         )
         
         return event

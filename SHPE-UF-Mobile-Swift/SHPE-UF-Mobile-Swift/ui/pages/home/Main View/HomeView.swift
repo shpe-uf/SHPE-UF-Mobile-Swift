@@ -1,14 +1,18 @@
 //home view
 //
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
     //Variables for the view model
     @Environment(\.colorScheme) var colorScheme // Detects the system's color scheme (dark or light mode)
     let dateHelper = DateHelper()
-    @ObservedObject var viewModel = HomeViewModel()
     @State private var isNotificationButtonPagePresented = false
     @State private var displayedMonth: String = ""
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
+    @StateObject var viewModel:HomeViewModel
     
     var body: some View {
         NavigationView {
@@ -26,7 +30,7 @@ struct HomeView: View {
                         
                         Spacer()
                         // Navigation link to the notification view
-                        NavigationLink(destination: NotificationView()) {
+                        NavigationLink(destination: NotificationView(viewModel: viewModel)) {
                             Image("Doorbell")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -43,16 +47,17 @@ struct HomeView: View {
                         ScrollViewReader { proxy in
                             LazyVStack(spacing: 20) {
                                 // Loop through events and display them
-                                ForEach(viewModel.events.indices, id: \.self) { index in
-                                    let event = viewModel.events[index]
-                                    let currentMonth = dateHelper.getMonth(for: event.start.dateTime)
+                                ForEach(viewModel.getUpcomingEvents().indices, id: \.self)
+                                { index in
+                                    let upcomingEvents = viewModel.getUpcomingEvents()
+                                    let event = upcomingEvents[index]
                                     let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
                                     let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
                                     
                                     // Event row with date and event details
                                     HStack {
                                         // Display date only for the first event or when the day changes
-                                        if index == 0 || !sameDay(viewModel.events[index - 1], viewModel.events[index]) {
+                                        if index == 0 || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
                                             
                                             
                                             VStack(alignment: .center, spacing: 0) {
@@ -80,8 +85,8 @@ struct HomeView: View {
                                         }
                                         
                                         // Navigation link to detailed event information
-                                        NavigationLink(destination: eventInfo(event: viewModel.events[index])) {
-                                            eventBox(event: viewModel.events[index])
+                                        NavigationLink(destination: eventInfo(event: upcomingEvents[index])) {
+                                            eventBox(event: upcomingEvents[index])
                                                 .frame(width: 324, height: 69)
                                                 .background(
                                                     GeometryReader { geometry in
@@ -90,15 +95,15 @@ struct HomeView: View {
                                                                 // Check if the event box is about to move out of view
                                                                 if geometry.frame(in: .global).maxY < UIScreen.main.bounds.height * 0.1 {
                                                                     // Get the index of the next event
-                                                                    let nextEventIndex = min(index + 2, viewModel.events.count - 1)
+                                                                    let nextEventIndex = min(index + 2, upcomingEvents.count - 1)
                                                                     // Update displayed month based on the next event
-                                                                    displayedMonth = dateHelper.getMonth(for: viewModel.events[nextEventIndex].start.dateTime)
+                                                                    displayedMonth = dateHelper.getMonth(for: upcomingEvents[nextEventIndex].start.dateTime)
                                                                 }
                                                                 else
                                                                 {
                                                                     let priorEventIndex = max(index - 2, 0)
                                                                     // Update displayed month based on the next event
-                                                                    displayedMonth = dateHelper.getMonth(for: viewModel.events[priorEventIndex].start.dateTime)
+                                                                    displayedMonth = dateHelper.getMonth(for: upcomingEvents[priorEventIndex].start.dateTime)
                                                                 }
                                                             }
                                                     }
@@ -109,7 +114,7 @@ struct HomeView: View {
                                    
                                     
                                     // Dashed line separator for events on different days
-                                    if index != viewModel.events.indices.last && !sameDay(viewModel.events[index], viewModel.events[index + 1]) {
+                                    if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {
                                         HStack{
                                             Rectangle()
                                                 .foregroundColor(.clear)
@@ -142,6 +147,8 @@ struct HomeView: View {
         .onAppear {
             // Initialize lastUpdatedVisibleMonths with initial visible months
             displayedMonth = dateHelper.getCurrentMonth()
+            NotificationViewModel.instance.pendingNotifications = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
+
         }
     }
     
@@ -156,6 +163,12 @@ struct eventInfo: View {
     var event: Event // The event to display information for
     @Environment(\.presentationMode) var presentationMode // For dismissing the view
     @Environment(\.colorScheme) var colorScheme
+    @State private var notifVM: NotificationViewModel = NotificationViewModel.instance
+    @State private var tappedNotification:Bool = false
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
+    
     var body: some View {
         let dateHelper = DateHelper()
         let startTimeString = dateHelper.getTime(for: event.start.dateTime) // Event start time
@@ -204,27 +217,54 @@ struct eventInfo: View {
                     .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                     .cornerRadius(20)
                     VStack{
-                        Spacer(minLength: 75)
                         // Event title and icon
                         HStack{
                             Text(event.summary)
                             .bold()
                             .font(Font.custom("Viga-Regular", size: 32))
                             .foregroundColor(Constants.orange)
-                            .frame(width:270, alignment: .topLeading)
+                            .frame(width: 200, alignment: .topLeading)
                             .lineLimit(3)
-                            Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 37, height: 37)
-                            .background(
-                            Image(iconImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            )
+                            Spacer()
+                            VStack
+                            {
+                                Image(iconImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 30, height: 30)
+                                
+                                ZStack {
+                                    Image(tappedNotification ? "Ellipse_selected" : colorScheme == .dark ? "dark_ellipse" :"Ellipse")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 35, height: 35)
+                                        
+                                    Image("Doorbell")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 25, height: 25)
+                                }
+                                .frame(width: 30, height: 30)
+                                .onTapGesture {
+                                    if notifVM.pendingNotifications.contains(where: { e in
+                                        e.identifier == event.identifier
+                                    })
+                                    {
+                                        tappedNotification = false
+                                        notifVM.removeNotificationForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                    }
+                                    else
+                                    {
+                                        tappedNotification = true
+                                        notifVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                    }
+                                }
+                            }
                         }
+                        .padding(.horizontal, 50)
+                        .frame(maxWidth: UIScreen.main.bounds.width)
                         .frame(height: 130, alignment: .leading)
-                        .padding(.horizontal, 20)
-                        Spacer(minLength: 10)
+                        .padding(.top, 100)
                         // Event date
                         HStack(spacing: 20){
                             Rectangle()
@@ -240,6 +280,7 @@ struct eventInfo: View {
                                 .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
+                        .padding(.top, 50)
                         
                         // Event time
                         HStack(spacing: 20){
@@ -272,21 +313,25 @@ struct eventInfo: View {
                               .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
                         .frame(width: 300, alignment: .leading)
-                        Spacer(minLength: 60)
                         // Event description header
-                        Text("Description:")
-                        .font(Font.custom("UniversLTStd", size: 18))
-                        .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
-                        .frame(width: 300, alignment: .leading)
-                        .padding(10)
-                        // Event description text
-                        //Need to have event  description variables in the future
-                        Text("")
-                          .font(Font.custom("UniversLTStd", size: 18))
-                          .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                          .frame(width: 297,height: 200, alignment: .topLeading)
+                        if let description = event.description
+                        {
+                            Text("Description:")
+                            .font(Font.custom("UniversLTStd", size: 18))
+                            .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
+                            .frame(width: 300, alignment: .leading)
+                            .padding(10)
+                            .padding(.top, 30)
+                            // Event description text
+                            //Need to have event  description variables in the future
+                            Text(description)
+                              .font(Font.custom("UniversLTStd", size: 18))
+                              .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                              .frame(width: 297,height: 200, alignment: .topLeading)
+                        }
+                        
                        
-                        Spacer(minLength: 30)
+                        Spacer()
                     }
                 }
             }
@@ -295,6 +340,12 @@ struct eventInfo: View {
         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .edgesIgnoringSafeArea(.all)
         .navigationBarHidden(true)
+        .onAppear
+        {
+            tappedNotification = notifVM.pendingNotifications.contains(where: { e in
+                e.identifier == event.identifier
+            })
+        }
         
     }
 
@@ -478,9 +529,4 @@ struct eventBox: View {
             }
         }
    
-}
-
-
-#Preview {
-    HomeView()
 }

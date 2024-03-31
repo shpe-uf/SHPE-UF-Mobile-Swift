@@ -15,7 +15,6 @@ final class CheckCoreViewModel: ObservableObject {
     
     func checkUserInCore(user: FetchedResults<User>)
     {
-        let appVM = AppViewModel.appVM
         if !user.isEmpty
         {
             let foundUser = user[0]
@@ -43,27 +42,32 @@ final class CheckCoreViewModel: ObservableObject {
                 let springPoints = Int(foundUser.springPoints)
                 let points = Int(foundUser.points)
                 let fallPercentile = Int(foundUser.fallPercentile)
-                let springPercentile = Int(foundUser.springPoints)
-                let summerPercentile = Int(foundUser.springPercentile)
+                let springPercentile = Int(foundUser.springPercentile)
+                let summerPercentile = Int(foundUser.summerPercentile)
                 let photo = foundUser.photo?.base64EncodedString() ?? ""
 
+                AppViewModel.appVM.darkMode = foundUser.darkMode
                 
-                appVM.darkMode = foundUser.darkMode
+                NotificationViewModel.instance.isGBMSelected = foundUser.gbmNotif
+                NotificationViewModel.instance.isInfoSelected = foundUser.infoNotif
+                NotificationViewModel.instance.isWorkShopSelected = foundUser.workNotif
+                NotificationViewModel.instance.isVolunteeringSelected = foundUser.volNotif
+                NotificationViewModel.instance.isSocialSelected = foundUser.socialNotif
+                                
+                AppViewModel.appVM.shpeito = SHPEito(username: username, password: "* * * * *", remember: "", base64StringPhoto: photo, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: fallPoints, summerPoints: summerPoints, springPoints: springPoints, points: points, fallPercentile: fallPercentile, springPercentile: springPercentile, summerPercentile: summerPercentile)
                 
-                appVM.shpeito = SHPEito(username: username, password: "* * * * *", remember: "", base64StringPhoto: photo, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: fallPoints, summerPoints: summerPoints, springPoints: springPoints, points: points, fallPercentile: fallPercentile, springPercentile: springPercentile, summerPercentile: summerPercentile)
-                
-                appVM.setPageIndex(index: 2)
+                AppViewModel.appVM.setPageIndex(index: 2)
             }
             else
             {
                 print("User exists but could not access all data necessary")
-                appVM.setPageIndex(index: 3)
+                AppViewModel.appVM.setPageIndex(index: 3)
             }
         }
         else
         {
             print("No Users in Core")
-            appVM.setPageIndex(index: 3)
+            AppViewModel.appVM.setPageIndex(index: 3)
         }
     }
     

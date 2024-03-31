@@ -10,11 +10,15 @@ final class SignInViewModel: ObservableObject
     // Out of View variables (Models)
     @Published var shpeito: SHPEito
     @Published var viewPassword: Bool = false
+    @Published var error: String = "" // Error message variable
     @Environment(\.colorScheme) var colorScheme
     
     //Toast duration
     @Published var toastDuration = 3.0
     
+    // Indicator for ongoing communication
+    @Published var isCommunicating: Bool = false
+
     // Initialize SignInViewModel
     init(shpeito: SHPEito) {
         self.shpeito = shpeito
@@ -35,8 +39,7 @@ final class SignInViewModel: ObservableObject
         self.summerPoints=shpeito.summerPoints
         self.springPoints=shpeito.springPoints
         //self.events=shpeito.events
-        
-        // Any setup steps you need...
+       
     }
     
     // In View variables (What is being DISPLAYED & What is being INTERACTED WITH)
@@ -86,10 +89,52 @@ final class SignInViewModel: ObservableObject
         self.shpeito.username = username
         self.shpeito.password = password
         
+        // Toggle indicator to show ongoing communication
+        self.isCommunicating = true
+        
+        
+        
+        
+        
         requestHandler.signIn(username: username, password: password) { data in
+            
+            // Toggle indicator to hide ongoing communication
+            self.isCommunicating = false
+        
+            
             // Check that no error was detected
-            if data["error"] == nil {
-                // Check if all the data is there and is the correct Type
+            if let error = data["error"] as? String {
+                // Handle different error types
+                switch error 
+                {
+                    case "Wrong credentials.":
+                        self.error = "Incorrect username or password."
+                    case "User not found.":
+                        self.error = "User account not found."
+                    case "Network Error":
+                        self.error = "Could not establish a connection to server. Try again later."
+                    case "Errors":
+                        if username.isEmpty || password.isEmpty {
+                            self.error = "Missing username and/or password."
+                        }
+                        else{
+                            self.error = "Unexpected error occurred. Try again later."
+                            }
+                    default:
+                        self.error = "Unexpected error occurred. Try again later."
+                }
+                
+                AppViewModel.appVM.toastMessage = self.error
+                withAnimation(.easeIn(duration: 0.3))
+                {
+                    AppViewModel.appVM.showToast = true
+                }
+                
+                    
+                return print(self.error)
+            } else {
+                self.isCommunicating = true
+                // Process successful sign-in
                 if let firstName = data["firstName"] as? String,
                    let lastName = data["lastName"] as? String,
                    let year = data["year"] as? String,
@@ -110,22 +155,18 @@ final class SignInViewModel: ObservableObject
                    let links = data["links"] as? [String],
                    let photo = data["photo"] as? String
                 {
+                    let prefixToRemove = "data:image/jpeg;base64,"
+                    let base64StringPhoto = photo.replacingOccurrences(of: prefixToRemove, with: "")
                     //TODO: Finish adding fields to the SHPEito
-                    self.shpeito = SHPEito(username: username, password: password, remember: "True", base64StringPhoto: photo, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: 0, summerPoints: 0, springPoints: 0, points: 0, fallPercentile: 0, springPercentile: 0, summerPercentile: 0)
+                    self.shpeito = SHPEito(username: username, password: password, remember: "True", base64StringPhoto: base64StringPhoto, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: 0, summerPoints: 0, springPoints: 0, points: 0, fallPercentile: 0, springPercentile: 0, summerPercentile: 0)
+
                     
                     // Store user in core memory
                     self.addUserItemToCore(viewContext: viewContext)
                     
                     AppViewModel.appVM.setPageIndex(index: 2)
                     AppViewModel.appVM.shpeito = self.shpeito
-                } else {
-                    // Needs to be handled
-                    self.signInButtonClicked = false
-                    print("Incorrect data")
                 }
-            } else {
-                self.signInButtonClicked = false
-                print(data["error"] as Any)
             }
         }
     }
@@ -164,21 +205,12 @@ final class SignInViewModel: ObservableObject
         user.summerPercentile = Int64(shpeito.summerPercentile)
         user.darkMode = AppViewModel.appVM.darkMode
         
-        do { try viewContext.save() } catch { print("Could not save to Core") }
+        do { try viewContext.save() } catch { print("Could not save user to Core") }
     }
 
     // Add this function to Profile View Model for sign out function
-    func deleteUserItemToCore(viewContext:NSManagedObjectContext, user:User)
-    {
+    func deleteUserItemToCore(viewContext: NSManagedObjectContext, user: User) {
         viewContext.delete(user)
-        do { try viewContext.save() } catch { print("Could not save to Core") }
-    }
-
-
-    
-    // Method to get username
-    func getUsername() -> String {
-        return self.shpeito.username
+        do { try viewContext.save() } catch { print("Could not delete user from Core") }
     }
 }
-

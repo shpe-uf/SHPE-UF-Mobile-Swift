@@ -22,6 +22,8 @@ class DataManager: NSObject, ObservableObject {
             if let error = error {
                 self.attemptMigration()
             }
+            
+            self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         }
     }
     
@@ -42,7 +44,6 @@ class DataManager: NSObject, ObservableObject {
                 at: storeURL,
                 options: migrationOptions
             )
-            print("Migration successful")
         } catch {
             print("Migration failed, clearing core of models: \(error)")
             self.clearCoreData()

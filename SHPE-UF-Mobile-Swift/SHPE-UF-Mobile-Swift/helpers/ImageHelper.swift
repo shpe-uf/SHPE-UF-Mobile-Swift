@@ -18,7 +18,7 @@ extension UIImage {
         }
     
     func resize() -> UIImage? {
-            let newSize = CGSize(width: self.size.width / 8, height: self.size.height / 8)
+            let newSize = CGSize(width: self.size.width / 16, height: self.size.height / 16)
             let renderer = UIGraphicsImageRenderer(size: newSize)
             return renderer.image { (context) in
                 self.draw(in: CGRect(origin: .zero, size: newSize))
@@ -26,7 +26,6 @@ extension UIImage {
         }
     
     func cropToSquare() -> UIImage? {
-            print(self.size)
             // Calculate the crop rectangle
             let imageSize = self.size
             let smallestSide = min(imageSize.width, imageSize.height)
@@ -71,7 +70,6 @@ extension UIImage {
         
         // Convert the CGImage back to UIImage
         let newUIImage = UIImage(cgImage: newCGImage)
-        print("RGB Conversion: \(String(describing: newUIImage.sizeInBytes()))")
         return newUIImage
     }
 }

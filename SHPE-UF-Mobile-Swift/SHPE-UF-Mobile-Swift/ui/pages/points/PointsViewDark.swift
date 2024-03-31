@@ -13,7 +13,7 @@ struct PointsViewDark: View {
     
     @State private var redeem = false;
     
-    // REFACTOR
+    // GRADIENTS FOR POINTSUI
     
     var fallGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
                                                                Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 1.00)],

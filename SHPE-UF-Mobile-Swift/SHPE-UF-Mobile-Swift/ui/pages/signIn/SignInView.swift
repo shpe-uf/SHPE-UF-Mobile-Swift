@@ -34,7 +34,7 @@ struct SignInView: View
         {
             if appVM.showToast
             {
-                  ToastView(message: "Please check your email to\nconfirm your account!")
+                ToastView(message: appVM.toastMessage)
                   .transition(.move(edge: .top).combined(with: .opacity))
                   .zIndex(999)
                   .offset(y: -UIScreen.main.bounds.height * 0.325)
@@ -87,7 +87,7 @@ struct SignInView: View
                 // Email Text
                 VStack(alignment: .leading)
                 {
-                    Text("Email")
+                    Text("Username")
                       .font(Font.custom("Univers LT Std", size: 16))
                       .foregroundColor(Color("whiteText"))
                     
@@ -139,7 +139,7 @@ struct SignInView: View
                                 .autocorrectionDisabled()
                         }
                         
-                        Image(viewModel.viewPassword ? "swift.littlepfp" :"Eye Closed")
+                        Image(viewModel.viewPassword ? "open_eye" :"Eye Closed")
                             .frame(width: 22.32634, height: 14.58338)
                             .background(Color.white)
                             .padding(.horizontal, 12)
@@ -160,7 +160,7 @@ struct SignInView: View
                     viewModel.signIn(username: username, password: password, viewContext: viewContext)
                     viewModel.signInButtonClicked = true
                 }) {
-                    Text("Sign In")
+                    Text(self.viewModel.isCommunicating ? "Loading..." : "Sign In")
                         .font(Font.custom("Viga-Regular", size: 16))
                         .foregroundColor(Color.white)
                         .frame(width: 267, height: 42)
@@ -168,21 +168,14 @@ struct SignInView: View
                         .cornerRadius(100)
                         .padding()
                 }
-                .disabled(viewModel.signInButtonClicked)
-                
-                if viewModel.signInButtonClicked {
-                    if username.isEmpty || password.isEmpty {
-                        Text("Please enter username and password")
-                            .foregroundColor(.white)
-                    }
-                }
+
                 
                 HStack
                 {
                     Text("Don’t have an acccount?")
                       .font(Font.custom("Univers LT Std", size: 14))
                       .foregroundColor(Color("whiteText"))
-                      .frame(width:180, height:17)
+                      .frame(width:162, height:17)
                     Text("Sign Up")
                         .font(Font.custom("Univers LT Std", size: 14))
                         .foregroundColor(Color("lblue"))
@@ -196,6 +189,25 @@ struct SignInView: View
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
             .background(Color("darkBlue"))
             .padding(.top, UIScreen.main.bounds.height * 0.17)
+            
+//            if viewModel.signInButtonClicked {
+//                if self.viewModel.isCommunicating == true{
+//                    Text("Loading...")
+//                        .foregroundColor(.black)
+//                        .font(.caption)
+//                        .padding(.top,260)
+//                    
+//                }
+//
+//                else if !viewModel.error.isEmpty{
+//                    Text(self.viewModel.error)
+//                            .foregroundColor(.red)
+//                            .font(.caption)
+//                            .padding(.bottom,60)
+//                    }
+//            
+//                
+//            }
         }
     }
 }

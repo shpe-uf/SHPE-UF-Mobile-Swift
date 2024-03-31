@@ -6,19 +6,35 @@
 //
 
 import Foundation
+import CoreData
+import SwiftUI
 
 final class HomeViewModel: ObservableObject {
     private var requestHandler = RequestHandler()
     
     @Published var events: [Event] = []
     
-    init() {
-        fetchEvents()
+    init(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
+        fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
     }
     
-    func fetchEvents(){
+    func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext){
         // Set the minimum date for events to be fetched (e.g., today's date)
-        let minDate = Date()
+        
+        func dateOneMonthAgo() -> Date? {
+            // Get the current calendar and today's date
+            let calendar = Calendar.current
+            let currentDate = Date()
+            
+            // Calculate the date components for one month ago
+            var dateComponents = DateComponents()
+            dateComponents.month = -1
+            
+            // Get the date one month ago
+            return calendar.date(byAdding: dateComponents, to: currentDate)
+        }
+        
+        let minDate = dateOneMonthAgo()!
         
         // Call the fetchEvents method from the RequestHandler
         requestHandler.fetchEvents(minDate: minDate) { [weak self] (events, success, error) in
@@ -35,10 +51,24 @@ final class HomeViewModel: ObservableObject {
                     self?.events = sortedEvents
                 } else {
                     // Handle error condition
+                    self?.events = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
                     print("Error fetching events: \(error)")
                 }
             }
         }
+    }
+    
+    func getUpcomingEvents()->[Event]
+    {
+        var upcomingEvents:[Event] = []
+        for event in events
+        {
+            if event.start.dateTime > Date()
+            {
+                upcomingEvents.append(event)
+            }
+        }
+        return upcomingEvents
     }
     
     private func updateEventTypes() {
@@ -81,7 +111,7 @@ final class HomeViewModel: ObservableObject {
                                              eventType: event.eventType,
                                              htmlLink: event.htmlLink,
                                              iCalUID: event.iCalUID,
-                                             id: event.id,
+                                             identifier: event.identifier,
                                              kind: event.kind,
                                              organizer: event.organizer,
                                              sequence: event.sequence,
@@ -89,7 +119,9 @@ final class HomeViewModel: ObservableObject {
                                              status: event.status,
                                              summary: event.summary,
                                              updated: event.updated,
-                                             location: event.location)
+                                             location: event.location,
+                                             description: event.description
+                        )
          
                         expandedEvents.append(newEvent)
                     }

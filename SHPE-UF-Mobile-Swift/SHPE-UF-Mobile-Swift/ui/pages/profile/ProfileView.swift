@@ -14,10 +14,14 @@ struct ProfileView: View
     @EnvironmentObject var manager: DataManager
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
+    @FetchRequest(sortDescriptors: []) private var userEvents: FetchedResults<CoreUserEvent>
     @StateObject var coreVM:CheckCoreViewModel = CheckCoreViewModel()
     @StateObject var appVM:AppViewModel = AppViewModel.appVM
     
     @StateObject var vm:ProfileViewModel
+    
+    @State var validUsername:Bool = true
     
     var body: some View {
         
@@ -100,17 +104,23 @@ struct ProfileView: View
                         .sheet(isPresented: $vm.showImagePicker, onDismiss: {})
                         {
                             ImagePicker(selectedImage: $vm.selectedImage, sourceType: .photoLibrary)
+                                .ignoresSafeArea()
                         }
                 }
                 
                 if vm.isEditing
                 {
                     TextField(vm.newName, text: $vm.newName)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
                         .multilineTextAlignment(.center)
                         .font(Font.custom("Viga-Regular", size: 24))
                         .overlay(Rectangle().frame(height: 1).padding(.top, 35))
                         .offset(y:120)
-                        .frame(width: CGFloat(vm.newName.count) * 12)
+                        .frame(width: CGFloat(vm.newName.count) * 15)
+                        .onSubmit {
+                            vm.validateName()
+                        }
                         
                 }
                 else
@@ -178,10 +188,31 @@ struct ProfileView: View
                             if vm.isEditing
                             {
                                 TextField(vm.newName, text: $vm.newName)
+                                    .autocorrectionDisabled()
+                                    .textInputAutocapitalization(.never)
                                     .font(.system(size: 16))
                                     .padding(.top, 5)
                                     .frame(width: 270)
                                     .overlay(Rectangle().frame(height: 1).padding(.top, 35))
+                                    .onSubmit {
+                                        vm.validateName()
+                                    }
+                                
+                                if vm.invalidFirstName
+                                {
+                                    Text("First name must be 3-20 characters, no special characters or numbers")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                        .padding(.top, 5)
+                                }
+                                
+                                if vm.invalidLastName
+                                {
+                                    Text("Last name must be 3-20 characters, no special characters or numbers")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                        .padding(.top, 5)
+                                }
                                     
                             }
                             else
@@ -213,21 +244,9 @@ struct ProfileView: View
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
                             
-                            if vm.isEditing
-                            {
-                                TextField("vm.shpeito.name", text: $vm.shpeito.username)
-                                    .font(.system(size: 16))
-                                    .padding(.top, 5)
-                                    .frame(width: 270)
-                                    .overlay(Rectangle().frame(height: 1).padding(.top, 35))
-                                    
-                            }
-                            else
-                            {
-                                Text("\(vm.shpeito.username)")
-                                    .font(.system(size: 16))
-                                    .padding(.top, 5)
-                            }
+                            Text("\(vm.shpeito.username)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
@@ -486,11 +505,12 @@ struct ProfileView: View
                                 MultipleLabels(placeholder: "Add your classes here", change: $vm.newClasses, validationFunction: {_ in true})
                                     .frame(height: {
                                         var count:CGFloat = 0
+                                        var padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
                                         for item in vm.newClasses
                                         {
                                             count += CGFloat(item.count)
                                         }
-                                        return ceil( count / 20.0 ) * 50 + 70
+                                        return ceil( (count * 2.5 + padding) / 100.0 ) * 50 + 70
                                     }())
                             }
                             else
@@ -540,11 +560,12 @@ struct ProfileView: View
                                 MultipleLabels(placeholder: "Add your internships here", change: $vm.newInternships, validationFunction: {_ in true})
                                     .frame(height: {
                                         var count:CGFloat = 0
+                                        var padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
                                         for item in vm.newInternships
                                         {
                                             count += CGFloat(item.count)
                                         }
-                                        return ceil( count / 20.0 ) * 50 + 70
+                                        return ceil( (count*2.5 + padding) / 100.0 ) * 50 + 70
                                     }())
                             }
                             else
@@ -600,11 +621,12 @@ struct ProfileView: View
                                 })
                                     .frame(height: {
                                         var count:CGFloat = 0
+                                        var padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
                                         for item in vm.newLinks
                                         {
                                             count += CGFloat(item.count)
                                         }
-                                        return ceil( count / 20.0 ) * 50 + 70
+                                        return ceil( (count*2.5 + padding) / 100.0 ) * 50 + 70
                                     }())
                             }
                             else
@@ -679,7 +701,7 @@ struct ProfileView: View
                                     )
                                     .padding(.trailing, 20)
                                     .onTapGesture {
-                                        appVM.setDarkMode(bool: false, user: user)
+                                        appVM.setDarkMode(bool: false, user: user, viewContext: viewContext)
                                     }
                             }
                         }
@@ -721,7 +743,7 @@ struct ProfileView: View
                                     )
                                     .padding(.trailing, 20)
                                     .onTapGesture {
-                                        appVM.setDarkMode(bool: true, user: user)
+                                        appVM.setDarkMode(bool: true, user: user, viewContext: viewContext)
                                     }
                             }
                         }
@@ -733,7 +755,8 @@ struct ProfileView: View
                             Button {
                                 if !user.isEmpty
                                 {
-                                    coreVM.deleteUserItemToCore(viewContext: viewContext, user: user[0])
+                                    NotificationViewModel.instance.clearPendingNotifications(fetchedEvents: coreEvents, viewContext: viewContext)
+                                    CoreFunctions().clearCore(events: coreEvents, users: user, userEvents: userEvents, viewContext: viewContext)
                                     AppViewModel.appVM.setPageIndex(index: 3)
                                 }
                                 else
@@ -763,7 +786,6 @@ struct ProfileView: View
                             HStack
                             {
                                 Button {
-                                    print("save changes")
                                     vm.saveEditsToProfile(user: user, viewContext: viewContext)
                                 } label: {
                                     Text("Save")
@@ -781,7 +803,6 @@ struct ProfileView: View
                                 .padding(.trailing, 20)
                                 
                                 Button {
-                                    print("cancel changes")
                                     vm.clearFields()
                                     vm.isEditing = false
                                 } label: {
@@ -926,6 +947,7 @@ struct MultipleLabels:View {
             HStack
             {
                 TextField(placeholder, text: $input)
+                    .limitInputLength(value: $input, length: 100)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(TextInputAutocapitalization(.none))
                     .font(.system(size: 16))
@@ -1085,35 +1107,7 @@ struct ImagePicker: UIViewControllerRepresentable {
 }
 
 #Preview {
-    ProfileView(vm:ProfileViewModel(shpeito: SHPEito(
-            username: "dvera0322",
-            password: "",
-            remember: "true",
-            base64StringPhoto: "",
-            firstName: "David",
-            lastName: "Denis",
-            year: "Sophmore",
-            major: "Computer Science",
-            id: "642f7f80e8839f0014e8be9b",
-            token: "",
-            confirmed: true,
-            updatedAt: "",
-            createdAt: "",
-            email: "denisdavid@ufl.edu",
-            gender: "Male",
-            ethnicity: "Hispanic",
-            originCountry: "Cuba",
-            graduationYear: "2026",
-            classes: ["Data Structures", "Discrete Structures"],
-            internships: ["Apple"],
-            links: ["google.com"],
-            fallPoints: 20,
-            summerPoints: 17,
-            springPoints: 30,
-            points: 67,
-            fallPercentile: 93,
-            springPercentile: 98,
-            summerPercentile: 78)
+    ProfileView(vm:ProfileViewModel(shpeito: SHPEito()
     ))
 }
     
