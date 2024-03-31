@@ -244,34 +244,9 @@ struct ProfileView: View
                             .frame(maxWidth: .infinity, alignment: .leading)
                             
                             
-                            if vm.isEditing
-                            {
-                                TextField(vm.shpeito.username, text: $vm.newUsername)
-                                    .autocorrectionDisabled()
-                                    .textInputAutocapitalization(.never)
-                                    .font(.system(size: 16))
-                                    .padding(.top, 5)
-                                    .frame(width: 270)
-                                    .overlay(Rectangle().frame(height: 1).padding(.top, 35))
-                                    .onSubmit {
-                                        vm.invalidUsername = !vm.validateUsername(input: vm.newUsername)
-                                    }
-                                
-                                if vm.invalidUsername
-                                {
-                                    Text("Username must be 6-20 characters, periods, & underscores")
-                                        .font(.caption)
-                                        .foregroundColor(.red)
-                                        .padding(.top, 5)
-                                }
-                                    
-                            }
-                            else
-                            {
-                                Text("\(vm.shpeito.username)")
-                                    .font(.system(size: 16))
-                                    .padding(.top, 5)
-                            }
+                            Text("\(vm.shpeito.username)")
+                                .font(.system(size: 16))
+                                .padding(.top, 5)
                         }
                         .padding(20)
                         .frame(maxWidth: .infinity)
