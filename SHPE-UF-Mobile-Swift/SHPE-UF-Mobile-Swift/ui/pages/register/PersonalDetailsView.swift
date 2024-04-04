@@ -21,26 +21,26 @@ struct PersonalView : View
                     {
                         //header message
                         Text("Enter your info to finalize your profile")
-                          .font(Font.custom("Univers LT Std", size: 14))
-                          .foregroundColor(Color("whiteText"))
+                            .font(Font.custom("Univers LT Std", size: 14))
+                            .foregroundColor(Color("whiteText"))
                         
                         //personal details header
                         Text("Personal Details")
-                          .font(Font.custom("Viga-Regular", size: 37))
-                          .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
-                          .frame(maxWidth: .infinity, alignment: .topLeading)
+                            .font(Font.custom("Viga-Regular", size: 37))
+                            .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
+                            .frame(maxWidth: .infinity, alignment: .topLeading)
                     }
                     
                     Spacer()
                     
                     //pfp imagae
                     Image("User_cicrle_duotone")
-                      .frame(width: 50, height: 52.5)
-                      .clipped()
+                        .frame(width: 50, height: 52.5)
+                        .clipped()
                 }
                 .padding(.horizontal)
-            
-            
+                
+                
                 Spacer()
                 
                 //user fields
@@ -51,9 +51,9 @@ struct PersonalView : View
                     {
                         //first name
                         Text("First Name")
-                          .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
-                          .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                            .font(Font.custom("Univers LT Std", size: 16))
+                            .foregroundColor(Color("whiteText"))
+                            .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
                             Image("swift.littlepfp")
@@ -81,9 +81,9 @@ struct PersonalView : View
                         
                         //last name
                         Text("Last Name")
-                          .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
-                          .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                            .font(Font.custom("Univers LT Std", size: 16))
+                            .foregroundColor(Color("whiteText"))
+                            .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
                             Image("swift.littlepfp")
@@ -111,9 +111,9 @@ struct PersonalView : View
                         
                         //gender
                         Text("Gender")
-                          .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
-                          .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                            .font(Font.custom("Univers LT Std", size: 16))
+                            .foregroundColor(Color("whiteText"))
+                            .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
                             Image("swift.littlegender")
@@ -152,9 +152,9 @@ struct PersonalView : View
                         
                         //ethnicity
                         Text("Ethncity")
-                          .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
-                          .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                            .font(Font.custom("Univers LT Std", size: 16))
+                            .foregroundColor(Color("whiteText"))
+                            .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         
                         HStack(spacing: 0)
                         {
@@ -217,11 +217,11 @@ struct PersonalView : View
                             }
                             .accentColor(.black)
                             .onChange(of: viewModel.originInput, { viewModel.originPickerInteracted = true })
-                       }
-                       .pickerStyle(MenuPickerStyle())
-                       .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.originInput, maxWidth: 270, fontSize: 18))
-                       .background(Color.white)
-                       .cornerRadius(10)
+                        }
+                        .pickerStyle(MenuPickerStyle())
+                        .frame(width: 270, height: viewModel.calculatePickerHeight(for: viewModel.originInput, maxWidth: 270, fontSize: 18))
+                        .background(Color.white)
+                        .cornerRadius(10)
                         
                         //origin validation
                         if !viewModel.validateCountryOfOriginSelected() && viewModel.originPickerInteracted 
@@ -233,7 +233,7 @@ struct PersonalView : View
                     }
                     .padding(.horizontal, 50)
                 }
-//                .padding(.horizontal, 50)
+                //                .padding(.horizontal, 50)
                 
                 Spacer()
                 
@@ -241,7 +241,7 @@ struct PersonalView : View
                 {
                     //back button
                     Button(action: 
-                    {
+                            {
                         //move to AcademicView if valid
                         viewModel.firstNameValidated = true
                         viewModel.lastNameValidated = true
@@ -261,10 +261,11 @@ struct PersonalView : View
                             .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                             .cornerRadius(20)
                     }
-                //}
-                .padding(.bottom, 40)
+                    //}
+                    .padding(.bottom, 40)
+                }
+                .background(Color("darkBlue"))
             }
-            .background(Color("darkBlue"))
         }
     }
 }

@@ -23,19 +23,8 @@ struct RegisterView: View
             Color(red: 0.82, green: 0.35, blue: 0.09)
                 .ignoresSafeArea()
             
-//            if viewModel.viewIndex > 0 {
-//                   Button(action: {
-//                       // This action should be customized to fit your view index logic
-//                       // For example, decrement the view index or set it to the specific index of the previous view
-//                       viewModel.viewIndex -= 1
-//                   }) {
-//                       Image(systemName: "arrowshape.turn.up.left.fill")
-//                           .foregroundColor(Color.gray) // Set this to your preferred color
-//                           .padding()
-//                           .background(Color.gray.opacity(0.5)) // Set this to your preferred color and opacity
-//                           .cornerRadius(30)
-                   }
-               }
+
+               
             //gator pic
             Rectangle()
               .foregroundColor(.clear)
