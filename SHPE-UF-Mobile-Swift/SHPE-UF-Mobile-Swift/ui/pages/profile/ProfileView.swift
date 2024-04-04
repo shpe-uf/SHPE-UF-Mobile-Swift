@@ -827,6 +827,9 @@ struct ProfileView: View
                     .padding(.bottom, 100)
                     
                 }
+                .gesture(DragGesture().onChanged({ _ in
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }))
             }
             .padding(.top, vm.isEditing ? 20 : 0)
         }
@@ -836,6 +839,9 @@ struct ProfileView: View
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
+        .gesture(DragGesture().onChanged({ _ in
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }))
     }
 }
 
