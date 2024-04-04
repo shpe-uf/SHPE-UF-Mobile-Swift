@@ -833,8 +833,9 @@ struct ProfileView: View
         .ignoresSafeArea()
         .background(Color("Profile-Background"))
         .preferredColorScheme(appVM.darkMode ? .dark : .light)
-        
-        
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     }
 }
 

@@ -218,7 +218,7 @@ struct eventInfo: View {
                     .cornerRadius(20)
                     VStack{
                         // Event title and icon
-                        HStack{
+                        HStack (alignment: .top){
                             Text(event.summary)
                             .bold()
                             .font(Font.custom("Viga-Regular", size: 32))
@@ -260,10 +260,11 @@ struct eventInfo: View {
                                     }
                                 }
                             }
+                            .padding(.top, 5)
                         }
                         .padding(.horizontal, 50)
                         .frame(maxWidth: UIScreen.main.bounds.width)
-                        .frame(height: 130, alignment: .leading)
+                        .frame(height: 130, alignment: .topLeading)
                         .padding(.top, 100)
                         // Event date
                         HStack(spacing: 20){
