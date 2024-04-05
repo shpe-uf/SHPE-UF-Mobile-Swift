@@ -10,8 +10,8 @@ import CoreData
 // Define a view for managing notification settings within the app
 struct NotificationView: View {
     @ObservedObject var viewModel:HomeViewModel
+    @Binding var showView: String
     // Manage the presentation state of the view
-    @Environment(\.presentationMode) var presentationMode
     @Environment(\.colorScheme) var colorScheme
     
     @Environment(\.managedObjectContext) private var viewContext
@@ -34,7 +34,7 @@ struct NotificationView: View {
                 HStack{
                     Button {
                         // Dismiss the current view when the button is pressed
-                        presentationMode.wrappedValue.dismiss()
+                        showView = "HomeView"
                     } label: {
                         // Button label with an image
                         Image("Back")
