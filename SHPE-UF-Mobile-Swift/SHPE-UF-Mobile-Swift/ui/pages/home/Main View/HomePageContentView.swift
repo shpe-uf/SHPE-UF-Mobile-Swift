@@ -5,7 +5,7 @@ import SwiftUI
 struct HomePageContentView: View {
     @StateObject private var appVM:AppViewModel = AppViewModel.appVM
     @Environment(\.colorScheme) var colorScheme
-    @State private var selectedTab: Int = 1
+    @State private var selectedTab: Int = 0
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>

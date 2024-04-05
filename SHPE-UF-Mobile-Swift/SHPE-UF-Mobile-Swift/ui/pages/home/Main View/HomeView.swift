@@ -7,20 +7,23 @@ struct HomeView: View {
     //Variables for the view model
     @Environment(\.colorScheme) var colorScheme // Detects the system's color scheme (dark or light mode)
     let dateHelper = DateHelper()
-    @State private var isNotificationButtonPagePresented = false
     @State private var displayedMonth: String = ""
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     @StateObject var viewModel:HomeViewModel
     
+    @State private var showView = "HomeView"
+    @State private var currentEventIndex:Int?
     var body: some View {
-        NavigationView {
+        switch showView
+        {
+        case "HomeView":
             VStack(spacing: 0) {
                 // Top bar with the current month and notification icon
                 ZStack {
                     Constants.orange
-                        .frame(height: 93)
+                        .frame(height: 100)
                     HStack(spacing: 20) {
                         // Displaying the current month
                         Text(displayedMonth)
@@ -30,7 +33,11 @@ struct HomeView: View {
                         
                         Spacer()
                         // Navigation link to the notification view
-                        NavigationLink(destination: NotificationView(viewModel: viewModel)) {
+                        Button {
+                            // Dismiss the current view when the button is pressed
+                            showView = "NotificationView"
+                        } label: {
+                            // Button label with an image
                             Image("Doorbell")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -85,7 +92,12 @@ struct HomeView: View {
                                         }
                                         
                                         // Navigation link to detailed event information
-                                        NavigationLink(destination: eventInfo(event: upcomingEvents[index])) {
+                                        Button {
+                                            // Dismiss the current view when the button is pressed
+                                            showView = "EventView"
+                                            currentEventIndex = index
+                                        } label: {
+                                            // Button label with an image
                                             eventBox(event: upcomingEvents[index])
                                                 .frame(width: 324, height: 69)
                                                 .background(
@@ -108,7 +120,6 @@ struct HomeView: View {
                                                             }
                                                     }
                                                 )
-                                            
                                         }
                                     }
                                    
@@ -138,19 +149,28 @@ struct HomeView: View {
                         }
                         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                         .frame(maxWidth: .infinity)
+                        .onAppear {
+                            // Initialize lastUpdatedVisibleMonths with initial visible months
+                            displayedMonth = dateHelper.getCurrentMonth()
+                            NotificationViewModel.instance.pendingNotifications = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
+
+                        }
                     }
                 }
             }
             .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
             .edgesIgnoringSafeArea(.all)
-        }
-        .onAppear {
-            // Initialize lastUpdatedVisibleMonths with initial visible months
-            displayedMonth = dateHelper.getCurrentMonth()
-            NotificationViewModel.instance.pendingNotifications = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
-
+        case "NotificationView":
+            NotificationView(viewModel: viewModel, showView: $showView)
+            
+        case "EventView":
+            eventInfo(event: viewModel.getUpcomingEvents()[currentEventIndex ?? 0], showView: $showView)
+            
+        default:
+            Text("Default") //If this occurs things have went really badly
         }
     }
+            
     
     // Helper function to check if two events occur on the same day
     func sameDay(_ event1: Event, _ event2: Event) -> Bool {
@@ -161,7 +181,7 @@ struct HomeView: View {
 
 struct eventInfo: View {
     var event: Event // The event to display information for
-    @Environment(\.presentationMode) var presentationMode // For dismissing the view
+    @Binding var showView: String // For dismissing the view
     @Environment(\.colorScheme) var colorScheme
     @State private var notifVM: NotificationViewModel = NotificationViewModel.instance
     @State private var tappedNotification:Bool = false
@@ -195,7 +215,7 @@ struct eventInfo: View {
                 // Back button
                 HStack {
                     Button {
-                        presentationMode.wrappedValue.dismiss()
+                        showView = "HomeView"
                     } label: {
                         ZStack {
                             Image("Ellipse_back")
@@ -308,7 +328,7 @@ struct eventInfo: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                             )
-                            Text(String(event.location ?? "Reitz Union Ballroom"))
+                            Text(String(event.location ?? "TBA"))
                               .font(Font.custom("UniversLTStd", size: 18))
                               .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                         }
