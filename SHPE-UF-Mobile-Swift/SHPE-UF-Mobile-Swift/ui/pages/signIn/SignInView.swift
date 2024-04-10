@@ -173,11 +173,11 @@ struct SignInView: View
                 HStack
                 {
                     Text("Don’t have an acccount?")
-                      .font(Font.custom("Univers LT Std", size: 14))
+                      .font(Font.custom("Univers LT Std", size: 13))
                       .foregroundColor(Color("whiteText"))
                       .frame(width:162, height:17)
                     Text("Sign Up")
-                        .font(Font.custom("Univers LT Std", size: 14))
+                        .font(Font.custom("Univers LT Std", size: 13))
                         .foregroundColor(Color("lblue"))
                         .onTapGesture {
                             appVM.setPageIndex(index: 1)
