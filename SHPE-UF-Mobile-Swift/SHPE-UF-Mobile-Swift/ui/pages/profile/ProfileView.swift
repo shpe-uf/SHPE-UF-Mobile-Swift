@@ -827,14 +827,21 @@ struct ProfileView: View
                     .padding(.bottom, 100)
                     
                 }
+                .gesture(DragGesture().onChanged({ _ in
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }))
             }
             .padding(.top, vm.isEditing ? 20 : 0)
         }
         .ignoresSafeArea()
         .background(Color("Profile-Background"))
         .preferredColorScheme(appVM.darkMode ? .dark : .light)
-        
-        
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+        .gesture(DragGesture().onChanged({ _ in
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }))
     }
 }
 
