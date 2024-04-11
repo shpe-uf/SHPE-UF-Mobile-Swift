@@ -23,7 +23,7 @@ struct HomeView: View {
                 // Top bar with the current month and notification icon
                 ZStack {
                     Constants.orange
-                        .frame(height: 100)
+                        .frame(width: UIScreen.main.bounds.width, height: 100)
                     HStack(spacing: 20) {
                         // Displaying the current month
                         Text(displayedMonth)
@@ -41,11 +41,11 @@ struct HomeView: View {
                             Image("Doorbell")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 33, height: 32)
-                                .padding(.top, 20)
+                                .frame(width: 33, height: 32, alignment: .topLeading)
+                                .padding(.top, UIScreen.main.bounds.width * 0.05)
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
                 }
 
                 // Main content area
@@ -200,12 +200,12 @@ struct eventInfo: View {
             VStack {
                 Rectangle()
                 .foregroundColor(.clear)
-                .frame(width: 466, height: 273)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35)
                 .background(
                 Image(eventImage)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 466, height: 273,alignment: .topLeading)
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.35, alignment: .topLeading)
                 .clipped()
                 )
                 Spacer()
@@ -219,147 +219,163 @@ struct eventInfo: View {
                     } label: {
                         ZStack {
                             Image("Ellipse_back")
-                                .frame(width: 40, height: 40)
+                                .frame(width: UIScreen.main.bounds.width * 0.15, height: UIScreen.main.bounds.height * 0.075)
                             Image("Back")
-                                .frame(width:40, height:70)
+                                .frame(width: UIScreen.main.bounds.width * 0.15, height: UIScreen.main.bounds.height * 0.10)
                         }
                     }
-                    .padding(50)
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
+                    .padding(.vertical, UIScreen.main.bounds.height * 0.04)
+                    
                     Spacer()
+
                 }
-               Spacer()
+                .padding(.bottom, UIScreen.main.bounds.height * 0.06)
+                
                 
                 // Event information card
                 ZStack{
                     Rectangle()
                     .foregroundColor(.clear)
-                    .frame(width: 393, height: 550)
+                    .frame(width: UIScreen.main.bounds.width * 1, height: UIScreen.main.bounds.height * 0.75)
+                    .alignmentGuide(.bottom) { d in d[.bottom] }
                     .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                     .cornerRadius(20)
-                    VStack{
-                        // Event title and icon
-                        HStack{
-                            Text(event.summary)
-                            .bold()
-                            .font(Font.custom("Viga-Regular", size: 32))
-                            .foregroundColor(Constants.orange)
-                            .frame(width: 200, alignment: .topLeading)
-                            .lineLimit(3)
-                            Spacer()
-                            VStack
-                            {
-                                Image(iconImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
-                                
-                                ZStack {
-                                    Image(tappedNotification ? "Ellipse_selected" : colorScheme == .dark ? "dark_ellipse" :"Ellipse")
+                    .overlay(
+                        ScrollView{
+                            VStack{
+                                // Event title and icon
+                                HStack{
+                                    Text(event.summary)
+                                    .bold()
+                                    .font(Font.custom("Viga-Regular", size: 32))
+                                    .foregroundColor(Constants.orange)
+                                    .frame(width: UIScreen.main.bounds.width * 0.5, alignment: .top)
+                                    .lineLimit(3)
+                                    Spacer()
+                                    VStack
+                                    {
+                                        Image(iconImage)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 35, height: 35)
+                                        .frame(width: UIScreen.main.bounds.width * 0.04, height: UIScreen.main.bounds.height * 0.04)
                                         
-                                    Image("Doorbell")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 25, height: 25)
-                                }
-                                .frame(width: 30, height: 30)
-                                .onTapGesture {
-                                    if notifVM.pendingNotifications.contains(where: { e in
-                                        e.identifier == event.identifier
-                                    })
-                                    {
-                                        tappedNotification = false
-                                        notifVM.removeNotificationForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                        ZStack {
+                                            Image(tappedNotification ? "Ellipse_selected" : colorScheme == .dark ? "dark_ellipse" :"Ellipse")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: UIScreen.main.bounds.width * 0.045, height: UIScreen.main.bounds.height * 0.045)
+                                                
+                                            Image("Doorbell")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: UIScreen.main.bounds.width * 0.035, height: UIScreen.main.bounds.height * 0.035)
+                                        }
+                                        .frame(width: UIScreen.main.bounds.width * 0.03, height: UIScreen.main.bounds.height * 0.03)
+                                        .onTapGesture {
+                                            if notifVM.pendingNotifications.contains(where: { e in
+                                                e.identifier == event.identifier
+                                            })
+                                            {
+                                                tappedNotification = false
+                                                notifVM.removeNotificationForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                            }
+                                            else
+                                            {
+                                                tappedNotification = true
+                                                notifVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                            }
+                                        }
                                     }
-                                    else
+                                }
+                                .padding(.horizontal, UIScreen.main.bounds.width * 0.127)
+                                .frame(maxWidth: UIScreen.main.bounds.width)
+                                .frame(height: UIScreen.main.bounds.height * 0.152, alignment: .leading)
+                                .padding(.top, UIScreen.main.bounds.height * 0.025)
+                                
+                                VStack{
+                                    // Event date
+                                    HStack(spacing: UIScreen.main.bounds.width * 0.05){
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: UIScreen.main.bounds.width * 0.08, height: UIScreen.main.bounds.height * 0.08)
+                                            .background(
+                                                Image("Calendar")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                            )
+                                        Text(startdateString)
+                                            .font(Font.custom("UniversLTStd", size: 18))
+                                            .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                                    }
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, alignment: .leading)
+                                
+                                
+                                    // Event time
+                                    HStack(spacing: UIScreen.main.bounds.width * 0.05){
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: UIScreen.main.bounds.width * 0.08, height: UIScreen.main.bounds.height * 0.08)
+                                            .background(
+                                                Image("Timer")
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                            )
+                                        Text("\(startTimeString) - \(endTimeString)")
+                                            .font(Font.custom("UniversLTStd", size: 18))
+                                            .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                                    }
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, alignment: .leading)
+                                   
+                                    // Event location
+                                    HStack(spacing: UIScreen.main.bounds.width * 0.05){
+                                        Rectangle()
+                                        .foregroundColor(.clear)
+                                        .frame(width: UIScreen.main.bounds.width * 0.08, height: UIScreen.main.bounds.height * 0.08)
+                                        .background(
+                                            Image("iconLocation")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                        )
+                                        Text(String(event.location ?? "TBA"))
+                                          .font(Font.custom("UniversLTStd", size: 18))
+                                          .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                                    }
+                                    .frame(width: UIScreen.main.bounds.width * 0.6, alignment: .leading)
+                                    
+                                    // Event description header
+                                    if let description = event.description
                                     {
-                                        tappedNotification = true
-                                        notifVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                        Text("Description:")
+                                        .font(Font.custom("UniversLTStd", size: 18))
+                                        .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
+                                        .frame(width: UIScreen.main.bounds.width * 0.265, alignment: .leading)
+                                        .padding(10)
+                                        .padding(.top, UIScreen.main.bounds.height * 0.035)
+                                        // Event description text
+                                        //Need to have event  description variables in the future
+                                        Text(description)
+                                          .font(Font.custom("UniversLTStd", size: 18))
+                                          .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                                          .frame(width: UIScreen.main.bounds.width * 0.262, height: UIScreen.main.bounds.height * 0.235, alignment: .topLeading)
                                     }
                                 }
+                                
+                                
+                               
+                                Spacer()
+                                Spacer()
                             }
                         }
-                        .padding(.horizontal, 50)
-                        .frame(maxWidth: UIScreen.main.bounds.width)
-                        .frame(height: 130, alignment: .leading)
-                        .padding(.top, 100)
-                        // Event date
-                        HStack(spacing: 20){
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 37, height: 37)
-                                .background(
-                                    Image("Calendar")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                )
-                            Text(startdateString)
-                                .font(Font.custom("UniversLTStd", size: 18))
-                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                        }
-                        .frame(width: 300, alignment: .leading)
-                        .padding(.top, 50)
                         
-                        // Event time
-                        HStack(spacing: 20){
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: 35, height: 34)
-                                .background(
-                                    Image("Timer")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                )
-                            Text("\(startTimeString) - \(endTimeString)")
-                                .font(Font.custom("UniversLTStd", size: 18))
-                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                        }
-                        .frame(width: 300, alignment: .leading)
-                       
-                        // Event location 
-                        HStack(spacing: 20){
-                            Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 34, height: 34)
-                            .background(
-                                Image("iconLocation")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                            )
-                            Text(String(event.location ?? "TBA"))
-                              .font(Font.custom("UniversLTStd", size: 18))
-                              .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                        }
-                        .frame(width: 300, alignment: .leading)
-                        // Event description header
-                        if let description = event.description
-                        {
-                            Text("Description:")
-                            .font(Font.custom("UniversLTStd", size: 18))
-                            .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
-                            .frame(width: 300, alignment: .leading)
-                            .padding(10)
-                            .padding(.top, 30)
-                            // Event description text
-                            //Need to have event  description variables in the future
-                            Text(description)
-                              .font(Font.custom("UniversLTStd", size: 18))
-                              .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                              .frame(width: 297,height: 200, alignment: .topLeading)
-                        }
                         
-                       
-                        Spacer()
-                    }
+                    )
+                    
                 }
             }
         }
-        .frame(width: 393, height: 852)
         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .edgesIgnoringSafeArea(.all)
-        .navigationBarHidden(true)
         .onAppear
         {
             tappedNotification = notifVM.pendingNotifications.contains(where: { e in
