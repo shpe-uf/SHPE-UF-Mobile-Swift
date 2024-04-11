@@ -241,17 +241,17 @@ struct PersonalView : View
                 {
                     //back button
                     Button(action: 
-                            {
+                        {
                         //move to AcademicView if valid
                         viewModel.firstNameValidated = true
                         viewModel.lastNameValidated = true
                         viewModel.genderPickerInteracted = true
                         viewModel.ethnicityPickerInteracted = true
                         viewModel.originPickerInteracted = true
-                        if viewModel.isPersonalValid()
-                        {
+//                        if viewModel.isPersonalValid()
+//                        {
                             viewModel.viewIndex = 2
-                        }
+                        //}
                     })
                     {
                         Text("Continue")
