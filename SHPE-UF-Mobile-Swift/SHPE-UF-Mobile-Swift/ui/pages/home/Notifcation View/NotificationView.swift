@@ -30,7 +30,7 @@ struct NotificationView: View {
             
             ZStack{
                 Constants.orange
-                    .frame(height: 93)
+                    .frame(height: 100)
                 HStack{
                     Button {
                         // Dismiss the current view when the button is pressed

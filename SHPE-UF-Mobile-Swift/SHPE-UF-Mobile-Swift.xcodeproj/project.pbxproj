@@ -67,7 +67,6 @@
 		951F6F052BB6983C001FDB50 /* SchemaMetadata.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EF02BB6983C001FDB50 /* SchemaMetadata.graphql.swift */; };
 		951F6F062BB6983C001FDB50 /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EF22BB6983C001FDB50 /* SHPESchema.graphql.swift */; };
 		951F6F172BB84D28001FDB50 /* GetUserEvents.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6F162BB84D28001FDB50 /* GetUserEvents.graphql.swift */; };
-		951F6F1C2BB86836001FDB50 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 951F6F1B2BB86836001FDB50 /* Apollo */; };
 		951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6F1D2BB8B134001FDB50 /* TextFieldHelper.swift */; };
 		951F6F202BB8D766001FDB50 /* RedeemPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6F1F2BB8D766001FDB50 /* RedeemPoints.graphql.swift */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
@@ -77,6 +76,7 @@
 		958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */; };
 		958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0322B9D7F93002B83F9 /* CheckCore.swift */; };
 		958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */; };
+		95C4206A2BCF04FD001FBC4F /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 95C420692BCF04FD001FBC4F /* Apollo */; };
 		95D327002B8FED88002A7DDA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D326FF2B8FED87002A7DDA /* Event.swift */; };
 		95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */; };
 		95D3708C2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */; };
@@ -206,7 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				951F6F1C2BB86836001FDB50 /* Apollo in Frameworks */,
+				95C4206A2BCF04FD001FBC4F /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,7 +583,7 @@
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
-				951F6F1B2BB86836001FDB50 /* Apollo */,
+				95C420692BCF04FD001FBC4F /* Apollo */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -658,7 +658,7 @@
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
-				951F6F1A2BB86836001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				95C420682BCF04FD001FBC4F /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -1116,20 +1116,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		951F6F1A2BB86836001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+		95C420682BCF04FD001FBC4F /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.9.3;
+				minimumVersion = 1.10.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		951F6F1B2BB86836001FDB50 /* Apollo */ = {
+		95C420692BCF04FD001FBC4F /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 951F6F1A2BB86836001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			package = 95C420682BCF04FD001FBC4F /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */

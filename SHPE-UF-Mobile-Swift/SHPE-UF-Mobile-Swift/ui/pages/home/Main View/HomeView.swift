@@ -16,158 +16,163 @@ struct HomeView: View {
     @State private var showView = "HomeView"
     @State private var currentEventIndex:Int?
     var body: some View {
-        switch showView
-        {
-        case "HomeView":
-            VStack(spacing: 0) {
-                // Top bar with the current month and notification icon
-                ZStack {
-                    Constants.orange
-                        .frame(width: UIScreen.main.bounds.width, height: 100)
-                    HStack(spacing: 20) {
-                        // Displaying the current month
-                        Text(displayedMonth)
-                            .font(Font.custom("Viga-Regular", size: 24))
-                            .foregroundColor(.white)
-                            .frame(width: 107, height: 0, alignment: .topLeading)
-                        
-                        Spacer()
-                        // Navigation link to the notification view
-                        Button {
-                            // Dismiss the current view when the button is pressed
-                            showView = "NotificationView"
-                        } label: {
-                            // Button label with an image
-                            Image("Doorbell")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 33, height: 32, alignment: .topLeading)
-                                .padding(.top, UIScreen.main.bounds.width * 0.05)
-                        }
+        VStack(spacing: 0) {
+            // Top bar with the current month and notification icon
+            ZStack {
+                Constants.orange
+                    .frame(width: UIScreen.main.bounds.width, height: 100)
+                HStack(spacing: 20) {
+                    // Displaying the current month
+                    Text(displayedMonth)
+                        .font(Font.custom("Viga-Regular", size: 24))
+                        .foregroundColor(.white)
+                        .frame(width: 107, height: 0, alignment: .topLeading)
+                    
+                    Spacer()
+                    // Navigation link to the notification view
+                    Button {
+                        // Dismiss the current view when the button is pressed
+                        showView = "NotificationView"
+                    } label: {
+                        // Button label with an image
+                        Image("Doorbell")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 33, height: 32, alignment: .topLeading)
+                            .padding(.top, UIScreen.main.bounds.width * 0.05)
                     }
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
                 }
+                .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
+            }
 
-                // Main content area
-                ZStack{
-                    ScrollView {
-                        ScrollViewReader { proxy in
-                            LazyVStack(spacing: 20) {
-                                // Loop through events and display them
-                                ForEach(viewModel.getUpcomingEvents().indices, id: \.self)
-                                { index in
-                                    let upcomingEvents = viewModel.getUpcomingEvents()
-                                    let event = upcomingEvents[index]
-                                    let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
-                                    let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
-                                    
-                                    // Event row with date and event details
-                                    HStack {
-                                        // Display date only for the first event or when the day changes
-                                        if index == 0 || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
-                                            
-                                            
-                                            VStack(alignment: .center, spacing: 0) {
-                                                Text(abrDateString)
-                                                    .font(Font.custom("UniversLTStd", size: 14))
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayTextColor)
-                                                    .frame(width: 35, height: 15, alignment: .top)
-                                                Text(numDateString)
-                                                    .font(Font.custom("UniversLTStd", size: 20))
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                                                    .frame(width: 26, height: 16, alignment: .top)
-                                            }
+            // Main content area
+            ZStack{
+                ScrollView {
+                    ScrollViewReader { proxy in
+                        LazyVStack(spacing: 20) {
+                            // Loop through events and display them
+                            ForEach(viewModel.getUpcomingEvents().indices, id: \.self)
+                            { index in
+                                let upcomingEvents = viewModel.getUpcomingEvents()
+                                let event = upcomingEvents[index]
+                                let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
+                                let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
+                                
+                                // Event row with date and event details
+                                HStack {
+                                    // Display date only for the first event or when the day changes
+                                    if index == 0 || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
+                                        
+                                        
+                                        VStack(alignment: .center, spacing: 0) {
+                                            Text(abrDateString)
+                                                .font(Font.custom("UniversLTStd", size: 14))
+                                                .multilineTextAlignment(.center)
+                                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayTextColor)
+                                                .frame(width: 35, height: 15, alignment: .top)
+                                            Text(numDateString)
+                                                .font(Font.custom("UniversLTStd", size: 20))
+                                                .multilineTextAlignment(.center)
+                                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                                                .frame(width: 26, height: 16, alignment: .top)
+                                        }
+                                        .padding(.horizontal, 2)
+                                        .padding(.top, 4)
+                                        .padding(.bottom, 8)
+                                        .frame(width: 39, height: 45, alignment: .top)
+                                    } else {
+                                        VStack { }
                                             .padding(.horizontal, 2)
                                             .padding(.top, 4)
                                             .padding(.bottom, 8)
                                             .frame(width: 39, height: 45, alignment: .top)
-                                        } else {
-                                            VStack { }
-                                                .padding(.horizontal, 2)
-                                                .padding(.top, 4)
-                                                .padding(.bottom, 8)
-                                                .frame(width: 39, height: 45, alignment: .top)
-                                        }
-                                        
-                                        // Navigation link to detailed event information
-                                        Button {
-                                            // Dismiss the current view when the button is pressed
+                                    }
+                                    
+                                    // Navigation link to detailed event information
+                                    Button {
+                                        // Dismiss the current view when the button is pressed
+                                        withAnimation(.easeInOut(duration: 0.2))
+                                        {
                                             showView = "EventView"
                                             currentEventIndex = index
-                                        } label: {
-                                            // Button label with an image
-                                            eventBox(event: upcomingEvents[index])
-                                                .frame(width: 324, height: 69)
-                                                .background(
-                                                    GeometryReader { geometry in
-                                                        Color.clear
-                                                            .onChange(of: geometry.frame(in: .global).maxY) {
-                                                                // Check if the event box is about to move out of view
-                                                                if geometry.frame(in: .global).maxY < UIScreen.main.bounds.height * 0.1 {
-                                                                    // Get the index of the next event
-                                                                    let nextEventIndex = min(index + 2, upcomingEvents.count - 1)
-                                                                    // Update displayed month based on the next event
-                                                                    displayedMonth = dateHelper.getMonth(for: upcomingEvents[nextEventIndex].start.dateTime)
-                                                                }
-                                                                else
-                                                                {
-                                                                    let priorEventIndex = max(index - 2, 0)
-                                                                    // Update displayed month based on the next event
-                                                                    displayedMonth = dateHelper.getMonth(for: upcomingEvents[priorEventIndex].start.dateTime)
-                                                                }
+                                        }
+                                    } label: {
+                                        // Button label with an image
+                                        eventBox(event: upcomingEvents[index])
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
+                                            .background(
+                                                GeometryReader { geometry in
+                                                    Color.clear
+                                                        .onChange(of: geometry.frame(in: .global).maxY) {
+                                                            // Check if the event box is about to move out of view
+                                                            if geometry.frame(in: .global).maxY < UIScreen.main.bounds.height * 0.1 {
+                                                                // Get the index of the next event
+                                                                let nextEventIndex = min(index + 2, upcomingEvents.count - 1)
+                                                                // Update displayed month based on the next event
+                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[nextEventIndex].start.dateTime)
                                                             }
-                                                    }
-                                                )
-                                        }
-                                    }
-                                   
-                                    
-                                    // Dashed line separator for events on different days
-                                    if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {
-                                        HStack{
-                                            Rectangle()
-                                                .foregroundColor(.clear)
-                                                .frame(width: 39, height: 1, alignment: .top)
-                                            Rectangle()
-                                                .frame(width: 301, height: 1, alignment: .center)
-                                                .foregroundColor(.clear)
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 1)
-                                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                                        .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
-                                                )
-                                        }
-                                        
+                                                            else
+                                                            {
+                                                                let priorEventIndex = max(index - 2, 0)
+                                                                // Update displayed month based on the next event
+                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[priorEventIndex].start.dateTime)
+                                                            }
+                                                        }
+                                                }
+                                            )
                                     }
                                 }
+                               
+                                
+                                // Dashed line separator for events on different days
+                                if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {
+                                    HStack{
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: 39, height: 1, alignment: .top)
+                                        Rectangle()
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 1, alignment: .center)
+                                            .foregroundColor(.clear)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 1)
+                                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
+                                            )
+                                    }
+                                    
+                                }
                             }
-                            .padding(.bottom, 100)
-                            .padding()
-                            .frame(maxWidth: .infinity)
                         }
-                        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+                        .padding(.bottom, 100)
+                        .padding()
                         .frame(maxWidth: .infinity)
-                        .onAppear {
-                            // Initialize lastUpdatedVisibleMonths with initial visible months
-                            displayedMonth = dateHelper.getCurrentMonth()
-                            NotificationViewModel.instance.pendingNotifications = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
+                    }
+                    .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+                    .frame(maxWidth: .infinity)
+                    .onAppear {
+                        // Initialize lastUpdatedVisibleMonths with initial visible months
+                        displayedMonth = dateHelper.getCurrentMonth()
+                        NotificationViewModel.instance.pendingNotifications = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
 
-                        }
                     }
                 }
             }
-            .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
-            .edgesIgnoringSafeArea(.all)
-        case "NotificationView":
-            NotificationView(viewModel: viewModel, showView: $showView)
-            
-        case "EventView":
-            eventInfo(event: viewModel.getUpcomingEvents()[currentEventIndex ?? 0], showView: $showView)
-            
-        default:
-            Text("Default") //If this occurs things have went really badly
+        }
+        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+        .edgesIgnoringSafeArea(.all)
+        .overlay {
+            Group
+            {
+                if showView == "NotificationView"
+                {
+                    NotificationView(viewModel: viewModel, showView: $showView)
+                }
+                else if showView == "EventView"
+                {
+                    eventInfo(event: viewModel.getUpcomingEvents()[currentEventIndex ?? 0], showView: $showView)
+                        .transition(.move(edge: .trailing))
+                }
+            }
         }
     }
             
@@ -215,7 +220,10 @@ struct eventInfo: View {
                 // Back button
                 HStack {
                     Button {
-                        showView = "HomeView"
+                        withAnimation(.easeInOut(duration: 0.2))
+                        {
+                            showView = "HomeView"
+                        }
                     } label: {
                         ZStack {
                             Image("Ellipse_back")
@@ -376,6 +384,7 @@ struct eventInfo: View {
         }
         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .edgesIgnoringSafeArea(.all)
+        .transition(.move(edge: .trailing))
         .onAppear
         {
             tappedNotification = notifVM.pendingNotifications.contains(where: { e in
@@ -425,7 +434,7 @@ struct eventBox: View {
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
-                            .frame(width: 324, height: 69)
+                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
                             .background(color)
                             .cornerRadius(25)
                         VStack{
@@ -444,10 +453,10 @@ struct eventBox: View {
                                             .aspectRatio(contentMode: .fit)
                                     )
                             }
-                            .frame(width: 266, height: 17, alignment: .topLeading)
+                            .frame(width: UIScreen.main.bounds.width * 0.65, height: 17, alignment: .topLeading)
                             
                             
-                            HStack(alignment: .center, spacing: 5) {
+                            HStack(spacing: 5) {
                                 HStack{
                                     Rectangle()
                                         .foregroundColor(.clear)
@@ -461,12 +470,12 @@ struct eventBox: View {
                                         .font(Font.custom("UniversLTStd", size: 12))
                                         .foregroundColor(.white)
                                 }
-                                .frame(width: 266, height: 17, alignment: .topLeading)
+                                .frame(width: UIScreen.main.bounds.width * 0.65, height: 17, alignment: .topLeading)
                                 
-                                
+                                Spacer()
                                 
                             }
-                            .padding(0)
+                            .frame(width: UIScreen.main.bounds.width * 0.65)
                         }
                         
                     }
@@ -481,7 +490,7 @@ struct eventBox: View {
                         ZStack {
                             Rectangle()
                                 .foregroundColor(.clear)
-                                .frame(width: 324, height: 69)
+                                .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
                                 .background(color)
                                 .cornerRadius(25)
                             VStack{
@@ -501,10 +510,10 @@ struct eventBox: View {
                                                 .aspectRatio(contentMode: .fit)
                                         )
                                 }
-                                .frame(width: 266, height: 17, alignment: .topLeading)
+                                .frame(width: UIScreen.main.bounds.width * 0.65, height: 17, alignment: .topLeading)
                                 
                                 
-                                HStack(alignment: .center, spacing: 5) {
+                                HStack(spacing: 5) {
                                     HStack{
                                         Rectangle()
                                             .foregroundColor(.clear)
@@ -519,6 +528,7 @@ struct eventBox: View {
                                             .foregroundColor(.white)
                                     }
                                     .frame(width: 115, height: 17, alignment: .topLeading)
+                                    Spacer()
                                     HStack{
                                         Rectangle()
                                             .foregroundColor(.clear)
@@ -537,7 +547,7 @@ struct eventBox: View {
                                     
                                     
                                 }
-                                .padding(0)
+                                .frame(width: UIScreen.main.bounds.width * 0.65)
                             }
                             
                         }
