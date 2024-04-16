@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,17 +12,22 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                    <view key="view" contentMode="center" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="StartScreen" translatesAutoresizingMaskIntoConstraints="NO" id="Beu-p1-YfK">
-                                <rect key="frame" x="-45" y="-24" width="483" height="876"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="StartScreen" translatesAutoresizingMaskIntoConstraints="NO" id="Beu-p1-YfK">
+                                <rect key="frame" x="0.0" y="-13" width="393" height="865"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="darkdarkBlue"/>
+                        <constraints>
+                            <constraint firstAttribute="bottomMargin" secondItem="Beu-p1-YfK" secondAttribute="bottom" constant="-34" id="Jkl-Py-fQp"/>
+                            <constraint firstItem="Beu-p1-YfK" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="LHa-dd-rcb"/>
+                            <constraint firstItem="Beu-p1-YfK" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="VQh-Dl-YRy"/>
+                            <constraint firstItem="Beu-p1-YfK" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" constant="-72" id="oGN-hV-MuN"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -31,5 +37,8 @@
     </scenes>
     <resources>
         <image name="StartScreen" width="255.33332824707031" height="553.33331298828125"/>
+        <namedColor name="darkdarkBlue">
+            <color red="0.0039215686274509803" green="0.12156862745098039" blue="0.20784313725490197" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
