@@ -374,6 +374,75 @@ struct eventInfo: View {
                                 Spacer()
                                 Spacer()
                             }
+                            .padding(.top, 5)
+                        }
+                        .padding(.horizontal, 50)
+                        .frame(maxWidth: UIScreen.main.bounds.width)
+                        .frame(height: 130, alignment: .topLeading)
+                        .padding(.top, 100)
+                        // Event date
+                        HStack(spacing: 20){
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(width: 37, height: 37)
+                                .background(
+                                    Image("Calendar")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                )
+                            Text(startdateString)
+                                .font(Font.custom("UniversLTStd", size: 18))
+                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                        }
+                        .frame(width: 300, alignment: .leading)
+                        .padding(.top, 50)
+                        
+                        // Event time
+                        HStack(spacing: 20){
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(width: 35, height: 34)
+                                .background(
+                                    Image("Timer")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                )
+                            Text("\(startTimeString) - \(endTimeString)")
+                                .font(Font.custom("UniversLTStd", size: 18))
+                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                        }
+                        .frame(width: 300, alignment: .leading)
+                       
+                        // Event location 
+                        HStack(spacing: 20){
+                            Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 34, height: 34)
+                            .background(
+                                Image("iconLocation")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                            )
+                            Text(String(event.location ?? "Reitz Union Ballroom"))
+                              .font(Font.custom("UniversLTStd", size: 18))
+                              .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                        }
+                        .frame(width: 300, alignment: .leading)
+                        // Event description header
+                        if let description = event.description
+                        {
+                            Text("Description:")
+                            .font(Font.custom("UniversLTStd", size: 18))
+                            .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
+                            .frame(width: 300, alignment: .leading)
+                            .padding(10)
+                            .padding(.top, 30)
+                            // Event description text
+                            //Need to have event  description variables in the future
+                            Text(description)
+                              .font(Font.custom("UniversLTStd", size: 18))
+                              .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                              .frame(width: 297,height: 200, alignment: .topLeading)
                         }
                         
                         

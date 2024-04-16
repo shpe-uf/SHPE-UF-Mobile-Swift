@@ -43,7 +43,7 @@ struct PointsView: View {
     
     var body: some View {
         
-        ScrollView {
+        
             
             VStack() {
                 
@@ -51,19 +51,17 @@ struct PointsView: View {
                 ZStack(alignment: .bottom) {
                     
                     Rectangle()
-                        .foregroundColor(.clear)
+                        .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                         .frame(width: UIScreen.main.bounds.width, height: 100)
-                        .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                        .ignoresSafeArea()
-                    
                     
                     
                     Text("POINTS PROGRAM")
                         .font(.title).bold()
                         .foregroundStyle(.white)
                         .padding()
-                    
                 }
+                
+            ScrollView {
                 
                 // CIRCULAR PROGRESS
                 ZStack {
@@ -142,6 +140,7 @@ struct PointsView: View {
                 .padding(.bottom, 150)
                     
             }
+            .padding(.top, -8)
         }
         .sheet(isPresented: $redeem, content: {
             ReedemView(vm: vm)
@@ -184,36 +183,6 @@ struct PointsView: View {
 }
 
 #Preview {
-    PointsView(vm: PointsViewModel(shpeito:
-                                    SHPEito(
-                                            username: "dvera0322",
-                                            password: "",
-                                            remember: "true",
-                                            base64StringPhoto: "",
-                                            firstName: "David",
-                                            lastName: "Denis",
-                                            year: "Sophmore",
-                                            major: "Computer Science",
-                                            id: "650382bf8bda46001440b46e",
-                                            token: "",
-                                            confirmed: true,
-                                            updatedAt: "",
-                                            createdAt: "",
-                                            email: "denisdavid@ufl.edu",
-                                            gender: "Male",
-                                            ethnicity: "Hispanic",
-                                            originCountry: "Cuba",
-                                            graduationYear: "2026",
-                                            classes: ["Data Structures", "Discrete Structures"],
-                                            internships: ["Apple"],
-                                            links: ["google.com"],
-                                            fallPoints: 20,
-                                            summerPoints: 17,
-                                            springPoints: 30,
-                                            points: 67,
-                                            fallPercentile: 93,
-                                            springPercentile: 98,
-                                            summerPercentile: 78)
-                                  ))
+    PointsView(vm: PointsViewModel(shpeito: SHPEito()))
     .preferredColorScheme(.light)
 }
