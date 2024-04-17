@@ -33,7 +33,7 @@
 		46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418C2B7EC7DB0083F81C /* TableView.swift */; };
 		46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418E2B7EC82B0083F81C /* SingleEventView.swift */; };
 		523735282BCDCB51005A888B /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 523735262BCDCB51005A888B /* CoreUserModel.xcdatamodeld */; };
-		5237352B2BCDF3F5005A888B /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 5237352A2BCDF3F5005A888B /* Apollo */; };
+		5237352E2BCF73EB005A888B /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 5237352D2BCF73EB005A888B /* Apollo */; };
 		523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398D2B7DD0990019C353 /* AcademicInfoView.swift */; };
 		5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */; };
 		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
@@ -77,7 +77,6 @@
 		958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */; };
 		958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0322B9D7F93002B83F9 /* CheckCore.swift */; };
 		958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CB0342B9D8587002B83F9 /* CheckCoreViewModel.swift */; };
-		95C4206D2BCF0D67001FBC4F /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 95C4206C2BCF0D67001FBC4F /* Apollo */; };
 		95D327002B8FED88002A7DDA /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D326FF2B8FED87002A7DDA /* Event.swift */; };
 		95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */; };
 		95D3708C2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D370852B64702E00B2C5A4 /* RegisterUser.graphql.swift */; };
@@ -207,7 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95C4206D2BCF0D67001FBC4F /* Apollo in Frameworks */,
+				5237352E2BCF73EB005A888B /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,7 +410,6 @@
 		951F6E792BB262C5001FDB50 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
-				951F6ED22BB68E68001FDB50 /* CoreUserModel.xcdatamodeld */,
 				951F6E7D2BB265D3001FDB50 /* DataManager.swift */,
 				951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */,
 			);
@@ -524,6 +522,7 @@
 				B8CD7F752B75A9E800F05DBA /* Event.swift */,
 				958CB02C2B9D79AD002B83F9 /* DataManager.swift */,
 				526D14692BB3CDAE00BA8615 /* CoreUserModel.xcdatamodeld */,
+				523735262BCDCB51005A888B /* CoreUserModel.xcdatamodeld */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -584,7 +583,7 @@
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
-				95C4206C2BCF0D67001FBC4F /* Apollo */,
+				5237352D2BCF73EB005A888B /* Apollo */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -659,7 +658,7 @@
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
-				95C4206B2BCF0D67001FBC4F /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				5237352C2BCF73EB005A888B /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -1117,7 +1116,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		95C4206B2BCF0D67001FBC4F /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+		5237352C2BCF73EB005A888B /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios";
 			requirement = {
@@ -1128,9 +1127,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		95C4206C2BCF0D67001FBC4F /* Apollo */ = {
+		5237352D2BCF73EB005A888B /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 95C4206B2BCF0D67001FBC4F /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			package = 5237352C2BCF73EB005A888B /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
@@ -1143,7 +1142,7 @@
 			);
 			currentVersion = 523735272BCDCB51005A888B /* CoreUserModel.xcdatamodel */;
 			name = CoreUserModel.xcdatamodeld;
-			path = "/Users/test/Desktop/SHPE-UF-Mobile-Swiftnewpppp/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
+			path = "SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
