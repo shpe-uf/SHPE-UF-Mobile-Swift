@@ -23,6 +23,8 @@ struct RegisterView: View
             Color(red: 0.82, green: 0.35, blue: 0.09)
                 .ignoresSafeArea()
             
+
+               
             //gator pic
             Rectangle()
               .foregroundColor(.clear)
@@ -37,10 +39,14 @@ struct RegisterView: View
             
             if viewModel.viewIndex > 0
             {
-                Button {
+                Button 
+                {
                     viewModel.viewIndex -= 1
-                } label: {
-                    ZStack {
+                } 
+                label:
+                {
+                    ZStack 
+                    {
                         Image("Ellipse_back")
                             .frame(width: 40, height: 40)
                         Image("Back")
@@ -301,6 +307,29 @@ struct RegisterView: View
                                             .font(.caption)
                                             .foregroundColor(.red)
                                     }
+                                    
+                                    // Eye icon for toggling confirm password visibility
+                                    Image(viewModel.viewConfirmPassword ? "open_eye" : "Eye Closed")
+                                        .frame(width: 22.32634, height: 14.58338)
+                                        .padding(.horizontal, 12)
+                                        .onTapGesture {
+                                            viewModel.viewConfirmPassword.toggle()
+                                        }
+                                }
+                                .padding(.vertical, 2.75)
+                                .frame(width: 270, height: 37.64706)
+                                .background(Color.white)
+                                .cornerRadius(10)
+
+                                // Confirm password validation
+                                if errorMessageDict[3]!
+                                {
+                                    Text("Passwords must match")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                                Spacer()
+
                                 
                                     
                                     //confirm password
@@ -386,6 +415,7 @@ struct RegisterView: View
                             
                             .padding(.horizontal, 50)
                             Spacer()
+                            
                             
                             //create account button
                             Button(action:

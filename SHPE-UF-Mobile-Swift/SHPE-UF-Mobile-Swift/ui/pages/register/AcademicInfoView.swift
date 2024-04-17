@@ -13,6 +13,25 @@ struct AcademicView : View
     {
         ZStack
         {
+//        HStack
+//        {
+//                //back button to PersonalDetailsView
+//                Button
+//                {
+//                    viewModel.viewIndex = 1
+//                    
+//                }
+//            label:
+//                {
+//                    Image(systemName: "arrowshape.turn.up.left.fill")
+//                        .foregroundStyle(Color.gray)
+//                        .padding()
+//                        .background(Color.gray.opacity(0.5))
+//                        .cornerRadius(30)
+//                }
+//                .padding(.horizontal)
+//            }
+            
             Color(red: 0, green: 0.12, blue: 0.21)
                 .ignoresSafeArea()
             VStack

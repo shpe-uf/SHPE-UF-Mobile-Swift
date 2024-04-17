@@ -36,6 +36,7 @@
 		5237352E2BCF73EB005A888B /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 5237352D2BCF73EB005A888B /* Apollo */; };
 		523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398D2B7DD0990019C353 /* AcademicInfoView.swift */; };
 		5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */; };
+		527EDDD62BC6F71D0065730F /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 527EDDD52BC6F71D0065730F /* Apollo */; };
 		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
 		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
 		52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* LandingPageView.swift */; };
@@ -410,6 +411,7 @@
 		951F6E792BB262C5001FDB50 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
+				5224BC082BBA2F4C0007A99B /* CoreUserModel.xcdatamodeld */,
 				951F6E7D2BB265D3001FDB50 /* DataManager.swift */,
 				951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */,
 			);
