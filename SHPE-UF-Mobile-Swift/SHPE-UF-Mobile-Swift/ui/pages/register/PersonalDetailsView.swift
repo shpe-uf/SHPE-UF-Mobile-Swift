@@ -233,7 +233,8 @@ struct PersonalView : View
                     }
                     .padding(.horizontal, 50)
                 }
-//                .padding(.horizontal, 50)
+                //hide keyboard on swipe
+                .simultaneousGesture(DragGesture().onChanged { _ in viewModel.dismissKeyboard()})
                 
                 Spacer()
                 
@@ -266,6 +267,11 @@ struct PersonalView : View
                 .padding(.bottom, 40)
             }
             .background(Color("darkBlue"))
+        }
+        //hides keyboard on swipe
+        .onAppear
+        {
+            viewModel.hideKeyboard = { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for:nil)}
         }
     }
 }

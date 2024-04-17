@@ -156,9 +156,11 @@ struct SignInView: View
                 
                 
                 // Sign In Button
-                Button(action: {
+                Button(action: 
+                    {
                     viewModel.signIn(username: username, password: password, viewContext: viewContext)
                     viewModel.signInButtonClicked = true
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 }) {
                     Text(self.viewModel.isCommunicating ? "Loading..." : "Sign In")
                         .font(Font.custom("Viga-Regular", size: 16))
@@ -175,7 +177,7 @@ struct SignInView: View
                     Text("Don’t have an acccount?")
                       .font(Font.custom("Univers LT Std", size: 14))
                       .foregroundColor(Color("whiteText"))
-                      .frame(width:162, height:17)
+                      .frame(width:180, height:17)
                     Text("Sign Up")
                         .font(Font.custom("Univers LT Std", size: 14))
                         .foregroundColor(Color("lblue"))

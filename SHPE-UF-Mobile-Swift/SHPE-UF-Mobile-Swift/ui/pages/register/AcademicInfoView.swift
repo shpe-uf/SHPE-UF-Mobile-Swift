@@ -167,6 +167,7 @@ struct AcademicView : View
                             .foregroundColor(.red)
                     }
                 }
+                
          
                 Spacer()
                 

@@ -85,6 +85,9 @@ class RegisterViewModel: ObservableObject
     @Published var classYearPickerInteracted = false
     @Published var gradYearPickerInteracted = false
     
+    //kide keyboard var
+    var hideKeyboard: (() -> Void)?
+    
     //major options
     //keep the spaces in the string,
     //it's a loophole for the calculatePickerHeight function to work for some specific picker options
@@ -299,6 +302,12 @@ class RegisterViewModel: ObservableObject
     func isAcademicValid() -> Bool
     {
         return validateMajorSelected() && validateClassYearSelected() && validateGradYearSelected()
+    }
+    
+    //dismiss keyboard
+    func dismissKeyboard()
+    {
+        hideKeyboard?()
     }
     
     //register the user with all given function

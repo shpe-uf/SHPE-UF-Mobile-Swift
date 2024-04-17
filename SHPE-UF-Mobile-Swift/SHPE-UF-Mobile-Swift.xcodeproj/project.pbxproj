@@ -32,6 +32,8 @@
 		46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */; };
 		46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418C2B7EC7DB0083F81C /* TableView.swift */; };
 		46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418E2B7EC82B0083F81C /* SingleEventView.swift */; };
+		523735282BCDCB51005A888B /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 523735262BCDCB51005A888B /* CoreUserModel.xcdatamodeld */; };
+		5237352B2BCDF3F5005A888B /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 5237352A2BCDF3F5005A888B /* Apollo */; };
 		523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398D2B7DD0990019C353 /* AcademicInfoView.swift */; };
 		5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */; };
 		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
@@ -45,7 +47,6 @@
 		951F6EBD2BB65E1F001FDB50 /* CoreFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */; };
 		951F6EC02BB669DF001FDB50 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EBF2BB669DF001FDB50 /* ImageHelper.swift */; };
 		951F6ED12BB68A1D001FDB50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951F6ED02BB68A1D001FDB50 /* LaunchScreen.storyboard */; };
-		951F6ED42BB68E68001FDB50 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 951F6ED22BB68E68001FDB50 /* CoreUserModel.xcdatamodeld */; };
 		951F6ED92BB69806001FDB50 /* GetUsers.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6ED82BB69806001FDB50 /* GetUsers.graphql.swift */; };
 		951F6EF42BB6983C001FDB50 /* EditUserProfileMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EDA2BB6983C001FDB50 /* EditUserProfileMutation.graphql.swift */; };
 		951F6EF52BB6983C001FDB50 /* RedeemPointsMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EDB2BB6983C001FDB50 /* RedeemPointsMutation.graphql.swift */; };
@@ -69,7 +70,6 @@
 		951F6F172BB84D28001FDB50 /* GetUserEvents.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6F162BB84D28001FDB50 /* GetUserEvents.graphql.swift */; };
 		951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6F1D2BB8B134001FDB50 /* TextFieldHelper.swift */; };
 		951F6F202BB8D766001FDB50 /* RedeemPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6F1F2BB8D766001FDB50 /* RedeemPoints.graphql.swift */; };
-		951F6F232BB8D987001FDB50 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 951F6F222BB8D987001FDB50 /* Apollo */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
@@ -142,6 +142,7 @@
 		46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressViewDark.swift; sourceTree = "<group>"; };
 		46CA418C2B7EC7DB0083F81C /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		46CA418E2B7EC82B0083F81C /* SingleEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventView.swift; sourceTree = "<group>"; };
+		523735272BCDCB51005A888B /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		523C398D2B7DD0990019C353 /* AcademicInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademicInfoView.swift; sourceTree = "<group>"; };
 		5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsView.swift; sourceTree = "<group>"; };
 		526D146A2BB3CDAE00BA8615 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
@@ -156,7 +157,6 @@
 		951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFunctions.swift; sourceTree = "<group>"; };
 		951F6EBF2BB669DF001FDB50 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		951F6ED02BB68A1D001FDB50 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		951F6ED32BB68E68001FDB50 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		951F6ED82BB69806001FDB50 /* GetUsers.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUsers.graphql.swift; sourceTree = "<group>"; };
 		951F6EDA2BB6983C001FDB50 /* EditUserProfileMutation.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditUserProfileMutation.graphql.swift; sourceTree = "<group>"; };
 		951F6EDB2BB6983C001FDB50 /* RedeemPointsMutation.graphql.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemPointsMutation.graphql.swift; sourceTree = "<group>"; };
@@ -206,7 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				951F6F232BB8D987001FDB50 /* Apollo in Frameworks */,
+				5237352B2BCDF3F5005A888B /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,7 +410,7 @@
 		951F6E792BB262C5001FDB50 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
-				951F6ED22BB68E68001FDB50 /* CoreUserModel.xcdatamodeld */,
+				523735262BCDCB51005A888B /* CoreUserModel.xcdatamodeld */,
 				951F6E7D2BB265D3001FDB50 /* DataManager.swift */,
 				951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */,
 			);
@@ -583,7 +583,7 @@
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
-				951F6F222BB8D987001FDB50 /* Apollo */,
+				5237352A2BCDF3F5005A888B /* Apollo */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -658,7 +658,7 @@
 			);
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
-				951F6F212BB8D987001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				523735292BCDF3F5005A888B /* XCRemoteSwiftPackageReference "apollo-ios" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -757,11 +757,11 @@
 				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
+				523735282BCDCB51005A888B /* CoreUserModel.xcdatamodeld in Sources */,
 				951F6EFB2BB6983C001FDB50 /* GetUserPointsQuery.graphql.swift in Sources */,
 				951F6EF52BB6983C001FDB50 /* RedeemPointsMutation.graphql.swift in Sources */,
 				951F6EFE2BB6983C001FDB50 /* RedeemPointsInput.graphql.swift in Sources */,
 				951F6EF82BB6983C001FDB50 /* GetPercentilesQuery.graphql.swift in Sources */,
-				951F6ED42BB68E68001FDB50 /* CoreUserModel.xcdatamodeld in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
@@ -946,7 +946,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = GFFJV8SVHZ;
+				DEVELOPMENT_TEAM = P29A326V9R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
@@ -962,7 +962,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shpeuf.shpeuf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shpeuf.shpeuf1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -978,7 +978,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = GFFJV8SVHZ;
+				DEVELOPMENT_TEAM = P29A326V9R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
@@ -994,7 +994,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.shpeuf.shpeuf;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shpeuf.shpeuf1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1116,25 +1116,36 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		951F6F212BB8D987001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+		523735292BCDF3F5005A888B /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			repositoryURL = "https://github.com/apollographql/apollo-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.9.3;
+				minimumVersion = 1.10.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		951F6F222BB8D987001FDB50 /* Apollo */ = {
+		5237352A2BCDF3F5005A888B /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 951F6F212BB8D987001FDB50 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			package = 523735292BCDF3F5005A888B /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
 		};
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
+		523735262BCDCB51005A888B /* CoreUserModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				523735272BCDCB51005A888B /* CoreUserModel.xcdatamodel */,
+			);
+			currentVersion = 523735272BCDCB51005A888B /* CoreUserModel.xcdatamodel */;
+			name = CoreUserModel.xcdatamodeld;
+			path = "/Users/test/Desktop/SHPE-UF-Mobile-Swiftnewpppp/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		526D14692BB3CDAE00BA8615 /* CoreUserModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
@@ -1143,17 +1154,6 @@
 			currentVersion = 526D146A2BB3CDAE00BA8615 /* CoreUserModel.xcdatamodel */;
 			name = CoreUserModel.xcdatamodeld;
 			path = "../../../../../test/Desktop/SHPE-UF-Mobile-Swift-22/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		951F6ED22BB68E68001FDB50 /* CoreUserModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				951F6ED32BB68E68001FDB50 /* CoreUserModel.xcdatamodel */,
-			);
-			currentVersion = 951F6ED32BB68E68001FDB50 /* CoreUserModel.xcdatamodel */;
-			name = CoreUserModel.xcdatamodeld;
-			path = "/Users/danielparra/Desktop/SHPE/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

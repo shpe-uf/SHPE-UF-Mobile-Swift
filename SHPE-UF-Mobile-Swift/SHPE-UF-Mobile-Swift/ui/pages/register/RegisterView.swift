@@ -135,203 +135,255 @@ struct RegisterView: View
                         
                             Spacer()
                             
-                            //user fields
-                            VStack(alignment: .leading)
+                            ScrollView
                             {
-    
-                                Text("UF/SF Email")
-                                    .font(Font.custom("Univers LT Std", size: 16))
-                                    .foregroundColor(Color("whiteText"))
-                                    .frame(width: 150, height: 16.47059, alignment: .topLeading)
-                                HStack(spacing: 0)
+                                //user fields
+                                VStack(alignment: .leading)
                                 {
-                                    Image("swift.littleletter")
-                                        .padding(.horizontal, 12)
-                                    TextField("", text: $viewModel.emailInput)
-                                        .frame(maxWidth: .infinity)
-                                        .foregroundStyle(Color.black)
-                                        .autocapitalization(.none)
-                                        .autocorrectionDisabled()
-                                        .onSubmit {
-                                            errorMessageDict[0] = !viewModel.validateEmail()
-                                        }
-                                }
-                                .padding(.vertical, 2.75)
-                                .frame(width: 270, height: 37.64706)
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                
-                                if viewModel.emailExists.count > 0
-                                {
-                                    Text(viewModel.emailExists)
-                                        .font(.caption)
-                                        .foregroundColor(.red)
-                                }
-                                
-                                //email validation
-                                if errorMessageDict[0]!
-                                {
-                                    Text("Invalid email format")
-                                        .font(.caption)
-                                        .foregroundColor(.red)
-                                }
+        
+                                    Text("UF/SF Email")
+                                        .font(Font.custom("Univers LT Std", size: 16))
+                                        .foregroundColor(Color("whiteText"))
+                                        .frame(width: 150, height: 16.47059, alignment: .topLeading)
+                                    HStack(spacing: 0)
+                                    {
+                                        Image("swift.littleletter")
+                                            .padding(.horizontal, 12)
+                                        TextField("", text: $viewModel.emailInput)
+                                            .onChange(of: viewModel.emailInput) { newValue in
+                                                // Only validate and show error after first submission attempt
+                                                if viewModel.emailValidated {
+                                                    viewModel.emailExists = viewModel.validateEmail() ? "" : "Invalid email format"
+                                                }
+                                                
+                                            }
+                                            .onSubmit {
+                                                // Mark first submission attempt for validation
+                                                viewModel.emailValidated = true
+                                                viewModel.emailExists = viewModel.validateEmail() ? "" : "Invalid email format"
+                                            }
+                                            .frame(maxWidth: .infinity)
+                                            .foregroundStyle(Color.black)
+                                            .autocapitalization(.none)
+                                            .autocorrectionDisabled()
+                                    }
+                                    .padding(.vertical, 2.75)
+                                    .frame(width: 270, height: 37.64706)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
 
-                                
-                                //username
-                                Text("Username")
-                                  .font(Font.custom("Univers LT Std", size: 16))
-                                  .foregroundColor(Color("whiteText"))
-                                  .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
-                                HStack(spacing: 0)
-                                {
-                                    Image("swift.littlepfp")
-                                        .padding(.horizontal, 12)
-                                    TextField("", text: $viewModel.usernameInput)
-                                        .frame(maxWidth: .infinity)
-                                        .foregroundStyle(Color.black)
-                                        .autocapitalization(.none)
-                                        .autocorrectionDisabled()
-                                        .onSubmit {
-                                            errorMessageDict[1] = !viewModel.validateUsername()
-                                        }
-                                }
-                                .padding(.vertical, 2.75)
-                                .frame(width: 270, height: 37.64706)
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                
-                                if viewModel.userNameExists.count > 0
-                                {
-                                    Text(viewModel.userNameExists)
-                                        .font(.caption)
-                                        .foregroundColor(.red)
-                                }
-                                
-                                //username validation
-                                if errorMessageDict[1]!
-                                {
-                                    Text("6-20 characters, periods, & underscores")
-                                        .font(.caption)
-                                        .foregroundColor(.red)
-                                }
-                                
-                                
-                                //password
-                                Text("Password")
-                                  .font(Font.custom("Univers LT Std", size: 16))
-                                  .foregroundColor(Color("whiteText"))
-                                  .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
-                                HStack(spacing: 0)
-                                {
-                                    Image("swift.littlelock")
-                                        .padding(.horizontal, 12)
-                                    if viewModel.viewPassword 
-                                    {
-                                        TextField("", text: $viewModel.passwordInput)
-                                            .frame(maxWidth: .infinity)
-                                            .foregroundStyle(Color.black)
-                                            .autocapitalization(.none)
-                                            .autocorrectionDisabled()
-                                            .onSubmit {
-                                                errorMessageDict[2] = !viewModel.validatePassword()
-                                            }
-                                            
+                                    // Display the error message for email (if any)
+                                    if viewModel.emailExists.count > 0 {
+                                        Text(viewModel.emailExists)
+                                            .font(.caption)
+                                            .foregroundColor(.red)
                                     }
+
                                     
-                                    else
+                                    //email validation
+                                    if errorMessageDict[0]!
                                     {
-                                        SecureField("", text: $viewModel.passwordInput)
-                                            .frame(maxWidth: .infinity)
-                                            .foregroundStyle(Color.black)
-                                            .autocapitalization(.none)
-                                            .autocorrectionDisabled()
-                                            .onSubmit {
-                                                errorMessageDict[2] = !viewModel.validatePassword()
-                                            }
-                                           
+                                        Text("Invalid email format")
+                                            .font(.caption)
+                                            .foregroundColor(.red)
                                     }
+
                                     
-                                    //open eye if viewPassword is true, closed eye if false
-                                    Image(viewModel.viewPassword ? "open_eye" :"Eye Closed")
-                                        .frame(width: 22.32634, height: 14.58338)
-                                        .padding(.horizontal, 12)
-                                        .onTapGesture { viewModel.viewPassword.toggle() }
-                                }
-                                .padding(.vertical, 2.75)
-                                .frame(width: 270, height: 37.64706)
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                
-                                //password validation
-                                if errorMessageDict[2]!
-                                {
-                                    Text("8+ characters, lowercase, uppercase, number, & special character")
-                                        .frame(width: 250, height: 50, alignment: .topLeading)
-                                        .font(.caption)
-                                        .foregroundColor(.red)
-                                }
-                            
-                                
-                                //confirm password
-                                Text("Confirm Password")
-                                  .font(Font.custom("Univers LT Std", size: 16))
-                                  .foregroundColor(Color("whiteText"))
-                                  .frame(height: 16.47059, alignment: .topLeading)
-                                HStack(spacing: 0)
-                                {
-                                    Image("swift.littlelock")
-                                        .padding(.horizontal, 12)
-                                    if viewModel.viewConfirmPassword
+                                    //username
+                                    Text("Username")
+                                        .font(Font.custom("Univers LT Std", size: 16))
+                                        .foregroundColor(Color("whiteText"))
+                                        .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                                    HStack(spacing: 0)
                                     {
-                                        //show confirm password
-                                        TextField("", text: $viewModel.passwordConfirmInput)
+                                        Image("swift.littlepfp")
+                                            .padding(.horizontal, 12)
+                                        TextField("", text: $viewModel.usernameInput)
+                                            .onChange(of: viewModel.usernameInput) { newValue in
+                                                // Only show error after first submission attempt
+                                                if viewModel.usernameValidated {
+                                                    viewModel.userNameExists = viewModel.validateUsername() ? "" : "6-20 characters, periods, & underscores"
+                                                }
+                                            }
+                                            .onSubmit {
+                                                // Mark the first submission attempt
+                                                viewModel.usernameValidated = true
+                                                viewModel.userNameExists = viewModel.validateUsername() ? "" : "6-20 characters, periods, & underscores"
+                                            }
                                             .frame(maxWidth: .infinity)
                                             .foregroundStyle(Color.black)
                                             .autocapitalization(.none)
                                             .autocorrectionDisabled()
-                                            .onSubmit {
-                                                errorMessageDict[3] = !viewModel.validateConfirmPassword()
-                                            }
-                                        
                                     }
-                                    else
+                                    .padding(.vertical, 2.75)
+                                    .frame(width: 270, height: 37.64706)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+
+                                    // Display the error message (if any)
+                                    if viewModel.userNameExists.count > 0 {
+                                        Text(viewModel.userNameExists)
+                                            .font(.caption)
+                                            .foregroundColor(.red)
+                                    }
+
+
+                                    // Username validation
+                                    if errorMessageDict[1]!
                                     {
-                                        //hide confirm password
-                                        SecureField("", text: $viewModel.passwordConfirmInput)
-                                            .frame(maxWidth: .infinity)
-                                            .foregroundStyle(Color.black)
-                                            .autocapitalization(.none)
-                                            .autocorrectionDisabled()
-                                            .onSubmit {
-                                                errorMessageDict[3] = !viewModel.validateConfirmPassword()
-                                            }
-                                          
+                                        Text("6-20 characters, periods, & underscores")
+                                            .font(.caption)
+                                            .foregroundColor(.red)
                                     }
+
+
                                     
-                                    //open eye if viewConfirmPassword is true, closed eye if false
-                                    Image(viewModel.viewConfirmPassword ? "open_eye" : "Eye Closed")
-                                        .frame(width: 22.32634, height: 14.58338)
-                                        .padding(.horizontal, 12)
-                                        .onTapGesture
+                                    //password
+                                    Text("Password")
+                                        .font(Font.custom("Univers LT Std", size: 16))
+                                        .foregroundColor(Color("whiteText"))
+                                        .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
+                                    HStack(spacing: 0)
+                                    {
+                                        Image("swift.littlelock")
+                                            .padding(.horizontal, 12)
+                                        if viewModel.viewPassword
                                         {
-                                            viewModel.viewConfirmPassword.toggle()
+                                            TextField("", text: $viewModel.passwordInput)
+                                                .onChange(of: viewModel.passwordInput) { newValue in
+                                                    if viewModel.passwordValidated { // Check if validation has been triggered at least once
+                                                        errorMessageDict[2] = !viewModel.validatePassword()
+                                                    }
+                                                }
+                                                .onSubmit {
+                                                    viewModel.passwordValidated = true // Mark that user has attempted to submit at least once
+                                                    errorMessageDict[2] = !viewModel.validatePassword()
+                                                }
+                                                .frame(maxWidth: .infinity)
+                                                .foregroundStyle(Color.black)
+                                                .autocapitalization(.none)
+                                                .autocorrectionDisabled()
                                         }
-                                }
-                                .padding(.vertical, 2.75)
-                                .frame(width: 270, height: 37.64706)
-                                .background(Color.white)
-                                .cornerRadius(10)
+                                        else
+                                        {
+                                            SecureField("", text: $viewModel.passwordInput)
+                                                .onChange(of: viewModel.passwordInput) { newValue in
+                                                    if viewModel.passwordValidated { // Check if validation has been triggered at least once
+                                                        errorMessageDict[2] = !viewModel.validatePassword()
+                                                    }
+                                                }
+                                                .onSubmit {
+                                                    viewModel.passwordValidated = true // Mark that user has attempted to submit at least once
+                                                    errorMessageDict[2] = !viewModel.validatePassword()
+                                                }
+                                                .frame(maxWidth: .infinity)
+                                                .foregroundStyle(Color.black)
+                                                .autocapitalization(.none)
+                                                .autocorrectionDisabled()
+                                        }
+                                        
+                                        // Eye icon for toggling password visibility
+                                        Image(viewModel.viewPassword ? "open_eye" :"Eye Closed")
+                                            .frame(width: 22.32634, height: 14.58338)
+                                            .padding(.horizontal, 12)
+                                            .onTapGesture { viewModel.viewPassword.toggle() }
+                                    }
+                                    .padding(.vertical, 2.75)
+                                    .frame(width: 270, height: 37.64706)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+
+                                    // Password validation
+                                    if errorMessageDict[2]!
+                                    {
+                                        Text("8+ characters, lowercase, uppercase, number, & special character")
+                                            .frame(width: 250, height: 50, alignment: .topLeading)
+                                            .font(.caption)
+                                            .foregroundColor(.red)
+                                    }
                                 
-                                //confirm password validation
-                                if errorMessageDict[3]!
-                                {
-                                    Text("Passwords must match")
-                                        .font(.caption)
-                                        .foregroundColor(.red)
+                                    
+                                    //confirm password
+                                    Text("Confirm Password")
+                                        .font(Font.custom("Univers LT Std", size: 16))
+                                        .foregroundColor(Color("whiteText"))
+                                        .frame(height: 16.47059, alignment: .topLeading)
+                                    HStack(spacing: 0)
+                                    {
+                                        Image("swift.littlelock")
+                                            .padding(.horizontal, 12)
+                                        if viewModel.viewConfirmPassword
+                                        {
+                                            TextField("", text: $viewModel.passwordConfirmInput)
+                                                .onChange(of: viewModel.passwordConfirmInput) { newValue in
+                                                    if viewModel.passwordValidated
+                                                    { // Check if validation has been triggered at least once
+                                                        errorMessageDict[3] = !viewModel.validateConfirmPassword()
+                                                    }
+                                                }
+                                                .onSubmit
+                                                {
+                                                    viewModel.passwordValidated = true // Mark that user has attempted to submit at least once
+                                                    errorMessageDict[3] = !viewModel.validateConfirmPassword()
+                                                }
+                                                .frame(maxWidth: .infinity)
+                                                .foregroundStyle(Color.black)
+                                                .autocapitalization(.none)
+                                                .autocorrectionDisabled()
+                                        }
+                                        else
+                                        {
+                                            SecureField("", text: $viewModel.passwordConfirmInput)
+                                                .onChange(of: viewModel.passwordConfirmInput) { newValue in
+                                                    if viewModel.passwordValidated { // Check if validation has been triggered at least once
+                                                        errorMessageDict[3] = !viewModel.validateConfirmPassword()
+                                                    }
+                                                }
+                                                .onSubmit {
+                                                    viewModel.passwordValidated = true // Mark that user has attempted to submit at least once
+                                                    errorMessageDict[3] = !viewModel.validateConfirmPassword()
+                                                }
+                                                .frame(maxWidth: .infinity)
+                                                .foregroundStyle(Color.black)
+                                                .autocapitalization(.none)
+                                                .autocorrectionDisabled()
+                                        }
+                                        
+                                        // Eye icon for toggling confirm password visibility
+                                        Image(viewModel.viewConfirmPassword ? "open_eye" : "Eye Closed")
+                                            .frame(width: 22.32634, height: 14.58338)
+                                            .padding(.horizontal, 12)
+                                            .onTapGesture {
+                                                viewModel.viewConfirmPassword.toggle()
+                                            }
+                                    }
+                                    .padding(.vertical, 2.75)
+                                    .frame(width: 270, height: 37.64706)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+
+                                    // Confirm password validation
+                                    if errorMessageDict[3]!
+                                    {
+                                        Text("Passwords must match")
+                                            .font(.caption)
+                                            .foregroundColor(.red)
+                                    }
+                                    Spacer()
+
+                                    
+                                    
+                                    
+                                    
+                                    Spacer()
+                                    
+                                    
+                                    
                                 }
-                                Spacer()
-                                
                             }
+                            .simultaneousGesture(DragGesture().onChanged { _ in viewModel.dismissKeyboard()})
+                           
+                            
                             .padding(.horizontal, 50)
                             Spacer()
                             
@@ -405,6 +457,12 @@ struct RegisterView: View
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
             .background(Color("darkBlue"))
             .padding(.top, UIScreen.main.bounds.height * 0.17)
+        }
+        
+        //hides keyboard on swipe
+        .onAppear
+        {
+            viewModel.hideKeyboard = { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for:nil)}
         }
     }
 }
