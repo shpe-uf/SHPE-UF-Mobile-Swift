@@ -780,6 +780,20 @@ struct ProfileView: View
                                 .cornerRadius(50)
                             }
                             .padding(.vertical, 30)
+                            
+                            HStack
+                            {
+                                Text("Delete Account")
+                                    .font(Font.custom("Viga-Regular", size: 20))
+                                    .padding(10)
+                            }
+                            .padding(.horizontal)
+                            .cornerRadius(50)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 50)
+                                    .stroke(lineWidth: 3)
+                                    .foregroundStyle(Color.gray)
+                            }
                         }
                         else
                         {
