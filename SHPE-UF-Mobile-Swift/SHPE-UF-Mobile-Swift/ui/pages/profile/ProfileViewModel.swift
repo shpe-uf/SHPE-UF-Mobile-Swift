@@ -224,6 +224,13 @@ class ProfileViewModel:ObservableObject
         }
     }
     
+    func deleteAccount(completion: @escaping ([String:Any]) -> Void)
+    {
+        requestHandler.deleteUser(email: self.shpeito.email) { data in
+            completion(data)
+        }
+    }
+    
     //validate firstname
     func validateFirstName(input:String) -> Bool
     {
