@@ -487,6 +487,27 @@ class RequestHandler
         }
     }
     
+    func deleteUser(email: String, completion: @escaping (([String: Any])->Void))
+    {
+        apolloClient.perform(mutation: SHPESchema.DeleteUserMutation(email: email))
+        {
+            response in
+            
+            guard (try? response.get().data) != nil
+            else 
+            {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            completion(["success":true])
+            return
+        }
+    }
+    
     
     
     // MARK: Home Page Functions
