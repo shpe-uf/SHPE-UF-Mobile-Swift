@@ -81,6 +81,8 @@ class ProfileViewModel:ObservableObject
     @Published var invalidLastName:Bool = false
     @Published var invalidUsername:Bool = false
     
+    @Published var dropdownPressed:String = ""
+    
     let majorOptions =
     [
         "Aerospace Engineering",
@@ -124,7 +126,7 @@ class ProfileViewModel:ObservableObject
     var origin = 0
     let originoptions = Locale.countryNames
     var year = 0
-    let yearoptions = ["Freshman", "Sophomore", "Junior", "Senior", "5th Year", "Graduate", "Ph.D."]
+    let yearoptions = ["1st Year", "2nd Year", "3rd Year", "4th Year", "5th Year or Higher", "Graduate", "Ph.D."]
     var grad = 0
     
     var gradoptions:[String] = []
@@ -234,7 +236,7 @@ class ProfileViewModel:ObservableObject
     //validate firstname
     func validateFirstName(input:String) -> Bool
     {
-        let namePattern = "^[A-Za-z]{3,20}$"
+        let namePattern = "[A-Za-z]+"
         let namePredicate = NSPredicate(format:"SELF MATCHES %@", namePattern)
         return namePredicate.evaluate(with: input)
     }
@@ -242,7 +244,7 @@ class ProfileViewModel:ObservableObject
     //validate lastname
     func validateLastName(input:String) -> Bool
     {
-        let namePattern = "^[A-Za-z]{3,20}$"
+        let namePattern = "[A-Za-z]+"
         let namePredicate = NSPredicate(format:"SELF MATCHES %@", namePattern)
         return namePredicate.evaluate(with: input)
     }

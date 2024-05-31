@@ -15,7 +15,7 @@ struct ReedemPointsButton: View {
             Rectangle()
               .foregroundColor(.clear)
               .frame(width: 797, height: 136)
-              .background(Color(red: 0.04, green: 0.13, blue: 0.35))
+              .background(Color("orange_button"))
               .cornerRadius(60)
               .frame(width: 280, height: 50)
             .clipShape(.rect(cornerRadius: 22))
