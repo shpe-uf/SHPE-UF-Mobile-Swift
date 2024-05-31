@@ -206,7 +206,7 @@ struct ProfileView: View
                                     
                                     if vm.invalidFirstName
                                     {
-                                        Text("First name must be 3-20 characters, no special characters or numbers")
+                                        Text("First name must be at least 1 character, no special characters or numbers")
                                             .font(.caption)
                                             .foregroundColor(.red)
                                             .padding(.top, 5)
@@ -214,7 +214,7 @@ struct ProfileView: View
                                     
                                     if vm.invalidLastName
                                     {
-                                        Text("Last name must be 3-20 characters, no special characters or numbers")
+                                        Text("Last name must be at least 1 character, no special characters or numbers")
                                             .font(.caption)
                                             .foregroundColor(.red)
                                             .padding(.top, 5)
@@ -706,13 +706,13 @@ struct ProfileView: View
                                                 .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
                                         )
                                         .padding(.trailing, 20)
-                                        .onTapGesture {
-                                            appVM.setDarkMode(bool: false, user: user, viewContext: viewContext)
-                                        }
                                 }
                             }
                             .frame(maxWidth: .infinity)
                             .background(Color("whiteBox"))
+                            .onTapGesture {
+                                appVM.setDarkMode(bool: false, user: user, viewContext: viewContext)
+                            }
                             
                             HStack
                             {
@@ -748,13 +748,13 @@ struct ProfileView: View
                                                 .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
                                         )
                                         .padding(.trailing, 20)
-                                        .onTapGesture {
-                                            appVM.setDarkMode(bool: true, user: user, viewContext: viewContext)
-                                        }
                                 }
                             }
                             .frame(maxWidth: .infinity)
                             .background(Color("whiteBox"))
+                            .onTapGesture {
+                                appVM.setDarkMode(bool: true, user: user, viewContext: viewContext)
+                            }
                             
                             if !vm.isEditing
                             {
@@ -887,26 +887,53 @@ struct ProfileView: View
                             .cornerRadius(20)
                             .onTapGesture {
                                 withAnimation(.easeInOut(duration: 0.2)) {
+                                    errorDeleting = false
                                     clickedDeleteAccount = false
+                                    loadingDelete = false
                                 }
                             }
                     }
+                    
+                    Spacer()
                     
                     Text("Delete Account?")
                         .foregroundStyle(Color.white)
                         .font(Font.custom("Viga-Regular", size: 24))
                         .padding(.bottom, 10)
                     
-                    Text("Deleting your account will remove all your personal data forever.This cannot be undone.")
+                    Text("Deleting your account will remove all your personal data permanently.")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(Color.white)
                         .font(Font.custom("", size: 16))
                     
-                    Spacer()
+                    let profilePFP = appVM.darkMode ? "DefaultPFPD" : "DefaultPFPL"
+                    
+                    if let profileImage = vm.shpeito.profileImage
+                    {
+                        Image(uiImage: profileImage)
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width:130,height:130)
+                            .cornerRadius(100)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 100)
+                                    .stroke( Color("Profile-Background") , lineWidth: 5)
+                            )
+                            .padding(.vertical, 20)
+                    }
+                    else
+                    {
+                        Image(profilePFP)
+                            .renderingMode(.original)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width:130,height:130)
+                            .padding(.vertical, 20)
+                    }
                     
                     Button {
                         loadingDelete = true
-                        errorDeleting = false
                         vm.deleteAccount { data in
                             withAnimation(.easeInOut(duration: 0.2))
                             {
@@ -916,6 +943,7 @@ struct ProfileView: View
                                 }
                                 else
                                 {
+                                    errorDeleting = false
                                     NotificationViewModel.instance.clearPendingNotifications(fetchedEvents: coreEvents, viewContext: viewContext)
                                     CoreFunctions().clearCore(events: coreEvents, users: user, userEvents: userEvents, viewContext: viewContext)
                                     appVM.toastMessage = "Account deleted successfully"
@@ -944,7 +972,7 @@ struct ProfileView: View
                             }
                         }
                         .padding(.vertical, 5)
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, 30)
                         .background(Color.darkdarkBlue)
                         .cornerRadius(12)
                     }
@@ -960,7 +988,7 @@ struct ProfileView: View
                     }
                 }
                 .padding()
-                .frame(width: 309, height: errorDeleting ? 330 : 296, alignment: .center)
+                .frame(width: 309, height: errorDeleting ? 470 : 406, alignment: .center)
                 .background(Color.profileOrange)
                 .cornerRadius(30)
                 .zIndex(999)
@@ -1027,18 +1055,18 @@ struct DropDown:View
                 Spacer()
                 
                 Image(systemName: "chevron.down")
-                    .rotationEffect(toggle ? .degrees(180) : .zero)
+                    .rotationEffect(vm.dropdownPressed == change ? .degrees(180) : .zero)
             }
             .frame(width: width)
             .overlay(Rectangle().frame(height: 1).padding(.top, 35))
             .onTapGesture {
                 withAnimation(.easeInOut)
                 {
-                    toggle.toggle()
+                    vm.dropdownPressed = vm.dropdownPressed != change ? change : ""
                 }
             }
             
-            if toggle
+            if vm.dropdownPressed == change
             {
                 ScrollView
                 {
@@ -1066,7 +1094,7 @@ struct DropDown:View
                 .cornerRadius(10)
             }
         }
-        .padding(.top, toggle ? options.count > 4 ? 175 : 45 * CGFloat(options.count) + 10 : 0)
+        .padding(.top, vm.dropdownPressed == change ? options.count > 4 ? 175 : 45 * CGFloat(options.count) + 10 : 0)
         .frame(height: 35)
     }
 }
