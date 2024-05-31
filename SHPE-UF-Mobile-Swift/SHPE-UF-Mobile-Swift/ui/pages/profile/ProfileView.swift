@@ -916,6 +916,7 @@ struct ProfileView: View
                                 }
                                 else
                                 {
+                                    NotificationViewModel.instance.clearPendingNotifications(fetchedEvents: coreEvents, viewContext: viewContext)
                                     CoreFunctions().clearCore(events: coreEvents, users: user, userEvents: userEvents, viewContext: viewContext)
                                     appVM.toastMessage = "Account deleted successfully"
                                     appVM.showToast = true
