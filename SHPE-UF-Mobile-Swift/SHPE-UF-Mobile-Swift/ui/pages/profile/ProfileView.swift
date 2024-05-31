@@ -916,6 +916,7 @@ struct ProfileView: View
                                 }
                                 else
                                 {
+                                    CoreFunctions().clearCore(events: coreEvents, users: user, userEvents: userEvents, viewContext: viewContext)
                                     appVM.toastMessage = "Account deleted successfully"
                                     appVM.showToast = true
                                     appVM.shpeito = SHPEito()
