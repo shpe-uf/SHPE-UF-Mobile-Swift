@@ -38,7 +38,7 @@ struct PointsUI: View {
                 
                 Text("TOP \(percent)%")
                     .foregroundStyle(.white)
-                    .font(.title2).bold().fontDesign(.monospaced)
+                    .font(Font.custom("Univers LT Std", size: 20)).bold().monospaced()
                     .frame(width: 100)
                     .padding()
                 
@@ -52,7 +52,7 @@ struct PointsUI: View {
                 
                 Text(String(points))
                     .foregroundStyle(.white)
-                    .font(.title2).bold().fontDesign(.monospaced)
+                    .font(Font.custom("Univers LT Std", size: 20)).bold().monospaced()
                     .frame(width: 60)
                 
             }

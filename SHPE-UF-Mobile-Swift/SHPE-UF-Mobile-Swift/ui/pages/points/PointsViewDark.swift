@@ -51,7 +51,7 @@ struct PointsViewDark: View {
                     
                     
                     Text("POINTS PROGRAM")
-                        .font(.title).bold()
+                        .font(Font.custom("Viga", size: 50)).bold()
                         .foregroundStyle(.white)
                         .padding()
                     

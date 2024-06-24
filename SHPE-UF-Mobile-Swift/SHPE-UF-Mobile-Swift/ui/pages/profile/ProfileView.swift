@@ -521,23 +521,19 @@ struct ProfileView: View
                                 }
                                 else
                                 {
-                                    ScrollView
+                                    VStack
                                     {
-                                        VStack
+                                        ForEach(vm.shpeito.classes, id:\.self)
                                         {
-                                            ForEach(vm.shpeito.classes, id:\.self)
-                                            {
-                                                classStr in
-                                                
-                                                Text(classStr)
-                                                    .font(.system(size: 16))
-                                                    .padding(.top, 5)
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                
-                                            }
+                                            classStr in
+                                            
+                                            Text(classStr)
+                                                .font(.system(size: 16))
+                                                .padding(.top, 5)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            
                                         }
                                     }
-                                    .frame(height: vm.shpeito.classes.count > 3 ? 100 : 33 * CGFloat(vm.shpeito.classes.count))
                                 }
                             }
                             .padding(20)
@@ -576,23 +572,19 @@ struct ProfileView: View
                                 }
                                 else
                                 {
-                                    ScrollView
+                                    VStack
                                     {
-                                        VStack
+                                        ForEach(vm.shpeito.internships, id:\.self)
                                         {
-                                            ForEach(vm.shpeito.internships, id:\.self)
-                                            {
-                                                internship in
-                                                
-                                                Text(internship)
-                                                    .font(.system(size: 16))
-                                                    .padding(.top, 5)
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                
-                                            }
+                                            internship in
+                                            
+                                            Text(internship)
+                                                .font(.system(size: 16))
+                                                .padding(.top, 5)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                            
                                         }
                                     }
-                                    .frame(height: vm.shpeito.internships.count > 3 ? 100 : 33 * CGFloat(vm.shpeito.internships.count))
                                 }
                             }
                             .padding(20)
@@ -637,29 +629,23 @@ struct ProfileView: View
                                 }
                                 else
                                 {
-                                    ScrollView
+                                    VStack
                                     {
-                                        VStack
+                                        ForEach(vm.shpeito.links, id:\.self)
                                         {
-                                            ForEach(vm.shpeito.links, id:\.self)
-                                            {
-                                                link in
-                                                
-                                                Text(link.absoluteString)
-                                                    .font(.system(size: 16))
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                    .padding(.top, 5)
-                                                    .onTapGesture {
-                                                        UIApplication.shared.open(link)
-                                                    }
-                                                
-                                            }
+                                            link in
+                                            
+                                            Text(link.absoluteString)
+                                                .font(.system(size: 16))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.top, 5)
+                                                .onTapGesture {
+                                                    UIApplication.shared.open(link)
+                                                }
+                                            
                                         }
                                     }
-                                    .frame(height: vm.shpeito.links.count > 3 ? 100 : 33 * CGFloat(vm.shpeito.links.count))
                                 }
-                                
-                                
                             }
                             .padding(20)
                             .frame(maxWidth: .infinity)
@@ -785,7 +771,7 @@ struct ProfileView: View
                                     .background(Color.red)
                                     .cornerRadius(50)
                                 }
-                                .padding(.vertical, 30)
+                                .padding(.vertical, 15)
                                 
                                 HStack
                                 {

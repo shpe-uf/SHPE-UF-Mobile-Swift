@@ -21,7 +21,7 @@ struct TableView: View {
             
             VStack {
                 Text(title.uppercased())
-                    .font(.system(size: 40)).italic().bold()
+                    .font(Font.custom("Univers LT Std", size: 70)).bold()
                     .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                     
                 

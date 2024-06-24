@@ -37,7 +37,7 @@ struct ReedemView: View {
                     
                     // Title
                     Text("REDEEM POINTS")
-                      .font(.system(size: 35)).italic().bold()
+                        .font(Font.custom("Univers LT Std", size: 40)).italic().bold()
                       .multilineTextAlignment(.center)
                       .foregroundColor(Color(red: 0.93, green: 0.93, blue: 0.93))
                       .frame(alignment: .top)

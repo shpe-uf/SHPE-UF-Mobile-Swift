@@ -56,7 +56,7 @@ struct PointsView: View {
                     
                     
                     Text("POINTS PROGRAM")
-                        .font(.title).bold()
+                        .font(Font.custom("Viga", size: 50)).bold()
                         .foregroundStyle(.white)
                         .padding()
                 }
@@ -84,13 +84,13 @@ struct PointsView: View {
                         else
                         {
                             Text(currentMonth > 0 && currentMonth < 6 ? "SPRING:" : currentMonth > 5 && currentMonth < 9 ? "SUMMER:" : "FALL:")
-                                .font(.title)
+                                .font(Font.custom("Univers LT Std", size: 40))
                                 .bold()
                             Text("\(stringWithOrdinalSuffix(from : currentMonth > 0 && currentMonth < 6 ? vm.springPercentile : currentMonth > 5 && currentMonth < 9 ? vm.summerPercentile : vm.fallPercentile))")
-                                .font(.title)
+                                .font(Font.custom("Univers LT Std", size: 40))
                                 .bold()
                             Text("Percentile")
-                                .font(.title)
+                                .font(Font.custom("Univers LT Std", size: 40))
                                 .bold()
                         }
                     }
@@ -116,7 +116,7 @@ struct PointsView: View {
                 VStack {
                     
                     Text("Total Points: \(vm.points)")
-                        .font(.system(size: 20)).bold()
+                        .font(Font.custom("Univers LT Std", size: 20)).bold()
                     
                     PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: fallGradient)
                     
