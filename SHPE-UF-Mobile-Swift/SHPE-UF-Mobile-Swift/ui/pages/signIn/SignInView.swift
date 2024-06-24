@@ -157,6 +157,7 @@ struct SignInView: View
                 
                 // Sign In Button
                 Button(action: {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                     viewModel.signIn(username: username, password: password, viewContext: viewContext)
                     viewModel.signInButtonClicked = true
                 }) {

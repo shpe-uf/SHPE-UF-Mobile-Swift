@@ -47,6 +47,13 @@ struct HomeView: View {
 
             // Main content area
             ZStack{
+                if (viewModel.getUpcomingEvents().isEmpty)
+                {
+                    Text("No Upcoming Events...")
+                        .multilineTextAlignment(.center)
+                        .font(Font.custom("Viga-Regular", size: 40))
+                        .foregroundStyle(Color.gray.opacity(0.5))
+                }
                 ScrollView {
                     ScrollViewReader { proxy in
                         LazyVStack(spacing: 20) {

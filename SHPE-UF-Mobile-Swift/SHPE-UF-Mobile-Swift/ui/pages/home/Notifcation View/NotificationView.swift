@@ -110,6 +110,7 @@ struct NotificationView: View {
                                .frame(width: 106.88688, height: 15.94444, alignment: .center)
                        }
                        .frame(width: 254, height: 41)
+                       .padding(.vertical)
                     }
                     Spacer()
                 }

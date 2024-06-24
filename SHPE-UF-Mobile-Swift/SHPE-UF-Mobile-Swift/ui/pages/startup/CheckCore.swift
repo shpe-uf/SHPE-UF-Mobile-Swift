@@ -22,7 +22,7 @@ struct CheckCore: View {
             .aspectRatio(contentMode: .fill)
             .ignoresSafeArea()
             .onAppear(perform: {
-//                appVM.darkMode = colorScheme == .dark
+                appVM.darkMode = colorScheme == .dark
                 viewModel.checkUserInCore(user: user)
             })
             
