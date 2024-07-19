@@ -43,7 +43,7 @@ struct ReedemView: View {
                       .frame(alignment: .top)
                     
                     // Event Code Text Field
-                    TextField("Event Code", text: $code)
+                    TextField("", text: $code, prompt: Text("Event Code").foregroundColor(.gray))
                         .frame(height: 55)
                         .background(Color.white)
                         .font(Font.custom("Univers LT Std 55 Oblique", size: 20))
