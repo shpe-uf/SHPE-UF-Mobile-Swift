@@ -43,6 +43,7 @@ struct HomeView: View {
                             .frame(width: 33, height: 32, alignment: .topLeading)
                             .padding(.top, UIScreen.main.bounds.width * 0.05)
                     }
+                    .padding(.top, 10)
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
             }
