@@ -43,14 +43,14 @@ struct NotificationView: View {
                     Spacer()
                     // Notification settings title
                     Text("Notification Settings")
-                    .font(Font.custom("Viga-Regular", size: 24))
-                    .foregroundColor(.white)
-                    .frame(height: 75, alignment: .bottomLeading)
+                        .font(Font.custom("Viga-Regular", size: 24))
+                        .foregroundColor(.white)
+                        .frame(height: 75, alignment: .bottomLeading)
+                    
                     Spacer()
                 }
                 .padding(.horizontal, 20)
             }
-           
             // Stack for the main content area
             ZStack {
                 VStack(spacing: 50) {
@@ -112,6 +112,7 @@ struct NotificationView: View {
                        .frame(width: 254, height: 41)
                        .padding(.vertical)
                     }
+                    .padding(.bottom, 20)
                     Spacer()
                 }
             }
