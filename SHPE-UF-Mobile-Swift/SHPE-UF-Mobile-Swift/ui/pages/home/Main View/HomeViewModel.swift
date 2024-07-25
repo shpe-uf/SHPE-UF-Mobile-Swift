@@ -63,7 +63,7 @@ final class HomeViewModel: ObservableObject {
         var upcomingEvents:[Event] = []
         for event in events
         {
-            if event.start.dateTime > Date()
+            if event.end.dateTime > Date()
             {
                 upcomingEvents.append(event)
             }

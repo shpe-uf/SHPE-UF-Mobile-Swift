@@ -56,8 +56,9 @@ struct PointsView: View {
                     
                     
                     Text("POINTS PROGRAM")
-                        .font(.title).bold()
+                        .font(Font.custom("Viga-Regular", size: 25)).bold()
                         .foregroundStyle(.white)
+                        .padding(.top, 20)
                         .padding()
                 }
                 
@@ -105,7 +106,7 @@ struct PointsView: View {
                 Button {
                     redeem.toggle()
                 } label: {
-                    ReedemPointsButton()
+                    RedeemPointsButton()
                         .foregroundColor(.black)
                 }
                 .padding(.vertical, 25)
@@ -143,7 +144,7 @@ struct PointsView: View {
             .padding(.top, -8)
         }
         .sheet(isPresented: $redeem, content: {
-            ReedemView(vm: vm)
+            RedeemView(vm: vm)
         })
         .ignoresSafeArea()
         .background(Color("darkBlue"))
