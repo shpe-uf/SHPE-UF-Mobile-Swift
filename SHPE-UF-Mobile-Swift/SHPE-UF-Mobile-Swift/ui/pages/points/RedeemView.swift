@@ -1,5 +1,5 @@
 //
-//  ReedemView.swift
+//  RedeemView.swift
 //  SHPE-UF-Mobile-Swift
 //
 //  Created by David Denis on 11/16/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ReedemView: View {
+struct RedeemView: View {
     
     @State var code: String = "" // stores event code
     @State private var numberOfGuests = 0 // track number of guests
@@ -154,7 +154,7 @@ struct ReedemView: View {
 }
 
 #Preview {
-    ReedemView(vm: PointsViewModel(shpeito:
+    RedeemView(vm: PointsViewModel(shpeito:
                                     SHPEito()
                                   ))
 }

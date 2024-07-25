@@ -1,4 +1,4 @@
-//  ReedemPointsButton.swift
+//  RedeemPointsButton.swift
 //  UIDemo
 //
 //  Created by David Denis on 11/8/23.
@@ -6,7 +6,7 @@
 
 import SwiftUI
 
-struct ReedemPointsButton: View {
+struct RedeemPointsButton: View {
     
     var body: some View {
         
@@ -18,15 +18,15 @@ struct ReedemPointsButton: View {
               .background(Color("orange_button"))
               .cornerRadius(60)
               .frame(width: 280, height: 50)
-            .clipShape(.rect(cornerRadius: 22))
-            Text("Reedem Code")
-                .font(Font.custom("Univers LT Std 65 Bold", size: 20))
-              .foregroundColor(.white)
-              .frame(width: 372, height: 50, alignment: .center)
+              .clipShape(.rect(cornerRadius: 22))
+            Text("Redeem Code")
+                .font(.system(size: 20)).bold()
+                .foregroundColor(.white)
+                .frame(width: 372, height: 50, alignment: .center)
         }
     }
 }
 
 #Preview {
-    ReedemPointsButton()
+    RedeemPointsButton()
 }

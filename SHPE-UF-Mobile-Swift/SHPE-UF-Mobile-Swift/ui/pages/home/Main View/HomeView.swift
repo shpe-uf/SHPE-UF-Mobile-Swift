@@ -12,10 +12,8 @@ struct HomeView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     @StateObject var viewModel:HomeViewModel
-    
-    @State private var showView = "HomeView"
-    @State private var currentEventIndex:Int?
-    
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+        
     @State private var offset: CGFloat = 0
     @State private var isDragging = false
     
@@ -36,7 +34,7 @@ struct HomeView: View {
                     // Navigation link to the notification view
                     Button {
                         // Dismiss the current view when the button is pressed
-                        showView = "NotificationView"
+                        appVM.showView = "NotificationView"
                     } label: {
                         // Button label with an image
                         Image("Doorbell")
@@ -106,8 +104,8 @@ struct HomeView: View {
                                         // Dismiss the current view when the button is pressed
                                         withAnimation(.easeInOut(duration: 0.2))
                                         {
-                                            showView = "EventView"
-                                            currentEventIndex = index
+                                            appVM.showView = "EventView"
+                                            appVM.currentEventIndex = index
                                         }
                                     } label: {
                                         // Button label with an image
@@ -177,13 +175,13 @@ struct HomeView: View {
         .overlay {
             Group
             {
-                if showView == "NotificationView"
+                if appVM.showView == "NotificationView"
                 {
-                    NotificationView(viewModel: viewModel, showView: $showView)
+                    NotificationView(viewModel: viewModel, showView: $appVM.showView)
                 }
-                else if showView == "EventView"
+                else if appVM.showView == "EventView"
                 {
-                    eventInfo(event: viewModel.getUpcomingEvents()[currentEventIndex ?? 0], showView: $showView)
+                    eventInfo(event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0], showView: $appVM.showView)
                         .transition(.move(edge: .trailing))
                 }
             }
@@ -192,15 +190,15 @@ struct HomeView: View {
                 DragGesture()
                     .onChanged { gesture in
                         isDragging = true
-                        offset = gesture.translation.width
+                        offset = gesture.translation.width > 0 ? gesture.translation.width : 0
                     }
                     .onEnded { _ in
                         isDragging = false
                         if offset > 100
                         {
-                            withAnimation(.easeInOut(duration: showView == "EventView" ? 0.5 : 0.2))
+                            withAnimation(.easeInOut(duration: appVM.showView == "EventView" ? 0.5 : 0.2))
                             {
-                                showView = ""
+                                appVM.showView = ""
                             }
                         }
                         withAnimation(.easeOut(duration: 0.2))
@@ -338,7 +336,7 @@ struct eventInfo: View {
                             .frame(height: UIScreen.main.bounds.height * 0.152, alignment: .leading)
                             .padding(.top, UIScreen.main.bounds.height * 0.025)
                             
-                            VStack{
+                            VStack(alignment:.leading){
                                 // Event date
                                 HStack(spacing: UIScreen.main.bounds.width * 0.05){
                                     Rectangle()
@@ -395,7 +393,6 @@ struct eventInfo: View {
                                     .font(Font.custom("UniversLTStd", size: 18))
                                     .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
                                     .frame(width: UIScreen.main.bounds.width * 0.265, alignment: .leading)
-                                    .padding(10)
                                     .padding(.top, UIScreen.main.bounds.height * 0.035)
                                     // Event description text
                                     //Need to have event  description variables in the future
@@ -405,9 +402,6 @@ struct eventInfo: View {
                                       .frame(width: UIScreen.main.bounds.width * 0.262, height: UIScreen.main.bounds.height * 0.235, alignment: .topLeading)
                                 }
                             }
-                            
-                            
-                           
                             Spacer()
                             Spacer()
                         }
