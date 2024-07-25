@@ -244,7 +244,7 @@ class ProfileViewModel:ObservableObject
     //validate lastname
     func validateLastName(input:String) -> Bool
     {
-        let namePattern = "[A-Za-z]+"
+        let namePattern = "[A-Za-z ]+"
         let namePredicate = NSPredicate(format:"SELF MATCHES %@", namePattern)
         return namePredicate.evaluate(with: input)
     }
