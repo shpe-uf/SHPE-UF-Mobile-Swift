@@ -90,7 +90,7 @@ struct PointsViewDark: View {
                 Button {
                     redeem.toggle()
                 } label: {
-                    ReedemPointsButton()
+                    RedeemPointsButton()
                         .foregroundColor(.black)
                 }
                 .padding(.vertical, 25)
@@ -132,7 +132,7 @@ struct PointsViewDark: View {
         )
         
         .sheet(isPresented: $redeem, content: {
-            ReedemView(vm: vm)
+            RedeemView(vm: vm)
         })
         .backgroundStyle(.black)
         .ignoresSafeArea()

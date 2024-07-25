@@ -12,9 +12,11 @@ struct HomeView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     @StateObject var viewModel:HomeViewModel
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+        
+    @State private var offset: CGFloat = 0
+    @State private var isDragging = false
     
-    @State private var showView = "HomeView"
-    @State private var currentEventIndex:Int?
     var body: some View {
         VStack(spacing: 0) {
             // Top bar with the current month and notification icon
@@ -32,7 +34,7 @@ struct HomeView: View {
                     // Navigation link to the notification view
                     Button {
                         // Dismiss the current view when the button is pressed
-                        showView = "NotificationView"
+                        appVM.showView = "NotificationView"
                     } label: {
                         // Button label with an image
                         Image("Doorbell")
@@ -83,16 +85,18 @@ struct HomeView: View {
                                                 .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
                                                 .frame(width: 26, height: 16, alignment: .top)
                                         }
+                                        .frame(width: 39, height: 45, alignment: .top)
                                         .padding(.horizontal, 2)
                                         .padding(.top, 4)
                                         .padding(.bottom, 8)
-                                        .frame(width: 39, height: 45, alignment: .top)
+                                        .padding(.trailing, 10)
+                                        
                                     } else {
                                         VStack { }
+                                            .frame(width: 39, height: 45, alignment: .top)
                                             .padding(.horizontal, 2)
                                             .padding(.top, 4)
                                             .padding(.bottom, 8)
-                                            .frame(width: 39, height: 45, alignment: .top)
                                     }
                                     
                                     // Navigation link to detailed event information
@@ -100,8 +104,8 @@ struct HomeView: View {
                                         // Dismiss the current view when the button is pressed
                                         withAnimation(.easeInOut(duration: 0.2))
                                         {
-                                            showView = "EventView"
-                                            currentEventIndex = index
+                                            appVM.showView = "EventView"
+                                            appVM.currentEventIndex = index
                                         }
                                     } label: {
                                         // Button label with an image
@@ -153,6 +157,7 @@ struct HomeView: View {
                         .padding(.bottom, 100)
                         .padding()
                         .frame(maxWidth: .infinity)
+                        .padding(.trailing, 20)
                     }
                     .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                     .frame(maxWidth: .infinity)
@@ -170,16 +175,39 @@ struct HomeView: View {
         .overlay {
             Group
             {
-                if showView == "NotificationView"
+                if appVM.showView == "NotificationView"
                 {
-                    NotificationView(viewModel: viewModel, showView: $showView)
+                    NotificationView(viewModel: viewModel, showView: $appVM.showView)
                 }
-                else if showView == "EventView"
+                else if appVM.showView == "EventView"
                 {
-                    eventInfo(event: viewModel.getUpcomingEvents()[currentEventIndex ?? 0], showView: $showView)
+                    eventInfo(event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0], showView: $appVM.showView)
                         .transition(.move(edge: .trailing))
                 }
             }
+            .offset(x:offset)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        isDragging = true
+                        offset = gesture.translation.width > 0 ? gesture.translation.width : 0
+                    }
+                    .onEnded { _ in
+                        isDragging = false
+                        if offset > 100
+                        {
+                            withAnimation(.easeInOut(duration: appVM.showView == "EventView" ? 0.5 : 0.2))
+                            {
+                                appVM.showView = ""
+                            }
+                        }
+                        withAnimation(.easeOut(duration: 0.2))
+                        {
+                            offset = 0
+                        }
+                    }
+            )
+            .animation(.easeInOut, value: offset)
         }
     }
             
@@ -308,7 +336,7 @@ struct eventInfo: View {
                             .frame(height: UIScreen.main.bounds.height * 0.152, alignment: .leading)
                             .padding(.top, UIScreen.main.bounds.height * 0.025)
                             
-                            VStack{
+                            VStack(alignment:.leading){
                                 // Event date
                                 HStack(spacing: UIScreen.main.bounds.width * 0.05){
                                     Rectangle()
@@ -365,7 +393,6 @@ struct eventInfo: View {
                                     .font(Font.custom("UniversLTStd", size: 18))
                                     .foregroundColor(colorScheme == .dark ? Constants.teal : Constants.DescriptionHeaderColor)
                                     .frame(width: UIScreen.main.bounds.width * 0.265, alignment: .leading)
-                                    .padding(10)
                                     .padding(.top, UIScreen.main.bounds.height * 0.035)
                                     // Event description text
                                     //Need to have event  description variables in the future
@@ -375,9 +402,6 @@ struct eventInfo: View {
                                       .frame(width: UIScreen.main.bounds.width * 0.262, height: UIScreen.main.bounds.height * 0.235, alignment: .topLeading)
                                 }
                             }
-                            
-                            
-                           
                             Spacer()
                             Spacer()
                         }
@@ -424,6 +448,8 @@ struct eventInfo: View {
 struct eventBox: View {
     var event: Event
     @Environment(\.colorScheme) var colorScheme
+    @State private var isAnimating = false
+    @State private var ongoing = false
     
     var body: some View {
         let dateHelper = DateHelper()
@@ -431,36 +457,112 @@ struct eventBox: View {
         let endTimeString = dateHelper.getTime(for: event.end.dateTime)
         let startdateString = dateHelper.getDayFull(for: event.start.dateTime)
         let (color, iconImage) = eventTypeVariables(event: event)
-
         
         if startTimeString == endTimeString {
-               
+            
+            
+            return AnyView(Group{
+                //Prints out events with  no set times
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: UIScreen.main.bounds.width * 0.8, height: 69)
+                        .background(color)
+                        .cornerRadius(25)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 25)
+                                .stroke(isAnimating ? Color.lorange : Color.lorange.opacity(0.5), lineWidth: isAnimating ? 4 : ongoing ? 2 : 0)
+                                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true))
+                        )
+                        .onAppear {
+                            self.ongoing = event.start.dateTime <= Date()
+                            self.isAnimating = ongoing
+                        }
+                    
+                    VStack{
+                        HStack{
+                            Text(event.summary)
+                                .font(Font.custom("UniversLTStd", size: 15))
+                                .foregroundColor(.white)
+                                .frame(alignment: .topLeading)
+                            Rectangle()
+                                .foregroundColor(.clear)
+                                .frame(width: 20, height: 20)
+                                .background(
+                                    
+                                    Image(iconImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                )
+                        }
+                        .frame(width: UIScreen.main.bounds.width * 0.7, height: 17, alignment: .topLeading)
+                        
+                        
+                        HStack(spacing: 5) {
+                            HStack{
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    .frame(width: 24, height: 24)
+                                    .background(
+                                        Image("Calendar")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    )
+                                Text(startdateString)
+                                    .font(Font.custom("UniversLTStd", size: 12))
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: UIScreen.main.bounds.width * 0.7, height: 17, alignment: .topLeading)
+                            
+                            Spacer()
+                            
+                        }
+                        .frame(width: UIScreen.main.bounds.width * 0.7)
+                    }
+                    
+                }
                 
-                return AnyView(Group{
-                        //Prints out events with  no set times
+            })
+            
+        }else{
+            return AnyView(
+                Group{
+                    
+                    //Prints out events with set times
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
-                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
+                            .frame(width: UIScreen.main.bounds.width * 0.8, height: 69)
                             .background(color)
                             .cornerRadius(25)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 25)
+                                    .stroke(isAnimating ? Color.lorange : Color.lorange.opacity(0.5), lineWidth: isAnimating ? 4 : ongoing ? 2 : 0)
+                                    .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true))
+                            )
+                            .onAppear {
+                                self.ongoing = event.start.dateTime <= Date()
+                                self.isAnimating = ongoing
+                            }
+                        
                         VStack{
                             HStack{
                                 Text(event.summary)
                                     .font(Font.custom("UniversLTStd", size: 15))
                                     .foregroundColor(.white)
+                                
                                     .frame(alignment: .topLeading)
                                 Rectangle()
                                     .foregroundColor(.clear)
                                     .frame(width: 20, height: 20)
                                     .background(
-                            
+                                        
                                         Image(iconImage)
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                     )
                             }
-                            .frame(width: UIScreen.main.bounds.width * 0.65, height: 17, alignment: .topLeading)
+                            .frame(width: UIScreen.main.bounds.width * 0.7, height: 17, alignment: .topLeading)
                             
                             
                             HStack(spacing: 5) {
@@ -477,93 +579,35 @@ struct eventBox: View {
                                         .font(Font.custom("UniversLTStd", size: 12))
                                         .foregroundColor(.white)
                                 }
-                                .frame(width: UIScreen.main.bounds.width * 0.65, height: 17, alignment: .topLeading)
-                                
+                                .frame(width: 115, height: 17, alignment: .topLeading)
                                 Spacer()
-                                
-                            }
-                            .frame(width: UIScreen.main.bounds.width * 0.65)
-                        }
-                        
-                    }
-                    
-                })
-                    
-            }else{
-                return AnyView(
-                    Group{
-                        
-                            //Prints out events with set times
-                        ZStack {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
-                                .background(color)
-                                .cornerRadius(25)
-                            VStack{
                                 HStack{
-                                    Text(event.summary)
-                                        .font(Font.custom("UniversLTStd", size: 15))
-                                        .foregroundColor(.white)
-                                    
-                                        .frame(alignment: .topLeading)
                                     Rectangle()
                                         .foregroundColor(.clear)
-                                        .frame(width: 20, height: 20)
+                                        .frame(width: 24, height: 24)
                                         .background(
-                                            
-                                            Image(iconImage)
+                                            Image("Timer")
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                         )
+                                    
+                                    Text("\(startTimeString) - \(endTimeString)")
+                                        .font(Font.custom("UniversLTStd", size: 12))
+                                        .foregroundColor(.white)
                                 }
-                                .frame(width: UIScreen.main.bounds.width * 0.65, height: 17, alignment: .topLeading)
+                                .frame(height: 17, alignment: .topLeading)
                                 
                                 
-                                HStack(spacing: 5) {
-                                    HStack{
-                                        Rectangle()
-                                            .foregroundColor(.clear)
-                                            .frame(width: 24, height: 24)
-                                            .background(
-                                                Image("Calendar")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                            )
-                                        Text(startdateString)
-                                            .font(Font.custom("UniversLTStd", size: 12))
-                                            .foregroundColor(.white)
-                                    }
-                                    .frame(width: 115, height: 17, alignment: .topLeading)
-                                    Spacer()
-                                    HStack{
-                                        Rectangle()
-                                            .foregroundColor(.clear)
-                                            .frame(width: 24, height: 24)
-                                            .background(
-                                                Image("Timer")
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                            )
-                                        
-                                        Text("\(startTimeString) - \(endTimeString)")
-                                            .font(Font.custom("UniversLTStd", size: 12))
-                                            .foregroundColor(.white)
-                                    }
-                                    .frame(height: 17, alignment: .topLeading)
-                                    
-                                    
-                                }
-                                .frame(width: UIScreen.main.bounds.width * 0.65)
                             }
-                            
+                            .frame(width: UIScreen.main.bounds.width * 0.7)
                         }
+                        
                     }
-                    
-                )
+                }
                 
-                
-            }    }
+            )
+        }
+    }
     
     func eventTypeVariables(event: Event) -> (Color, String) {
             switch event.eventType {

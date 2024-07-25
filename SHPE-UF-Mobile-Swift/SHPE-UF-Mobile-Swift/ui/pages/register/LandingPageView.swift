@@ -63,7 +63,7 @@ struct LandingPageView: View {
                             .frame(width: 10, height: 10)
                     }
                 }
-                .padding(.bottom, 20)
+                .padding(.bottom, 30)
 
                 // Display logo
                 Image("shpe_logo")
@@ -108,15 +108,28 @@ struct LandingPageView: View {
                 .foregroundColor(.white)
                 .background(Color.darkdarkBlue)
                 .cornerRadius(25)
-                .padding(.bottom, 50)
+                .padding(.bottom, 60)
             }
             .gesture(
                 DragGesture()
-                    .onChanged { _ in
+                    .onChanged { gesture in
                         isScrolling = true
+                        if gesture.translation.width < -10 && manualIndex == images.count - 1
+                        {
+                            DispatchQueue.main.async {
+                                manualIndex = 0
+                            }
+                        }
+                        if gesture.translation.width > 10 && manualIndex == 0
+                        {
+                            DispatchQueue.main.async {
+                                manualIndex = images.count - 1
+                            }
+                        }
+                        
                         pauseTimer()
                     }
-                    .onEnded { _ in
+                    .onEnded { gesture in
                         startTimer()
                     }
             )

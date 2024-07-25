@@ -18,6 +18,10 @@ class AppViewModel: ObservableObject
     @Published var showToast:Bool
     @Published var toastMessage:String
     
+    // Items being observed in the home view
+    @Published var showView = "HomeView"
+    @Published var currentEventIndex:Int?
+    
     private init() {
         self.pageIndex = -1
         self.shpeito = SHPEito()

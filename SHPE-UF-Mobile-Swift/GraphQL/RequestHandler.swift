@@ -534,6 +534,7 @@ class RequestHandler
         }
 
         // Make an API call
+        
         let urlString = "https://www.googleapis.com/calendar/v3/calendars/\(CALENDAR_ID)/events?timeMin=\(timeMin)&key=\(CALENDAR_API_KEY)"
         if let url = URL(string: urlString) {
             var request = URLRequest(url: url)
