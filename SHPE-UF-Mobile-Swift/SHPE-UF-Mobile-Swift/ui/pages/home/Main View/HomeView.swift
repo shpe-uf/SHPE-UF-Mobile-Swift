@@ -294,7 +294,7 @@ struct eventInfo: View {
                                 .bold()
                                 .font(Font.custom("Viga-Regular", size: 32))
                                 .foregroundColor(Constants.orange)
-                                .frame(width: UIScreen.main.bounds.width * 0.5, alignment: .top)
+                                .frame(width: UIScreen.main.bounds.width * 0.5, alignment: .leading)
                                 .lineLimit(3)
                                 Spacer()
                                 VStack
@@ -332,10 +332,9 @@ struct eventInfo: View {
                                     }
                                 }
                             }
-                            .padding(.horizontal, UIScreen.main.bounds.width * 0.127)
+                            .frame(width: UIScreen.main.bounds.width * 0.6, alignment: .leading)                            
                             .frame(maxWidth: UIScreen.main.bounds.width)
-                            .frame(height: UIScreen.main.bounds.height * 0.152, alignment: .leading)
-                            .padding(.top, UIScreen.main.bounds.height * 0.025)
+                            .padding(.top, UIScreen.main.bounds.height * 0.05)
                             
                             VStack(alignment:.leading){
                                 // Event date
@@ -400,10 +399,9 @@ struct eventInfo: View {
                                     Text(description)
                                       .font(Font.custom("UniversLTStd", size: 18))
                                       .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                                      .frame(width: UIScreen.main.bounds.width * 0.262, height: UIScreen.main.bounds.height * 0.235, alignment: .topLeading)
+                                      .frame(width: UIScreen.main.bounds.width * 0.6, height: UIScreen.main.bounds.height * 0.235, alignment: .topLeading)
                                 }
                             }
-                            Spacer()
                             Spacer()
                         }
                     }
@@ -476,7 +474,7 @@ struct eventBox: View {
                                 .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true))
                         )
                         .onAppear {
-                            self.ongoing = event.start.dateTime <= Date()
+                            self.ongoing = event.start.dateTime <= Date() && event.end.dateTime >= Date()
                             self.isAnimating = ongoing
                         }
                     
@@ -542,7 +540,7 @@ struct eventBox: View {
                                     .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true))
                             )
                             .onAppear {
-                                self.ongoing = event.start.dateTime <= Date()
+                                self.ongoing = event.start.dateTime <= Date() && event.end.dateTime >= Date()
                                 self.isAnimating = ongoing
                             }
                         
