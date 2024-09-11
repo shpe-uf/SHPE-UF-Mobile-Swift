@@ -21,6 +21,8 @@ class NotificationViewModel : ObservableObject {
     
     @Published var pendingNotifications:[Event] = []
     
+    @Published var notificationsAllowed = false
+    
     private init () {}
     
     private func buttonClicked(eventType:String, setTo:Bool? = nil)
@@ -46,28 +48,40 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
-    func checkForPermission() {
+    func checkForPermission(completion: @escaping (Bool)->Void = {_ in }) {
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .authorized:
-                // Do something when notification permission is authorized
-                print("Notification permission is authorized")
-            case .denied:
-                // Do something when notification permission is denied
-                print("Notification permission is denied")
-            case .notDetermined:
-                notificationCenter.requestAuthorization(options: [.alert, .sound]) { didAllow, error in
-                    if didAllow {
-                        // Do something when notification permission is granted
-                        print("Notification permission is granted")
+            DispatchQueue.main.async {
+                switch settings.authorizationStatus {
+                case .authorized:
+                    // Do something when notification permission is authorized
+                    print("Notification permission is authorized")
+                    self.notificationsAllowed = true
+                    
+                case .denied:
+                    // Do something when notification permission is denied
+                    print("Notification permission is denied")
+                    self.notificationsAllowed = false
+                    
+                    
+                case .notDetermined:
+                    notificationCenter.requestAuthorization(options: [.alert, .sound]) { didAllow, error in
+                        if didAllow {
+                            // Do something when notification permission is granted
+                            print("Notification permission is granted")
+                            self.notificationsAllowed = true
+                            
+                        }
+                        if let error = error {
+                            print("ERROR: \(error)")
+                            self.notificationsAllowed = false
+                        }
                     }
-                    if let error = error {
-                        print("ERROR: \(error)")
-                    }
+                default:
+                    self.notificationsAllowed = false
+                    break
                 }
-            default:
-                break
+                completion(self.notificationsAllowed)
             }
         }
     }

@@ -226,6 +226,7 @@ struct eventInfo: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var notifVM: NotificationViewModel = NotificationViewModel.instance
     @State private var tappedNotification:Bool = false
+    @State private var attemptedToEnableNotifications:Bool = false
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
@@ -238,6 +239,76 @@ struct eventInfo: View {
         
         let (iconImage, eventImage) = eventTypeVariables(event: event) // Icons based on the event type
         ZStack {
+            if attemptedToEnableNotifications
+            {
+                VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
+                                    .edgesIgnoringSafeArea(.all)
+                                    .zIndex(998)
+                
+                VStack(alignment: .center)
+                {
+                    HStack()
+                    {
+                        Spacer()
+                        Image("x_mark")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding(5)
+                            .background(Color.black.opacity(0.1))
+                            .cornerRadius(20)
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    attemptedToEnableNotifications = false
+                                }
+                            }
+                    }
+                    
+                    Spacer()
+                    
+                    Text("Trying to Stay Notified?")
+                        .foregroundStyle(Color.white)
+                        .font(Font.custom("Viga-Regular", size: 24))
+                        .padding(.bottom, 10)
+                    
+                    
+                    Text("Please go to your device's \"Settings\" and enable notifications for SHPE UF")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(Color.white)
+                        .font(Font.custom("", size: 16))
+                    
+                    Spacer()
+                    
+                    Button {
+                        withAnimation(.easeInOut) {
+                            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(appSettings)
+                            }
+                            attemptedToEnableNotifications = false
+                        }
+                        
+                    } label: {
+                        HStack
+                        {
+                            Text("Go to Settings")
+                                .foregroundStyle(Color.white)
+                                .font(Font.custom("Viga-Regular", size: 24))
+                                .padding(.trailing, 5)
+                        }
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 30)
+                        .background(Color.darkdarkBlue)
+                        .cornerRadius(12)
+                    }
+                    .padding(.bottom, 20)
+
+                }
+                .zIndex(999)
+                .padding()
+                .frame(width: 309, height: 270, alignment: .center)
+                .background(Color.profileOrange)
+                .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
+            }
+            
             VStack {
                 Rectangle()
                 .foregroundColor(.clear)
@@ -317,17 +388,32 @@ struct eventInfo: View {
                                     }
                                     .frame(width: UIScreen.main.bounds.width * 0.03, height: UIScreen.main.bounds.height * 0.03)
                                     .onTapGesture {
-                                        if notifVM.pendingNotifications.contains(where: { e in
-                                            e.identifier == event.identifier
-                                        })
-                                        {
-                                            tappedNotification = false
-                                            notifVM.removeNotificationForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
-                                        }
-                                        else
-                                        {
-                                            tappedNotification = true
-                                            notifVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                        // Check if notifications have been allowed
+                                        notifVM.checkForPermission{
+                                            permission in
+                                            
+                                            if permission
+                                            {
+                                                if notifVM.pendingNotifications.contains(where: { e in
+                                                    e.identifier == event.identifier
+                                                })
+                                                {
+                                                    tappedNotification = false
+                                                    notifVM.removeNotificationForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                                }
+                                                else
+                                                {
+                                                    tappedNotification = true
+                                                    notifVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                                }
+                                            }
+                                            else
+                                            {
+                                                withAnimation(.easeInOut) {
+                                                    attemptedToEnableNotifications = true
+                                                }
+                                            }
+                                            
                                         }
                                     }
                                 }
@@ -471,7 +557,7 @@ struct eventBox: View {
                         .overlay(
                             RoundedRectangle(cornerRadius: 25)
                                 .stroke(isAnimating ? Color.lorange : Color.lorange.opacity(0.5), lineWidth: isAnimating ? 4 : ongoing ? 2 : 0)
-                                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true))
+                                .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true), value: ongoing)
                         )
                         .onAppear {
                             self.ongoing = event.start.dateTime <= Date() && event.end.dateTime >= Date()
