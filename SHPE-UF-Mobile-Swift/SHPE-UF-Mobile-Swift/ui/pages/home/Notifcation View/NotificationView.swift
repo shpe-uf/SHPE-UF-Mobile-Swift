@@ -30,7 +30,7 @@ struct NotificationView: View {
             
             ZStack{
                 Constants.orange
-                    .frame(height: 100)
+                    .frame(height: 110)
                 HStack{
                     Button {
                         // Dismiss the current view when the button is pressed
@@ -38,14 +38,14 @@ struct NotificationView: View {
                     } label: {
                         // Button label with an image
                         Image("Back")
-                            .frame(height:70,alignment: .bottomLeading)
+                            .frame(height:75,alignment: .bottomLeading)
                     }
                     Spacer()
                     // Notification settings title
                     Text("Notification Settings")
                         .font(Font.custom("Viga-Regular", size: 24))
                         .foregroundColor(.white)
-                        .frame(height: 75, alignment: .bottomLeading)
+                        .frame(height: 85, alignment: .bottomLeading)
                     
                     Spacer()
                 }

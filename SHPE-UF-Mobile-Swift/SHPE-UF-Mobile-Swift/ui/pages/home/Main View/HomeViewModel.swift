@@ -60,9 +60,7 @@ final class HomeViewModel: ObservableObject {
     
     func getUpcomingEvents()->[Event]
     {
-        var upcomingEvents:[Event] = [
-            Event(created: Date(), creator: Creator(email: "", selfValue: 0), end: EventDateTime(dateTime: Date(timeIntervalSinceNow: 3600), timeZone: "EST"), etag: "", eventType: "GBM", htmlLink: "", iCalUID: "", identifier: "", kind: "GBM", organizer: Organizer(email: "", selfValue: 0), sequence: 1, start: EventDateTime(dateTime: Date(timeIntervalSinceNow: 7200), timeZone: "EST"), status: "", summary: "Spring GBM #1", updated: Date(), location: "Reitz Union Ballroom", description: "Lorem impsum dori upsom uf te rte sen shi wuas ydte tdtfeia buer yb aoru b asybedt uavdte ibaysb eb ysbdiedb iab yeb")
-        ]
+        var upcomingEvents:[Event] = []
         for event in events
         {
             if event.end.dateTime > Date()

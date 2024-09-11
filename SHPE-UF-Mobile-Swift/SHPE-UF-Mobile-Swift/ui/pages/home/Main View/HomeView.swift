@@ -28,7 +28,7 @@ struct HomeView: View {
                     Text(displayedMonth)
                         .font(Font.custom("Viga-Regular", size: 24))
                         .foregroundColor(.white)
-                        .frame(width: 107, height: 0, alignment: .topLeading)
+                        .frame(height: 0, alignment: .topLeading)
                     
                     Spacer()
                     // Navigation link to the notification view
