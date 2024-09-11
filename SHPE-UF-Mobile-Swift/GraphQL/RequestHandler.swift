@@ -153,7 +153,7 @@ class RequestHandler
     
     
     func signIn(username: String, password: String, completion: @escaping ([String: Any]) -> Void) {
-        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false")) { response in
+        apolloClient.perform(mutation: SHPESchema.SignInMutation(username: username, password: password, remember: "false"), publishResultToStore: false) { response in
             guard let data = try? response.get().data else {
                 if let errorMessage = self.extractErrorMessage(from: response) {
                     // Print the extracted error message
