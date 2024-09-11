@@ -20,6 +20,7 @@ struct NotificationView: View {
     
     // A flag to manage notification permissions for all event types
     @State private var allowForAll = false
+    @State private var attemptedToEnableNotifications:Bool = false
     
     @StateObject var viewNotificationModel = NotificationViewModel.instance
     
@@ -53,6 +54,75 @@ struct NotificationView: View {
             }
             // Stack for the main content area
             ZStack {
+                if attemptedToEnableNotifications
+                {
+                    VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
+                                        .edgesIgnoringSafeArea(.all)
+                                        .zIndex(998)
+                                        .offset(y:-20)
+                    
+                    VStack(alignment: .center)
+                    {
+                        HStack()
+                        {
+                            Spacer()
+                            Image("x_mark")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .padding(5)
+                                .background(Color.black.opacity(0.1))
+                                .cornerRadius(20)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        showView = "HomeView"
+                                    }
+                                }
+                        }
+                        
+                        Spacer()
+                        
+                        Text("Trying to Stay Notified?")
+                            .foregroundStyle(Color.white)
+                            .font(Font.custom("Viga-Regular", size: 24))
+                            .padding(.bottom, 10)
+                        
+                        
+                        Text("Please go to your device's \"Settings\" and enable notifications for SHPE UF")
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(Color.white)
+                            .font(Font.custom("", size: 16))
+                        
+                        Spacer()
+                        
+                        Button {
+                            if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(appSettings)
+                            }
+                            
+                        } label: {
+                            HStack
+                            {
+                                Text("Go to Settings")
+                                    .foregroundStyle(Color.white)
+                                    .font(Font.custom("Viga-Regular", size: 24))
+                                    .padding(.trailing, 5)
+                            }
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 30)
+                            .background(Color.darkdarkBlue)
+                            .cornerRadius(12)
+                        }
+                        .padding(.bottom, 20)
+
+                    }
+                    .zIndex(999)
+                    .padding()
+                    .frame(width: 309, height: 270, alignment: .center)
+                    .background(Color.profileOrange)
+                    .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
+                    .offset(y:-20)
+                }
+                
                 VStack(spacing: 50) {
                     Spacer()
                     // Prompt text for user action
@@ -119,8 +189,22 @@ struct NotificationView: View {
         }
         .onAppear {
             // Check for notification permission when the view appears
-            viewNotificationModel.checkForPermission()
-            allowForAll = viewNotificationModel.isGBMSelected && viewNotificationModel.isInfoSelected && viewNotificationModel.isSocialSelected && viewNotificationModel.isVolunteeringSelected && viewNotificationModel.isWorkShopSelected
+            viewNotificationModel.checkForPermission
+            {
+                permission in
+                
+                if permission
+                {
+                    allowForAll = viewNotificationModel.isGBMSelected && viewNotificationModel.isInfoSelected && viewNotificationModel.isSocialSelected && viewNotificationModel.isVolunteeringSelected && viewNotificationModel.isWorkShopSelected
+                }
+                else
+                {
+                    withAnimation(.easeIn)
+                    {
+                        attemptedToEnableNotifications = true
+                    }
+                }
+            }
         }
         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .edgesIgnoringSafeArea(.all) // Ignore the safe area to extend to the edges
