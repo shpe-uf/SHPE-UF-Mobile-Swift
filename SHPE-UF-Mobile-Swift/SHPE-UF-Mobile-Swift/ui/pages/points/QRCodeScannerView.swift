@@ -4,23 +4,34 @@ import CodeScanner
 struct QRCodeScannerView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var scannedCode: String
+    @State private var showAlert = false
+    @State private var isScannerActive = true // Controls the visibility of the scanner
 
     var body: some View {
         ZStack {
-            // QR Code Scanner
-            CodeScannerView(
-                codeTypes: [.qr],
-                completion: { result in
-                    switch result {
-                    case .success(let code):
-                        scannedCode = code.string
-                        dismiss()
-                    case .failure:
-                        dismiss()
+            if isScannerActive {
+                // QR Code Scanner
+                CodeScannerView(
+                    codeTypes: [.qr],
+                    completion: { result in
+                        switch result {
+                        case .success(let code):
+                            if code.string.starts(with: "[shpeuf]:") {
+                                // Extract the portion after the prefix
+                                let validCode = code.string.replacingOccurrences(of: "[shpeuf]:", with: "")
+                                scannedCode = validCode
+                                dismiss()
+                            } else {
+                                showAlert = true
+                                isScannerActive = false // Deactivate scanner
+                            }
+                        case .failure:
+                            isScannerActive = false // Reset scanner on failure
+                        }
                     }
-                }
-            )
-            .edgesIgnoringSafeArea(.all)
+                )
+                .edgesIgnoringSafeArea(.all)
+            }
 
             // Overlay with Corners and Back Button
             GeometryReader { geometry in
@@ -30,7 +41,7 @@ struct QRCodeScannerView: View {
                         Button(action: {
                             dismiss()
                         }) {
-                            Image(systemName: "chevron.left")
+                            Image("Back")
                                 .font(.system(size: 24, weight: .bold))
                                 .foregroundColor(.white)
                                 .padding()
@@ -48,10 +59,10 @@ struct QRCodeScannerView: View {
                     // Corner Images Overlay
                     ZStack {
                         // Scanning Area Dimensions
-                        let width = geometry.size.width * 0.6 // 60% of the screen width
-                        let height = width // Square area
+                        let width = geometry.size.width * 0.6
+                        let height = width
                         let xOffset = (geometry.size.width - width) / 2
-                        let yOffset = (geometry.size.height - height) / 2 - 90 // Adjust vertically (-50 moves it upward)
+                        let yOffset = (geometry.size.height - height) / 2 - 90
 
                         // Top-Left Corner
                         Image("qr_code_top_left_corner")
@@ -79,6 +90,15 @@ struct QRCodeScannerView: View {
                     }
                 }
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Invalid Code"),
+                message: Text("The scanned QR code is invalid."),
+                dismissButton: .default(Text("OK"), action: {
+                    isScannerActive = true // Reactivate scanner after dismissing the alert
+                })
+            )
         }
     }
 }
