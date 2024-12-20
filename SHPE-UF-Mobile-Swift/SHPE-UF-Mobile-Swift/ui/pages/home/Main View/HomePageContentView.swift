@@ -26,7 +26,6 @@ struct HomePageContentView: View {
         TabView(selection: $selectedTab.onUpdate {
             if selectedTab == 0
             {
-                print("tap tap")
                 appVM.showView = "HomeView"
                 appVM.currentEventIndex = nil
             }

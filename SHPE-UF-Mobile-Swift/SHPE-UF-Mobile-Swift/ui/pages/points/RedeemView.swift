@@ -1,29 +1,23 @@
-//
-//  RedeemView.swift
-//  SHPE-UF-Mobile-Swift
-//
-//  Created by David Denis on 11/16/23.
-//
-
 import SwiftUI
 
 struct RedeemView: View {
     
-    @State var code: String = "" // stores event code
-    @State private var numberOfGuests = 0 // track number of guests
+    @State var code: String = "" // Stores event code
+    @State private var numberOfGuests = 0 // Track number of guests
     @Environment(\.dismiss) var dismiss
-    
-    @StateObject var vm : PointsViewModel
+
+    @State private var isPresentingScanner = false // State for presenting the QR code scanner
+    @StateObject var vm: PointsViewModel
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CoreUserEvent>
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Rectangle()
-                  .foregroundColor(.clear)
-                  .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                    .foregroundColor(.clear)
+                    .background(Color(red: 0.82, green: 0.35, blue: 0.09))
                 
                 VStack {
                     
@@ -37,25 +31,50 @@ struct RedeemView: View {
                     
                     // Title
                     Text("REDEEM POINTS")
-                      .font(.system(size: 35)).italic().bold()
-                      .multilineTextAlignment(.center)
-                      .foregroundColor(Color(red: 0.93, green: 0.93, blue: 0.93))
-                      .frame(alignment: .top)
+                        .font(.system(size: 35)).italic().bold()
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(Color(red: 0.93, green: 0.93, blue: 0.93))
+                        .frame(alignment: .top)
                     
                     // Event Code Text Field
-                    TextField("", text: $code, prompt: Text("Event Code").foregroundColor(.gray))
-                        .frame(height: 55)
-                        .background(Color.white)
-                        .font(Font.custom("Univers LT Std 55 Oblique", size: 20))
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .foregroundColor(.black)
-                        .multilineTextAlignment(.center)
-                        .cornerRadius(10)
-                        .padding(.horizontal, 20)
-                    
-                    if vm.invalidCode && !code.isEmpty
+                    HStack
                     {
+                        Button
+                        {
+                            isPresentingScanner = true // Open QR Code scanner
+                        }
+                        label:
+                        {
+                            Image("qrcamera")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 35, height: 35)
+                                .foregroundColor(.black)
+                                .padding(.leading, 10)
+                        }
+                        .sheet(isPresented: $isPresentingScanner)
+                        {
+                            QRCodeScannerView(scannedCode: $code) // Present QR Code scanner
+                        }
+
+                        // TextField for Event Code
+                        TextField("", text: $code, prompt: Text("Event Code").foregroundColor(.gray))
+                            .font(Font.custom("Univers LT Std 55 Oblique", size: 20))
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                            .foregroundColor(.black)
+                            .multilineTextAlignment(.center)
+                            .padding(.trailing, 40)
+                    }
+                    .frame(height: 55)
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal, 20)
+
+
+
+                    
+                    if vm.invalidCode && !code.isEmpty {
                         Text("The event code provided is either invalid or has expired!")
                             .multilineTextAlignment(.center)
                             .padding(.top, 10)
@@ -81,8 +100,7 @@ struct RedeemView: View {
                                 if numberOfGuests > 0 {
                                     numberOfGuests -= 1
                                 }
-                            })
-                            {
+                            }) {
                                 Rectangle()
                                     .foregroundColor(.clear)
                                     .frame(width: 45, height: 8)
@@ -98,14 +116,13 @@ struct RedeemView: View {
                             
                             // "Guests"
                             Text("\(numberOfGuests)")
-                              .font(
-                                Font.custom("Inter", size: 30)
-                                  .weight(.medium)
-                              )
-                              .frame(width: 50, height: 50)
-
-                              .multilineTextAlignment(.center)
-                              .foregroundColor(Color(red: 0.28, green: 0.27, blue: 0.27).opacity(0.71))
+                                .font(
+                                    Font.custom("Inter", size: 30)
+                                        .weight(.medium)
+                                )
+                                .frame(width: 50, height: 50)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(Color(red: 0.28, green: 0.27, blue: 0.27).opacity(0.71))
                             
                             // Right Divider
                             Image("Line 6")

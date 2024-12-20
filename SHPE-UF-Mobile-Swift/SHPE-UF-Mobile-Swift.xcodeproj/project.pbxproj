@@ -32,6 +32,9 @@
 		46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */; };
 		46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418C2B7EC7DB0083F81C /* TableView.swift */; };
 		46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418E2B7EC82B0083F81C /* SingleEventView.swift */; };
+		52051D8F2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52051D8D2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodeld */; };
+		521249D52CEFA22600EB0364 /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521249D42CEFA21A00EB0364 /* QRCodeScannerView.swift */; };
+		521249E92CEFD06A00EB0364 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 521249E82CEFD06A00EB0364 /* CodeScanner */; };
 		523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398D2B7DD0990019C353 /* AcademicInfoView.swift */; };
 		5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */; };
 		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
@@ -47,7 +50,6 @@
 		951F6EBD2BB65E1F001FDB50 /* CoreFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */; };
 		951F6EC02BB669DF001FDB50 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EBF2BB669DF001FDB50 /* ImageHelper.swift */; };
 		951F6ED12BB68A1D001FDB50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 951F6ED02BB68A1D001FDB50 /* LaunchScreen.storyboard */; };
-		951F6ED42BB68E68001FDB50 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 951F6ED22BB68E68001FDB50 /* CoreUserModel.xcdatamodeld */; };
 		951F6ED92BB69806001FDB50 /* GetUsers.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6ED82BB69806001FDB50 /* GetUsers.graphql.swift */; };
 		951F6F172BB84D28001FDB50 /* GetUserEvents.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6F162BB84D28001FDB50 /* GetUserEvents.graphql.swift */; };
 		951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6F1D2BB8B134001FDB50 /* TextFieldHelper.swift */; };
@@ -145,9 +147,10 @@
 		46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressViewDark.swift; sourceTree = "<group>"; };
 		46CA418C2B7EC7DB0083F81C /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		46CA418E2B7EC82B0083F81C /* SingleEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventView.swift; sourceTree = "<group>"; };
+		52051D8E2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
+		521249D42CEFA21A00EB0364 /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
 		523C398D2B7DD0990019C353 /* AcademicInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademicInfoView.swift; sourceTree = "<group>"; };
 		5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalDetailsView.swift; sourceTree = "<group>"; };
-		526D146A2BB3CDAE00BA8615 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		528D72BD2B74648600702D0B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
@@ -160,7 +163,6 @@
 		951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreFunctions.swift; sourceTree = "<group>"; };
 		951F6EBF2BB669DF001FDB50 /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		951F6ED02BB68A1D001FDB50 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		951F6ED32BB68E68001FDB50 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		951F6ED82BB69806001FDB50 /* GetUsers.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUsers.graphql.swift; sourceTree = "<group>"; };
 		951F6F162BB84D28001FDB50 /* GetUserEvents.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserEvents.graphql.swift; sourceTree = "<group>"; };
 		951F6F1D2BB8B134001FDB50 /* TextFieldHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldHelper.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521249E92CEFD06A00EB0364 /* CodeScanner in Frameworks */,
 				950AE7852C52E3D8008F176A /* Apollo in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,6 +308,7 @@
 			children = (
 				4632E4792B6B64000048782D /* PointsViewModel.swift */,
 				20CF4A3B2AE747BC00916EC6 /* PointsView.swift */,
+				521249D42CEFA21A00EB0364 /* QRCodeScannerView.swift */,
 				46909E492B96952000E99274 /* PointsViewDark.swift */,
 				4632E4732B6B575E0048782D /* PointsUI.swift */,
 				4632E4752B6B57A00048782D /* RedeemPointsButton.swift */,
@@ -433,8 +437,8 @@
 		951F6E792BB262C5001FDB50 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
-				951F6ED22BB68E68001FDB50 /* CoreUserModel.xcdatamodeld */,
 				951F6E7D2BB265D3001FDB50 /* DataManager.swift */,
+				52051D8D2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodeld */,
 				951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */,
 			);
 			path = coreData;
@@ -472,7 +476,6 @@
 			children = (
 				B8CD7F752B75A9E800F05DBA /* Event.swift */,
 				958CB02C2B9D79AD002B83F9 /* DataManager.swift */,
-				526D14692BB3CDAE00BA8615 /* CoreUserModel.xcdatamodeld */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
 				950AE7842C52E3D8008F176A /* Apollo */,
+				521249E82CEFD06A00EB0364 /* CodeScanner */,
 			);
 			productName = "SHPE-UF-Mobile-Swift";
 			productReference = 206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */;
@@ -684,6 +688,7 @@
 			mainGroup = 206C8F692AE181FF0081A35A;
 			packageReferences = (
 				950AE7832C52E3D8008F176A /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				521249E72CEFD06A00EB0364 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = 206C8F732AE181FF0081A35A /* Products */;
 			projectDirPath = "";
@@ -755,6 +760,7 @@
 				4632E4742B6B575E0048782D /* PointsUI.swift in Sources */,
 				4632E4762B6B57A00048782D /* RedeemPointsButton.swift in Sources */,
 				959BEA7C2BF461CD0009789D /* SchemaConfiguration.swift in Sources */,
+				52051D8F2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodeld in Sources */,
 				959BEA6D2BF461CD0009789D /* RedeemPointsMutation.graphql.swift in Sources */,
 				958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */,
 				46909DFA2B96907D00E99274 /* UserEvent.swift in Sources */,
@@ -790,7 +796,6 @@
 				959BEA772BF461CD0009789D /* RegisterInput.graphql.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
-				951F6ED42BB68E68001FDB50 /* CoreUserModel.xcdatamodeld in Sources */,
 				959BEA752BF461CD0009789D /* EditUserProfileInput.graphql.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
@@ -801,6 +806,7 @@
 				959BEA782BF461CD0009789D /* Event.graphql.swift in Sources */,
 				4632E4782B6B57A80048782D /* RedeemView.swift in Sources */,
 				4632E47A2B6B64000048782D /* PointsViewModel.swift in Sources */,
+				521249D52CEFA22600EB0364 /* QRCodeScannerView.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
 				46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
@@ -899,7 +905,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -956,7 +962,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -979,18 +985,21 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow access to camera to scan QR codes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shpeuf.shpe-uf";
+				PRODUCT_BUNDLE_IDENTIFIER = "shpeuf.shpe-uf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1011,18 +1020,21 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Allow access to camera to scan QR codes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.1;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.shpeuf.shpe-uf";
+				PRODUCT_BUNDLE_IDENTIFIER = "shpeuf.shpe-uf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1144,6 +1156,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		521249E72CEFD06A00EB0364 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
 		950AE7832C52E3D8008F176A /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
@@ -1155,6 +1175,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		521249E82CEFD06A00EB0364 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 521249E72CEFD06A00EB0364 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
 		950AE7842C52E3D8008F176A /* Apollo */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 950AE7832C52E3D8008F176A /* XCRemoteSwiftPackageReference "apollo-ios" */;
@@ -1163,25 +1188,13 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		526D14692BB3CDAE00BA8615 /* CoreUserModel.xcdatamodeld */ = {
+		52051D8D2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				526D146A2BB3CDAE00BA8615 /* CoreUserModel.xcdatamodel */,
+				52051D8E2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodel */,
 			);
-			currentVersion = 526D146A2BB3CDAE00BA8615 /* CoreUserModel.xcdatamodel */;
-			name = CoreUserModel.xcdatamodeld;
-			path = "../../../../../test/Desktop/SHPE-UF-Mobile-Swift-22/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-		951F6ED22BB68E68001FDB50 /* CoreUserModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				951F6ED32BB68E68001FDB50 /* CoreUserModel.xcdatamodel */,
-			);
-			currentVersion = 951F6ED32BB68E68001FDB50 /* CoreUserModel.xcdatamodel */;
-			name = CoreUserModel.xcdatamodeld;
-			path = "/Users/danielparra/Desktop/SHPE/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift/coreData/CoreUserModel.xcdatamodeld";
+			currentVersion = 52051D8E2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodel */;
+			path = CoreUserModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
