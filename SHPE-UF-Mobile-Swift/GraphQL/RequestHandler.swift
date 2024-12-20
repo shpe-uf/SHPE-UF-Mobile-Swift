@@ -11,8 +11,9 @@ import Apollo
 
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string: ProcessInfo.processInfo.environment["SERVER_LINK"]!)!) // MUST BE NGROK URL or http://127.0.0.1:5000/
-    
+    let apolloClient = ApolloClient(url: URL(string:  ProcessInfo.processInfo.environment["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
+//    let apolloClient = ApolloClient(url: URL(string: "")!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
+    //ProcessInfo.processInfo.environment["SERVER_LINK"]!
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
     func fetchUserPoints(userId:String, completion: @escaping ([String:Any])->Void)
