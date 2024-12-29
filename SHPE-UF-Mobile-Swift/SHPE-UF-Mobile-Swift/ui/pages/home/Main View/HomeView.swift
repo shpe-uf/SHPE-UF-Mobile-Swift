@@ -196,6 +196,8 @@ struct HomeView: View {
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
+                        if appVM.showView == "LocationView" { return }
+                           
                         isDragging = true
                         offset = gesture.translation.width > 0 ? gesture.translation.width : 0
                     }

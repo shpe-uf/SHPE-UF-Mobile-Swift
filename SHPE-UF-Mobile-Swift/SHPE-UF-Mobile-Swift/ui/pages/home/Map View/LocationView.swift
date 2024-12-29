@@ -50,15 +50,21 @@ struct LocationView: View {
     //MapControls
     @Namespace private var mapScope
     
+    //Popup controls
+    @State private var dragOffset:CGFloat = 0
+    @State private var currentOffset:CGFloat = 0
+    
     var body: some View {
         
         
         ZStack {
             
             VStack(spacing: 0){
-                ZStack(alignment: .topLeading){
+                ZStack(alignment: .topLeading)
+                {
                     
-                    Map(position: $cameraPosition,selection: $selectedPlacemark, scope: mapScope){
+                    Map(position: $cameraPosition,selection: $selectedPlacemark, scope: mapScope)
+                    {
                         UserAnnotation()
                         if let destination = destinationCoordinate {
                             let markers = makeMarkers(event: event,address: location, location: destination)
@@ -76,7 +82,7 @@ struct LocationView: View {
                                     if let routeDestination{
                                         Marker(item:routeDestination)
                                             .tint(.rorange)
-                                            
+                                        
                                     }
                                 }
                                 
@@ -87,20 +93,9 @@ struct LocationView: View {
                                     .stroke(.blue, lineWidth: 6)
                             }
                         }
-                        
-                        
                     }
                     .onAppear {
                         geocodeLocation()
-                    }
-                    .sheet(item: $selectedPlacemark) { placemark in
-                        LocationDetailView(destinationCoordinate: destinationCoordinate,
-                                           selectedPlacemark: placemark,
-                                           showRoute: $showRoute,
-                                           travelInterval : $travelInterval,
-                                           transportType : $transportType
-                        )
-                            .presentationDetents([.height(UIScreen.main.bounds.height * 0.45)])
                     }
                     .mapControls{
                         MapScaleView()
@@ -114,12 +109,16 @@ struct LocationView: View {
                         }
                     }
                     .onChange(of: showRoute){
-                        selectedPlacemark = nil
+//                        selectedPlacemark = nil
                         if showRoute{
                             withAnimation{
                                 routeDisplaying = true
-                                if let rect = route?.polyline.boundingMapRect{
-                                    cameraPosition = .rect(rect)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1)
+                                {
+                                    if let rect = route?.polyline.boundingMapRect{
+                                        print(rect)
+                                        cameraPosition = .rect(rect)
+                                    }
                                 }
                             }
                         }
@@ -147,18 +146,53 @@ struct LocationView: View {
                     }
                     .mapScope(mapScope)
                     
-                    
                     // Back button and preview header
                     header
+                    
+                    if let placemark = selectedPlacemark,
+                       isLocationLoaded
+                    {
+                        VStack
+                        {
+                            LocationDetailView(destinationCoordinate: destinationCoordinate,
+                                               selectedPlacemark: placemark,
+                                               showRoute: $showRoute,
+                                               widgetOffset: $currentOffset,
+                                               travelInterval : $travelInterval,
+                                               transportType : $transportType)
+                        }
+                        .background(.whiteBox)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .frame(width: .infinity, height: 450 + (currentOffset < 0 ? -1 * currentOffset : 0))
+                        .offset(y: UIScreen.main.bounds.height*0.40 + currentOffset)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    dragOffset = gesture.translation.height // Track the drag offset
+                                    withAnimation {
+                                        currentOffset = dragOffset
+                                    }
+                                }
+                                .onEnded { _ in
+                                    // Calculate the final position
+                                    withAnimation {
+                                        if dragOffset < -10 {
+                                            // Move to the upper fixed position
+                                            currentOffset = 0
+                                        } else if dragOffset > 10 {
+                                            // Move to the lower fixed position
+                                            currentOffset = 260
+                                        }
+                                        
+                                        // Reset the drag offset
+                                        dragOffset = 0
+                                    }
+                                }
+                        )
+                    }
                 }
-                
-                
             }
-            
-            
         }
-        
-        
     }
     private var header: some View{
         ZStack(alignment : .topLeading){
@@ -171,13 +205,11 @@ struct LocationView: View {
                     Rectangle()
                         .foregroundColor(.clear)
                         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
-                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.075)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.11)
                     
                     Text("Route Preview")
-                        .foregroundStyle(Color.black)
                         .font(Font.custom("Viga-Regular", size: 24))
-                    
-
+                        .padding(.top, 45)
                 }
             }
             HStack {
@@ -190,23 +222,15 @@ struct LocationView: View {
                     Image(systemName: "chevron.backward")
                             .resizable()
                             .scaledToFit()
+                            .foregroundStyle(.whiteText)
                             .frame(width: UIScreen.main.bounds.width * 0.05, height: UIScreen.main.bounds.height * 0.025)
-                            .foregroundColor(.black)
-                    
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
-                .padding(.vertical, UIScreen.main.bounds.height * 0.04)
                 Spacer()
             }
-            .padding(.bottom, UIScreen.main.bounds.height * 0.35)
-
-            
-            
-            
-            
-            
-            
+            .padding(.top, 65)
         }
+        .ignoresSafeArea()
     }
     
     func fetchRoute() async{
@@ -252,19 +276,19 @@ struct LocationView: View {
                     return
                 }
                 let offsetCoordinate = CLLocationCoordinate2D(
-                                latitude: coordinate.latitude - 0.0025,
+                                latitude: coordinate.latitude - 0.00025,
                                 longitude: coordinate.longitude
                 )
                 withAnimation {
                     region = MKCoordinateRegion(
                         center: offsetCoordinate,
-                        span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                        span: MKCoordinateSpan(latitudeDelta: 0.0015, longitudeDelta: 0.0015)
                     )
                     cameraPosition = .region(region)
                     destinationCoordinate = coordinate
                     isLocationLoaded = true
                     selectedPlacemark = MTPlacemark(name: event, address: location, latitude: offsetCoordinate.latitude, longitude: offsetCoordinate.longitude)
-
+                    
                 }
             }
     }
