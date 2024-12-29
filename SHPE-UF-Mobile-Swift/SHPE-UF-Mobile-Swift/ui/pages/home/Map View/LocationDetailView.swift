@@ -13,6 +13,7 @@ struct LocationDetailView: View{
     var destinationCoordinate: CLLocationCoordinate2D?
     var selectedPlacemark : MTPlacemark?
     @Binding var showRoute: Bool
+    @Binding var widgetOffset: CGFloat
     @Binding var travelInterval: TimeInterval?
     @Binding var transportType: MKDirectionsTransportType
     
@@ -32,13 +33,24 @@ struct LocationDetailView: View{
         VStack{
             HStack{
                 VStack(alignment: .leading){
+                    HStack(alignment: .center)
+                    {
+                        Spacer()
+                        RoundedRectangle(cornerRadius: 2)
+                            .frame(width: 50,height: 4)
+                            .background(.gray.opacity(0.5))
+                        Spacer()
+                    }
+                    .frame(width:.infinity)
+                    
                     Text(name)
                         .font(.title2)
+                        .lineLimit(1)
                         .fontWeight(.semibold)
                     Text(address)
                         .font(.footnote)
                         .foregroundStyle(.secondary)
-                        .lineLimit(2)
+                        .lineLimit(1)
                         .fixedSize(horizontal: false, vertical: true)
                     if destinationCoordinate != nil{
                         
@@ -74,13 +86,13 @@ struct LocationDetailView: View{
                 
                 
                 Spacer()
-                Button{
-                    dismiss()
-                }label:{
-                    Image(systemName: "xmark.circle.fill")
-                        .imageScale(.large)
-                        .foregroundStyle(.gray)
-                }
+//                Button{
+//                    dismiss()
+//                }label:{
+//                    Image(systemName: "xmark.circle.fill")
+//                        .imageScale(.large)
+//                        .foregroundStyle(.gray)
+//                }
                 
             }
             if let lookaroundScene{
@@ -89,6 +101,8 @@ struct LocationDetailView: View{
                     .padding()
             }else{
                 ContentUnavailableView("No preview available", systemImage: "eye.slash")
+                    .frame(height:UIScreen.main.bounds.height * 0.2)
+                    .padding()
             }
             HStack{
                 Spacer()
@@ -105,6 +119,7 @@ struct LocationDetailView: View{
                     
                     Button("Show Route", systemImage: "location.north"){
                         showRoute.toggle()
+                        widgetOffset = 260
                     }
                     .fixedSize(horizontal: true, vertical: false)
                 }
