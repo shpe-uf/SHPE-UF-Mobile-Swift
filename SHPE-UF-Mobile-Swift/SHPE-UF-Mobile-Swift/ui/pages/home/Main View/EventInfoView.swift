@@ -183,6 +183,8 @@ struct EventInfoView: View {
                                             
                                             if permission
                                             {
+                                                notifVM.cleanUpDeliveredNotifications()
+                                                
                                                 if notifVM.pendingNotifications.contains(where: { e in
                                                     e.identifier == event.identifier
                                                 })
@@ -264,6 +266,7 @@ struct EventInfoView: View {
                                       .onTapGesture { //This is to go to the LocationView
                                           withAnimation(.easeInOut(duration: 0.2)) {
                                               showView = "LocationView"
+                                              AppViewModel.appVM.inMapView = true
                                           }
                                       }
                                       .simultaneousGesture(

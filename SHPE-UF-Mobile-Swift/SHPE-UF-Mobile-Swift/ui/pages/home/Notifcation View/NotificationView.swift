@@ -150,7 +150,8 @@ struct NotificationView: View {
                     
                     // Button to toggle notifications for all event types
                     Button(action: {
-                       allowForAll.toggle()
+                        allowForAll.toggle()
+                        viewNotificationModel.cleanUpDeliveredNotifications()
                         
                         if allowForAll {
                             viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: "GBM", fetchedEvents: coreEvents, viewContext: viewContext)
@@ -167,6 +168,8 @@ struct NotificationView: View {
                         }
                         
                         CoreFunctions().editUserNotificationSettings(users: user, viewContext: viewContext, shpeito: AppViewModel.appVM.shpeito)
+                        
+                        viewNotificationModel.verifyNotifications()
                             
                     }){
                        ZStack{
@@ -196,6 +199,7 @@ struct NotificationView: View {
                 if permission
                 {
                     allowForAll = viewNotificationModel.isGBMSelected && viewNotificationModel.isInfoSelected && viewNotificationModel.isSocialSelected && viewNotificationModel.isVolunteeringSelected && viewNotificationModel.isWorkShopSelected
+//                    viewNotificationModel.verifyNotifications()
                 }
                 else
                 {
@@ -215,6 +219,8 @@ struct NotificationView: View {
     private func eventButtonSection(eventName: String, eventIcon: String, isSelected: Binding<Bool>, eventType:String) -> some View {
         VStack(spacing: 20) {
             Button(action: {
+                viewNotificationModel.cleanUpDeliveredNotifications()
+                
                 if !isSelected.wrappedValue {
                     viewNotificationModel.turnOnEventNotification(events: viewModel.events,eventType: eventType, fetchedEvents: coreEvents, viewContext: viewContext)
                     saveNotificationSetting(eventType: eventType, state: true)

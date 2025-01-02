@@ -29,6 +29,8 @@ struct LocationDetailView: View{
     @State private var type =  MKDirectionsTransportType.automobile
     @State private var lookaroundScene: MKLookAroundScene?
     
+    @State private var showMapsSheet: Bool = false
+    
     var body: some View{
         VStack{
             HStack{
@@ -41,7 +43,7 @@ struct LocationDetailView: View{
                             .background(.gray.opacity(0.5))
                         Spacer()
                     }
-                    .frame(width:.infinity)
+                    .frame(maxWidth:.infinity)
                     
                     Text(name)
                         .font(.title2)
@@ -83,17 +85,7 @@ struct LocationDetailView: View{
                     }
                 }
                 
-                
-                
                 Spacer()
-//                Button{
-//                    dismiss()
-//                }label:{
-//                    Image(systemName: "xmark.circle.fill")
-//                        .imageScale(.large)
-//                        .foregroundStyle(.gray)
-//                }
-                
             }
             if let lookaroundScene{
                 LookAroundPreview(initialScene: lookaroundScene)
@@ -106,13 +98,11 @@ struct LocationDetailView: View{
             }
             HStack{
                 Spacer()
-                if let destination = destinationCoordinate{
+                if destinationCoordinate != nil
+                {
                     Button("Open in maps",systemImage: "map"){
-                        if let selectedPlacemark{
-                            let placemark = MKPlacemark(coordinate: destination)
-                            let mapItem = MKMapItem(placemark: placemark)
-                            mapItem.name = selectedPlacemark.name
-                            mapItem.openInMaps()
+                        withAnimation {
+                            showMapsSheet = true
                         }
                     }
                     .fixedSize(horizontal: true, vertical: false)
@@ -137,7 +127,60 @@ struct LocationDetailView: View{
                 address = selectedPlacemark.address
             }
         }
+        .sheet(isPresented: $showMapsSheet, content: {
+            VStack {
+                RoundedRectangle(cornerRadius: 2)
+                    .frame(width: 50,height: 4)
+                    .background(.gray.opacity(0.5))
+                    .padding(.vertical, 5)
+                
+                Spacer()
+                
+                Button(action: openInAppleMaps) {
+                    Text("Open in Apple Maps")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+
+                Divider()
+                    .padding(.vertical, 8)
+
+                Button(action: openInGoogleMaps) {
+                    Text("Open in Google Maps")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }
+            }
+            .padding()
+            .presentationDetents([.fraction(0.27)])
+        })
     }
+    
+    func openInAppleMaps() {
+        let latitude = selectedPlacemark!.latitude
+        let longitude = selectedPlacemark!.longitude
+        let name = selectedPlacemark!.name
+
+        if let url = URL(string: "http://maps.apple.com/?q=\(name)&ll=\(latitude),\(longitude)") {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    func openInGoogleMaps() {
+        let latitude = selectedPlacemark!.latitude
+        let longitude = selectedPlacemark!.longitude
+
+        if let url = URL(string: "https://www.google.com/maps/search/?api=1&query=\(latitude),\(longitude)") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
     func fetchLookaroundPreview() async{
         if let destination = destinationCoordinate{
             lookaroundScene = nil

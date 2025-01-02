@@ -54,6 +54,7 @@
 		951F6F202BB8D766001FDB50 /* RedeemPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6F1F2BB8D766001FDB50 /* RedeemPoints.graphql.swift */; };
 		9560D4A02D19BD73002938CE /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 9560D49F2D19BD73002938CE /* CodeScanner */; };
 		9560D4A32D19BD7B002938CE /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 9560D4A22D19BD7B002938CE /* Apollo */; };
+		9560D4A92D21F2EF002938CE /* LocationViewPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9560D4A82D21F2EF002938CE /* LocationViewPopUp.swift */; };
 		958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */; };
 		958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
 		958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */; };
@@ -174,6 +175,7 @@
 		951F6F162BB84D28001FDB50 /* GetUserEvents.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserEvents.graphql.swift; sourceTree = "<group>"; };
 		951F6F1D2BB8B134001FDB50 /* TextFieldHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldHelper.swift; sourceTree = "<group>"; };
 		951F6F1F2BB8D766001FDB50 /* RedeemPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedeemPoints.graphql.swift; sourceTree = "<group>"; };
+		9560D4A82D21F2EF002938CE /* LocationViewPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewPopUp.swift; sourceTree = "<group>"; };
 		958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestHandler.swift; sourceTree = "<group>"; };
 		958A5E6B2B62108300D1BAE4 /* GetUserPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPoints.graphql.swift; sourceTree = "<group>"; };
 		958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppViewModel.swift; sourceTree = "<group>"; };
@@ -610,6 +612,7 @@
 				B8DCB9532D16FC6800602068 /* LocationManager.swift */,
 				B8DCB9512D16394E00602068 /* MTPlacemark.swift */,
 				B8DCB94D2D161ED600602068 /* LocationView.swift */,
+				9560D4A82D21F2EF002938CE /* LocationViewPopUp.swift */,
 			);
 			path = "Map View";
 			sourceTree = "<group>";
@@ -840,6 +843,7 @@
 				B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */,
 				959BEA782BF461CD0009789D /* Event.graphql.swift in Sources */,
 				4632E4782B6B57A80048782D /* RedeemView.swift in Sources */,
+				9560D4A92D21F2EF002938CE /* LocationViewPopUp.swift in Sources */,
 				4632E47A2B6B64000048782D /* PointsViewModel.swift in Sources */,
 				521249D52CEFA22600EB0364 /* QRCodeScannerView.swift in Sources */,
 				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
