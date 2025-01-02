@@ -50,10 +50,6 @@ struct LocationView: View {
     //MapControls
     @Namespace private var mapScope
     
-    //Popup controls
-    @State private var dragOffset:CGFloat = 0
-    @State private var currentOffset:CGFloat = 0
-    
     var body: some View {
         
         
@@ -149,46 +145,9 @@ struct LocationView: View {
                     // Back button and preview header
                     header
                     
-                    if let placemark = selectedPlacemark,
-                       isLocationLoaded
+                    if selectedPlacemark != nil && isLocationLoaded
                     {
-                        VStack
-                        {
-                            LocationDetailView(destinationCoordinate: destinationCoordinate,
-                                               selectedPlacemark: placemark,
-                                               showRoute: $showRoute,
-                                               widgetOffset: $currentOffset,
-                                               travelInterval : $travelInterval,
-                                               transportType : $transportType)
-                        }
-                        .background(.whiteBox)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                        .frame(width: .infinity, height: 450 + (currentOffset < 0 ? -1 * currentOffset : 0))
-                        .offset(y: UIScreen.main.bounds.height*0.40 + currentOffset)
-                        .gesture(
-                            DragGesture()
-                                .onChanged { gesture in
-                                    dragOffset = gesture.translation.height // Track the drag offset
-                                    withAnimation {
-                                        currentOffset = dragOffset
-                                    }
-                                }
-                                .onEnded { _ in
-                                    // Calculate the final position
-                                    withAnimation {
-                                        if dragOffset < -10 {
-                                            // Move to the upper fixed position
-                                            currentOffset = 0
-                                        } else if dragOffset > 10 {
-                                            // Move to the lower fixed position
-                                            currentOffset = 260
-                                        }
-                                        
-                                        // Reset the drag offset
-                                        dragOffset = 0
-                                    }
-                                }
-                        )
+                        LocationViewPopUp(placemark: $selectedPlacemark, showRoute: $showRoute, travelInterval: $travelInterval, transportType: $transportType, destinationCoordinate: $destinationCoordinate)
                     }
                 }
             }
@@ -215,6 +174,7 @@ struct LocationView: View {
             HStack {
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
+                        AppViewModel.appVM.inMapView = false
                         showView = "EventInfoView"
                     }
                 } label: {

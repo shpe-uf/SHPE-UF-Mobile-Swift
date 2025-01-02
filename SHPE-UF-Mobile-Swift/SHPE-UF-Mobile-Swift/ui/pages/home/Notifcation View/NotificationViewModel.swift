@@ -91,10 +91,10 @@ class NotificationViewModel : ObservableObject {
         var notificationDate = event.start.dateTime
         if event.start.dateTime != event.end.dateTime {
             // Notify 30 minutes before the event start time
-            notificationDate = Calendar.current.date(byAdding: .minute, value: -30, to: event.start.dateTime)!
+            notificationDate = Calendar.current.date(byAdding: .minute, value: -30, to: notificationDate)!
         } else {
             // If the event is all-day, notify 12 hours before the start time
-            notificationDate = Calendar.current.date(byAdding: .hour, value: -12, to: event.start.dateTime)!
+            notificationDate = Calendar.current.date(byAdding: .hour, value: -12, to: notificationDate)!
         }
         updatePendingNotifications()
         pendingNotifications.append(event)
@@ -214,6 +214,20 @@ class NotificationViewModel : ObservableObject {
         for event in pendingNotifications
         {
             self.removeNotificationForSingleEvent(event: event, fetchedEvents: fetchedEvents, viewContext: viewContext)
+        }
+    }
+    
+    func cleanUpDeliveredNotifications()
+    {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+    }
+    
+    func verifyNotifications()
+    {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.getPendingNotificationRequests { notifications in
+            print(String(notifications.count) + " Notifications scheduled")
+            print(notifications)
         }
     }
     
