@@ -29,6 +29,7 @@ struct HomePageContentView: View {
                 appVM.showView = "HomeView"
                 appVM.currentEventIndex = nil
             }
+            appVM.inMapView = false
         }){
             HomeView(viewModel: HomeViewModel(coreEvents: coreEvents, viewContext: viewContext))
                 .tag(0)
@@ -50,7 +51,7 @@ struct HomePageContentView: View {
                 
         }
         .gesture(
-            // Swipe to witch between tabs
+            // Swipe to switch between tabs
             DragGesture()
             .onChanged { value in
                 if abs(value.translation.width) > abs(value.translation.height) {
@@ -66,7 +67,8 @@ struct HomePageContentView: View {
                 }
                 print(selectedTab)
                 dragOffset = .zero
-            }
+            },
+            isEnabled: !appVM.inMapView
         )
     }
 }

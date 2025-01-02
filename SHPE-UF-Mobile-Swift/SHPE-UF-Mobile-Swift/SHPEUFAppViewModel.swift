@@ -21,6 +21,7 @@ class AppViewModel: ObservableObject
     // Items being observed in the home view
     @Published var showView = "HomeView"
     @Published var currentEventIndex:Int?
+    @Published var inMapView = false
     
     private init() {
         self.pageIndex = -1
