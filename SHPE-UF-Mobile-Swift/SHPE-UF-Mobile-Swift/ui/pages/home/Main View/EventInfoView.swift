@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import MapKit
 
 struct EventInfoView: View {
     var event: Event // The event to display information for
@@ -16,6 +17,7 @@ struct EventInfoView: View {
     @State private var tappedNotification:Bool = false
     @State private var attemptedToEnableNotifications:Bool = false
     @State private var isPressed = false
+    @State private var isValidLocation = true
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
@@ -259,14 +261,17 @@ struct EventInfoView: View {
                                     )
                                     Text(String(event.location ?? "TBA"))
                                       .font(Font.custom("UniversLTStd", size: 18))
-                                      .foregroundColor(Constants.orange)
-                                      .underline()
+                                      .foregroundColor(isValidLocation ? Constants.orange : Color.whiteText)
+                                      .underline(isValidLocation)
                                       .scaleEffect(isPressed ? 0.95 : 1.0)
                                       .animation(.easeInOut(duration: 0.2), value: isPressed)
                                       .onTapGesture { //This is to go to the LocationView
                                           withAnimation(.easeInOut(duration: 0.2)) {
-                                              showView = "LocationView"
-                                              AppViewModel.appVM.inMapView = true
+                                              if isValidLocation
+                                              {
+                                                  showView = "LocationView"
+                                                  AppViewModel.appVM.inMapView = true
+                                              }
                                           }
                                       }
                                       .simultaneousGesture(
@@ -311,6 +316,20 @@ struct EventInfoView: View {
             tappedNotification = notifVM.pendingNotifications.contains(where: { e in
                 e.identifier == event.identifier
             })
+            
+            if let location = event.location
+            {
+                let geocoder = CLGeocoder()
+                geocoder.geocodeAddressString(location)
+                {
+                    placemarks, error in
+                    isValidLocation = placemarks != nil && placemarks!.count > 0 && error == nil
+                }
+            }
+            else
+            {
+                isValidLocation = false
+            }
         }
         
     }
