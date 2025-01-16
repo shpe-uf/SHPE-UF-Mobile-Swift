@@ -113,7 +113,19 @@ struct LocationView: View {
                                 {
                                     if let rect = route?.polyline.boundingMapRect{
                                         print(rect)
-                                        cameraPosition = .rect(rect)
+                                        
+                                        let scaleFactor: Double = 1.2
+                                        
+                                        let newWidth = rect.size.width * scaleFactor
+                                        let newHeight = rect.size.height * scaleFactor
+                                        
+                                        let deltaX = (newWidth - rect.size.width) / 2
+                                        let deltaY = (newHeight - rect.size.height) / 2
+                                        let newOrigin = MKMapPoint(x: rect.origin.x - deltaX, y: rect.origin.y - deltaY)
+                                        
+                                        let scaledRect = MKMapRect(origin: newOrigin, size: MKMapSize(width: newWidth, height: newHeight))
+                                        
+                                        cameraPosition = .rect(scaledRect)
                                     }
                                 }
                             }
