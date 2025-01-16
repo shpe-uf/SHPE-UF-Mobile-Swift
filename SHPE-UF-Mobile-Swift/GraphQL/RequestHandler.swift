@@ -9,6 +9,13 @@
 import Foundation
 import Apollo
 
+private let PRODUCTION_ENV =
+[
+    "SERVER_LINK":"",
+    "CALENDAR_ID":"",
+    "CALENDAR_API_KEY":""
+]
+
 class RequestHandler
 {
     let apolloClient = ApolloClient(url: URL(string:  ProcessInfo.processInfo.environment["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/

@@ -108,7 +108,6 @@ struct LocationView: View {
 //                        selectedPlacemark = nil
                         if showRoute{
                             withAnimation{
-                                routeDisplaying = true
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1)
                                 {
                                     if let rect = route?.polyline.boundingMapRect{
@@ -125,6 +124,7 @@ struct LocationView: View {
                                         
                                         let scaledRect = MKMapRect(origin: newOrigin, size: MKMapSize(width: newWidth, height: newHeight))
                                         
+                                        routeDisplaying = true
                                         cameraPosition = .rect(scaledRect)
                                     }
                                 }
