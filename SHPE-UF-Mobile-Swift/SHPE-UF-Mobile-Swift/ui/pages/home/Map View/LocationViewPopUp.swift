@@ -23,7 +23,7 @@ struct LocationViewPopUp: View {
         {
             VStack
             {
-                LocationDetailView(destinationCoordinate: destinationCoordinate,
+                LocationDetailView(destinationCoordinate: $destinationCoordinate,
                                    selectedPlacemark: placemark,
                                    showRoute: $showRoute,
                                    widgetOffset: $currentOffset,
