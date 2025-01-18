@@ -106,7 +106,8 @@ struct LocationView: View {
                     }
                     .onChange(of: showRoute){
 //                        selectedPlacemark = nil
-                        if showRoute{
+                        if showRoute && route != nil
+                        {
                             withAnimation{
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1)
                                 {

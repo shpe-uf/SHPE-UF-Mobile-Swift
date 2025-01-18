@@ -10,7 +10,7 @@ import SwiftData
 
 struct LocationDetailView: View{
     @Environment(\.dismiss) private var dismiss
-    var destinationCoordinate: CLLocationCoordinate2D?
+    @Binding var destinationCoordinate: CLLocationCoordinate2D?
     var selectedPlacemark : MTPlacemark?
     @Binding var showRoute: Bool
     @Binding var widgetOffset: CGFloat
