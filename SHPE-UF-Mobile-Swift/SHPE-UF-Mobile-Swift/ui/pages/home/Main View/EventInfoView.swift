@@ -12,14 +12,17 @@ import MapKit
 struct EventInfoView: View {
     var event: Event // The event to display information for
     @Binding var showView: String // For dismissing the view
+    
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @State private var notifVM: NotificationViewModel = NotificationViewModel.instance
     @State private var tappedNotification:Bool = false
     @State private var attemptedToEnableNotifications:Bool = false
     @State private var isPressed = false
     @State private var isValidLocation = true
+    @State private var foundLocation:MTPlacemark? = nil
     
-    @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     
     var body: some View {
@@ -324,6 +327,11 @@ struct EventInfoView: View {
                 {
                     placemarks, error in
                     isValidLocation = placemarks != nil && placemarks!.count > 0 && error == nil
+                    if isValidLocation
+                    {
+                        let coordinates = placemarks![0].location!.coordinate
+                        AppViewModel.appVM.placemark = MTPlacemark(name: event.summary, address: location, latitude: coordinates.latitude, longitude: coordinates.longitude)
+                    }
                 }
             }
             else

@@ -26,14 +26,7 @@ struct LocationView: View {
     @State private var cameraPosition: MapCameraPosition = .automatic
     
     //User location & Permission
-    @Environment(LocationManager.self) var locationManager
-    let manager = CLLocationManager()
-    
-//    cameraPosition = .userLocation(fallback: .automatic)
-    
-    // Location information
-    @State private var selectedPlacemark: MTPlacemark?
-    
+    @State private var selectedPlacemark: MTPlacemark? = AppViewModel.appVM.placemark
     
     // To trigger the sheet
     @State private var triggerSheet = false
@@ -101,7 +94,6 @@ struct LocationView: View {
                             routeDisplaying = false
                             showRoute = false
                             route = nil
-                            await fetchRoute()
                         }
                     }
                     .onChange(of: showRoute){
@@ -132,27 +124,6 @@ struct LocationView: View {
                             }
                         }
                     }
-                    .task(id: transportType){
-                        await fetchRoute()
-                    }
-                    .safeAreaInset(edge: .bottom){
-                        HStack{
-                            Spacer()
-                            Spacer()
-                            VStack{
-                                MapUserLocationButton(scope: mapScope)
-                                MapCompass(scope: mapScope)
-                                    .mapControlVisibility(.visible)
-                                MapPitchToggle(scope: mapScope)
-                                    .mapControlVisibility(.visible)
-                            }
-                            .padding()
-                            .buttonBorderShape(.circle)
-                            
-                            
-                        }
-                        
-                    }
                     .mapScope(mapScope)
                     
                     // Back button and preview header
@@ -160,7 +131,17 @@ struct LocationView: View {
                     
                     if selectedPlacemark != nil && isLocationLoaded
                     {
-                        LocationViewPopUp(placemark: $selectedPlacemark, showRoute: $showRoute, travelInterval: $travelInterval, transportType: $transportType, destinationCoordinate: $destinationCoordinate)
+                        LocationViewPopUp(
+                            placemark: $selectedPlacemark,
+                            showRoute: $showRoute,
+                            travelInterval: $travelInterval,
+                            transportType: $transportType,
+                            destinationCoordinate: $destinationCoordinate,
+                            cameraPosition: $cameraPosition,
+                            region: $region,
+                            routeDestination: $routeDestination,
+                            route: $route
+                        )
                     }
                 }
             }
@@ -206,25 +187,6 @@ struct LocationView: View {
         .ignoresSafeArea()
     }
     
-    func fetchRoute() async{
-        if let userLocation = locationManager.userLocation, let selectedPlacemark{
-            let request = MKDirections.Request()
-            let sourcePlacemark = MKPlacemark(coordinate: userLocation.coordinate)
-            let routeSource = MKMapItem(placemark: sourcePlacemark)
-            
-            let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate ?? region.center)
-            
-            routeDestination = MKMapItem(placemark: destinationPlacemark)
-            routeDestination?.name = selectedPlacemark.name
-            request.source = routeSource
-            request.destination = routeDestination
-            request.transportType = transportType
-            let directions = MKDirections(request: request)
-            let result = try? await directions.calculate()
-            route = result?.routes.first
-            travelInterval = route?.expectedTravelTime
-        }
-    }
     func getCoordinate( addressString : String,
             completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
@@ -261,7 +223,6 @@ struct LocationView: View {
                     destinationCoordinate = coordinate
                     isLocationLoaded = true
                     selectedPlacemark = MTPlacemark(name: event, address: location, latitude: offsetCoordinate.latitude, longitude: offsetCoordinate.longitude)
-                    
                 }
             }
     }
@@ -270,20 +231,7 @@ struct LocationView: View {
         let marker = MTPlacemark(name: event, address: address, latitude: location.latitude, longitude: location.longitude)
         return [marker]
     }
-    func updateCameraPosition(){
-        if let userLocation = locationManager.userLocation{
-            let userRegion = MKCoordinateRegion(
-                center:userLocation.coordinate,
-                span:MKCoordinateSpan(
-                    latitudeDelta: 0.15,
-                    longitudeDelta: 0.15
-                
-            ))
-            withAnimation{
-                cameraPosition = .region(userRegion)
-            }
-        }
-    }
+    
 
 }
 

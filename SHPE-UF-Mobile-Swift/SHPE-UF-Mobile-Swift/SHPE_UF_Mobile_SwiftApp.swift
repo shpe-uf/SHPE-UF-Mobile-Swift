@@ -13,5 +13,8 @@ struct SHPE_UF_Mobile_SwiftApp: App {
         WindowGroup {
             SHPEUFAppView()
         }
+        .modelContainer(for: MTPlacemark.self) { result in
+            debugPrint("data container ready")
+        }
     }
 }

@@ -14,6 +14,10 @@ struct LocationViewPopUp: View {
     @Binding var travelInterval: TimeInterval?
     @Binding var transportType: MKDirectionsTransportType
     @Binding var destinationCoordinate: CLLocationCoordinate2D?
+    @Binding var cameraPosition: MapCameraPosition
+    @Binding var region: MKCoordinateRegion
+    @Binding var routeDestination: MKMapItem?
+    @Binding var route: MKRoute?
     
     @State private var dragOffset:CGFloat = 0
     @State private var currentOffset:CGFloat = 0
@@ -28,7 +32,12 @@ struct LocationViewPopUp: View {
                                    showRoute: $showRoute,
                                    widgetOffset: $currentOffset,
                                    travelInterval : $travelInterval,
-                                   transportType : $transportType)
+                                   transportType : $transportType,
+                                   cameraPosition: $cameraPosition,
+                                   region: $region,
+                                   routeDestination: $routeDestination,
+                                   route: $route
+                )
             }
             .zIndex(999)
             .background(.whiteBox)

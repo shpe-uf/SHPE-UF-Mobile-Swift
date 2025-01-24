@@ -14,6 +14,7 @@ extension Binding {
 }
 
 struct HomePageContentView: View {
+    @StateObject private var locationManager:LocationManager = LocationManager()
     @StateObject private var appVM:AppViewModel = AppViewModel.appVM
     @Environment(\.colorScheme) var colorScheme
     @State private var selectedTab: Int = 0
@@ -32,6 +33,7 @@ struct HomePageContentView: View {
             appVM.inMapView = false
         }){
             HomeView(viewModel: HomeViewModel(coreEvents: coreEvents, viewContext: viewContext))
+                .environmentObject(locationManager)
                 .tag(0)
                 .tabItem {
                     Image(selectedTab == 0 ? "icon_calendar" : colorScheme == .dark ? "unclicked_calendar":"unclicked_calendar_light")

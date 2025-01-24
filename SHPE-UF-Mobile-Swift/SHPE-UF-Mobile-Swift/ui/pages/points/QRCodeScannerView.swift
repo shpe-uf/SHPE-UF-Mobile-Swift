@@ -1,5 +1,6 @@
 import SwiftUI
 import CodeScanner
+import AVFoundation
 
 struct QRCodeScannerView: View {
     @Environment(\.dismiss) var dismiss
@@ -8,6 +9,9 @@ struct QRCodeScannerView: View {
     @State private var isScannerActive = true // Controls the visibility of the scanner
     @State private var corners: [CGPoint] = []
     @State private var image:UIImage? = nil
+    
+    @State var captureDevice: AVCaptureDevice? = AVCaptureDevice.bestForVideo
+    @State private var zoomFactor: CGFloat = 1.0
 
     var body: some View {
         ZStack {
@@ -15,6 +19,7 @@ struct QRCodeScannerView: View {
                 // QR Code Scanner
                 CodeScannerView(
                     codeTypes: [.qr],
+                    videoCaptureDevice: captureDevice,
                     completion: { result in
                         switch result {
                         case .success(let code):
@@ -106,8 +111,6 @@ struct QRCodeScannerView: View {
                     let screenAspectRatio = geometry.size.width / geometry.size.height
                     
                     let scale: CGFloat = imageAspectRatio > screenAspectRatio ? geometry.size.height / image!.size.height : geometry.size.width / image!.size.width
-                    let offsetX: CGFloat = imageAspectRatio > screenAspectRatio ? (geometry.size.width - (image!.size.width * scale)) / 2 :  0
-                    let offsetY: CGFloat = imageAspectRatio > screenAspectRatio ? 0 : (geometry.size.height - (image!.size.height * scale)) / 2
                     
                     
                     ZStack {
@@ -119,8 +122,6 @@ struct QRCodeScannerView: View {
                             .ignoresSafeArea()
                         
                         // Place corners on image
-                        let width:CGFloat = geometry.size.width
-                        let height:CGFloat = geometry.size.height
                         
                         let cornerAttributes: [String] = ["qr_code_top_left_corner", "qr_code_bottom_left_corner", "qr_code_bottom_right_corner", "qr_code_top_right_corner"]
                         
@@ -140,6 +141,9 @@ struct QRCodeScannerView: View {
                     }
                     .zIndex(100)
                 }
+                
+                ZoomSlider(zoomFactor: $zoomFactor, captureDevice: $captureDevice)
+                    .position(x:geometry.size.width * 0.5, y:geometry.size.height*0.9)
             }
         }
         .background(Color.black)
@@ -151,6 +155,75 @@ struct QRCodeScannerView: View {
                     isScannerActive = true // Reactivate scanner after dismissing the alert
                 })
             )
+        }
+        .gesture(
+            MagnifyGesture()
+                .onChanged({ value in
+                    guard let device = captureDevice else { return }
+                    
+                    // Safely access the zoom factor
+                    do {
+                        try device.lockForConfiguration()
+                        
+                        let maxZoomFactor = device.activeFormat.videoMaxZoomFactor
+                        let pinchVelocityDividerFactor: CGFloat = 5.0
+                        
+                        let desiredZoomFactor = device.videoZoomFactor + atan2(value.velocity, pinchVelocityDividerFactor)
+                        zoomFactor = max(1.0, min(desiredZoomFactor, maxZoomFactor/5)) // Clamp the zoom factor
+                        
+                        device.videoZoomFactor = zoomFactor
+                        device.unlockForConfiguration()
+                    } catch {
+                        print("Error locking configuration: \(error)")
+                    }
+                })
+        )
+        .onChange(of: zoomFactor) { _, _ in
+            guard let device = captureDevice else { return }
+            
+            // Safely access the zoom factor
+            do {
+                try device.lockForConfiguration()
+                device.videoZoomFactor = zoomFactor
+                device.unlockForConfiguration()
+            } catch {
+                print("Error locking configuration: \(error)")
+            }
+        }
+    }
+}
+
+struct ZoomSlider: View {
+    @Binding var zoomFactor:CGFloat
+    @Binding var captureDevice:AVCaptureDevice?
+    
+    var body: some View {
+        VStack
+        {
+            if captureDevice != nil
+            {
+                HStack
+                {
+                    Text("-")
+                        .frame(width: 30, height: 30)
+                        .background(Color.black.opacity(0.6))
+                        .clipShape(.circle)
+                    
+                    Slider(value: $zoomFactor, in:1.0...captureDevice!.activeFormat.videoMaxZoomFactor/5)
+                    
+                    Text("+")
+                        .frame(width: 30, height: 30)
+                        .background(Color.black.opacity(0.6))
+                        .clipShape(.circle)
+                }
+                .frame(width: 300)
+                
+                Text(String(format: "%.1f", zoomFactor)) //"\(round(zoomFactor * 100) / 100)"
+                    .frame(width: 60, height: 40)
+                    .background(Color.black.opacity(0.6))
+                    .cornerRadius(10)
+                    .padding(5)
+            }
         }
     }
 }
