@@ -10,12 +10,20 @@ import SwiftData
 
 struct LocationDetailView: View{
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var locationManager:LocationManager
+    
     @Binding var destinationCoordinate: CLLocationCoordinate2D?
     var selectedPlacemark : MTPlacemark?
     @Binding var showRoute: Bool
     @Binding var widgetOffset: CGFloat
     @Binding var travelInterval: TimeInterval?
     @Binding var transportType: MKDirectionsTransportType
+    @Binding var cameraPosition: MapCameraPosition
+    @Binding var region: MKCoordinateRegion
+    @Binding var routeDestination: MKMapItem?
+    @Binding var route: MKRoute?
+    
+//    @StateObject private var locationManager:LocationManager = LocationManager()
     
     var travelTime: String?{
         guard let travelInterval else{return nil}
@@ -74,9 +82,17 @@ struct LocationDetailView: View{
                                     .imageScale(.large)
                             }
                             
-                            if let travelTime{
+                            if let travelTime,
+                               locationManager.userLocation != nil
+                            {
                                 let prefix = transportType == .automobile ? "Driving" : "Walking"
                                 Text("\(prefix) time: \(travelTime)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            else
+                            {
+                                Text("Loading...")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
@@ -112,17 +128,28 @@ struct LocationDetailView: View{
                         widgetOffset = 260
                     }
                     .fixedSize(horizontal: true, vertical: false)
+                    .disabled(route == nil)
                 }
             }
             .buttonStyle(.bordered)
             Spacer()
         }
         .padding()
-        .task(id: selectedPlacemark){
+        .task(id: selectedPlacemark)
+        {
             await fetchLookaroundPreview()
         }
+        .task(id: locationManager.userLocation)
+        {
+            await fetchRoute()
+        }
+        .task(id: transportType)
+        {
+            await fetchRoute()
+        }
         .onAppear{
-            if let selectedPlacemark{
+            if let selectedPlacemark
+            {
                 name = selectedPlacemark.name
                 address = selectedPlacemark.address
             }
@@ -137,29 +164,89 @@ struct LocationDetailView: View{
                 Spacer()
                 
                 Button(action: openInAppleMaps) {
-                    Text("Open in Apple Maps")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                    HStack
+                    {
+                        Image(systemName: "applelogo")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding(5)
+                            .foregroundColor(.white)
+                            
+                        Text("Open in Apple Maps")
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.black)
+                    .cornerRadius(8)
                 }
 
                 Divider()
                     .padding(.vertical, 8)
 
                 Button(action: openInGoogleMaps) {
-                    Text("Open in Google Maps")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
+                    HStack
+                    {
+                        Image("google_logo")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding(5)
+                        
+                        Text("Open in Google Maps")
+                            .foregroundColor(.black)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(8)
                 }
             }
             .padding()
             .presentationDetents([.fraction(0.27)])
         })
+    }
+    
+    // Route fetching functions
+    func fetchRoute() async{
+        if let userLocation = locationManager.userLocation, let selectedPlacemark{
+            let request = MKDirections.Request()
+            let sourcePlacemark = MKPlacemark(coordinate: userLocation.coordinate)
+            let routeSource = MKMapItem(placemark: sourcePlacemark)
+            
+            let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate ?? region.center)
+            
+            routeDestination = MKMapItem(placemark: destinationPlacemark)
+            routeDestination?.name = selectedPlacemark.name
+            request.source = routeSource
+            request.destination = routeDestination
+            request.transportType = transportType
+            let directions = MKDirections(request: request)
+            let result = try? await directions.calculate()
+            route = result?.routes.first
+            travelInterval = route?.expectedTravelTime
+            print(travelInterval as Any)
+        }
+        else
+        {
+            print("Missing something...")
+            print("User Location: ", locationManager.userLocation as Any)
+            print("Selected Placemark: ",selectedPlacemark as Any)
+        }
+    }
+    
+    func updateCameraPosition(){
+        if let userLocation = locationManager.userLocation{
+            let userRegion = MKCoordinateRegion(
+                center:userLocation.coordinate,
+                span:MKCoordinateSpan(
+                    latitudeDelta: 0.15,
+                    longitudeDelta: 0.15
+                
+            ))
+            withAnimation{
+                cameraPosition = .region(userRegion)
+            }
+        }
     }
     
     func openInAppleMaps() {

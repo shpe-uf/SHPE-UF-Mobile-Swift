@@ -8,11 +8,11 @@
 import SwiftUI
 import CoreLocation
 
-@Observable
-class LocationManager : NSObject, CLLocationManagerDelegate{
-    @ObservationIgnored let manager = CLLocationManager()
-    var userLocation: CLLocation?
+class LocationManager : NSObject, CLLocationManagerDelegate, ObservableObject {
+    @Published var userLocation: CLLocation?
+    private let manager = CLLocationManager()
     var isAuthorized = false
+    
     override init(){
         super.init()
         manager.delegate = self

@@ -23,6 +23,9 @@ class AppViewModel: ObservableObject
     @Published var currentEventIndex:Int?
     @Published var inMapView = false
     
+    // Items being observed by the map
+    @Published var placemark:MTPlacemark?
+    
     private init() {
         self.pageIndex = -1
         self.shpeito = SHPEito()

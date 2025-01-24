@@ -188,7 +188,6 @@ struct HomeView: View {
                 {
                     LocationView(location: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].location ?? "Unknown",event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].summary, showView: $appVM.showView)
                         .transition(.move(edge: .trailing))
-                        .environment(LocationManager())
                 }
 
             }
