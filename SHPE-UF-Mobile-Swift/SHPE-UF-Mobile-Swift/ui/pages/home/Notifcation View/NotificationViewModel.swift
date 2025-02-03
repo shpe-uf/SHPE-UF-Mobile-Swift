@@ -238,5 +238,3 @@ class NotificationViewModel : ObservableObject {
         }
     }
 }
-
-
