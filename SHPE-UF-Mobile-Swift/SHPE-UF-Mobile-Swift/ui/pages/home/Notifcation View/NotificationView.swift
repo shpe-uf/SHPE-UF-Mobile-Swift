@@ -24,19 +24,26 @@ struct NotificationView: View {
     
     @StateObject var viewNotificationModel = NotificationViewModel.instance
     
-    var body: some View {
+    var body: some View
+    {
         // Stack the views vertically with spacing
-        VStack(spacing: 20){
+        VStack(spacing: 20)
+        {
             // Use a ZStack for layering the background and button horizontally
             
-            ZStack{
+            ZStack
+            {
                 Constants.orange
                     .frame(height: 110)
-                HStack{
-                    Button {
+                HStack
+                {
+                    Button
+                    {
                         // Dismiss the current view when the button is pressed
                         showView = "HomeView"
-                    } label: {
+                    }
+                    label:
+                    {
                         // Button label with an image
                         Image("Back")
                             .frame(height:75,alignment: .bottomLeading)
@@ -53,7 +60,8 @@ struct NotificationView: View {
                 .padding(.horizontal, 20)
             }
             // Stack for the main content area
-            ZStack {
+            ZStack
+            {
                 if attemptedToEnableNotifications
                 {
                     VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
@@ -230,7 +238,8 @@ struct NotificationView: View {
                 }
                 
             }) {
-                ZStack {
+                ZStack
+                {
                     Image(isSelected.wrappedValue ? "Ellipse_selected" : colorScheme == .dark ? "dark_ellipse" :"Ellipse")
                         .frame(width: 92, height: 90)
                         
