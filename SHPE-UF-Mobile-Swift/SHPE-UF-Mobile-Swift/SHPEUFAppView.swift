@@ -32,7 +32,12 @@ struct SHPEUFAppView: View {
             LandingPageView(viewModel: RegisterViewModel())
                 .preferredColorScheme(appVM.darkMode ? .dark : .light)
         case 4:
-                        GuestView()
+            GuestWelcomeView()
+            
+        case 5:
+            GuestCalendarView()
+        case 6:
+            GuestPartnersView()
         default:
             Text("Out of Index Error...")
         }
