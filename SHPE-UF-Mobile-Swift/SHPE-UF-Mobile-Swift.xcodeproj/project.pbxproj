@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -225,6 +225,10 @@
 		B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UniversLTStd.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		463355992D63C8C8008C1B58 /* aboutUs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = aboutUs; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		206C8F6F2AE181FF0081A35A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -407,6 +411,7 @@
 		20CF4A292AE7467300916EC6 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				463355992D63C8C8008C1B58 /* aboutUs */,
 				53C7704C2B9A79BF00455FC5 /* profile */,
 				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
@@ -640,6 +645,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				463355992D63C8C8008C1B58 /* aboutUs */,
 			);
 			name = "SHPE-UF-Mobile-Swift";
 			packageProductDependencies = (
