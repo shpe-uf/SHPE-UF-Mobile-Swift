@@ -107,6 +107,7 @@
 		B8E3870C2D177D5F00E9BBF0 /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3870B2D177D5800E9BBF0 /* LocationDetailView.swift */; };
 		B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */; };
 		B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
+		DDE684FD2D63C96B0010D9A4 /* QrCodeGenerator.swift in Resources */ = {isa = PBXBuildFile; fileRef = DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +224,7 @@
 		B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Viga-Regular.ttf"; sourceTree = "<group>"; };
 		B8EF26FE2B8FB40B00F98FA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UniversLTStd.otf; sourceTree = "<group>"; };
+		DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -407,6 +409,7 @@
 		20CF4A292AE7467300916EC6 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				DDE684FE2D63C98B0010D9A4 /* admin */,
 				53C7704C2B9A79BF00455FC5 /* profile */,
 				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
@@ -626,6 +629,14 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		DDE684FE2D63C98B0010D9A4 /* admin */ = {
+			isa = PBXGroup;
+			children = (
+				DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */,
+			);
+			path = admin;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -743,6 +754,7 @@
 				95D370992B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
 				958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				951F6ED92BB69806001FDB50 /* GetUsers.graphql.swift in Resources */,
+				DDE684FD2D63C96B0010D9A4 /* QrCodeGenerator.swift in Resources */,
 				B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */,
 				B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */,
 				959BEA4F2BF45F4C0009789D /* DeleteUser.graphql.swift in Resources */,
