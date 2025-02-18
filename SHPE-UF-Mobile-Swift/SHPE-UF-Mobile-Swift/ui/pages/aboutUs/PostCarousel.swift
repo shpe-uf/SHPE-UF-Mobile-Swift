@@ -39,13 +39,9 @@ struct PostCarousel: View {
                                 currentIndex = min(4, currentIndex + 1)
                             }
                         }
-                        
                     }
             )
-            
-            
         }
-        
     }
 }
 
