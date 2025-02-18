@@ -68,9 +68,9 @@ struct AboutUsView: View {
                     
                     
                     Text("The Society of Hispanic Professional Engineers Chapter at the University of Florida (SHPE UF) was formerly known as the Hispanic Engineering Society. It was founded in the fall of 1982 in an effort to provide Hispanic engineers, mathematicians, and scientists with opportunities to develop as professionals while offering an amiable social environment.")
-                    .font(.custom("Viga-Regular", size: 20))
-                    .multilineTextAlignment(.leading)
-                    .padding(.horizontal)
+                        .font(.custom("Viga-Regular", size: 20))
+                        .multilineTextAlignment(.leading)
+                        .padding(.horizontal)
                     
                 }
                 .padding()
@@ -87,7 +87,7 @@ struct AboutUsView: View {
                 
                 
             }
-           
+            
         }
         .ignoresSafeArea()
     }

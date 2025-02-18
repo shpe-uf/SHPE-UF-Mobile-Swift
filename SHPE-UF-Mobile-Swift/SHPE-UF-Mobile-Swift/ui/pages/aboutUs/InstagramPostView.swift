@@ -11,8 +11,7 @@ struct InstagramPostView: View {
     var body: some View {
         
         ZStack {
-            
-            
+    
             VStack(alignment: .leading) {
                 HStack(spacing: 5) {
                     Image("swift.shpelogo")
@@ -25,7 +24,6 @@ struct InstagramPostView: View {
                         .foregroundColor(.primary)
                 }
                 
-             
                 
                 Rectangle()
                     .opacity(0.2)
@@ -42,8 +40,6 @@ struct InstagramPostView: View {
                 
             }
             .padding()
-            
-            
             
         }
     }

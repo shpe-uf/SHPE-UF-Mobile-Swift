@@ -44,5 +44,5 @@ class InstagramViewModel {
         let wrapper = try decoder.decode(Wrapper.self, from: data)
         self.posts = wrapper.data
     }
-       
+    
 }
