@@ -79,20 +79,15 @@ struct AboutUsView: View {
                 
                 /// INSERT LATEST INSTAGRAM POSTS
                 
+                PostCarousel()
+                    .padding()
                 
                 
-                
-                
-                
-                
-                
+                Spacer()
                 
                 
             }
-            
-            
-            
-            
+           
         }
         .ignoresSafeArea()
     }
