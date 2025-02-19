@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct InstagramPostView: View {
+    var post: InstagramPost
+    
     var body: some View {
         
         ZStack {
-    
+            
             VStack(alignment: .leading) {
                 HStack(spacing: 5) {
                     Image("swift.shpelogo")
@@ -25,18 +27,25 @@ struct InstagramPostView: View {
                 }
                 
                 
-                Rectangle()
-                    .opacity(0.2)
-                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                AsyncImage(url: URL(string: post.media_url)) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                    
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(maxWidth: .infinity)
+                .frame(height: 250)
                 
                 HStack {
-                    Text("shpeuf")
-                        .font(.headline)
-                        .bold()
+                    Text("shpeuf  ").fontWeight(.bold) + Text(post.caption ?? "")
                     
-                    Text("...")
                 }
-                .padding(.leading, 3)
+                .frame(width: .infinity)
+                .padding(EdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3))
+                
                 
             }
             .padding()
@@ -46,5 +55,5 @@ struct InstagramPostView: View {
 }
 
 #Preview {
-    InstagramPostView()
+    InstagramPostView(post: InstagramViewModel().mockData[0])
 }
