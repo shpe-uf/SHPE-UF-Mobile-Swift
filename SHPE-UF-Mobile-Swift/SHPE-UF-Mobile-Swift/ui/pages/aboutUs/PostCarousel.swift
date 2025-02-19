@@ -11,16 +11,19 @@ struct PostCarousel: View {
     @State private var currentIndex: Int = 0
     @GestureState private var dragOffset: CGFloat = 0
     
+    @ObservedObject var viewModel: InstagramViewModel
+    
     var body: some View {
         
         
         VStack {
             ZStack {
-                ForEach(0..<5, id: \.self) { index in
-                    InstagramPostView()
+                ForEach(viewModel.mockData.indices, id: \.self) { index in
+                    let post = viewModel.mockData[index]
+                    InstagramPostView(post: post)
                         .frame(width: 300, height: 500)
                         .clipShape(RoundedRectangle(cornerRadius: 25))
-                        .opacity(currentIndex ==  index ? 1 : 0.3)
+                        .opacity(currentIndex == index ? 1 : 0.3)
                         .scaleEffect(currentIndex == index ? 1.1 : 1)
                         .offset(x: CGFloat(index - currentIndex) * 300 + dragOffset, y: 0)
                 }
@@ -36,7 +39,7 @@ struct PostCarousel: View {
                             }
                         } else if value.translation.width < -threshold {
                             withAnimation {
-                                currentIndex = min(4, currentIndex + 1)
+                                currentIndex = min(viewModel.mockData.count - 1, currentIndex + 1)
                             }
                         }
                     }
@@ -46,5 +49,5 @@ struct PostCarousel: View {
 }
 
 #Preview {
-    PostCarousel()
+    PostCarousel(viewModel: InstagramViewModel())
 }
