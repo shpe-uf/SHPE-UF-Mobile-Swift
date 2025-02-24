@@ -37,7 +37,7 @@ struct InstagramPostView: View {
                     ProgressView()
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 250)
+                
                 
                 HStack {
                     Text("shpeuf  ").fontWeight(.bold) + Text(post.caption ?? "")

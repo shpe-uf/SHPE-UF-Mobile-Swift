@@ -113,7 +113,7 @@ struct LocationDetailView: View{
                     .padding()
             }
             HStack{
-                Spacer()
+                
                 if destinationCoordinate != nil
                 {
                     Button("Open in maps",systemImage: "map"){
