@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "Gator2.png",
+      "filename" : "svgviewer-output (18).svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Gator2 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Gator2 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
