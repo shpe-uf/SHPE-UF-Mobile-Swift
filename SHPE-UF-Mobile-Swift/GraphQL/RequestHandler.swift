@@ -11,7 +11,7 @@ import Apollo
 
 private let PRODUCTION_ENV =
 [
-    "SERVER_LINK":"",
+    "SERVER_LINK":"https://9f71-153-33-136-35.ngrok-free.app",
     "CALENDAR_ID":"",
     "CALENDAR_API_KEY":""
 ]
