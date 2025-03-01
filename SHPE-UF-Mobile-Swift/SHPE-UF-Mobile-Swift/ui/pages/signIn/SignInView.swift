@@ -26,6 +26,7 @@ struct SignInView: View
     @State private var isHovered = false
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
+    @State private var isForgetPassword = false
     
     
     var body: some View 
@@ -152,7 +153,17 @@ struct SignInView: View
                     .background(Color.white)
                     .cornerRadius(10)
                 }
-                .padding(.bottom, 50)
+                .padding(.bottom, 22)
+                VStack(alignment: .leading){
+                    Button("Forget Password?") {
+                        isForgetPassword = true
+                    }
+                    .font(Font.custom("Univers LT Std", size: 14))
+                    .foregroundColor(Color("lblue"))
+                }
+                .fullScreenCover(isPresented: $isForgetPassword){
+                    ForgetPassword(viewModel: self.viewModel)
+                }
                 
                 
                 // Sign In Button
@@ -253,5 +264,50 @@ struct SignInView_Previews: PreviewProvider
     static var previews: some View 
     {
         SignInView(viewModel: SignInViewModel(shpeito:SHPEito()))
+    }
+}
+
+struct ForgetPassword: View {
+    @StateObject var viewModel: SignInViewModel
+    @State public var Email = ""
+    var body: some View {
+        ZStack {
+            VStack() {
+                // Text explaining how to reset your password
+                Text("Forgot your password?")
+                    .font(Font.custom("Univers LT Std-bold", size: 28))
+                  .multilineTextAlignment(.center)
+                  .foregroundColor(.white)
+                Text("Enter your email and we will send you \ninstructions to reset your password.  ")
+                    .padding(.top, 28)
+                    .font(Font.custom("Univers LT Std", size: 16))
+                  .multilineTextAlignment(.center)
+                  .foregroundColor(.white)
+                  .frame(alignment: .center)
+                // Text field to accept the email
+                TextField("Email Address", text: $Email)
+                    .padding()
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled()
+                    .modifier(CustomTextFieldStyle(padding: 12, cornerRadius: 10))
+                    .frame(maxWidth: 525, alignment: .center)
+                Button(action: {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }) {
+                    Text(viewModel.isCommunicating ? "Loading..." : "Sign In")
+                        .font(Font.custom("Viga-Regular", size: 16))
+                        .foregroundColor(Color.white)
+                        .frame(width: 267, height: 42)
+                        .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                        .cornerRadius(10)
+                        .padding()
+                }
+                .frame(alignment: .center)
+            }
+            .padding(.all, 43)
+            .frame(alignment: .leading)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.darkdarkBlue))
     }
 }

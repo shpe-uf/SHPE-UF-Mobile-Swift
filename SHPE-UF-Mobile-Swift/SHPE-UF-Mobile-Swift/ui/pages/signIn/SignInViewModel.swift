@@ -83,6 +83,14 @@ final class SignInViewModel: ObservableObject
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
     
+    func forgetPassword(email: String) {
+        self.isCommunicating = true
+        requestHandler.validateUsernameAndEmail(email: email) {data in
+            DispatchQueue.main.async {
+                self.isCommunicating = false
+            }}
+    }
+    
     // Methods to call in View
     func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {
         // Set the username and password to the SHPEito model
