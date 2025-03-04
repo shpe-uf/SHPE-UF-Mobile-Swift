@@ -36,6 +36,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         
         // Create timeline entries for the next day hours
+        print("GETTING TIMELINE")
         for hourOffset in 0..<24 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let upcomingEvents = events.filter { $0.startDate >= entryDate }
@@ -48,6 +49,7 @@ struct Provider: TimelineProvider {
     
     // Method to directly fetch and format events from CoreData
     private func fetchEventsDirectly() -> [WidgetEvent] {
+        print("FETCHING EVENTS")
         // initialize viewContext with DataManager class
         let viewContext = dataManager.container.viewContext
         
@@ -68,8 +70,11 @@ struct Provider: TimelineProvider {
         // fetch the coreEvents
         do {
             let coreEvents = try viewContext.fetch(fetchRequest)
+            print("CORE EVNTS::: \(coreEvents)")
             return convertCoreEventsToEvents(coreEvents)
+            
         } catch {
+            print("ERROR FETCHING EEVENTS")
             fatalError(error.localizedDescription)
         }
         
@@ -106,82 +111,91 @@ struct CalendarWidgetEntryView: View {
     var entry: Provider.Entry
     
     @Environment(\.widgetFamily) var family
-
-
-        @ViewBuilder
-        var body: some View {
-            switch family {
-            case .accessoryCircular:
-                // Code to construct the view for the circular accessory
-                MediumCalendarWidget(events: entry.events)
-            case .systemSmall:
-                SmallCalendarWidget(events: entry.events)
-            case .systemMedium:
-                // Code to construct the view for the medium widget.
-                MediumCalendarWidget(events: entry.events)
-            default:
-                MediumCalendarWidget(events: entry.events)
-            }
+    
+    @Environment(\.colorScheme) var colorScheme
+    
+    
+    @ViewBuilder
+    var body: some View {
+        switch family {
+        case .accessoryCircular:
+            // circular accessory
+            MediumCalendarWidget(events: entry.events)
+        case .systemSmall:
+            // small widget
+            SmallCalendarWidget(events: entry.events)
+                .environment(\.colorScheme, .dark)
+        case .systemMedium:
+            // medium widget.
+            MediumCalendarWidget(events: entry.events)
+                .environment(\.colorScheme, .dark)
+        default:
+            MediumCalendarWidget(events: entry.events)
         }
+    }
 }
 
 struct SmallCalendarWidget: View {
     let events: [WidgetEvent]
     let formatter = DateFormatter()
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 2) { // Reduce spacing here
-                // Day Name
-                Text("\(formatDate(Date(), format: "EEEE"))")
-                    .font(Font.custom("Viga-Regular", size: 15))
-                    .foregroundStyle(Color(.orangeButton))
-                
-                // Date Number
-                Text("\(formatDate(Date(), format: "dd"))")
-                    .font(Font.custom("Viga-Regular", size: 30))
-                    .offset(y: -4)
-                
-                // Event List
-                if events.isEmpty {
-                    Text("No upcoming events")
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                } else {
-                    ForEach(events.prefix(2), id: \.id) { event in
-                        HStack {
-                            // Small Vertical Line
-                            Rectangle()
-                                .fill(getEventTypeColor(event.eventType))
-                                .frame(width: 2, height: 20) // Adjust height to match text
-                                .cornerRadius(1)
-
-                            // Event Details
-                            VStack(alignment: .leading, spacing: 1) { // Reduce spacing inside event
-                                Text(event.title)
-                                    .font(Font.custom("Viga-Regular", size: 12))
-                                
-                                Text("\(formatDate(event.startDate, format: "h:mm a")) - \(formatDate(event.endDate, format: "h:mm a"))")
-                                    .font(.system(size: 7))
-                                    .foregroundColor(.secondary)
-                            }
-                        }
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 2) {
+                    
+                    // Day Name
+                    Text("\(formatDate(Date(), format: "EEEE"))")
+                        .font(Font.custom("Viga-Regular", size: 15))
+                        .foregroundStyle(Color(.rorange))
+                    
+                    HStack {
                         
-
-                        // Divider (only if not last event)
-                        if event.id != events.prefix(2).last?.id {
-                            Divider()
+                        //                        Text("\(formatDate(Date(), format: "MMM"))")
+                        //                            .font(Font.custom("Viga-Regular", size: 15))
+                        //                            .offset(y: -4)
+                        
+                        // Date Number
+                        Text("\(formattedDayWithSuffix(Date()))")
+                            .font(Font.custom("Viga-Regular", size: 30))
+                        //.foregroundStyle(Color(.orangeButton))
+                            .offset(y: -4)
+                        
+                    }
+                    
+                    // Event List
+                    if events.isEmpty {
+                        Text("No upcoming events")
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    } else {
+                        let todayEvents = events.filter { Calendar.current.isDate($0.startDate, inSameDayAs: Date()) }
+                        ForEach(todayEvents.prefix(2), id: \.id) { event in
+                            EventRow(event: event, isToday: true)
+                                .environment(\.colorScheme, colorScheme)
+                               
+                            
+                            
                         }
                     }
+                    
+                    Spacer()
                 }
+                
+                Spacer()
             }
         }
-        .containerBackground(Color(.white).gradient, for: .widget)
+        .containerBackground(colorScheme == .dark ? Color(.darkdarkBlue).gradient : Color(.white).gradient, for: .widget)
     }
 }
 
 
 struct MediumCalendarWidget: View {
     @State var events: [WidgetEvent]
+    
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         ZStack {
@@ -190,9 +204,9 @@ struct MediumCalendarWidget: View {
                 
                 VStack(alignment: .leading, spacing: 1) {
                     // Day Name
-                    Text("\(formatDate(Date(), format: "EEEE").uppercased())")
+                    Text("\(formatDate(Date(), format: "MMMM"))")
                         .font(Font.custom("Viga-Regular", size: 20))
-                        .foregroundStyle(Color(.orangeButton))
+                        .foregroundStyle(Color(.rorange))
                     
                     
                     // Date Number
@@ -205,28 +219,16 @@ struct MediumCalendarWidget: View {
                         
                         if !todayEvents.isEmpty {
                             ForEach(todayEvents.prefix(2), id: \.id) { event in
-                                HStack {
-                                    // Small Vertical Line
-                                    Rectangle()
-                                        .fill(getEventTypeColor(event.eventType))
-                                        .frame(width: 2, height: 20) // Adjust height to match text
-                                        .cornerRadius(1)
-
-                                    // Event Details
-                                    VStack(alignment: .leading, spacing: 1) { // Reduce spacing inside event
-                                        Text(event.title)
-                                            .font(Font.custom("Viga-Regular", size: 12))
-                                        
-                                        Text("\(formatDate(event.startDate, format: "h:mm a")) - \(formatDate(event.endDate, format: "h:mm a"))")
-                                            .font(.system(size: 7))
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
+                                EventRow(event: event, isToday: true)
+                                    .environment(\.colorScheme, colorScheme)
                             }
                         }
                     }
                     
                 }
+                .frame(width: 100, height: 130)
+                
+                Spacer()
                 
                 Rectangle()
                     .frame(width: 1, height: 125)
@@ -247,10 +249,10 @@ struct MediumCalendarWidget: View {
                             .font(.body)
                             .foregroundColor(.secondary)
                     } else {
-                        ForEach(upcomingEvents.prefix(3), id: \.id) { event in
+                        ForEach(upcomingEvents.prefix(4), id: \.id) { event in
                             EventRow(event: event)
                             
-                            if event.id != upcomingEvents.prefix(3).last?.id {
+                            if event.id != upcomingEvents.prefix(4).last?.id {
                                 Divider()
                                     .foregroundStyle(.white)
                             }
@@ -258,7 +260,7 @@ struct MediumCalendarWidget: View {
                     }
                 }
                 .padding()
-                .containerBackground(Color(.white).gradient, for: .widget)
+                .containerBackground(colorScheme == .dark ? Color(.darkdarkBlue).gradient : Color(.white).gradient, for: .widget)
             }
         }
     }
@@ -267,50 +269,38 @@ struct MediumCalendarWidget: View {
 struct EventRow: View {
     var event: WidgetEvent
     var isToday: Bool = false
-
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
-        HStack(alignment: .center, spacing: 0) { // Adjust horizontal spacing
+        HStack {
             // Vertical Bar for Today's Events
-            if isToday {
-                Rectangle()
-                    .fill(getEventTypeColor(event.eventType))
-                    .frame(width: 2, height: 24) // Matches text height
-                    .cornerRadius(1)
-            }
-
-            VStack(alignment: .leading, spacing: 2) {
-                
+            Rectangle()
+                .fill(getEventTypeColor(event.eventType))
+                .frame(width: 2, height: 20)
+                .cornerRadius(1)
+            
+            VStack(alignment: .leading, spacing: 1) {
                 Text(event.title)
                     .font(Font.custom("Viga-Regular", size: 12))
-                    .fixedSize(horizontal: false, vertical: true)
-
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                
                 Text("\(formatDate(event.startDate, format: isToday ? "h:mm a" :"MMM dd h:mm a")) - \(formatDate(event.endDate, format: "h:mm a"))")
                     .font(.system(size: 7))
                     .fontWeight(.semibold)
-                    .foregroundStyle(.secondary)
-            }
-
-            // Only show event type if it's not today
-            if !isToday {
-                Spacer()
-                Text(event.eventType)
-                    .font(Font.custom("Viga-Regular", size: 8))
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(getEventTypeColor(event.eventType).opacity(0.2))
-                    .cornerRadius(4)
-                    
+                    .foregroundColor(colorScheme == .dark ? .gray : .secondary)
             }
         }
-        
+        // You can also add background color if needed
+        .containerBackground(colorScheme == .dark ? Color(.darkdarkBlue).gradient : Color(.white).gradient, for: .widget)
     }
 }
 
 private func formatDate(_ date: Date, format: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        return formatter.string(from: date)
-    }
+    let formatter = DateFormatter()
+    formatter.dateFormat = format
+    return formatter.string(from: date)
+}
 
 
 private func getEventTypeColor(_ eventType: String) -> Color {
@@ -333,7 +323,7 @@ private func getEventTypeColor(_ eventType: String) -> Color {
 private func formattedDayWithSuffix(_ date: Date) -> String {
     let calendar = Calendar.current
     let day = calendar.component(.day, from: date) // Extracts day number
-
+    
     let suffix: String
     switch day {
     case 11, 12, 13: suffix = "th" // Special case for 11-13
@@ -353,7 +343,8 @@ private func formattedDayWithSuffix(_ date: Date) -> String {
 struct CalendarWidget: Widget {
     
     let kind: String = "CalendarWidget"
-    let dataManager = DataManager() // Create a DataManager instance
+    // DataManager instance
+    let dataManager = DataManager()
     
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider(dataManager: dataManager)) { entry in
@@ -374,14 +365,14 @@ struct CalendarWidget_Previews: PreviewProvider {
                 WidgetEvent(
                     
                     title: "GBM #1",
-                    startDate: Date().addingTimeInterval(54444),
+                    startDate: Date().addingTimeInterval(1),
                     endDate: Date().addingTimeInterval(3600),
                     eventType: "GBM"
                 ),
                 WidgetEvent(
                     
                     title: "Career Workshop",
-                    startDate: Date().addingTimeInterval(84000),
+                    startDate: Date().addingTimeInterval(6500),
                     endDate: Date().addingTimeInterval(4),
                     eventType: "Workshop"
                 ),
