@@ -41,10 +41,10 @@ struct HomeView: View {
 
                     // Button to navigate to SocialsView
                     Button { appVM.showView = "SocialsView" } label: {
-                        Image("socialsicon")
+                        Image("Instagram_Logo_HomePage")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 33, height: 32)
+                            .frame(width: 50, height: 50)
                             .padding(.top, UIScreen.main.bounds.width * 0.05)
                     }
                     .padding(.top, 10)

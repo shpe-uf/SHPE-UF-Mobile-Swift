@@ -7,7 +7,7 @@ struct SocialsView: View {
 
     /// **Social media links and their corresponding icons**
     let socials: [(String, String, String)] = [
-        ("SHPE UF", "instagram", "https://www.instagram.com/shpeuf"),
+        ("SHPE UF", "SHPEdUF", "https://www.instagram.com/shpeuf"),
         ("FYLP", "family_group_icon", "https://www.instagram.com/fylp.shpeuf"),
         ("MentorSHPE", "mentorship_icon", "https://www.instagram.com/mentorshpe"),
         ("GradSHPE", "research_icon", "https://www.instagram.com/gradshpe"),

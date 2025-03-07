@@ -200,7 +200,8 @@ class RequestHandler
                 "graduationYear": login.graduating,
                 "classes": login.classes ?? [],
                 "internships": login.internships ?? [],
-                "links": login.socialMedia ?? []
+                "links": login.socialMedia ?? [],
+                "permission": login.permission
             ]
             
             completion(responseDict)
@@ -516,6 +517,27 @@ class RequestHandler
         }
     }
     
+    func fetchUserPermission(userId: String, completion: @escaping (String?) -> Void) {
+        guard !userId.isEmpty else {
+            completion(nil)
+            return
+        }
+
+        apolloClient.fetch(query: SHPESchema.GetUserPermissionQuery(userId: userId)) { response in
+            DispatchQueue.main.async {
+                guard let data = try? response.get().data else {
+                    print("❌ ERROR: Failed to fetch user permission: \(response)")
+                    completion(nil)
+                    return
+                }
+                
+                // Extract permission from response
+                let permission = data.getUser?.permission
+                completion(permission)
+            }
+        }
+    }
+
     
     
     // MARK: Home Page Functions

@@ -142,27 +142,59 @@ struct ProfileView: View
                 {
                     VStack
                     {
-                        if !vm.isEditing
+                        HStack(spacing: 10)
                         {
-                            Button {
-                                vm.isEditing = true
-                            } label: {
-                                HStack
+                            if !vm.isEditing
+                            {
+                                Button
                                 {
-                                    Text("Edit Profile")
-                                        .foregroundStyle(Color.white)
-                                        .padding(10)
-                                    Image("pencil")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 20, height: 20)
+                                    vm.isEditing = true
                                 }
-                                .padding(.horizontal)
-                                .background(Color("orangeButton"))
-                                .cornerRadius(50)
+                                label:
+                                {
+                                    HStack
+                                    {
+                                        Text("Edit Profile")
+                                            .foregroundStyle(Color.white)
+                                            .padding(10)
+
+                                        Image("pencil")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 20, height: 20)
+                                    }
+                                    .padding(.horizontal)
+                                    .background(Color("orangeButton"))
+                                    .cornerRadius(50)
+                                }
                             }
-                            .padding(.top, 10)
+
+                            // ✅ Show Admin Panel button if user has admin permissions
+                            if vm.shpeito.permission.lowercased().contains("admin")
+                            {
+                                Button
+                                {
+                                    print("Navigating to Admin Panel") // Replace with actual navigation logic
+                                }
+                                label:
+                                {
+                                    HStack
+                                    {
+                                        Text("Admin Panel")
+                                            .foregroundStyle(Color.white)
+                                            .padding(10)
+
+                                        Image(systemName: "shield.fill") // Admin icon
+                                            .resizable()
+                                            .frame(width: 20, height: 20)
+                                    }
+                                    .padding(.horizontal)
+                                    .background(Color.red)
+                                    .cornerRadius(50)
+                                }
+                            }
                         }
+                        .padding(.top, 10)
                         
                         VStack(spacing: 2)
                         {

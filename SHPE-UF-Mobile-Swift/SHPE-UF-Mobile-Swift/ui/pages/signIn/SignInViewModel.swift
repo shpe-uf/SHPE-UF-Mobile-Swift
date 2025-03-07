@@ -4,45 +4,17 @@ import CoreData
 
 final class SignInViewModel: ObservableObject
 {
-    // Private variables like the Apollo endpoint
     private var requestHandler = RequestHandler()
     
-    // Out of View variables (Models)
     @Published var shpeito: SHPEito
     @Published var viewPassword: Bool = false
-    @Published var error: String = "" // Error message variable
+    @Published var error: String = ""
     @Environment(\.colorScheme) var colorScheme
     
-    //Toast duration
     @Published var toastDuration = 3.0
-    
-    // Indicator for ongoing communication
     @Published var isCommunicating: Bool = false
-
-    // Initialize SignInViewModel
-    init(shpeito: SHPEito) {
-        self.shpeito = shpeito
-        self.username = shpeito.username
-        self.password = shpeito.password
-        self.remember = shpeito.remember
-        self.firstName = shpeito.firstName
-        self.lastName=shpeito.lastName
-        self.year=shpeito.year
-        self.major=shpeito.major
-        self.id=shpeito.id
-        self.token=shpeito.token
-        self.confirmed=shpeito.confirmed
-        self.updatedAt=shpeito.updatedAt
-        self.createdAt=shpeito.createdAt
-        self.email=shpeito.email
-        self.fallPoints=shpeito.fallPoints
-        self.summerPoints=shpeito.summerPoints
-        self.springPoints=shpeito.springPoints
-        //self.events=shpeito.events
-       
-    }
     
-    // In View variables (What is being DISPLAYED & What is being INTERACTED WITH)
+    // In View variables
     @Published var signInButtonClicked: Bool = false
     @Published var username: String
     @Published var password: String
@@ -60,119 +32,92 @@ final class SignInViewModel: ObservableObject
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
-    //@Published var events: SHPESchema.SignInMutation
-    //store all of this to model
-    // SignInMutation <= SignIn.graphql
-    // Input: username: String, password: String
-    // Successful Output: [
-    //    "firstName": String,
-    //    "lastName": String,
-    //    "year": String,
-    //    "major": String,
-    //    "id": String,
-    //    "token": String,
-    //    "confirmed": Bool,
-    //    "updatedAt": String,
-    //    "createdAt": String,
-    //    "email": String,
-    //    "username": String,
-    //    "fallPoints": Int,
-    //    "springPoints": Int,
-    //    "summerPoints": Int,
-    //    "photo": String, => You may want to turn this into a Swift URL type by doing this => URL(string: <photo>)
-    //    "events": [SHPESchema.SignInMutation...Event]
-    //]
+    @Published var permission: String
     
-    // Methods to call in View
-    func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {
-        // Set the username and password to the SHPEito model
+    init(shpeito: SHPEito) {
+        self.shpeito = shpeito
+        self.username = shpeito.username
+        self.password = shpeito.password
+        self.remember = shpeito.remember
+        self.firstName = shpeito.firstName
+        self.lastName = shpeito.lastName
+        self.year = shpeito.year
+        self.major = shpeito.major
+        self.id = shpeito.id
+        self.token = shpeito.token
+        self.confirmed = shpeito.confirmed
+        self.updatedAt = shpeito.updatedAt
+        self.createdAt = shpeito.createdAt
+        self.email = shpeito.email
+        self.fallPoints = shpeito.fallPoints
+        self.springPoints = shpeito.springPoints
+        self.summerPoints = shpeito.summerPoints
+        self.permission = shpeito.permission
+    }
+    
+    func signIn(username: String, password: String, viewContext: NSManagedObjectContext) {
         self.shpeito.username = username
         self.shpeito.password = password
-        
-        // Toggle indicator to show ongoing communication
         self.isCommunicating = true
-        
-        
-        
-        
-        
+
         requestHandler.signIn(username: username, password: password) { data in
-            
-            // Toggle indicator to hide ongoing communication
             self.isCommunicating = false
-        
-            
-            // Check that no error was detected
+
             if let error = data["error"] as? String {
-                // Handle different error types
-                switch error 
-                {
-                    case "Wrong credentials.":
-                        self.error = "Incorrect username or password."
-                    case "User not found.":
-                        self.error = "User account not found."
-                    case "Network Error":
-                        self.error = "Could not establish a connection to server. Try again later."
-                    case "Errors":
-                        if username.isEmpty || password.isEmpty {
-                            self.error = "Missing username and/or password."
-                        }
-                        else{
-                            self.error = "Unexpected error occurred. Try again later."
-                            }
-                    default:
-                        self.error = "Unexpected error occurred. Try again later."
-                }
-                
-                AppViewModel.appVM.toastMessage = self.error
-                withAnimation(.easeIn(duration: 0.3))
-                {
-                    AppViewModel.appVM.showToast = true
-                }
-                
-                    
-                return print(self.error)
+                return
             } else {
                 self.isCommunicating = true
-                // Process successful sign-in
-                if let firstName = data["firstName"] as? String,
-                   let lastName = data["lastName"] as? String,
-                   let year = data["year"] as? String,
-                   let major = data["major"] as? String,
-                   let id = data["id"] as? String,
-                   let token = data["token"] as? String,
-                   let confirmed = data["confirmed"] as? Bool,
-                   let updatedAt = data["updatedAt"] as? String,
-                   let createdAt = data["createdAt"] as? String,
-                   let email = data["email"] as? String,
-                   let username = data["username"] as? String,
-                   let gender = data["gender"] as? String,
-                   let ethnicity = data["ethnicity"] as? String,
-                   let originCountry = data["originCountry"] as? String,
-                   let graduationYear = data["graduationYear"] as? String,
-                   let classes = data["classes"] as? [String],
-                   let internships = data["internships"] as? [String],
-                   let links = data["links"] as? [String],
-                   let photo = data["photo"] as? String
-                {
-                    let prefixToRemove = "data:image/jpeg;base64,"
-                    let base64StringPhoto = photo.replacingOccurrences(of: prefixToRemove, with: "")
-                    //TODO: Finish adding fields to the SHPEito
-                    self.shpeito = SHPEito(username: username, password: password, remember: "True", base64StringPhoto: base64StringPhoto, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: 0, summerPoints: 0, springPoints: 0, points: 0, fallPercentile: 0, springPercentile: 0, summerPercentile: 0)
 
-                    
-                    // Store user in core memory
-                    self.addUserItemToCore(viewContext: viewContext)
-                    
-                    AppViewModel.appVM.setPageIndex(index: 2)
-                    AppViewModel.appVM.shpeito = self.shpeito
-                }
+                // Extract permission from API response
+                let permissionValue = data["permission"] as? String ?? ""
+
+                // Update user data
+                self.shpeito = SHPEito(
+                    username: data["username"] as? String ?? "",
+                    password: password,
+                    remember: "True",
+                    base64StringPhoto: (data["photo"] as? String)?.replacingOccurrences(of: "data:image/jpeg;base64,", with: "") ?? "",
+                    firstName: data["firstName"] as? String ?? "",
+                    lastName: data["lastName"] as? String ?? "",
+                    year: data["year"] as? String ?? "",
+                    major: data["major"] as? String ?? "",
+                    id: data["id"] as? String ?? "",
+                    token: data["token"] as? String ?? "",
+                    confirmed: data["confirmed"] as? Bool ?? false,
+                    updatedAt: data["updatedAt"] as? String ?? "",
+                    createdAt: data["createdAt"] as? String ?? "",
+                    email: data["email"] as? String ?? "",
+                    gender: data["gender"] as? String ?? "",
+                    ethnicity: data["ethnicity"] as? String ?? "",
+                    originCountry: data["originCountry"] as? String ?? "",
+                    graduationYear: data["graduationYear"] as? String ?? "",
+                    classes: data["classes"] as? [String] ?? [],
+                    internships: data["internships"] as? [String] ?? [],
+                    links: data["links"] as? [String] ?? [],
+                    permission: permissionValue, // ✅ Store permission
+                    fallPoints: 0,
+                    summerPoints: 0,
+                    springPoints: 0,
+                    points: 0,
+                    fallPercentile: 0,
+                    springPercentile: 0,
+                    summerPercentile: 0
+                )
+
+                // Update the local property in the view model
+                self.permission = self.shpeito.permission
+
+                // Persist to CoreData
+                self.updatePermissionInCoreData(permissionValue, viewContext: viewContext)
+
+                // Update AppViewModel state
+                AppViewModel.appVM.shpeito = self.shpeito
+                AppViewModel.appVM.setPageIndex(index: 2)
             }
         }
     }
-    
-    private func addUserItemToCore(viewContext:NSManagedObjectContext)
-    {
+
+    private func addUserItemToCore(viewContext: NSManagedObjectContext) {
         let user = User(context: viewContext)
         user.username = shpeito.username
         user.photo = shpeito.profileImage?.jpegData(compressionQuality: 0.0)
@@ -205,12 +150,60 @@ final class SignInViewModel: ObservableObject
         user.summerPercentile = Int64(shpeito.summerPercentile)
         user.darkMode = AppViewModel.appVM.darkMode
         
-        do { try viewContext.save() } catch { print("Could not save user to Core") }
+        do {
+            try viewContext.save()
+        } catch {
+            print("Could not save user to Core")
+        }
     }
-
-    // Add this function to Profile View Model for sign out function
+    
     func deleteUserItemToCore(viewContext: NSManagedObjectContext, user: User) {
         viewContext.delete(user)
-        do { try viewContext.save() } catch { print("Could not delete user from Core") }
+        do {
+            try viewContext.save()
+        } catch {
+            print("Could not delete user from Core")
+        }
     }
+    
+    func refreshUserPermission(viewContext: NSManagedObjectContext)
+    {
+        guard !self.id.isEmpty else { return } // Ensure the user is logged in
+        
+        requestHandler.fetchUserPermission(userId: self.id) { newPermission in
+            DispatchQueue.main.async {
+                if let newPermission = newPermission, self.permission != newPermission {
+                    print("🔄 Updating permission: \(self.permission) → \(newPermission)")
+
+                    // Update SignInViewModel
+                    self.permission = newPermission
+                    
+                    // Update SHPEito model
+                    self.shpeito.permission = newPermission
+
+                    // Update CoreData
+                    self.updatePermissionInCoreData(newPermission, viewContext: viewContext)
+                }
+            }
+        }
+    }
+
+    private func updatePermissionInCoreData(_ newPermission: String, viewContext: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        
+        do {
+            let users = try viewContext.fetch(fetchRequest)
+            if let user = users.first {
+                user.permission = newPermission
+                try viewContext.save()
+                print("✅ Updated permission in CoreData: \(newPermission)")
+            }
+        } catch {
+            print("❌ Failed to update permission in CoreData")
+        }
+    }
+
+
+    
+    
 }
