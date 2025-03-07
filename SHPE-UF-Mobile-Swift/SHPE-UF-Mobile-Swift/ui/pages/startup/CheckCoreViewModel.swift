@@ -9,15 +9,17 @@ import Foundation
 import CoreData
 import SwiftUI
 
-final class CheckCoreViewModel: ObservableObject {
+final class CheckCoreViewModel: ObservableObject
+{
     // Initialize SignInViewModel
     init() {}
-    
+
     func checkUserInCore(user: FetchedResults<User>)
     {
         if !user.isEmpty
         {
             let foundUser = user[0]
+
             if let username = foundUser.username,
                let firstName = foundUser.firstName,
                let lastName = foundUser.lastName,
@@ -34,7 +36,9 @@ final class CheckCoreViewModel: ObservableObject {
                let graduationYear = foundUser.graduating,
                let classes = foundUser.classes as? [String],
                let internships = foundUser.internships as? [String],
-               let links = foundUser.links as? [String]
+               let links = foundUser.links as? [String],
+               let permission = foundUser.permission
+                
             {
                 let confirmed = foundUser.confirmed
                 let fallPoints = Int(foundUser.fallPoints)
@@ -46,15 +50,48 @@ final class CheckCoreViewModel: ObservableObject {
                 let summerPercentile = Int(foundUser.summerPercentile)
                 let photo = foundUser.photo?.base64EncodedString() ?? ""
 
+                // Set dark mode based on CoreData user preference
                 AppViewModel.appVM.darkMode = foundUser.darkMode
                 
+                // Set notification preferences
                 NotificationViewModel.instance.isGBMSelected = foundUser.gbmNotif
                 NotificationViewModel.instance.isInfoSelected = foundUser.infoNotif
                 NotificationViewModel.instance.isWorkShopSelected = foundUser.workNotif
                 NotificationViewModel.instance.isVolunteeringSelected = foundUser.volNotif
                 NotificationViewModel.instance.isSocialSelected = foundUser.socialNotif
                                 
-                AppViewModel.appVM.shpeito = SHPEito(username: username, password: "* * * * *", remember: "", base64StringPhoto: photo, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: fallPoints, summerPoints: summerPoints, springPoints: springPoints, points: points, fallPercentile: fallPercentile, springPercentile: springPercentile, summerPercentile: summerPercentile)
+                // Assign to AppViewModel
+                AppViewModel.appVM.shpeito = SHPEito(
+                    username: username,
+                    password: "* * * * *",
+                    remember: "",
+                    base64StringPhoto: photo,
+                    firstName: firstName,
+                    lastName: lastName,
+                    year: year,
+                    major: major,
+                    id: id,
+                    token: token,
+                    confirmed: confirmed,
+                    updatedAt: updatedAt,
+                    createdAt: createdAt,
+                    email: email,
+                    gender: gender,
+                    ethnicity: ethnicity,
+                    originCountry: originCountry,
+                    graduationYear: graduationYear,
+                    classes: classes,
+                    internships: internships,
+                    links: links,
+                    permission: permission,
+                    fallPoints: fallPoints,
+                    summerPoints: summerPoints,
+                    springPoints: springPoints,
+                    points: points,
+                    fallPercentile: fallPercentile,
+                    springPercentile: springPercentile,
+                    summerPercentile: summerPercentile
+                )
                 
                 AppViewModel.appVM.setPageIndex(index: 2)
             }
@@ -70,11 +107,17 @@ final class CheckCoreViewModel: ObservableObject {
             AppViewModel.appVM.setPageIndex(index: 3)
         }
     }
-    
-    func deleteUserItemToCore(viewContext:NSManagedObjectContext, user:User)
+
+    func deleteUserItemToCore(viewContext: NSManagedObjectContext, user: User)
     {
         viewContext.delete(user)
-        do { try viewContext.save() } catch { print("Could not save to Core") }
+        do
+        {
+            try viewContext.save()
+        }
+        catch
+        {
+            print("Could not save to Core")
+        }
     }
 }
-
