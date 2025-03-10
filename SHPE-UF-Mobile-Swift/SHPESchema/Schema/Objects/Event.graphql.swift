@@ -6,6 +6,7 @@ import ApolloAPI
 extension SHPESchema.Objects {
   static let Event = ApolloAPI.Object(
     typename: "Event",
-    implementedInterfaces: []
+    implementedInterfaces: [],
+    keyFields: nil
   )
 }

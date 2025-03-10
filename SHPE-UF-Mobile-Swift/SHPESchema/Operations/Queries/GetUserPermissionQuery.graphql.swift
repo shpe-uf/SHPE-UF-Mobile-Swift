@@ -4,14 +4,20 @@
 @_exported import ApolloAPI
 
 extension SHPESchema {
-  class GetUsersQuery: GraphQLQuery {
-    static let operationName: String = "GetUsers"
+  class GetUserPermissionQuery: GraphQLQuery {
+    static let operationName: String = "GetUserPermission"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"query GetUsers { getUsers { __typename email username } }"#
+        #"query GetUserPermission($userId: ID!) { getUser(userId: $userId) { __typename permission } }"#
       ))
 
-    public init() {}
+    public var userId: ID
+
+    public init(userId: ID) {
+      self.userId = userId
+    }
+
+    public var __variables: Variables? { ["userId": userId] }
 
     struct Data: SHPESchema.SelectionSet {
       let __data: DataDict
@@ -19,10 +25,10 @@ extension SHPESchema {
 
       static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.Query }
       static var __selections: [ApolloAPI.Selection] { [
-        .field("getUsers", [GetUser?]?.self),
+        .field("getUser", GetUser?.self, arguments: ["userId": .variable("userId")]),
       ] }
 
-      var getUsers: [GetUser?]? { __data["getUsers"] }
+      var getUser: GetUser? { __data["getUser"] }
 
       /// GetUser
       ///
@@ -34,12 +40,10 @@ extension SHPESchema {
         static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.User }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
-          .field("email", String.self),
-          .field("username", String.self),
+          .field("permission", String.self),
         ] }
 
-        var email: String { __data["email"] }
-        var username: String { __data["username"] }
+        var permission: String { __data["permission"] }
       }
     }
   }

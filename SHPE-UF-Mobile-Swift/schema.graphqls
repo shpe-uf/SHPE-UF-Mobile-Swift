@@ -42,6 +42,8 @@ type Corporation {
   fallBBQ: Boolean!
   springBBQ: Boolean!
   nationalConvention: Boolean!
+  recruitmentDay: Boolean!
+  signUpLink: String
 }
 
 type Event {
@@ -233,6 +235,8 @@ input CreateCorporationInput {
   fallBBQ: String!
   springBBQ: String!
   nationalConvention: String!
+  recruitmentDay: String!
+  signUpLink: String
 }
 
 input CreateEventInput {
@@ -282,6 +286,8 @@ input EditCorporationInput {
   fallBBQ: String!
   springBBQ: String!
   nationalConvention: String!
+  recruitmentDay: String!
+  signUpLink: String
 }
 
 input EditUpdatedAtInput {
