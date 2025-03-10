@@ -16,8 +16,6 @@ protocol SHPESchema_MutableInlineFragment: ApolloAPI.MutableSelectionSet & Apoll
 where Schema == SHPESchema.SchemaMetadata {}
 
 extension SHPESchema {
-  typealias ID = String
-
   typealias SelectionSet = SHPESchema_SelectionSet
 
   typealias InlineFragment = SHPESchema_InlineFragment
@@ -27,14 +25,14 @@ extension SHPESchema {
   typealias MutableInlineFragment = SHPESchema_MutableInlineFragment
 
   enum SchemaMetadata: ApolloAPI.SchemaMetadata {
-    static let configuration: ApolloAPI.SchemaConfiguration.Type = SchemaConfiguration.self
+    static let configuration: any ApolloAPI.SchemaConfiguration.Type = SchemaConfiguration.self
 
     static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
       switch typename {
-      case "Mutation": return SHPESchema.Objects.Mutation
-      case "User": return SHPESchema.Objects.User
       case "Event": return SHPESchema.Objects.Event
+      case "Mutation": return SHPESchema.Objects.Mutation
       case "Query": return SHPESchema.Objects.Query
+      case "User": return SHPESchema.Objects.User
       default: return nil
       }
     }
