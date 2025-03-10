@@ -24,7 +24,7 @@ struct GuestPageContentView: View {
             }
             appVM.inMapView = false
         }) {
-            GuestAboutUsView()
+            AboutUsView()
                 .tag(0)
                 .tabItem {
                     Image(selectedTab == 0 ? "AboutUs" : colorScheme == .dark ? "unclicked_AboutUs":"unclicked_AboutUs_light")
@@ -41,9 +41,7 @@ struct GuestPageContentView: View {
             GuestPartnersView()
                 .tag(2)
                 .tabItem {
-                    
                     Image(selectedTab == 2 ? "clicked_handshake" :  "unclicked_handshake")
-                    
                 }
         }
     }

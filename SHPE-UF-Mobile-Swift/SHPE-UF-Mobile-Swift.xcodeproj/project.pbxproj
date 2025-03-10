@@ -44,7 +44,12 @@
 		816E38F52D63B5E800320651 /* GuestPartnersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E38F42D63B5DC00320651 /* GuestPartnersView.swift */; };
 		816E38F92D75FEDF00320651 /* GuestCalendarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E38F82D75FED300320651 /* GuestCalendarContainerView.swift */; };
 		816E38FB2D76633D00320651 /* GuestPageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E38FA2D76632F00320651 /* GuestPageContentView.swift */; };
-		816E38FD2D7666C600320651 /* GuestAboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E38FC2D7666C500320651 /* GuestAboutUsView.swift */; };
+		816E39542D7F52E400320651 /* QuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39532D7F52E400320651 /* QuoteView.swift */; };
+		816E39552D7F52E400320651 /* AboutUsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E394E2D7F52E400320651 /* AboutUsView.swift */; };
+		816E39562D7F52E400320651 /* InstagramPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39502D7F52E400320651 /* InstagramPostView.swift */; };
+		816E39572D7F52E400320651 /* InstagramPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E394F2D7F52E400320651 /* InstagramPost.swift */; };
+		816E39582D7F52E400320651 /* MissionStatementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39512D7F52E400320651 /* MissionStatementView.swift */; };
+		816E39592D7F52E400320651 /* PostCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39522D7F52E400320651 /* PostCarousel.swift */; };
 		9506F5C22CAF4B4100C11AC9 /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */; };
 		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
 		951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */; };
@@ -172,7 +177,12 @@
 		816E38F42D63B5DC00320651 /* GuestPartnersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestPartnersView.swift; sourceTree = "<group>"; };
 		816E38F82D75FED300320651 /* GuestCalendarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestCalendarContainerView.swift; sourceTree = "<group>"; };
 		816E38FA2D76632F00320651 /* GuestPageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestPageContentView.swift; sourceTree = "<group>"; };
-		816E38FC2D7666C500320651 /* GuestAboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestAboutUsView.swift; sourceTree = "<group>"; };
+		816E394E2D7F52E400320651 /* AboutUsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsView.swift; sourceTree = "<group>"; };
+		816E394F2D7F52E400320651 /* InstagramPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramPost.swift; sourceTree = "<group>"; };
+		816E39502D7F52E400320651 /* InstagramPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramPostView.swift; sourceTree = "<group>"; };
+		816E39512D7F52E400320651 /* MissionStatementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionStatementView.swift; sourceTree = "<group>"; };
+		816E39522D7F52E400320651 /* PostCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCarousel.swift; sourceTree = "<group>"; };
+		816E39532D7F52E400320651 /* QuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteView.swift; sourceTree = "<group>"; };
 		9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanner.swift; sourceTree = "<group>"; };
 		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -449,13 +459,26 @@
 		816E38E82D5EF7D100320651 /* guest */ = {
 			isa = PBXGroup;
 			children = (
-				816E38FC2D7666C500320651 /* GuestAboutUsView.swift */,
+				816E394D2D7F52B100320651 /* aboutUs */,
 				816E38FA2D76632F00320651 /* GuestPageContentView.swift */,
 				816E38F82D75FED300320651 /* GuestCalendarContainerView.swift */,
 				816E38F42D63B5DC00320651 /* GuestPartnersView.swift */,
 				816E38F22D63B5BB00320651 /* GuestCalendarView.swift */,
 			);
 			path = guest;
+			sourceTree = "<group>";
+		};
+		816E394D2D7F52B100320651 /* aboutUs */ = {
+			isa = PBXGroup;
+			children = (
+				816E394E2D7F52E400320651 /* AboutUsView.swift */,
+				816E394F2D7F52E400320651 /* InstagramPost.swift */,
+				816E39502D7F52E400320651 /* InstagramPostView.swift */,
+				816E39512D7F52E400320651 /* MissionStatementView.swift */,
+				816E39522D7F52E400320651 /* PostCarousel.swift */,
+				816E39532D7F52E400320651 /* QuoteView.swift */,
+			);
+			path = aboutUs;
 			sourceTree = "<group>";
 		};
 		9506F5BF2CAF4B1900C11AC9 /* utilities */ = {
@@ -812,6 +835,12 @@
 				528D72BE2B74648600702D0B /* RegisterView.swift in Sources */,
 				52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */,
 				528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */,
+				816E39542D7F52E400320651 /* QuoteView.swift in Sources */,
+				816E39552D7F52E400320651 /* AboutUsView.swift in Sources */,
+				816E39562D7F52E400320651 /* InstagramPostView.swift in Sources */,
+				816E39572D7F52E400320651 /* InstagramPost.swift in Sources */,
+				816E39582D7F52E400320651 /* MissionStatementView.swift in Sources */,
+				816E39592D7F52E400320651 /* PostCarousel.swift in Sources */,
 				B819E5DF2D17E1EC005046DC /* MapManager.swift in Sources */,
 				4632E4742B6B575E0048782D /* PointsUI.swift in Sources */,
 				4632E4762B6B57A00048782D /* RedeemPointsButton.swift in Sources */,
@@ -844,7 +873,6 @@
 				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
 				959BEA702BF461CD0009789D /* GetPercentilesQuery.graphql.swift in Sources */,
 				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
-				816E38FD2D7666C600320651 /* GuestAboutUsView.swift in Sources */,
 				958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */,
 				95D327002B8FED88002A7DDA /* Event.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
