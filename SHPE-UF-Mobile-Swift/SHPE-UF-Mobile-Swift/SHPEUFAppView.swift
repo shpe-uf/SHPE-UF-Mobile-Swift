@@ -5,7 +5,6 @@ import SwiftUI
 struct SHPEUFAppView: View {
     @StateObject private var manager: DataManager = DataManager()
     @StateObject var appVM:AppViewModel = AppViewModel.appVM
-    
     var body: some View
     {
         switch(appVM.pageIndex){
@@ -32,12 +31,8 @@ struct SHPEUFAppView: View {
             LandingPageView(viewModel: RegisterViewModel())
                 .preferredColorScheme(appVM.darkMode ? .dark : .light)
         case 4:
-            GuestWelcomeView()
-            
-        case 5:
-            GuestCalendarView()
-        case 6:
-            GuestPartnersView()
+            GuestPageContentView()
+        
         default:
             Text("Out of Index Error...")
         }

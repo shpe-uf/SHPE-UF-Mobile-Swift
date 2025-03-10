@@ -1,6 +1,8 @@
+
+
 import SwiftUI
 
-struct GuestWelcomeView: View {
+struct GuestAboutUsView: View {
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
 
     var body: some View {
