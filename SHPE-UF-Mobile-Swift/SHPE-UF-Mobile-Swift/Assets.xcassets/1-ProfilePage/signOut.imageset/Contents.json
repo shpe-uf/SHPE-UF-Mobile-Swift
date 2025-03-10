@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "signOut.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -9,7 +10,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "social_image2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
