@@ -124,7 +124,7 @@ struct RegisterView: View
                                 Spacer()
                                 
                                 //shpe logo
-                                Image("swift.shpelogo")
+                                Image("shpe_logo")
                                   .resizable()
                                   .aspectRatio(contentMode: .fill)
                                   .frame(width: 50, height: 50)
