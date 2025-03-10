@@ -24,55 +24,86 @@ The app is designed to help users:
 
 ## Topics
 
-### Data Management
-- ``DataManager``: Handles data persistence and retrieval.
-- ``CoreUserEvent``: Defines the core user data model.
-- ``CoreFunctions``: Contains utility functions for data operations.
 
-### Database
-- ``MongoDB``: Manages the connection and queries to the database.
+### Profile View
 
-### Authentication
-- ``SignInView``: Handles user sign-in logic.
+- ``ProfileView``
+- ``ProfileViewModel``
+- ``VisualEffectBlur``
+- ``CurvedTopRectangle``
+- ``ValidationFunction``
+- ``DropDown``
+- ``MultipleLabels``
+- ``ImagePicker``
+- ``Loading``
 
----
+### Start Up View
+- ``CheckCore``
+- ``CheckCoreViewModel``
 
-## 🖼 SHPE App Views
+### Register View
+- ``RegisterView``
+- ``LandingPageView``
+- ``PersonalView``
+- ``AcademicView``
+- ``RegisterViewModel``
 
-### Profile
-- ``ProfileView``: Manages user profiles and event history.
+### Sign In View
+- ``SignInView``
+- ``CustomTextFieldStyle``
+- ``ToastView``
+- ``SignInViewModel``
 
-### Startup
-- ``StartupView``: Initial app loading and welcome screen.
+### Map View
+- ``Destination``
+- ``MapManager``
+- ``LocationDetailView``
+- ``LocationManager``
+- ``MTPlacemark``
+- ``LocationView``
+- ``LocationViewPopUp``
 
-### Registration
-- ``RegisterView``: Handles user registration.
+### Notification View
 
-### Sign-In
-- ``SignInView``: Manages the sign-in page and authentication flow.
+- ``NotificationView``
+- ``NotificationViewModel``
 
-### Home
-- ``HomeView``: Displays the main event feed and navigation hub.
+### Event View
+- ``HomeView``
+- ``HomePageContentView``
+- ``EventBox``
+- ``EventNoTimeView``
+- ``EventWithTimeView``
+- ``EventInfoView``
+- ``HomePageContentView``
+- ``Constants``
+- ``DateHelper``
 
-### Points
-- ``PointsView``: Tracks and displays points earned from attending events.
+### Points View
+- ``PointsView``
+- ``PointsViewModel``
+- ``PointsViewDark``
+- ``PointsUI``
+- ``RedeemView``
+- ``RedeemPointsButton``
+- ``CircularProgessView``
+- ``CircularProgessViewDark``
+- ``TableView``
+- ``SingleEventView``
 
----
 
-## 🛠 Helpers and Utilities
+### QR Code View
+- ``QRCodeScannerView``
+- ``ZoomSlider``
 
-### UI Helpers
-- ``ImageHelper``: Handles image processing and loading.
-- ``TextFieldHelper``: Manages text field behaviors and validation.
+### Core Data
+- ``DataManager``
+- ``CoreFunctions``
 
-### Camera Utilities
-- ``QRCodeScanner``: Scans QR codes for event check-ins.
+### Data Models
+- ``Event``
+- ``Creator``
+- ``EventDateTime``
+- ``Organizer``
+- ``SHPEito``
 
----
-
-## 🧠 App Architecture
-
-### App Core
-- ``SHPE_UF_Mobile_SwiftApp``: Main entry point for the app.
-- ``SHPEUFAppView``: Defines the overall app layout.
-- ``SHPEUFAppViewModel``: Manages global app state and business logic.
