@@ -16,14 +16,17 @@ SHPE UF Mobile App provides students with a way to explore and track SHPE events
 The app is designed to help users:
 - Discover upcoming SHPE events
 - View detailed event locations with MapsView
-- Track personal event attendance through ProfileView
+- Track personal event attendance through PointsView
+- and more
+
 
 
 
 ![The SHPE Icon.](shpe_logo.svg)
 
-## Topics
+---
 
+## SHPE APP Views
 
 ### Profile View
 
@@ -70,6 +73,7 @@ The app is designed to help users:
 
 ### Event View
 - ``HomeView``
+- ``HomeViewModel``
 - ``HomePageContentView``
 - ``EventBox``
 - ``EventNoTimeView``
@@ -96,9 +100,16 @@ The app is designed to help users:
 - ``QRCodeScannerView``
 - ``ZoomSlider``
 
+---
+
+## Data Management
+
 ### Core Data
+- ``User``
 - ``DataManager``
 - ``CoreFunctions``
+- ``CoreUserEvent``
+- ``CalendarEvent``
 
 ### Data Models
 - ``Event``
@@ -106,4 +117,19 @@ The app is designed to help users:
 - ``EventDateTime``
 - ``Organizer``
 - ``SHPEito``
+- ``UserEvent``
 
+### SHPE Schema
+- ``SHPESchema``
+- ``SHPESchema_SelectionSet``
+- ``SHPESchema_InlineFragment``
+- ``SHPESchema_MutableSelectionSet``
+- ``SHPESchema_MutableInlineFragment``
+
+### Application Structure
+- ``SHPEUFAppView``
+- ``AppViewModel``
+- ``SHPE_UF_Mobile_SwiftApp``
+
+### GraphQL
+- ``RequestHandler``
