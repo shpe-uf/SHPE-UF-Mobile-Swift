@@ -54,7 +54,6 @@ struct GuestCalendarView: View {
             }
             
 
-            // ───── MAIN CONTENT AREA ─────
             ZStack {
                 if viewModel.getUpcomingEvents().isEmpty {
                     VStack {
@@ -134,7 +133,7 @@ struct GuestCalendarView: View {
                                                     }
                                                 )
                                         }
-                                    } // end HStack
+                                    }
                                     
                                     // Dashed line separator for events on different days
                                     if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {

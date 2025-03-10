@@ -32,7 +32,7 @@ struct SHPEUFAppView: View {
                 .preferredColorScheme(appVM.darkMode ? .dark : .light)
         case 4:
             GuestPageContentView()
-        
+                .preferredColorScheme(appVM.darkMode ? .dark : .light)
         default:
             Text("Out of Index Error...")
         }
