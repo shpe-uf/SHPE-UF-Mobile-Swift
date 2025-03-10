@@ -19,14 +19,28 @@ The app is designed to help users:
 - Track personal event attendance through PointsView
 - and more
 
+### Featured
 
+@Links(visualStyle: detailedGrid) {
+    - <doc:GettingStarted>
+    - <doc:LearningSwiftUI>
+}
 
 
 ![The SHPE Icon.](shpe_logo.svg)
 
 ---
 
+## Essentials
+---
+- <doc:GettingStarted>
+- <doc:LearningSwiftUI>
+- <doc:AdvancedSwiftUI>
+- <doc:SettingUpXcode>
+---
+
 ## SHPE APP Views
+---
 
 ### Profile View
 
@@ -103,6 +117,8 @@ The app is designed to help users:
 ---
 
 ## Data Management
+
+---
 
 ### Core Data
 - ``User``
