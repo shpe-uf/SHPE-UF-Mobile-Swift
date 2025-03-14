@@ -41,7 +41,8 @@ struct GuestPageContentView: View {
             GuestPartnersView()
                 .tag(2)
                 .tabItem {
-                    Image(selectedTab == 2 ? "clicked_handshake" :  "unclicked_handshake")
+                    Image(selectedTab == 2 ? "clicked_handshake" : colorScheme == .dark ? "unclicked_handshake":"unclicked_handshake_light")
+            
                 }
         }
     }

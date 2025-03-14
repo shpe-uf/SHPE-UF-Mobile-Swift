@@ -38,6 +38,7 @@ struct QuoteView: View {
                 }
             }
             .padding()
+            .padding(.bottom, 75)
         }
     }
 }
