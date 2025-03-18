@@ -53,119 +53,117 @@ struct GuestCalendarView: View {
                 
             }
             
-
+            // Main content area
             ZStack {
                 if viewModel.getUpcomingEvents().isEmpty {
-                    VStack {
-                        
-                        Text("No Upcoming Events...")
-                            .multilineTextAlignment(.center)
-                            .font(Font.custom("Viga-Regular", size: 40))
-                            .foregroundColor(Color.gray.opacity(0.5))
-                        Spacer()
-                    }
-                } else {
-                    // Scrollable list
-                    ScrollView {
-                        ScrollViewReader { proxy in
-                            LazyVStack(spacing: 20) {
-                                let upcomingEvents = viewModel.getUpcomingEvents()
-                                ForEach(upcomingEvents.indices, id: \.self) { index in
-                                    let event = upcomingEvents[index]
-                                    
-                                    // Decide whether to show day heading
-                                    HStack {
-                                        if index == 0
-                                           || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
+                    
+                    Text("No Upcoming Events...")
+                        .multilineTextAlignment(.center)
+                        .font(Font.custom("Viga-Regular", size: 40))
+                        .foregroundColor(Color.gray.opacity(0.5))
+                    Spacer()
+                }
+                
+                ScrollView {
+                    ScrollViewReader { proxy in
+                        LazyVStack(spacing: 20) {
+                            let upcomingEvents = viewModel.getUpcomingEvents()
+                            ForEach(upcomingEvents.indices, id: \.self) { index in
+                                let event = upcomingEvents[index]
+                                
+                                // Decide whether to show day heading
+                                HStack {
+                                    if index == 0
+                                       || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
+                                        
+                                        // Show date heading (like "Mon" + "16")
+                                        VStack(alignment: .center, spacing: 0) {
+                                            Text(dateHelper.getDayAbbreviation(for: event.start.dateTime))
+                                                .font(Font.custom("UniversLTStd", size: 14))
+                                                .multilineTextAlignment(.center)
+                                                .foregroundColor(colorScheme == .dark
+                                                                 ? Constants.lightTextColor : Constants.DayTextColor)
+                                                .frame(width: 35, height: 15, alignment: .top)
                                             
-                                            // Show date heading (like "Mon" + "16")
-                                            VStack(alignment: .center, spacing: 0) {
-                                                Text(dateHelper.getDayAbbreviation(for: event.start.dateTime))
-                                                    .font(Font.custom("UniversLTStd", size: 14))
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundColor(colorScheme == .dark
-                                                                     ? Constants.lightTextColor : Constants.DayTextColor)
-                                                    .frame(width: 35, height: 15, alignment: .top)
-                                                
-                                                Text(dateHelper.getDayNumber(for: event.start.dateTime))
-                                                    .font(Font.custom("UniversLTStd", size: 20))
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundColor(colorScheme == .dark
-                                                                     ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                                                    .frame(width: 26, height: 16, alignment: .top)
-                                            }
-                                            .frame(width: 39, height: 45, alignment: .top)
+                                            Text(dateHelper.getDayNumber(for: event.start.dateTime))
+                                                .font(Font.custom("UniversLTStd", size: 20))
+                                                .multilineTextAlignment(.center)
+                                                .foregroundColor(colorScheme == .dark
+                                                                 ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                                                .frame(width: 26, height: 16, alignment: .top)
+                                        }
+                                        .frame(width: 39, height: 45, alignment: .top)
+                                        .padding(.horizontal, 2)
+                                        .padding(.top, 4)
+                                        .padding(.bottom, 8)
+                                        .padding(.trailing, 10)
+                                    } else {
+                                        // If same day as previous event, just show empty space
+                                        VStack { }
+                                            .frame(width: 39, height: 45)
                                             .padding(.horizontal, 2)
                                             .padding(.top, 4)
                                             .padding(.bottom, 8)
-                                            .padding(.trailing, 10)
-                                        } else {
-                                            // If same day as previous event, just show empty space
-                                            VStack { }
-                                                .frame(width: 39, height: 45)
-                                                .padding(.horizontal, 2)
-                                                .padding(.top, 4)
-                                                .padding(.bottom, 8)
-                                        }
-                                        
-                                        // ── The event button ──
-                                        Button {
-                                            withAnimation {
-                                                appVM.showView = "EventView"
-                                                appVM.currentEventIndex = index
-                                            }
-                                        } label: {
-                                            EventBox(event: event)
-                                                .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
-                                                .background(
-                                                    GeometryReader { geometry in
-                                                        Color.clear
-                                                            .onChange(of: geometry.frame(in: .global).maxY) { yPos in
-                                                                // This logic updates displayedMonth if the card scrolls near the top
-                                                                if yPos < UIScreen.main.bounds.height * 0.1 {
-                                                                    let nextIndex = min(index + 2, upcomingEvents.count - 1)
-                                                                    displayedMonth = dateHelper.getMonth(for: upcomingEvents[nextIndex].start.dateTime)
-                                                                } else {
-                                                                    let prevIndex = max(index - 2, 0)
-                                                                    displayedMonth = dateHelper.getMonth(for: upcomingEvents[prevIndex].start.dateTime)
-                                                                }
-                                                            }
-                                                    }
-                                                )
-                                        }
                                     }
                                     
-                                    // Dashed line separator for events on different days
-                                    if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {
-                                        HStack{
-                                            Rectangle()
-                                                .foregroundColor(.clear)
-                                                .frame(width: 39, height: 1, alignment: .top)
-                                            Rectangle()
-                                                .frame(width: UIScreen.main.bounds.width * 0.75, height: 1, alignment: .center)
-                                                .foregroundColor(.clear)
-                                                .overlay(
-                                                    RoundedRectangle(cornerRadius: 1)
-                                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                                        .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
-                                                )
+                                    // ── The event button ──
+                                    Button {
+                                        withAnimation {
+                                            appVM.showView = "EventView"
+                                            appVM.currentEventIndex = index
                                         }
-                                        
+                                    } label: {
+                                        EventBox(event: event)
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
+                                            .background(
+                                                GeometryReader { geometry in
+                                                    Color.clear
+                                                        .onChange(of: geometry.frame(in: .global).maxY) { yPos in
+                                                            // This logic updates displayedMonth if the card scrolls near the top
+                                                            if yPos < UIScreen.main.bounds.height * 0.1 {
+                                                                let nextIndex = min(index + 2, upcomingEvents.count - 1)
+                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[nextIndex].start.dateTime)
+                                                            } else {
+                                                                let prevIndex = max(index - 2, 0)
+                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[prevIndex].start.dateTime)
+                                                            }
+                                                        }
+                                                }
+                                            )
                                     }
                                 }
+                                
+                                // Dashed line separator for events on different days
+                                if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {
+                                    HStack{
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: 39, height: 1, alignment: .top)
+                                        Rectangle()
+                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 1, alignment: .center)
+                                            .foregroundColor(.clear)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 1)
+                                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
+                                            )
+                                    }
+                                    
+                                }
                             }
-                            .padding(.bottom, 100)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .padding(.trailing, 20)
                         }
-                        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+                        .padding(.bottom, 100)
+                        .padding()
                         .frame(maxWidth: .infinity)
-                        .onAppear {
-                            displayedMonth = dateHelper.getCurrentMonth()
-                        }
+                        .padding(.trailing, 20)
+                    }
+                    .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+                    .frame(maxWidth: .infinity)
+                    .onAppear {
+                        displayedMonth = dateHelper.getCurrentMonth()
                     }
                 }
+                
             }
            
         }
