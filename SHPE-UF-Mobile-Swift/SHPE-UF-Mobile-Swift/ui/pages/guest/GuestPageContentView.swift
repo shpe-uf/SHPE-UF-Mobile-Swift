@@ -13,6 +13,7 @@ struct GuestPageContentView: View {
     @State private var selectedTab: Int = 0
     @StateObject private var appVM: AppViewModel = AppViewModel.appVM
     @Environment(\.colorScheme) var colorScheme
+    @State private var dragOffset = CGSize.zero
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
@@ -45,6 +46,26 @@ struct GuestPageContentView: View {
             
                 }
         }
+        .gesture(
+            // Swipe to switch between tabs
+            DragGesture()
+            .onChanged { value in
+                if abs(value.translation.width) > abs(value.translation.height) {
+                    // Horizontal swipe detected
+                    dragOffset = value.translation
+                }
+            }
+            .onEnded { value in
+                if abs(value.translation.width) > abs(value.translation.height) {
+                    // Handle horizontal swipe action
+                    print("Horizontal swipe detected")
+                    selectedTab = value.translation.width < 0 ? (selectedTab + 1)%3 : selectedTab - 1 == -1 ? 2 : abs(selectedTab - 1)%3
+                }
+                print(selectedTab)
+                dragOffset = .zero
+            },
+            isEnabled: !appVM.inMapView
+        )
     }
 }
 
