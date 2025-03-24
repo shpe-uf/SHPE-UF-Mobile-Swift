@@ -151,8 +151,8 @@ struct LandingPageView: View {
     }
 }
 
-struct placeholderForLandingPageView_Preview: PreviewProvider {
-    static var previews: some View {
-        LandingPageView(viewModel: RegisterViewModel())
-    }
-}
+//struct placeholderForLandingPageView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        LandingPageView(viewModel: RegisterViewModel())
+//    }
+//}
