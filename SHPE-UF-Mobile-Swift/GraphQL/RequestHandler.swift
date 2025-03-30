@@ -133,6 +133,130 @@ class RequestHandler
         }
     }
     
+    func validateEmail(email:String, completion: @escaping ([String:Any])->Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetUsersQuery())
+        {
+            response in
+            
+            guard let data = try? response.get().data
+            else {
+                print("ERROR: Incomplete Request\nError Message:\(response)")
+                
+                // Package with data (ERROR ❌)
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            var outputDict = [
+                "emailExists":false
+            ]
+            for user in data.getUsers ?? []
+            {
+                outputDict["emailExists"] = outputDict["emailExists"]! ? true : user?.email == email
+                
+                if outputDict["emailExists"]! {break}
+            }
+            
+            completion(outputDict)
+            return
+        }
+    }
+    func usersName(email: String, completion: @escaping ([String: Any]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.GetUsersQuery()) { response in
+            guard let data = try? response.get().data else {
+                print("ERROR: Incomplete Request\nError Message: \(response)")
+                completion(["error": "Incomplete Request"])
+                return
+            }
+            for user in data.getUsers ?? [] {
+                if let userEmail = user?.email, userEmail == email {
+                    // Return the user's username (or firstName, etc. — customize as needed)
+                    completion(["name": user?.username ?? ""])
+                    return
+                }
+            }
+            completion(["error": "User not found"])
+        }
+    }
+    
+    func ComposeForgetEmail(recipient:String, name: String, completion: @escaping ([String:Any])->Void)
+    {// Composes an email to the users email for forgotten password
+        guard let url = URL(string: "https://your-email-service.com/send") else {
+                completion(["error": "Invalid URL"])
+                return
+            }
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let htmlBody = """
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8" />
+            <title>Password Reset</title>
+          </head>
+          <body style="margin:0; padding:0; background-color:#1f1f1f; color:#ffffff; font-family:Arial, sans-serif;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width:600px; margin:auto;">
+              <tr>
+                <td style="padding:20px;">
+                  <h1 style="color:#f2f2f2;">Hi, \(name)!</h1>
+                  <p style="color:#cccccc;">
+                    You have requested to reset the password for your account at <strong>shpeuf.com</strong>.
+                    <br /><br />
+                    Click below to reset your password:
+                  </p>
+                  <p style="text-align:center; margin:20px 0;">
+                    <a 
+                      href="" 
+                      style="background-color:#8b4b06; color:#ffffff; text-decoration:none; padding:15px 25px; border-radius:4px;"
+                    >
+                      Reset Password
+                    </a>
+                  </p>
+                  <p style="color:#cccccc;">
+                    NOTE! This link is active for one hour.
+                    <br /><br />
+                    If you haven’t requested a password reset, safely ignore this email.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </body>
+        </html>
+        """
+        let requestData: [String: Any] = [
+               "from": "https://www.shpeuf.com/forgot",
+               "to": recipient,
+               "subject": "Password Reset Request",
+               "html": htmlBody
+           ]
+
+           // 4. Convert to JSON
+           do {
+               request.httpBody = try JSONSerialization.data(withJSONObject: requestData, options: [])
+           } catch {
+               completion(["error": "Failed to encode JSON"])
+               return
+           }
+           
+           // 5. Send the request
+           URLSession.shared.dataTask(with: request) { data, response, error in
+               // Handle the response
+               guard let data = data, error == nil else {
+                   completion(["error": error?.localizedDescription ?? "Unknown error"])
+                   return
+               }
+               
+               // Optionally parse the response
+               if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] {
+                   completion(json)
+               } else {
+                   completion(["error":"Failed to parse response"])
+               }
+           }.resume()
+       }
+    
     // SignInMutation <= SignIn.graphql
     // Input: username: String, password: String
     // Successful Output: [
@@ -502,7 +626,7 @@ class RequestHandler
             response in
             
             guard (try? response.get().data) != nil
-            else 
+            else
             {
                 print("ERROR: Incomplete Request\nError Message:\(response)")
                 
@@ -725,4 +849,3 @@ class RequestHandler
         return Organizer(email: email, selfValue: selfValue)
     }
 }
-
