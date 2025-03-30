@@ -83,14 +83,46 @@ final class SignInViewModel: ObservableObject
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
     
-    func forgetPassword(email: String) {
+    func forgetPassword(email: String, completion: @escaping ([String:Any])->Void) {
         self.isCommunicating = true
-        requestHandler.validateUsernameAndEmail(email: email) {data in
+        requestHandler.validateEmail(email: email) {data in
             DispatchQueue.main.async {
                 self.isCommunicating = false
-            }}
+            }
+            completion(data)
+        }
     }
-    
+    func ComposeEmail(email: String, completion: @escaping ([String: Any]) -> Void) {
+        self.isCommunicating = true
+        
+        // 1. Get the user’s name for the given email
+        requestHandler.usersName(email: email) { result in
+            
+            // Check if usersName returned an error
+            if let error = result["error"] as? String {
+                self.isCommunicating = false
+                completion(["error": error])
+                return
+            }
+            
+            // Extract the user's name
+            guard let userName = result["name"] as? String else {
+                self.isCommunicating = false
+                completion(["error": "No name found for this email"])
+                return
+            }
+            
+            // 2. Compose & send the email
+            self.requestHandler.ComposeForgetEmail(recipient: email, name: userName) { emailResult in
+                // 3. Once done, stop the spinner and call completion
+                DispatchQueue.main.async{
+                    self.isCommunicating = false
+                }
+                completion(emailResult)
+            }
+        }
+    }
+
     // Methods to call in View
     func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {
         // Set the username and password to the SHPEito model
@@ -113,7 +145,7 @@ final class SignInViewModel: ObservableObject
             // Check that no error was detected
             if let error = data["error"] as? String {
                 // Handle different error types
-                switch error 
+                switch error
                 {
                     case "Wrong credentials.":
                         self.error = "Incorrect username or password."
