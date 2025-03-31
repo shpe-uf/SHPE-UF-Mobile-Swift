@@ -321,26 +321,8 @@ struct ForgetPassword: View {
                   .foregroundColor(.white)
                   .frame(alignment: .center)
                 Button(action: {
-                    if (Email.contains("@")){
-                        viewModel.forgetPassword(email: Email) {data in
-                            if let errorMessage = data["error"] as? String {
-                                emailMessage = errorMessage
-                                foundEmail = false
-                                return
-                            } else {
-                                let status = data["emailExists"] as? Bool
-                                if status! {
-                                    let message = "Email found!"
-                                    emailMessage = message
-                                    foundEmail = true
-                                } else {
-                                    let message = "Email not found."
-                                    emailMessage = message
-                                    foundEmail = false
-                                }
-                                return
-                            }
-                        }
+                    if Email.contains("@") {
+                        viewModel.forgotPassword(email: Email)
                     } else {
                         emailMessage = "Please enter a valid email."
                         foundEmail = false
@@ -361,13 +343,6 @@ struct ForgetPassword: View {
                     EmailSent(viewModel: self.viewModel, userEmail: Email)
                         .onAppear {
                             // Match the ComposeEmail function signature
-                            viewModel.ComposeEmail(email: Email) { response in
-                                if let error = response["error"] as? String {
-                                    print("Error sending email: \(error)")
-                                } else {
-                                    print("Email sent successfully!")
-                                }
-                            }
                         }
                 }
             }

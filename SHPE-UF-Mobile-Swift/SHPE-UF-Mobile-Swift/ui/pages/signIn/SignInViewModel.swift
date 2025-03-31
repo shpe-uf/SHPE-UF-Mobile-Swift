@@ -83,45 +83,86 @@ final class SignInViewModel: ObservableObject
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
     
-    func forgetPassword(email: String, completion: @escaping ([String:Any])->Void) {
+    func forgotPassword(email: String) {
         self.isCommunicating = true
-        requestHandler.validateEmail(email: email) {data in
+        requestHandler.validateEmail(email: email, completion: { result in
             DispatchQueue.main.async {
-                self.isCommunicating = false
-            }
-            completion(data)
-        }
-    }
-    func ComposeEmail(email: String, completion: @escaping ([String: Any]) -> Void) {
-        self.isCommunicating = true
-        
-        // 1. Get the user’s name for the given email
-        requestHandler.usersName(email: email) { result in
-            
-            // Check if usersName returned an error
-            if let error = result["error"] as? String {
-                self.isCommunicating = false
-                completion(["error": error])
-                return
-            }
-            
-            // Extract the user's name
-            guard let userName = result["name"] as? String else {
-                self.isCommunicating = false
-                completion(["error": "No name found for this email"])
-                return
-            }
-            
-            // 2. Compose & send the email
-            self.requestHandler.ComposeForgetEmail(recipient: email, name: userName) { emailResult in
-                // 3. Once done, stop the spinner and call completion
-                DispatchQueue.main.async{
+                if let error = result["error"] as? String {
                     self.isCommunicating = false
+                    self.error = error
+                    AppViewModel.appVM.toastMessage = self.error
+                    withAnimation(.easeIn(duration: 0.3)) {
+                        AppViewModel.appVM.showToast = true
+                    }
+                    return
                 }
-                completion(emailResult)
+                guard let emailExists = result["emailExists"] as? Bool, emailExists else {
+                    self.isCommunicating = false
+                    self.error = "Email not registered"
+                    AppViewModel.appVM.toastMessage = self.error
+                    withAnimation(.easeIn(duration: 0.3)) {
+                        AppViewModel.appVM.showToast = true
+                    }
+                    return
+                }
+                // Email exists, now proceed to request a password reset
+                self.requestHandler.forgotPassword(email: email) { data in
+                    DispatchQueue.main.async {
+                        self.isCommunicating = false
+                        if let error = data["error"] as? String {
+                            self.error = error
+                            AppViewModel.appVM.toastMessage = self.error
+                            withAnimation(.easeIn(duration: 0.3)) {
+                                AppViewModel.appVM.showToast = true
+                            }
+                            return
+                        }
+                        if let message = data["message"] as? String {
+                            AppViewModel.appVM.toastMessage = message
+                            withAnimation(.easeIn(duration: 0.3)) {
+                                AppViewModel.appVM.showToast = true
+                            }
+                            // Optionally, handle the reset token if needed:
+                            // if let token = data["token"] as? String {
+                            //     // Navigate to reset password screen or store token
+                            // }
+                        }
+                    }
+                }
             }
-        }
+        })
     }
+
+//    func ComposeEmail(email: String, completion: @escaping ([String: Any]) -> Void) {
+//        self.isCommunicating = true
+//        
+//        // 1. Get the user’s name for the given email
+//        requestHandler.usersName(email: email) { result in
+//            
+//            // Check if usersName returned an error
+//            if let error = result["error"] as? String {
+//                self.isCommunicating = false
+//                completion(["error": error])
+//                return
+//            }
+//            
+//            // Extract the user's name
+//            guard let userName = result["name"] as? String else {
+//                self.isCommunicating = false
+//                completion(["error": "No name found for this email"])
+//                return
+//            }
+//            
+//            // 2. Compose & send the email
+//            self.requestHandler.ComposeForgetEmail(recipient: email, name: userName) { emailResult in
+//                // 3. Once done, stop the spinner and call completion
+//                DispatchQueue.main.async{
+//                    self.isCommunicating = false
+//                }
+//                completion(emailResult)
+//            }
+//        }
+//    }
 
     // Methods to call in View
     func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {

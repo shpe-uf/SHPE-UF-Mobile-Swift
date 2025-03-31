@@ -107,6 +107,12 @@
 		B8E3870C2D177D5F00E9BBF0 /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3870B2D177D5800E9BBF0 /* LocationDetailView.swift */; };
 		B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */; };
 		B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
+		C5F623552D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */; };
+		C5F623562D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */; };
+		C5F623572D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */; };
+		C5F623592D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */; };
+		C5F6235A2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */; };
+		C5F6235B2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +229,9 @@
 		B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Viga-Regular.ttf"; sourceTree = "<group>"; };
 		B8EF26FE2B8FB40B00F98FA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UniversLTStd.otf; sourceTree = "<group>"; };
+		C5F6234F2D9A0A84002C57A5 /* SHPE-UF-Mobile-Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SHPE-UF-Mobile-Swift.entitlements"; sourceTree = "<group>"; };
+		C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPassword.graphql.swift; sourceTree = "<group>"; };
+		C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordMutation.graphql.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +288,7 @@
 		206C8F742AE181FF0081A35A /* SHPE-UF-Mobile-Swift */ = {
 			isa = PBXGroup;
 			children = (
+				C5F6234F2D9A0A84002C57A5 /* SHPE-UF-Mobile-Swift.entitlements */,
 				951F6EBE2BB669D1001FDB50 /* helpers */,
 				951F6E792BB262C5001FDB50 /* coreData */,
 				20CF4A1C2AE7423400916EC6 /* data */,
@@ -484,6 +494,7 @@
 				951F6ED82BB69806001FDB50 /* GetUsers.graphql.swift */,
 				951F6F1F2BB8D766001FDB50 /* RedeemPoints.graphql.swift */,
 				959BEA4E2BF45F4C0009789D /* DeleteUser.graphql.swift */,
+				C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -509,6 +520,7 @@
 		959BEA552BF461CD0009789D /* Mutations */ = {
 			isa = PBXGroup;
 			children = (
+				C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */,
 				959BEA502BF461CD0009789D /* DeleteUserMutation.graphql.swift */,
 				959BEA512BF461CD0009789D /* EditUserProfileMutation.graphql.swift */,
 				959BEA522BF461CD0009789D /* RedeemPointsMutation.graphql.swift */,
@@ -745,6 +757,7 @@
 				951F6ED92BB69806001FDB50 /* GetUsers.graphql.swift in Resources */,
 				B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */,
 				B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */,
+				C5F623552D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */,
 				959BEA4F2BF45F4C0009789D /* DeleteUser.graphql.swift in Resources */,
 				95D3709D2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */,
 				206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */,
@@ -762,6 +775,7 @@
 			files = (
 				958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				95D3709A2B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
+				C5F623562D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */,
 				95D3708C2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
 				95D3709E2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */,
 			);
@@ -773,6 +787,7 @@
 			files = (
 				958A5E6E2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				95D3709B2B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
+				C5F623572D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */,
 				95D3708D2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
 				95D3709F2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */,
 			);
@@ -806,6 +821,7 @@
 				959BEA6E2BF461CD0009789D /* RegisterUserMutation.graphql.swift in Sources */,
 				951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */,
 				959BEA742BF461CD0009789D /* GetUsersQuery.graphql.swift in Sources */,
+				C5F623592D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				959BEA732BF461CD0009789D /* GetUserPointsQuery.graphql.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
@@ -865,6 +881,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */,
+				C5F6235B2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -872,6 +889,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5F6235A2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */,
 				206C8F912AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift in Sources */,
 				206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */,
 			);
@@ -896,7 +914,6 @@
 		206C8F942AE182020081A35A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -959,7 +976,6 @@
 		206C8F952AE182020081A35A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1017,6 +1033,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
@@ -1053,6 +1070,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "SHPE-UF-Mobile-Swift/SHPE-UF-Mobile-Swift.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
