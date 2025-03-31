@@ -63,7 +63,6 @@
 		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
 		52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* LandingPageView.swift */; };
 		53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C7704D2B9A79EF00455FC5 /* ProfileView.swift */; };
-		9506F5C22CAF4B4100C11AC9 /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */; };
 		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
 		951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */; };
 		951F6E8E2BB5E6C2001FDB50 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6E8D2BB5E6C2001FDB50 /* SignIn.graphql.swift */; };
@@ -187,7 +186,6 @@
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
 		53C7704D2B9A79EF00455FC5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanner.swift; sourceTree = "<group>"; };
 		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		951F6E8D2BB5E6C2001FDB50 /* SignIn.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.graphql.swift; sourceTree = "<group>"; };
@@ -212,8 +210,10 @@
 		95D370982B64732000B2C5A4 /* GetPercentiles.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPercentiles.graphql.swift; sourceTree = "<group>"; };
 		95D3709C2B64737A00B2C5A4 /* GetPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoints.graphql.swift; sourceTree = "<group>"; };
 		B819E5DE2D17E1E8005046DC /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
+		B81DF1D82D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = "SHPE-UF-Mobile-Swift.docc"; sourceTree = "<group>"; };
 		B8264CEE2BAE5D4B005CED1B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B8264CF02BAE5E07005CED1B /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		B85B8D052D5A65E8000A8958 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B8A10DA42B817793006BC59D /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageContentView.swift; sourceTree = "<group>"; };
@@ -298,6 +298,7 @@
 				206C8F792AE182020081A35A /* Assets.xcassets */,
 				B8EF26FE2B8FB40B00F98FA2 /* Info.plist */,
 				206C8F7B2AE182020081A35A /* Preview Content */,
+				B81DF1D82D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc */,
 			);
 			path = "SHPE-UF-Mobile-Swift";
 			sourceTree = "<group>";
@@ -368,7 +369,6 @@
 		20CF4A1D2AE7424100916EC6 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				9506F5BF2CAF4B1900C11AC9 /* utilities */,
 				20CF4A292AE7467300916EC6 /* pages */,
 			);
 			path = ui;
@@ -390,7 +390,6 @@
 				243F6C3B2D4C14050071DAD7 /* Socials View */,
 				B8DCB94A2D161EB800602068 /* Map View */,
 				B8264CEC2BAE5C30005CED1B /* Main View */,
-				B8264CED2BAE5C56005CED1B /* Notifcation View */,
 			);
 			path = home;
 			sourceTree = "<group>";
@@ -402,6 +401,8 @@
 				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
 				20CF4A2A2AE746CE00916EC6 /* signIn */,
+				B8DCB94A2D161EB800602068 /* Map View */,
+				B8264CED2BAE5C56005CED1B /* Notifcation View */,
 				20CF4A282AE7466400916EC6 /* home */,
 				206C8FA52AE18F720081A35A /* points */,
 			);
@@ -511,22 +512,6 @@
 			path = profile;
 			sourceTree = "<group>";
 		};
-		9506F5BF2CAF4B1900C11AC9 /* utilities */ = {
-			isa = PBXGroup;
-			children = (
-				9506F5C02CAF4B2700C11AC9 /* camera */,
-			);
-			path = utilities;
-			sourceTree = "<group>";
-		};
-		9506F5C02CAF4B2700C11AC9 /* camera */ = {
-			isa = PBXGroup;
-			children = (
-				9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */,
-			);
-			path = camera;
-			sourceTree = "<group>";
-		};
 		951F6E792BB262C5001FDB50 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,6 +594,7 @@
 		B8DCB94A2D161EB800602068 /* Map View */ = {
 			isa = PBXGroup;
 			children = (
+				B85B8D052D5A65E8000A8958 /* Destination.swift */,
 				B819E5DE2D17E1E8005046DC /* MapManager.swift */,
 				B8E3870B2D177D5800E9BBF0 /* LocationDetailView.swift */,
 				B8DCB9532D16FC6800602068 /* LocationManager.swift */,
@@ -793,7 +779,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9506F5C22CAF4B4100C11AC9 /* QRCodeScanner.swift in Sources */,
 				528D72BE2B74648600702D0B /* RegisterView.swift in Sources */,
 				52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */,
 				528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */,
@@ -806,6 +791,8 @@
 				951F6EC02BB669DF001FDB50 /* ImageHelper.swift in Sources */,
 				46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */,
 				4632E47C2B6B64170048782D /* SHPEito.swift in Sources */,
+				959BEA6E2BF461CD0009789D /* RegisterUserMutation.graphql.swift in Sources */,
+				B81DF1D92D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc in Sources */,
 				951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
@@ -815,6 +802,7 @@
 				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
 				B8DCB9522D16395200602068 /* MTPlacemark.swift in Sources */,
 				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
+				959BEA702BF461CD0009789D /* GetPercentilesQuery.graphql.swift in Sources */,
 				958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */,
 				95D327002B8FED88002A7DDA /* Event.swift in Sources */,
 				24DD98952D7638C9008B3545 /* CoreUserModel.xcdatamodeld in Sources */,
@@ -822,6 +810,7 @@
 				B8E3870C2D177D5F00E9BBF0 /* LocationDetailView.swift in Sources */,
 				B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				B85B8D062D5A65E8000A8958 /* Destination.swift in Sources */,
 				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				B8DCB9482D1610F300602068 /* EventBox.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
@@ -851,6 +840,7 @@
 				24D7807F2D7F67D2007DAB09 /* DeleteUserMutation.graphql.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
+				959BEA7B2BF461CD0009789D /* User.graphql.swift in Sources */,
 				B8DCB9542D16FC8200602068 /* LocationManager.swift in Sources */,
 				53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */,
 				B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */,
