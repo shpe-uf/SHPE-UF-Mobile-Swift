@@ -1,7 +1,19 @@
 import Foundation
 import SwiftUI
 
-
+/// The second step of the registration process that collects user's personal information.
+///
+/// `PersonalView` follows the account credentials step and gathers essential personal details:
+/// - First and last name
+/// - Gender selection
+/// - Ethnicity
+/// - Country of origin
+///
+/// Each field includes real-time validation with appropriate feedback to ensure
+/// data quality before proceeding to the final academic information step.
+///
+/// This view shares the same view model as the other registration steps,
+/// allowing seamless data flow through the multi-step registration process.
 struct PersonalView : View
 {
     @Environment(\.presentationMode) var isPresented
