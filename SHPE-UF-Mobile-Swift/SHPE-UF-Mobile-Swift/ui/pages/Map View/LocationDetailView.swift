@@ -4,27 +4,49 @@
 //
 //  Created by Matthew Segura on 12/21/24.
 //
+/// A SwiftUI view that provides detailed information about a selected location,
+/// including its name, address, map preview, travel time estimation, and route options.
 import SwiftUI
 import MapKit
 import SwiftData
 
+/// A view that displays location details and navigation options.
 struct LocationDetailView: View{
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var locationManager:LocationManager
     
+    /// The coordinate of the selected destination.
     @Binding var destinationCoordinate: CLLocationCoordinate2D?
+    
+    /// The selected placemark representing the destination
     var selectedPlacemark : MTPlacemark?
+    
+    /// A boolean indicating whether the route should be displayed
     @Binding var showRoute: Bool
+    
+    /// The vertical offset of the widget for UI adjustments.
+    /// Makes the map look "centered " for the user
     @Binding var widgetOffset: CGFloat
+    
+    /// Estimated travel time in seconds
     @Binding var travelInterval: TimeInterval?
+    
+    /// The selected mode of transportation
     @Binding var transportType: MKDirectionsTransportType
+    
+    /// The camera position of the map view
     @Binding var cameraPosition: MapCameraPosition
+    
+    /// The region displayed in the map view
     @Binding var region: MKCoordinateRegion
+    
+    /// The destination map item for routing
     @Binding var routeDestination: MKMapItem?
+    
+    /// The computed route between the user’s location and the destination
     @Binding var route: MKRoute?
-    
-//    @StateObject private var locationManager:LocationManager = LocationManager()
-    
+
+    /// A computed property that formats the travel time into a human-readable string.
     var travelTime: String?{
         guard let travelInterval else{return nil}
         let formatter = DateComponentsFormatter()
@@ -206,7 +228,7 @@ struct LocationDetailView: View{
         })
     }
     
-    // Route fetching functions
+    /// Fetches the travel route from the user's location to the selected destination
     func fetchRoute() async{
         if let userLocation = locationManager.userLocation, let selectedPlacemark{
             let request = MKDirections.Request()
@@ -248,7 +270,7 @@ struct LocationDetailView: View{
             }
         }
     }
-    
+    /// Opens the selected location in Apple Maps
     func openInAppleMaps() {
         let latitude = selectedPlacemark!.latitude
         let longitude = selectedPlacemark!.longitude
@@ -258,7 +280,7 @@ struct LocationDetailView: View{
             UIApplication.shared.open(url)
         }
     }
-
+    /// Opens the selected location in Google Maps
     func openInGoogleMaps() {
         let latitude = selectedPlacemark!.latitude
         let longitude = selectedPlacemark!.longitude
@@ -268,6 +290,7 @@ struct LocationDetailView: View{
         }
     }
     
+    /// Fetches a Look Around preview for the destination location
     func fetchLookaroundPreview() async{
         if let destination = destinationCoordinate{
             lookaroundScene = nil
