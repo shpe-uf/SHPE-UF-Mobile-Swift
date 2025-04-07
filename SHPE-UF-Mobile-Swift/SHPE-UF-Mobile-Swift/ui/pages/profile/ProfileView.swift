@@ -6,12 +6,37 @@
 //
 
 import SwiftUI
-
+/// A view that displays and manages a user's profile information in the SHPE app.
+///
+/// `ProfileView` serves as the central hub for user profile management, allowing users to:
+/// - View and edit personal information (name, email, gender, ethnicity)
+/// - Manage educational details (major, year, classes, internships)
+/// - Customize appearance settings (light/dark mode)
+/// - Perform account actions (sign out, delete account)
+///
+/// The view is organized into distinct sections with a consistent visual style:
+/// - Header section with profile picture and name
+/// - Account information section
+/// - Education information section
+/// - Appearance settings section
+/// - Account management options
+///
+/// `ProfileView` uses a dedicated ``ProfileViewModel`` to manage its state and business logic,
+/// separating view rendering from data management.
+///
+/// # Example
+/// ```swift
+/// ProfileView(vm: ProfileViewModel(shpeito: SHPEito()))
+/// ```
 struct ProfileView: View
 {
+    /// The environment-provided color scheme for adapting UI based on light/dark mode
     @Environment(\.colorScheme) private var colorScheme
     
+    /// The app's data manager for handling profile data and persistence
     @EnvironmentObject var manager: DataManager
+
+    /// The managed object context for Core Data operations
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
@@ -1005,6 +1030,18 @@ struct ProfileView: View
     }
 
 
+/// A SwiftUI wrapper for UIKit's UIVisualEffectView to create blur effects.
+///
+/// This component enables the application of system blur effects to SwiftUI views,
+/// particularly useful for modal overlays and background effects.
+///
+/// - Important: This implementation bridges UIKit's blur functionality to SwiftUI.
+///
+/// # Example
+/// ```swift
+/// VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
+///     .edgesIgnoringSafeArea(.all)
+/// ```
 struct VisualEffectBlur: UIViewRepresentable {
     var blurStyle: UIBlurEffect.Style
     func makeUIView(context: Context) -> UIVisualEffectView {
@@ -1015,6 +1052,22 @@ struct VisualEffectBlur: UIViewRepresentable {
     }
 }
 
+/// A custom shape that creates a rectangle with a curved top edge.
+///
+/// This shape is used to create visually appealing container backgrounds,
+/// particularly for the profile header section. The shape draws a rectangle
+/// with a quadratic curve along the top edge, creating a smooth, arched appearance.
+///
+/// - Parameters:
+///   - cornerRadius: The corner radius for the rectangle's corners
+///   - curveHeight: The height of the curve at the top edge (higher values create more pronounced curves)
+///
+/// # Example
+/// ```swift
+/// CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
+///     .fill(Color.blue)
+///     .frame(width: 300, height: 200)
+/// ```
 struct CurvedTopRectangle: Shape {
     let cornerRadius: CGFloat
     let curveHeight: CGFloat
@@ -1043,9 +1096,37 @@ struct CurvedTopRectangle: Shape {
         return path
     }
 }
-
+/// A customizable dropdown selection menu for choosing from a list of options.
+///
+/// This reusable component provides a dropdown interface for selecting a single value
+/// from a predefined list of options. When tapped, it expands to show available choices
+/// and collapses when a selection is made.
+///
+/// The component is used throughout the profile for various selection fields including:
+/// - Gender selection
+/// - Ethnicity selection
+/// - Country of origin selection
+/// - Major selection
+/// - Academic year selection
+///
+/// - Parameters:
+///   - vm: The view model that manages the dropdown state
+///   - change: A binding to the selected value
+///   - options: An array of available options to choose from
+///   - width: The width of the dropdown component
+///
+/// # Example
+/// ```swift
+/// DropDown(
+///     vm: viewModel,
+///     change: $selectedOption,
+///     options: ["Option 1", "Option 2", "Option 3"],
+///     width: 200
+/// )
+/// ```
 struct DropDown:View
 {
+    /// View model containing the profile data and business logic
     @StateObject var vm: ProfileViewModel
     @Binding var change: String
     
@@ -1108,7 +1189,33 @@ struct DropDown:View
 }
 
 typealias ValidationFunction = (String) -> Bool
-
+/// A component that allows users to input and display multiple string values as tags.
+///
+/// `MultipleLabels` provides an input field combined with a dynamic tag display area.
+/// Users can add multiple values which are displayed as removable tags/labels. The component
+/// includes built-in validation using a custom validation function.
+///
+/// This component is used in the profile for:
+/// - Adding and displaying classes
+/// - Adding and displaying internships
+/// - Adding and displaying external links
+///
+/// - Parameters:
+///   - placeholder: Text displayed when the input field is empty
+///   - change: A binding to the array of strings being managed
+///   - validationFunction: A function that validates each input before adding it to the array
+///
+/// The component dynamically adjusts its height based on the content and provides
+/// individual delete capabilities for each added item.
+///
+/// # Example
+/// ```swift
+/// MultipleLabels(
+///     placeholder: "Add items here",
+///     change: $items,
+///     validationFunction: { !$0.isEmpty }
+/// )
+/// ```
 struct MultipleLabels:View {
     let placeholder:String
     @Binding var change: [String]
@@ -1243,7 +1350,26 @@ struct MultipleLabels:View {
             .cornerRadius(20)
         }
 }
-
+/// A UIKit-bridged component that provides access to the device's photo library or camera.
+///
+/// `ImagePicker` allows users to select images from their photo library or take new photos
+/// using the device camera. It's implemented as a `UIViewControllerRepresentable` to bridge
+/// UIKit's `UIImagePickerController` functionality to SwiftUI.
+///
+/// In the profile view, this component is used to allow users to select or update their
+/// profile picture.
+///
+/// - Parameters:
+///   - selectedImage: A binding to the optional UIImage that will store the selected image
+///   - sourceType: The source for the picker (camera or photo library)
+///
+/// # Example
+/// ```swift
+/// ImagePicker(
+///     selectedImage: $profileImage,
+///     sourceType: .photoLibrary
+/// )
+/// ```
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     var sourceType: UIImagePickerController.SourceType

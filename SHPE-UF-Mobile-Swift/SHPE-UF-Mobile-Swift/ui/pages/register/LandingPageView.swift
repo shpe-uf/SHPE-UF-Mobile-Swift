@@ -6,10 +6,23 @@
 //
 
 import SwiftUI
+/// A visually rich landing page with an auto-scrolling image carousel showcasing SHPE values.
+///
+/// `LandingPageView` serves as the initial welcome screen that introduces users to the
+/// Society of Hispanic Professional Engineers (SHPE) UF chapter. It features:
+///
+/// - An auto-scrolling image carousel with thematic backgrounds
+/// - Rotating text displaying SHPE's core values
+/// - The organization's logo and name
+/// - A "Get Started" button to proceed to registration
+///
+/// The carousel automatically transitions between images every 3 seconds, but users can
+/// also manually swipe through the images, which temporarily pauses the auto-scroll.
 struct LandingPageView: View {
     @Environment(\.presentationMode) var isPresented
     @StateObject var viewModel: RegisterViewModel
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
+    /// The current index of the displayed carousel image
     @State private var manualIndex = 0
     @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State private var isScrolling = false
