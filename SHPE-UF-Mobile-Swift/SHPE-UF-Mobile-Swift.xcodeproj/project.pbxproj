@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */; };
+		206C8F762AE181FF0081A35A /* SHPE-UF-Mobile-SwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F752AE181FF0081A35A /* SHPE-UF-Mobile-SwiftApp.swift */; };
 		206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F792AE182020081A35A /* Assets.xcassets */; };
 		206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F7C2AE182020081A35A /* Preview Assets.xcassets */; };
 		206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F862AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift */; };
@@ -204,7 +204,7 @@
 
 /* Begin PBXFileReference section */
 		206C8F722AE181FF0081A35A /* SHPE-UF-Mobile-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SHPE-UF-Mobile-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftApp.swift; sourceTree = "<group>"; };
+		206C8F752AE181FF0081A35A /* SHPE-UF-Mobile-SwiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SHPE-UF-Mobile-SwiftApp.swift"; sourceTree = "<group>"; };
 		206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPEUFAppView.swift; sourceTree = "<group>"; };
 		206C8F792AE182020081A35A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		206C8F7C2AE182020081A35A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -456,7 +456,7 @@
 				951F6E792BB262C5001FDB50 /* coreData */,
 				20CF4A1C2AE7423400916EC6 /* data */,
 				20CF4A1D2AE7424100916EC6 /* ui */,
-				206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */,
+				206C8F752AE181FF0081A35A /* SHPE-UF-Mobile-SwiftApp.swift */,
 				958CB0252B9CE724002B83F9 /* SHPEUFAppViewModel.swift */,
 				206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */,
 				B8EF26FB2B8FB07000F98FA2 /* Font */,
@@ -1144,7 +1144,7 @@
 				9560D4A92D21F2EF002938CE /* LocationViewPopUp.swift in Sources */,
 				4632E47A2B6B64000048782D /* PointsViewModel.swift in Sources */,
 				521249D52CEFA22600EB0364 /* QRCodeScannerView.swift in Sources */,
-				206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */,
+				206C8F762AE181FF0081A35A /* SHPE-UF-Mobile-SwiftApp.swift in Sources */,
 				B8DCB94E2D161EE000602068 /* LocationView.swift in Sources */,
 				46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
@@ -1358,7 +1358,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 7F4NDT3MRR;
+				DEVELOPMENT_TEAM = V2QK7Y98W9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
@@ -1396,7 +1396,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 7F4NDT3MRR;
+				DEVELOPMENT_TEAM = V2QK7Y98W9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
