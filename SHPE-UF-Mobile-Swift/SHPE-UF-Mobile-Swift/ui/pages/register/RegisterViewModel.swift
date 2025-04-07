@@ -18,7 +18,16 @@ extension Locale
         return countries.sorted()
     }()
 }
-
+/// A view model that manages the entire user registration process across multiple screens.
+///
+/// `RegisterViewModel` handles all business logic for the three-step registration flow, including:
+/// - Form input data collection and storage
+/// - Field validation and error handling
+/// - API communication for account creation
+/// - Navigation between registration steps
+///
+/// The view model maintains state for all registration fields across the different views,
+/// allowing users to navigate between steps while preserving their input data.
 @MainActor
 class RegisterViewModel: ObservableObject
 {
@@ -156,7 +165,15 @@ class RegisterViewModel: ObservableObject
     //origin options from locale
     let originOptions = ["Select"] + Locale.countryNames
 
-    //calculates dynamic height based on text length
+    // MARK: - Helper Methods
+    
+    /// Calculates the appropriate height for dropdown pickers based on content.
+    ///
+    /// - Parameters:
+    ///   - option: The selected option text
+    ///   - maxWidth: The maximum width available for the picker
+    ///   - fontSize: The font size used in the picker
+    /// - Returns: The calculated height needed for the picker
     func calculatePickerHeight(for option: String, maxWidth: CGFloat, fontSize: CGFloat) -> CGFloat 
     {
         let charPerLine = maxWidth / (fontSize * 0.6) //estimate chars per line, adjust 0.6 based on font
@@ -174,9 +191,11 @@ class RegisterViewModel: ObservableObject
         return max(calculatedHeight, minHeight) //return the larger of the calculated height or the minimum height
     }
     
-    //VALIDATION SECTION
+    // MARK: - Validation Methods
     
-    //validate email
+    /// Validates the email format, ensuring it's from UFL or SF College.
+    ///
+    /// - Returns: `true` if the email is valid, `false` otherwise
     func validateEmail() -> Bool
     {
         let emailPattern = "^[\\w.-]+@(ufl\\.edu|sfcollege\\.edu)$"
@@ -184,14 +203,19 @@ class RegisterViewModel: ObservableObject
         return emailPredicate.evaluate(with: emailInput)
     }
     
-    //validate username
+    /// Validates the username format (6-20 alphanumeric characters, periods, underscores).
+    ///
+    /// - Returns: `true` if the username is valid, `false` otherwise
     func validateUsername() -> Bool
     {
         let usernamePattern = "^[\\w.]{6,20}$"
         let usernamePredicate = NSPredicate(format:"SELF MATCHES %@", usernamePattern)
         return usernamePredicate.evaluate(with: usernameInput)
     }
-    
+    /// Checks if the provided username and email are available.
+    ///
+    /// Makes an API call to verify the availability of the username and email.
+    /// If both are available, advances to the next registration step.
     func validateUsernameAndEmail()
     {
         requestHandler.validateUsernameAndEmail(username: usernameInput, email: emailInput) { [self] dict in
@@ -216,7 +240,11 @@ class RegisterViewModel: ObservableObject
         }
     }
 
-    //validate password
+    /// Validates the password meets security requirements.
+    ///
+    /// Checks for minimum length (8), uppercase, lowercase, number, and special character.
+    ///
+    /// - Returns: `true` if the password is valid, `false` otherwise
     func validatePassword() -> Bool
     {
         let passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-={}|;:'\",.<>?~`])[\\S]{8,}$"
@@ -224,13 +252,17 @@ class RegisterViewModel: ObservableObject
         return passwordPredicate.evaluate(with: passwordInput)
     }
 
-    //validate password matching
+    /// Validates if the confirm password matches the password.
+    ///
+    /// - Returns: `true` if passwords match, `false` otherwise
     func validateConfirmPassword() -> Bool
     {
         return passwordInput == passwordConfirmInput
     }
 
-    //validate all inputs on registerView
+    /// Validates all required fields in the first registration screen.
+    ///
+    /// - Returns: `true` if all fields are valid, `false` otherwise
     func isRegisterValid() -> Bool
     {
            return validateEmail() && validatePassword() && validateConfirmPassword() && validateUsername()
@@ -270,7 +302,9 @@ class RegisterViewModel: ObservableObject
         return originInput != "" && originInput != "Select"
     }
 
-    //validate all inputs in personalDetailsView
+    /// Validates all required fields in the personal information screen.
+    ///
+    /// - Returns: `true` if all fields are valid, `false` otherwise
     func isPersonalValid() -> Bool
     {
         
@@ -295,13 +329,20 @@ class RegisterViewModel: ObservableObject
         return gradYearInput != "" && gradYearInput != "Select"
     }
     
-    //validate all inputs in academicInfoView
+    /// Validates all required fields in the academic information screen.
+    ///
+    /// - Returns: `true` if all fields are valid, `false` otherwise
     func isAcademicValid() -> Bool
     {
         return validateMajorSelected() && validateClassYearSelected() && validateGradYearSelected()
     }
     
-    //register the user with all given function
+    // MARK: - API Interaction
+    
+    /// Submits the registration data to create a new user account.
+    ///
+    /// Called when all validation has passed and the user completes the final registration step.
+    /// Makes an API call to create the account with all collected information.
     func registerUser()
     {
         requestHandler.registerUser(firstName: firstnameInput, lastName: lastnameInput, major: majorInput, year: classYearInput, graduating: gradYearInput, country: originInput, ethnicity: ethnicityInput, sex: genderInput, username: usernameInput, email: emailInput, password: passwordInput, confirmPassword: passwordConfirmInput)

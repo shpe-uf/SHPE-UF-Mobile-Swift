@@ -24,7 +24,9 @@ struct LandingPageView: View {
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     /// The current index of the displayed carousel image
     @State private var manualIndex = 0
+    /// Timer that controls the automatic carousel image transitions
     @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    /// Indicates whether the user is currently scrolling the carousel
     @State private var isScrolling = false
     @State private var lastInteraction = Date()
     @State private var isRegisterViewPresented = false
@@ -169,7 +171,10 @@ struct LandingPageView: View {
         }
         .edgesIgnoringSafeArea(.all)
     }
-    // pause timer
+    /// Pauses the carousel auto-scroll timer.
+    ///
+    /// Called when the user interacts with the carousel to prevent
+    /// auto-scrolling while the user is manually navigating.
     private func pauseTimer() {
         timer.upstream.connect().cancel()
         // resume timer after 3 seconds of inactivity
@@ -177,7 +182,10 @@ struct LandingPageView: View {
             startTimer()
         }
     }
-    // start timer
+    /// Restarts the carousel auto-scroll timer.
+    ///
+    /// Called after user interaction has stopped to resume the
+    /// automatic carousel transitions.
     private func startTimer() {
         isScrolling = false
         timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
