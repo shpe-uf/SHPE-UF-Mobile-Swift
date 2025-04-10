@@ -9,6 +9,30 @@ import SwiftUI
 import Foundation
 
 
+/// The main view displaying the SHPEito points program information.
+///
+/// This view:
+/// 1. Shows the user's current percentile ranking
+/// 2. Displays total and seasonal points
+/// 3. Provides a redemption interface
+/// 4. Shows categorized event history
+///
+/// ## Key Components
+/// - Circular progress view showing current percentile
+/// - Seasonal points cards with custom gradients
+/// - Event history tables by category
+/// - Redemption sheet modal
+///
+/// ## Data Flow
+/// - Uses `PointsViewModel` as state object
+/// - Integrates with Core Data via `DataManager`
+/// - Automatically loads data on appear
+///
+/// ## Example Usage
+/// ```swift
+/// PointsView(vm: PointsViewModel(shpeito: sampleUser))
+///     .environmentObject(DataManager.shared)
+/// ```
 struct PointsView: View {
     
     @StateObject var vm : PointsViewModel
@@ -162,8 +186,29 @@ struct PointsView: View {
     }
     
     
-    // Function to return string with ordinal as a suffix
-    
+    /// Converts an integer to a string with the appropriate ordinal suffix (st, nd, rd, th).
+    ///
+    /// This function:
+    /// 1. Handles all positive and negative integers
+    /// 2. Correctly applies English ordinal rules including special cases (11th, 12th, 13th)
+    /// 3. Returns the number with the appropriate suffix
+    ///
+    /// - Parameter number: The integer to convert
+    /// - Returns: String representation with ordinal suffix (e.g., "1st", "2nd", "3rd", "4th")
+    ///
+    /// ## Rules Implemented
+    /// - Numbers ending in 1 (except 11) → "st" (1st, 21st, 31st)
+    /// - Numbers ending in 2 (except 12) → "nd" (2nd, 22nd, 32nd)
+    /// - Numbers ending in 3 (except 13) → "rd" (3rd, 23rd, 33rd)
+    /// - All others → "th" (including 11th, 12th, 13th)
+    ///
+    /// ## Example Usage
+    /// ```swift
+    /// stringWithOrdinalSuffix(from: 1)    // Returns "1st"
+    /// stringWithOrdinalSuffix(from: 22)   // Returns "22nd"
+    /// stringWithOrdinalSuffix(from: 113)  // Returns "113th"
+    /// stringWithOrdinalSuffix(from: -5)   // Returns "-5th"
+    /// ```
     func stringWithOrdinalSuffix(from number: Int) -> String {
         let tensPlace = abs(number) % 100
         let onesPlace = abs(number) % 10

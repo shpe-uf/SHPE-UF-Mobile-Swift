@@ -9,6 +9,34 @@ import SwiftUI
 import UserNotifications
 import CoreData
 
+/// Manages all notification-related functionality for calendar events.
+///
+/// This ViewModel:
+/// 1. Handles notification permissions and authorization status
+/// 2. Manages notification scheduling/removal for different event types
+/// 3. Maintains synchronization between UI state, Core Data, and system notifications
+/// 4. Provides debugging utilities for notification management
+///
+/// ## Key Features
+/// - Singleton pattern ensures single source of truth
+/// - Published properties for SwiftUI binding
+/// - Supports five distinct event types with individual toggle states
+/// - Automatic cleanup of expired notifications
+///
+/// ## Example Usage
+/// ```swift
+/// // Schedule notifications for an event
+/// NotificationViewModel.instance.notifyForSingleEvent(
+///     event: newEvent,
+///     fetchedEvents: fetchedEvents,
+///     viewContext: context
+/// )
+///
+/// // Check notification permissions
+/// NotificationViewModel.instance.checkForPermission { allowed in
+///     if allowed { /* proceed */ }
+/// }
+/// ```
 class NotificationViewModel : ObservableObject {
     
     static let instance  = NotificationViewModel()
@@ -25,6 +53,30 @@ class NotificationViewModel : ObservableObject {
     
     private init () {}
     
+    /// Updates the notification toggle state for a specific event type.
+    ///
+    /// This function:
+    /// 1. Toggles or sets the notification preference for the specified event type
+    /// 2. Handles five different event types (GBM, Info, Workshop, Volunteering, Social)
+    /// 3. Provides optional forced state setting via `setTo` parameter
+    ///
+    /// - Parameters:
+    ///   - eventType: The type of event to modify (case-sensitive)
+    ///   - setTo: Optional forced state (true/false). When nil, toggles current state.
+    ///
+    /// ## Important
+    /// - Must be called from main thread (updates UI state)
+    /// - Default case logs invalid types but doesn't crash
+    /// - Uses forced unwrapping for `setTo` when provided (safe due to nil check)
+    ///
+    /// ## Example
+    /// ```swift
+    /// // Toggle current state
+    /// buttonClicked(eventType: "GBM")
+    ///
+    /// // Force set state
+    /// buttonClicked(eventType: "Workshop", setTo: true)
+    /// ```
     private func buttonClicked(eventType:String, setTo:Bool? = nil)
     {
         switch eventType {
@@ -48,6 +100,35 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
+    /// Checks and optionally requests notification permissions, returning the current authorization status.
+    ///
+    /// This function:
+    /// 1. Checks the current notification permission status
+    /// 2. Handles all possible authorization states (.authorized, .denied, .notDetermined)
+    /// 3. Requests permission if status is .notDetermined
+    /// 4. Updates `notificationsAllowed` property and executes completion handler
+    ///
+    /// - Parameter completion: Optional closure returning the authorization status (true if authorized)
+    ///                       Defaults to empty closure if not needed.
+    ///
+    /// ## Important
+    /// - Must be called from main thread (updates UI state)
+    /// - Completion handler is always called on main thread
+    /// - Requests both alert and sound permissions when needed
+    ///
+    /// ## Example
+    /// ```swift
+    /// // Basic usage
+    /// checkForPermission()
+    ///
+    /// // Usage with completion handler
+    /// checkForPermission { allowed in
+    ///     print("Notifications allowed: \(allowed)")
+    ///     if allowed {
+    ///         scheduleInitialNotifications()
+    ///     }
+    /// }
+    /// ```
     func checkForPermission(completion: @escaping (Bool)->Void = {_ in }) {
         let notificationCenter = UNUserNotificationCenter.current()
         notificationCenter.getNotificationSettings { settings in
@@ -86,6 +167,36 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
+    /// Schedules a notification for a single event and updates Core Data storage.
+    ///
+    /// This function:
+    /// 1. Calculates the appropriate notification time based on event duration
+    /// 2. Updates the in-memory tracking of pending notifications
+    /// 3. Schedules the system notification
+    /// 4. Persists changes to Core Data
+    ///
+    /// - Parameters:
+    ///   - event: The `Event` to schedule notification for
+    ///   - fetchedEvents: Fetched results container for CalendarEvent entities
+    ///   - viewContext: Managed object context for Core Data operations
+    ///
+    /// ## Notification Timing Logic
+    /// - For timed events (start ≠ end): Notifies 30 minutes before start
+    /// - For all-day events (start = end): Notifies 12 hours before start
+    ///
+    /// ## Important
+    /// - Requires UserNotifications framework permission
+    /// - Must be called on main queue (affects Core Data and UI)
+    /// - Maintains both in-memory `pendingNotifications` and persistent storage
+    ///
+    /// ## Example
+    /// ```swift
+    /// notifyForSingleEvent(
+    ///     event: importantMeeting,
+    ///     fetchedEvents: fetchedResults,
+    ///     viewContext: container.viewContext
+    /// )
+    /// ```
     func notifyForSingleEvent(event:Event, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)
     {
         var notificationDate = event.start.dateTime
@@ -103,6 +214,31 @@ class NotificationViewModel : ObservableObject {
         CoreFunctions().saveCalendarEvent(events: fetchedEvents, viewContext: viewContext, calendarEvents: [event])
     }
     
+    /// Removes all traces of a single event's notification from both Core Data and the notification system.
+    ///
+    /// This function performs three main actions:
+    /// 1. Locates and removes the event from Core Data (if found)
+    /// 2. Cancels any pending notification for the event
+    /// 3. Updates the in-memory `pendingNotifications` collection
+    ///
+    /// - Parameters:
+    ///   - event: The `Event` object to remove
+    ///   - fetchedEvents: Fetched results container for CalendarEvent entities
+    ///   - viewContext: Managed object context for Core Data operations
+    ///
+    /// ## Important
+    /// - Must be called on the main queue (performs Core Data operations)
+    /// - Performs a permanent deletion from Core Data
+    /// - Notification identifier is constructed as "identifier:::eventType"
+    ///
+    /// ## Example
+    /// ```swift
+    /// removeNotificationForSingleEvent(
+    ///     event: cancelledEvent,
+    ///     fetchedEvents: fetchedResults,
+    ///     viewContext: container.viewContext
+    /// )
+    /// ```
     func removeNotificationForSingleEvent(event:Event, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)
     {
         let foundEventInCore:CalendarEvent? = {
@@ -131,6 +267,38 @@ class NotificationViewModel : ObservableObject {
         })
     }
     
+    /// Enables notifications for all events of a specific type and updates Core Data.
+    ///
+    /// This function:
+    /// 1. Updates the UI state to reflect notifications are enabled
+    /// 2. Calculates appropriate notification times based on event duration
+    /// 3. Schedules notifications for each matching event
+    /// 4. Updates in-memory tracking and Core Data storage
+    ///
+    /// - Parameters:
+    ///   - events: Array of `Event` objects to process
+    ///   - eventType: The type of events to enable notifications for (e.g., "meeting")
+    ///   - fetchedEvents: Fetched results container for CalendarEvent entities
+    ///   - viewContext: Managed object context for Core Data operations
+    ///
+    /// ## Notification Timing Logic
+    /// - For timed events (start ≠ end): Notifies 15 minutes before start
+    /// - For all-day events (start = end): Notifies 24 hours before start
+    ///
+    /// ## Important
+    /// - Requires UserNotifications permission
+    /// - Must be called on the main queue (affects Core Data and UI)
+    /// - Maintains both in-memory `pendingNotifications` and persistent storage
+    ///
+    /// ## Example
+    /// ```swift
+    /// turnOnEventNotification(
+    ///     events: upcomingEvents,
+    ///     eventType: "reminder",
+    ///     fetchedEvents: fetchedResults,
+    ///     viewContext: container.viewContext
+    /// )
+    /// ```
     func turnOnEventNotification(events:[Event], eventType: String, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
         buttonClicked(eventType: eventType, setTo: true)
         for event in events {
@@ -159,6 +327,35 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
+    /// Disables notifications for all events of a specific type and updates Core Data.
+    ///
+    /// This function:
+    /// 1. Updates the UI state via `buttonClicked`
+    /// 2. Collects identifiers for all matching event notifications
+    /// 3. Removes matching events from `pendingNotifications`
+    /// 4. Updates Core Data via `removeNotificationForSingleEvent`
+    /// 5. Cancels all pending notifications for these events
+    ///
+    /// - Parameters:
+    ///   - events: Array of `Event` objects to process
+    ///   - eventType: The type of events to disable notifications for (e.g., "meeting")
+    ///   - fetchedEvents: Fetched results container for CalendarEvent entities
+    ///   - viewContext: Managed object context for Core Data operations
+    ///
+    /// ## Important
+    /// - Requires UserNotifications permission
+    /// - Must be called on the main queue (affects Core Data and UI)
+    /// - Cleans up both in-memory pendingNotifications and actual scheduled notifications
+    ///
+    /// ## Example
+    /// ```swift
+    /// turnOffEventNotification(
+    ///     events: upcomingEvents,
+    ///     eventType: "reminder",
+    ///     fetchedEvents: fetchedResults,
+    ///     viewContext: container.viewContext
+    /// )
+    /// ```
     func turnOffEventNotification(events:[Event], eventType: String, fetchedEvents:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
         buttonClicked(eventType: eventType, setTo: false)
         var ids:[String] = []
@@ -179,6 +376,41 @@ class NotificationViewModel : ObservableObject {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: ids)
     }
     
+    /// Schedules a local notification for a specific event at the given date.
+    ///
+    /// Creates and schedules a notification with details about the upcoming event.
+    /// The notification will fire at the specified `date`, showing the event's summary
+    /// and time information.
+    ///
+    /// - Parameters:
+    ///   - event: The `Event` object containing event details (summary, start/end times, etc.)
+    ///   - date: The `Date` when the notification should trigger
+    ///
+    /// ## Important
+    /// - Requires `UserNotifications` framework permission.
+    /// - The notification identifier is generated from the event's details to ensure uniqueness.
+    /// - Any existing notification with the same identifier will be removed first.
+    ///
+    /// ## Example
+    /// ```swift
+    /// let event = Event(
+    ///     identifier: "meeting-123",
+    ///     summary: "Team Standup",
+    ///     start: ...,
+    ///     end: ...,
+    ///     eventType: "meeting"
+    /// )
+    /// // Schedule notification 15 minutes before event
+    /// dispatchNotification(
+    ///     event: event,
+    ///     date: Calendar.current.date(byAdding: .minute, value: -15, to: event.start.dateTime)!
+    /// )
+    /// ```
+    ///
+    /// ## Notes
+    /// - Notification content varies based on event duration:
+    ///   - For multi-hour events: "EventName is starting in 15 minutes!"
+    ///   - For single-time events: "Don't forget, EventName is happening tomorrow!"
     func dispatchNotification(event: Event, date: Date) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYYMMDDHHmm"
@@ -209,6 +441,28 @@ class NotificationViewModel : ObservableObject {
         notificationCenter.add(request)
     }
     
+    /// Removes all pending notifications for events in the `pendingNotifications` collection.
+    ///
+    /// Iterates through all events in `pendingNotifications` and removes their associated notifications.
+    /// Also handles Core Data context updates for each event.
+    ///
+    /// - Parameters:
+    ///   - fetchedEvents: The fetched results container for calendar events (used for validation).
+    ///   - viewContext: The managed object context for making Core Data updates.
+    ///
+    /// ## Important
+    /// - Requires `UserNotifications` framework permission.
+    /// - This will cancel all pending notifications for events in `pendingNotifications`.
+    /// - Makes changes to the Core Data context (ensure it's called on the correct queue).
+    ///
+    /// ## Example
+    /// ```swift
+    /// // Clear all pending notifications for current events:
+    /// clearPendingNotifications(
+    ///     fetchedEvents: fetchedEvents,
+    ///     viewContext: container.viewContext
+    /// )
+    /// ```
     func clearPendingNotifications(fetchedEvents: FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext)
     {
         for event in pendingNotifications
@@ -217,11 +471,42 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
+    /// Removes all delivered notifications from Notification Center.
+    ///
+    /// This function clears all notifications that have already been delivered to the user
+    /// and are still visible in the Notification Center. This does not affect pending scheduled notifications.
+    ///
+    /// ## Important
+    /// - Requires `UserNotifications` framework permission.
+    /// - Only affects notifications that have already been delivered (not pending ones).
+    /// - User may still see notifications briefly before they're removed.
+    ///
+    /// ## Example
+    /// ```swift
+    /// // Clear all delivered notifications:
+    /// cleanUpDeliveredNotifications()
+    /// ```
     func cleanUpDeliveredNotifications()
     {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
     
+    /// Logs all pending notification requests to the console.
+    ///
+    /// This function fetches the current list of scheduled local notifications
+    /// and prints their count and details (for debugging purposes).
+    ///
+    /// ## Example
+    /// ```swift
+    /// verifyNotifications()
+    /// // Console output:
+    /// // "3 Notifications scheduled"
+    /// // [<UNNotificationRequest: 0x...>, ...]
+    /// ```
+    ///
+    /// ## Important
+    /// - Requires `UserNotifications` framework permission.
+    /// - Debug-only: Avoid calling this in production code.
     func verifyNotifications()
     {
         let notificationCenter = UNUserNotificationCenter.current()
@@ -231,6 +516,17 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
+    /// Removes all pending notifications whose start time has passed.
+    ///
+    /// This function filters out entries in `pendingNotifications` where the `start.dateTime`
+    /// is earlier than the current date. Useful for cleaning up expired notifications before processing.
+    ///
+    /// ## Example
+    /// ```swift
+    /// // Assuming `pendingNotifications` contains both future and past dates:
+    /// updatePendingNotifications()
+    /// // Only notifications with `start.dateTime >= Date()` remain.
+    /// ```
     private func updatePendingNotifications()
     {
         pendingNotifications.removeAll { e in
