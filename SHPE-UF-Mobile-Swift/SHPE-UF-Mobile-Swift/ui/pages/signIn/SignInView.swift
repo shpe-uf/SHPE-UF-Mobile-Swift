@@ -1,6 +1,18 @@
 import SwiftUI
 import Foundation
-
+/// A custom text field style that applies padding and corner radius.
+///
+/// This modifier allows for consistent styling of text fields throughout the application
+/// by applying leading padding and corner radius.
+///
+/// # Example
+/// ```swift
+/// TextField("Username", text: $username)
+///     .modifier(CustomTextFieldStyle(padding: 10, cornerRadius: 8))
+/// ```
+///
+/// - Parameter padding: The amount of leading padding to apply to the text field.
+/// - Parameter cornerRadius: The corner radius to apply to the text field.
 struct CustomTextFieldStyle: ViewModifier {
     let padding: CGFloat
     let cornerRadius: CGFloat
@@ -13,6 +25,15 @@ struct CustomTextFieldStyle: ViewModifier {
     }
 }
 
+/// A view that displays the sign-in screen.
+///
+/// `SignInView` provides functionality for users to authenticate with their credentials.
+/// It includes text fields for username and password input, a sign-in button, and a link
+/// to the sign-up screen. Additionally, it displays toast notifications for various events.
+///
+/// # Example
+/// ```swift
+/// SignInView(viewModel: SignInViewModel(shpeito: SHPEito()))
 
 
 struct SignInView: View
@@ -168,7 +189,15 @@ struct SignInView: View
                 }
                 
                 
-                // Sign In Button
+                /// Attempts to authenticate the user with the provided credentials.
+                ///
+                /// This method:
+                /// 1. Dismisses the keyboard
+                /// 2. Calls the view model's sign-in method with the entered username and password
+                /// 3. Sets the sign-in button state to indicate a click has occurred
+                ///
+                /// The view model handles the actual authentication process and updates its state
+                /// accordingly. Toast notifications will appear based on the authentication result.
                 Button(action: {
                     UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                     viewModel.signIn(username: username, password: password, viewContext: viewContext)
@@ -236,7 +265,18 @@ struct SignInView: View
         }
     }
 }
-
+/// A view that displays toast notifications.
+///
+/// `ToastView` shows a temporary notification message with the SHPE logo.
+/// It is typically shown at the top of the screen and automatically dismisses
+/// after a set duration.
+///
+/// # Example
+/// ```swift
+/// ToastView(message: "Successfully signed in!")
+/// ```
+///
+/// - Parameter message: The text message to display in the toast notification.
 struct ToastView: View
 {
     var message: String

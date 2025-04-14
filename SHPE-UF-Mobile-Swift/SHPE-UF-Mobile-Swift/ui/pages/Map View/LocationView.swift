@@ -9,7 +9,24 @@ import SwiftUI
 import MapKit
 import SwiftData
 
-/// A view that displays a map with event location details, user positioning, and route previews
+/// A view that displays a map with event location details, user positioning, and route previews.
+///
+/// `LocationView` provides a map interface that shows:
+/// - The location of an event
+/// - The user's current position
+/// - Optional route visualization between user and event
+/// - A location detail popup for additional information
+///
+/// The view handles geocoding of addresses and manages the map's camera position.
+///
+/// # Example
+/// ```swift
+/// LocationView(
+///     location: "123 Main St, Gainesville, FL",
+///     event: "SHPE Meeting",
+///     showView: $viewState
+/// )
+/// ```
 struct LocationView: View {
     // MARK: - Properties
         
@@ -222,7 +239,11 @@ struct LocationView: View {
     }
     // MARK: - Geocoding Functions
     
-    /// Converts an address string into a coordinate
+    /// Converts an address string into a coordinate.
+    ///
+    /// - Parameters:
+    ///   - addressString: The address to geocode
+    ///   - completionHandler: A closure that receives the coordinate result or error
     func getCoordinate( addressString : String,
             completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
@@ -241,7 +262,10 @@ struct LocationView: View {
     }
     
     
-    /// Converts the given address into coordinates and updates the map region
+    /// Converts the given address into coordinates and updates the map region.
+    ///
+    /// This method geocodes the location address and, upon success,
+    /// updates the map region and creates a placemark for the location.
     private func geocodeLocation() {
             getCoordinate(addressString: location) { coordinate, error in
                 guard error == nil else {
@@ -265,8 +289,13 @@ struct LocationView: View {
             }
     }
     
-    /// Creates a marker for the event location
-    //Genuinely hate that this is  needed to select markers
+    /// Creates a marker for the event location.
+    ///
+    /// - Parameters:
+    ///   - event: The name of the event
+    ///   - address: The address of the event
+    ///   - location: The coordinate of the event
+    /// - Returns: An array containing the created placemark
     private func makeMarkers(event: String,address: String, location : CLLocationCoordinate2D) ->[MTPlacemark]{
         let marker = MTPlacemark(name: event, address: address, latitude: location.latitude, longitude: location.longitude)
         return [marker]
