@@ -7,8 +7,10 @@
 
 import SwiftData
 import MapKit
-/// A utility enum for handling map-related functions
+/// A utility enum for handling map-related functions.
 ///
+/// `MapManager` provides helper methods for common map operations,
+/// such as distance formatting based on the user's locale.
 enum MapManager{
     /// Converts a distance in meters to a localized string representation.
     ///

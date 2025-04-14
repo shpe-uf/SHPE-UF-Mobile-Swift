@@ -1,12 +1,28 @@
 import SwiftUI
 
-
+/// A multi-step registration form for new users to create an account.
+///
+/// `RegisterView` is the first step in the registration process, collecting essential
+/// account credentials including email, username, and password. The view includes:
+///
+/// - Input validation for all fields with real-time feedback
+/// - Password visibility toggles
+/// - Navigation between multiple registration steps
+/// - Progress indicators showing the current step
+///
+/// The registration process is divided into three sequential steps:
+/// 1. Account credentials (this view)
+/// 2. Personal information (handled by `PersonalView`)
+/// 3. Academic information (handled by `AcademicView`)
 struct RegisterView: View
 {
+    /// The current color scheme from the environment
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
+    /// View model containing all registration business logic and state
     @StateObject var viewModel: RegisterViewModel = RegisterViewModel()
+    /// Tracks validation errors for each field
     @State var errorMessageDict:[Int:Bool] = [
         0: false,
         1: false,

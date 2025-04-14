@@ -6,12 +6,27 @@
 //
 
 import SwiftUI
+/// A visually rich landing page with an auto-scrolling image carousel showcasing SHPE values.
+///
+/// `LandingPageView` serves as the initial welcome screen that introduces users to the
+/// Society of Hispanic Professional Engineers (SHPE) UF chapter. It features:
+///
+/// - An auto-scrolling image carousel with thematic backgrounds
+/// - Rotating text displaying SHPE's core values
+/// - The organization's logo and name
+/// - A "Get Started" button to proceed to registration
+///
+/// The carousel automatically transitions between images every 3 seconds, but users can
+/// also manually swipe through the images, which temporarily pauses the auto-scroll.
 struct LandingPageView: View {
     @Environment(\.presentationMode) var isPresented
     @StateObject var viewModel: RegisterViewModel
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
+    /// The current index of the displayed carousel image
     @State private var manualIndex = 0
+    /// Timer that controls the automatic carousel image transitions
     @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    /// Indicates whether the user is currently scrolling the carousel
     @State private var isScrolling = false
     @State private var lastInteraction = Date()
     @State private var isRegisterViewPresented = false
@@ -136,7 +151,10 @@ struct LandingPageView: View {
         }
         .edgesIgnoringSafeArea(.all)
     }
-    // pause timer
+    /// Pauses the carousel auto-scroll timer.
+    ///
+    /// Called when the user interacts with the carousel to prevent
+    /// auto-scrolling while the user is manually navigating.
     private func pauseTimer() {
         timer.upstream.connect().cancel()
         // resume timer after 3 seconds of inactivity
@@ -144,7 +162,10 @@ struct LandingPageView: View {
             startTimer()
         }
     }
-    // start timer
+    /// Restarts the carousel auto-scroll timer.
+    ///
+    /// Called after user interaction has stopped to resume the
+    /// automatic carousel transitions.
     private func startTimer() {
         isScrolling = false
         timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
