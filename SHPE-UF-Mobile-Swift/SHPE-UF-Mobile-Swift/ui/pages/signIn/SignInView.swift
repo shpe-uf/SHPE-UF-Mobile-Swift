@@ -29,6 +29,7 @@ struct SignInView: View
     @State private var isForgetPassword = false
     
     
+    
     var body: some View
     {
         ZStack
@@ -162,7 +163,7 @@ struct SignInView: View
                     .foregroundColor(Color("lblue"))
                 }
                 .fullScreenCover(isPresented: $isForgetPassword){
-                    ForgetPassword(viewModel: self.viewModel)
+                    ForgetPasswordView(viewModel: ForgetPasswordViewModel())
                 }
                 
                 
@@ -267,164 +268,9 @@ struct SignInView_Previews: PreviewProvider
     }
 }
 
-struct ForgetPassword: View {
-    @StateObject var viewModel: SignInViewModel
-    @State public var Email = ""
-    @State private var goBack = false
-    @State private var emailMessage = ""
-    @State private var foundEmail = false
-    var body: some View {
-        ZStack {
-            VStack {
-                HStack {
-                    Button {
-                        // Dismiss the current view when the button is pressed
-                        goBack = true
-                    } label: {
-                        // Button label with an image
-                        Image("Back")
-                            .frame(height:75,alignment: .bottomLeading)
-                    }
-                    .fullScreenCover(isPresented: $goBack){
-                        SignInView(viewModel: self.viewModel)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 20)
-            }
-            .frame(maxHeight: .infinity, alignment: .top)
-            
-            VStack() {
-                // Text explaining how to reset your password
-                Text("Forgot your password?")
-                    // We have no bold font in info.plist as of right now
-                    .font(Font.custom("Univers LT Std-Bold", size: 28))
-                  .multilineTextAlignment(.center)
-                  .foregroundColor(.white)
-                Text("Enter your email and we will send you \ninstructions to reset your password.  ")
-                    .padding(.top, 28)
-                    .font(Font.custom("Univers LT Std", size: 16))
-                  .multilineTextAlignment(.center)
-                  .foregroundColor(.white)
-                  .frame(alignment: .center)
-                // Text field to accept the email
-                TextField("Email address", text: $Email)
-                    .padding()
-                    .autocapitalization(.none)
-                    .autocorrectionDisabled()
-                    .modifier(CustomTextFieldStyle(padding: 12, cornerRadius: 10))
-                    .frame(maxWidth: 525, alignment: .center)
-                Text(emailMessage)
-                    .padding(.top, 2)
-                    .font(Font.custom("Univers LT Std", size: 16))
-                  .multilineTextAlignment(.center)
-                  .foregroundColor(.white)
-                  .frame(alignment: .center)
-                Button(action: {
-                    if Email.contains("@") {
-                        viewModel.forgotPassword(email: Email)
-                    } else {
-                        emailMessage = "Please enter a valid email."
-                        foundEmail = false
-                    }
-                    
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                }) {
-                    Text(viewModel.isCommunicating ? "Loading..." : "Continue")
-                        .font(Font.custom("Viga-Regular", size: 16))
-                        .foregroundColor(Color.white)
-                        .frame(width: 267, height: 42)
-                        .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                        .cornerRadius(10)
-                        .padding()
-                }
-                .frame(alignment: .center)
-                .fullScreenCover(isPresented: $foundEmail) {
-                    EmailSent(viewModel: self.viewModel, userEmail: Email)
-                        .onAppear {
-                            // Match the ComposeEmail function signature
-                        }
-                }
-            }
-            .padding(.all, 43)
-            .frame(alignment: .leading)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.darkdarkBlue))
-    }
-}
 
 
 
 
 
 
-struct EmailSent: View {
-    @StateObject var viewModel: SignInViewModel
-    @State public var Email = ""
-    @State private var goBack = false
-    @State private var emailMessage = ""
-    @State private var resendEmailMessage = ""
-    var userEmail : String
-    var body: some View {
-        ZStack {
-            VStack {
-                HStack {
-                    Button {
-                        // Dismiss the current view when the button is pressed
-                        goBack = true
-                    } label: {
-                        // Button label with an image
-                        Image("Back")
-                            .frame(height:75,alignment: .bottomLeading)
-                    }
-                    .fullScreenCover(isPresented: $goBack){
-                        ForgetPassword(viewModel: self.viewModel)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 20)
-            }
-            .frame(maxHeight: .infinity, alignment: .top)
-            
-            VStack() {
-                Text("Check your inbox")
-                    // We have no bold font in info.plist as of right now
-                    .font(Font.custom("Univers LT Std-Bold", size: 28))
-                  .multilineTextAlignment(.center)
-                  .foregroundColor(.white)
-                Text("We've sent password reset instructions to \(userEmail).")
-                    .padding(.top, 28)
-                    .font(Font.custom("Univers LT Std", size: 16))
-                  .multilineTextAlignment(.center)
-                  .foregroundColor(.white)
-                  .frame(alignment: .center)
-                Button(action: {
-                    resendEmailMessage = "Email resent successfully";
-                    
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                }) {
-                    Text(viewModel.isCommunicating ? "Loading..." : "Resend Email")
-                        .font(Font.custom("Viga-Regular", size: 16))
-                        .foregroundColor(Color.white)
-                        .frame(width: 267, height: 42)
-                        .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                        .cornerRadius(10)
-                        .padding()
-                }
-                .frame(alignment: .center)
-                
-                Text(resendEmailMessage)
-                    .padding(.top, 2)
-                    .font(Font.custom("Univers LT Std", size: 16))
-                  .multilineTextAlignment(.center)
-                  .foregroundColor(.white)
-                  .frame(alignment: .center)
-            }
-            .padding(.all, 43)
-            .frame(alignment: .leading)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.darkdarkBlue))
-    }
-}

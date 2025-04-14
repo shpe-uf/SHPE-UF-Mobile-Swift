@@ -40,6 +40,10 @@
 		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
 		52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* LandingPageView.swift */; };
 		53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C7704D2B9A79EF00455FC5 /* ProfileView.swift */; };
+		812F465F2DAD65A0007D7125 /* ForgetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F465E2DAD6593007D7125 /* ForgetPasswordViewModel.swift */; };
+		812F46612DAD6670007D7125 /* ForgetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F46602DAD666B007D7125 /* ForgetPasswordView.swift */; };
+		812F46632DAD6689007D7125 /* EmailSentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F46622DAD667F007D7125 /* EmailSentView.swift */; };
+		812F46652DAD824E007D7125 /* ResetPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812F46642DAD8247007D7125 /* ResetPasswordView.swift */; };
 		9506F5C22CAF4B4100C11AC9 /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */; };
 		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
 		951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */; };
@@ -169,6 +173,10 @@
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
 		53C7704D2B9A79EF00455FC5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		812F465E2DAD6593007D7125 /* ForgetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordViewModel.swift; sourceTree = "<group>"; };
+		812F46602DAD666B007D7125 /* ForgetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordView.swift; sourceTree = "<group>"; };
+		812F46622DAD667F007D7125 /* EmailSentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSentView.swift; sourceTree = "<group>"; };
+		812F46642DAD8247007D7125 /* ResetPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordView.swift; sourceTree = "<group>"; };
 		9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanner.swift; sourceTree = "<group>"; };
 		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
@@ -430,6 +438,10 @@
 		20CF4A2A2AE746CE00916EC6 /* signIn */ = {
 			isa = PBXGroup;
 			children = (
+				812F46642DAD8247007D7125 /* ResetPasswordView.swift */,
+				812F46622DAD667F007D7125 /* EmailSentView.swift */,
+				812F46602DAD666B007D7125 /* ForgetPasswordView.swift */,
+				812F465E2DAD6593007D7125 /* ForgetPasswordViewModel.swift */,
 				20CF4A2F2AE7475500916EC6 /* SignInView.swift */,
 				20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */,
 			);
@@ -811,6 +823,7 @@
 				52051D8F2CC1BCBF00B07A32 /* CoreUserModel.xcdatamodeld in Sources */,
 				959BEA6D2BF461CD0009789D /* RedeemPointsMutation.graphql.swift in Sources */,
 				958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */,
+				812F46612DAD6670007D7125 /* ForgetPasswordView.swift in Sources */,
 				46909DFA2B96907D00E99274 /* UserEvent.swift in Sources */,
 				958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */,
 				951F6EC02BB669DF001FDB50 /* ImageHelper.swift in Sources */,
@@ -822,6 +835,7 @@
 				951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */,
 				959BEA742BF461CD0009789D /* GetUsersQuery.graphql.swift in Sources */,
 				C5F623592D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */,
+				812F46632DAD6689007D7125 /* EmailSentView.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				959BEA732BF461CD0009789D /* GetUserPointsQuery.graphql.swift in Sources */,
 				20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */,
@@ -830,6 +844,7 @@
 				951F6EBD2BB65E1F001FDB50 /* CoreFunctions.swift in Sources */,
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
+				812F465F2DAD65A0007D7125 /* ForgetPasswordViewModel.swift in Sources */,
 				B8DCB9522D16395200602068 /* MTPlacemark.swift in Sources */,
 				959BEA762BF461CD0009789D /* RedeemPointsInput.graphql.swift in Sources */,
 				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
@@ -870,6 +885,7 @@
 				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
 				959BEA792BF461CD0009789D /* Mutation.graphql.swift in Sources */,
 				B8264CEF2BAE5D4B005CED1B /* Constants.swift in Sources */,
+				812F46652DAD824E007D7125 /* ResetPasswordView.swift in Sources */,
 				959BEA722BF461CD0009789D /* GetUserEventsQuery.graphql.swift in Sources */,
 				523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */,
 				959BEA7A2BF461CD0009789D /* Query.graphql.swift in Sources */,
@@ -1037,7 +1053,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 7F4NDT3MRR;
+				DEVELOPMENT_TEAM = KCM8N6525G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
@@ -1074,7 +1090,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = 7F4NDT3MRR;
+				DEVELOPMENT_TEAM = KCM8N6525G;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";

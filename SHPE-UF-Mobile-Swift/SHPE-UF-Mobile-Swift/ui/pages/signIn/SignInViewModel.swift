@@ -85,6 +85,7 @@ final class SignInViewModel: ObservableObject
     
     func forgotPassword(email: String) {
         self.isCommunicating = true
+        print("🔍 Starting email validation for: \(email)")
         requestHandler.validateEmail(email: email, completion: { result in
             DispatchQueue.main.async {
                 if let error = result["error"] as? String {
@@ -94,8 +95,11 @@ final class SignInViewModel: ObservableObject
                     withAnimation(.easeIn(duration: 0.3)) {
                         AppViewModel.appVM.showToast = true
                     }
+                    
+                    print("❌ Email validation failed with error: \(error)")
                     return
                 }
+                
                 guard let emailExists = result["emailExists"] as? Bool, emailExists else {
                     self.isCommunicating = false
                     self.error = "Email not registered"
@@ -103,9 +107,11 @@ final class SignInViewModel: ObservableObject
                     withAnimation(.easeIn(duration: 0.3)) {
                         AppViewModel.appVM.showToast = true
                     }
+                    print("⚠️ Email not registered: \(email)")
                     return
                 }
-                // Email exists, now proceed to request a password reset
+                // Email exists, now proceed to request a password reset\\
+                print("✅ Email exists. Proceeding to send password reset request...")
                 self.requestHandler.forgotPassword(email: email) { data in
                     DispatchQueue.main.async {
                         self.isCommunicating = false
@@ -115,6 +121,7 @@ final class SignInViewModel: ObservableObject
                             withAnimation(.easeIn(duration: 0.3)) {
                                 AppViewModel.appVM.showToast = true
                             }
+                            print("❌ Failed to send password reset email: \(error)")
                             return
                         }
                         if let message = data["message"] as? String {
@@ -122,10 +129,16 @@ final class SignInViewModel: ObservableObject
                             withAnimation(.easeIn(duration: 0.3)) {
                                 AppViewModel.appVM.showToast = true
                             }
+                            print("📬 Password reset request successful. Message: \(message)")
+
                             // Optionally, handle the reset token if needed:
                             // if let token = data["token"] as? String {
                             //     // Navigate to reset password screen or store token
                             // }
+                        }
+                        else{
+                            print("⚠️ Password reset response missing 'message' field.")
+
                         }
                     }
                 }
@@ -285,8 +298,9 @@ final class SignInViewModel: ObservableObject
         user.springPercentile = Int64(shpeito.springPercentile)
         user.summerPercentile = Int64(shpeito.summerPercentile)
         user.darkMode = AppViewModel.appVM.darkMode
+        print("✅✅✅")
         
-        do { try viewContext.save() } catch { print("Could not save user to Core") }
+        do { try viewContext.save() } catch { print("Could not save user to Core❌") }
     }
 
     // Add this function to Profile View Model for sign out function
