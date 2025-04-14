@@ -8,6 +8,30 @@
 
 import SwiftUI
 
+/// A circular progress indicator with animated gradient fill.
+///
+/// `CircularProgessView` displays a ring-shaped progress bar that fills
+/// based on a provided `progress` value between `0.0` and `1.0`. The fill
+/// is animated using an ease-out transition and rendered with a custom
+/// linear gradient.
+///
+/// The view rotates the circle by `-90°` so the progress begins from the top,
+/// mimicking traditional progress indicators.
+///
+/// - Parameters:
+///   - vm: A `PointsViewModel` instance that controls whether to trigger animation
+///         via the `doAnimation` flag.
+///   - progress: A `Double` value from `0.0` to `1.0` representing the completion percentage.
+///
+/// ## Features:
+/// - Gradient stroke from `bottomBlue` to `topBlue`
+/// - Delayed animation on appearance
+/// - Static background stroke for context
+///
+/// ## Example:
+/// ```swift
+/// CircularProgessView(vm: viewModel, progress: 0.75)
+/// ```
 struct CircularProgessView: View {
     
     @StateObject var vm:PointsViewModel

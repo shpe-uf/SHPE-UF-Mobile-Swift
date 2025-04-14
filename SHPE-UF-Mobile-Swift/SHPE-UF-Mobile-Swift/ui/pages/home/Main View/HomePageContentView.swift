@@ -2,6 +2,29 @@
 
 import SwiftUI
 
+/// Creates a new Binding that executes a closure when the value changes.
+    ///
+    /// This extension provides a convenient way to add side effects to binding changes
+    /// while maintaining the original binding functionality.
+    ///
+    /// - Parameter closure: The action to perform when the binding's value changes
+    /// - Returns: A new binding that triggers the closure on changes
+    ///
+    /// ## Usage Example
+    /// ```swift
+    /// @State private var selectedTab = 0
+    ///
+    /// TabView(selection: $selectedTab.onUpdate {
+    ///     print("Tab changed to \(selectedTab)")
+    /// }) {
+    ///     // Tab content...
+    /// }
+    /// ```
+    ///
+    /// ## Important Notes
+    /// - The closure is called after the new value is set
+    /// - Works with any Binding type (Int, String, Bool, etc.)
+    /// - Maintains all original binding functionality
 extension Binding {
     func onUpdate(_ closure: @escaping () -> Void) -> Binding<Value> {
         Binding(get: {
@@ -13,6 +36,28 @@ extension Binding {
     }
 }
 
+/// The main tabbed interface for the application, containing three primary views:
+/// 1. Home (Calendar View)
+/// 2. Points (Leaderboard)
+/// 3. Profile
+///
+/// This view:
+/// - Manages tab navigation with swipe gestures
+/// - Handles shared state through AppViewModel
+/// - Adapts to light/dark mode
+/// - Integrates with Core Data
+///
+/// ## Key Features
+/// - TabView with custom icons
+/// - Swipe gesture navigation between tabs
+/// - State management for current view
+/// - Location services integration
+///
+/// ## Example Usage
+/// ```swift
+/// HomePageContentView()
+///     .environment(\.managedObjectContext, persistenceController.container.viewContext)
+/// ```
 struct HomePageContentView: View {
     @StateObject private var locationManager:LocationManager = LocationManager()
     @StateObject private var appVM:AppViewModel = AppViewModel.appVM

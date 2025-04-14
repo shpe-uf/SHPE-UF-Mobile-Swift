@@ -16,6 +16,26 @@ private let PRODUCTION_ENV =
     "CALENDAR_API_KEY":""
 ]
 
+/// A network request handler for SHPE UF Mobile application
+///
+/// Handles all API communications including:
+/// - User authentication (registration, login)
+/// - Points management and redemption
+/// - Profile management
+/// - Event fetching
+///
+/// Uses Apollo Client for GraphQL operations and URLSession for REST API calls.
+///
+/// ## Important Environment Variables
+/// - `SERVER_LINK`: Backend server URL (GraphQL endpoint)
+/// - `CALENDAR_ID`: Google Calendar ID for events
+/// - `CALENDAR_API_KEY`: API key for calendar access
+///
+/// ## Error Handling
+/// All methods use completion handlers that return dictionaries which may contain:
+/// - Success data (structure varies by endpoint)
+/// - `["error": String]` for failures
+/// - `["success": Bool]` for simple operations
 class RequestHandler
 {
     let apolloClient = ApolloClient(url: URL(string:  ProcessInfo.processInfo.environment["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/

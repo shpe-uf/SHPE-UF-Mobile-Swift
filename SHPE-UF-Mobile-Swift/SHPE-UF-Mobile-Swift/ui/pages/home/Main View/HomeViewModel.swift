@@ -9,6 +9,24 @@ import Foundation
 import CoreData
 import SwiftUI
 
+/// Manages event data for the home screen, handling fetching, processing, and displaying calendar events.
+///
+/// This ViewModel:
+/// 1. Fetches events from network and Core Data
+/// 2. Processes events (sorting, categorizing, expanding multi-day events)
+/// 3. Provides filtered upcoming events
+/// 4. Supports debug/test modes with dummy data
+///
+/// ## Key Responsibilities
+/// - Network data fetching through `RequestHandler`
+/// - Event data processing and transformation
+/// - State management through `@Published` properties
+/// - Error handling and fallback to Core Data
+///
+/// ## Example Usage
+/// ```swift
+/// @StateObject var viewModel = HomeViewModel(coreEvents: fetchedEvents, viewContext: container.viewContext)
+/// ```
 final class HomeViewModel: ObservableObject {
     private var requestHandler = RequestHandler()
     
@@ -28,6 +46,32 @@ final class HomeViewModel: ObservableObject {
 //        fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
 //    }
     
+    /// Fetches and processes calendar events from both network and Core Data.
+    ///
+    /// This function:
+    /// 1. Gets events starting from one month ago through the RequestHandler
+    /// 2. Sorts events chronologically by start time
+    /// 3. Updates event types and expands multi-day events
+    /// 4. Falls back to Core Data if network request fails
+    ///
+    /// - Parameters:
+    ///   - coreEvents: Fetched Core Data results to use as fallback
+    ///   - viewContext: Managed object context for Core Data operations
+    ///
+    /// ## Data Flow
+    /// 1. Sets minimum date range (1 month ago)
+    /// 2. Attempts network fetch
+    /// 3. On success:
+    ///    - Sorts, categorizes, and expands events
+    ///    - Updates local events array
+    /// 4. On failure:
+    ///    - Falls back to Core Data events
+    ///    - Logs error message
+    ///
+    /// ## Important Notes
+    /// - Always executes UI updates on main thread
+    /// - Maintains chronological order of events
+    /// - Preserves original functionality while being more robust
     func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext){
         // Set the minimum date for events to be fetched (e.g., today's date)
         
@@ -68,6 +112,25 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    /// Retrieves all events that haven't ended yet.
+    ///
+    /// This function:
+    /// 1. Filters events where the end time is in the future
+    /// 2. Returns events in their original order
+    /// 3. Uses the current system date/time for comparison
+    ///
+    /// - Returns: An array of upcoming `Event` objects
+    ///
+    /// ## Important Notes
+    /// - Includes events that are currently ongoing
+    /// - Comparison is timezone-aware (uses each event's timezone)
+    /// - Returns empty array if no upcoming events exist
+    ///
+    /// ## Example Usage
+    /// ```swift
+    /// let upcoming = getUpcomingEvents()
+    /// calendarView.display(upcoming)
+    /// ```
     func getUpcomingEvents()->[Event]
     {
         var upcomingEvents:[Event] = []
@@ -81,6 +144,25 @@ final class HomeViewModel: ObservableObject {
         return upcomingEvents
     }
     
+    /// Categorizes events based on keywords found in their summaries.
+    ///
+    /// This function:
+    /// 1. Scans event summaries for specific keywords
+    /// 2. Assigns event types based on matched keywords
+    /// 3. Provides a default categorization for unmatched events
+    ///
+    /// ## Event Type Classification Rules
+    /// - "GBM" → General Body Meeting
+    /// - "Bootcamp", "Workshop", "Tank", "work", "Symposium" → Workshop
+    /// - "Social", "Fundraiser" → Social
+    /// - "volunteering" → Volunteering
+    /// - "Info" → Information Session
+    /// - (default) → Social
+    ///
+    /// ## Important Notes
+    /// - Matching is case-sensitive for "GBM" and case-insensitive for other keywords
+    /// - Original event objects are modified in-place
+    /// - Consider adding this logic to event initialization instead
     private func updateEventTypes() {
             for index in 0..<events.count {
                 let event = events[index]
@@ -103,6 +185,24 @@ final class HomeViewModel: ObservableObject {
                 
             }
     }
+    /// Expands multi-day events into multiple single-day events for display purposes.
+    ///
+    /// This function:
+    /// 1. Identifies events spanning multiple days
+    /// 2. Creates duplicate events for each day in the range
+    /// 3. Preserves all original event metadata
+    /// 4. Maintains single-day events unchanged
+    ///
+    /// ## Example
+    /// A 3-day conference (Jan 1-3) becomes three separate events:
+    /// - Jan 1 (original start to end of day)
+    /// - Jan 2 (all day)
+    /// - Jan 3 (start of day to original end)
+    ///
+    /// ## Important Notes
+    /// - Original time components are preserved for first/last days
+    /// - Timezone handling respects the original event's timezone
+    /// - Does not modify the calendar - only creates display variants
     private func expandMultiDayEvents() {
         var expandedEvents: [Event] = []
         
@@ -146,7 +246,34 @@ final class HomeViewModel: ObservableObject {
         events = expandedEvents
     }
     
-    /// For testing create dummy events
+    /// Creates a set of dummy events for testing and development purposes.
+    ///
+    /// This function:
+    /// 1. Generates three realistic event examples covering different types
+    /// 2. Includes complete event data with locations and descriptions
+    /// 3. Uses fixed dates for consistent testing
+    /// 4. Provides timezone-aware datetime objects
+    ///
+    /// - Returns: An array of `Event` objects with test data
+    ///
+    /// ## Generated Events
+    /// 1. **GBM #1** - December 25, 2025 (2-3 PM UTC)
+    ///    - Location: Reitz Union, Gainesville
+    ///    - Type: General Body Meeting
+    ///
+    /// 2. **SHPE 2025 Convention** - December 31, 2025 (8 PM-11:59 PM UTC)
+    ///    - Location: Anaheim, CA
+    ///    - Type: Social Event
+    ///
+    /// 3. **New Year's Resolution Workshop** - January 10, 2025 (8-10 AM UTC)
+    ///    - Location: Gainesville, FL
+    ///    - Type: Workshop
+    ///
+    /// ## Example Usage
+    /// ```swift
+    /// let testEvents = createDummyEvents()
+    /// viewModel.updateEvents(testEvents)
+    /// ```
     func createDummyEvents() -> [Event] {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

@@ -9,6 +9,28 @@ import Foundation
 import SwiftUI
 import CoreData
 
+/// A centralized view model that manages application state and user preferences.
+///
+/// This singleton class serves as the main state container for the application, handling:
+/// - UI navigation and view management
+/// - User preferences (dark mode)
+/// - Toast notifications
+/// - Map-related data
+///
+/// ## Overview
+/// The `AppViewModel` follows the singleton pattern to ensure consistent state across the app.
+/// It's designed to be used as an `@ObservedObject` or `@StateObject` in SwiftUI views.
+///
+/// ## Key Responsibilities
+/// - Managing the current view hierarchy
+/// - Storing and persisting user preferences
+/// - Displaying toast messages
+/// - Coordinating map interactions
+///
+/// ## Example Usage
+/// ```swift
+/// @StateObject private var appVM = AppViewModel.appVM
+/// ```
 class AppViewModel: ObservableObject
 {
     static let appVM = AppViewModel()
