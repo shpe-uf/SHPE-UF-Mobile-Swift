@@ -13,6 +13,21 @@ import SwiftUI
 import CoreLocation
 
 /// Manages location services and provides updates on the user's location.
+///
+/// `LocationManager` utilizes `CLLocationManager` to request location services
+/// and update the user's location. It handles authorization requests and
+/// provides the current user location to other components in the app.
+///
+/// # Example
+/// ```swift
+/// let locationManager = LocationManager()
+/// if locationManager.isAuthorized {
+///     // Access user's location
+///     if let location = locationManager.userLocation {
+///         print("User is at: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+///     }
+/// }
+/// ```
 class LocationManager : NSObject, CLLocationManagerDelegate, ObservableObject {
     /// The user's current location
     @Published var userLocation: CLLocation?
