@@ -608,7 +608,11 @@ class RequestHandler
                                         let event = try self.extractEvent(from: object)
                                         eventsList.append(event)
                                     } catch {
-                                        continue
+                                        let summary = object["summary"] as? String ?? "<No summary>"
+                                        let startDict = object["start"] as? [String: Any]
+                                        let dateTime = startDict?["dateTime"] as? String ?? startDict?["date"] as? String ?? "<No dateTime>"
+                                        print("❌ Failed to parse event: \n \(summary) :\n DateTime:\n \(dateTime)")
+                                        print("Reason: \(error.localizedDescription)")
                                     }
                                 }
                                 
@@ -696,7 +700,7 @@ class RequestHandler
     private func extractCreator(from dictionary: [String: Any]) throws -> Creator {
         guard
             let email = dictionary["email"] as? String,
-            let selfValue = dictionary["self"] as? Int
+            let selfValue = (dictionary["self"] as? Bool) == true ? 1 : 0
         else {
             throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
         }
@@ -737,7 +741,7 @@ class RequestHandler
     private func extractOrganizer(from dictionary: [String: Any]) throws -> Organizer {
         guard
             let email = dictionary["email"] as? String,
-            let selfValue = dictionary["self"] as? Int
+            let selfValue = (dictionary["self"] as? Bool) == true ? 1 : 0
         else {
             throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
         }
