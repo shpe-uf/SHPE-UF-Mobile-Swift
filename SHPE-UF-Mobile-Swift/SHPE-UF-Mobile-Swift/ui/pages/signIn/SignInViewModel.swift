@@ -1,26 +1,40 @@
 import Foundation
 import SwiftUI
 import CoreData
-
+/// A view model that manages authentication functionality for the sign-in process.
+///
+/// `SignInViewModel` handles the authentication process, including making network requests,
+/// processing responses, and updating the application state based on authentication results.
+/// It stores user credentials and profile information retrieved from the server.
+///
+/// # Example
+/// ```swift
+/// let viewModel = SignInViewModel(shpeito: SHPEito())
+/// viewModel.signIn(username: "user123", password: "securePass", viewContext: context)
+/// ```
 final class SignInViewModel: ObservableObject
 {
-    // Private variables like the Apollo endpoint
+    // Private variables
     private var requestHandler = RequestHandler()
     
-    // Out of View variables (Models)
+    // Published properties
     @Published var shpeito: SHPEito
     @Published var viewPassword: Bool = false
     @Published var error: String = "" // Error message variable
     @Environment(\.colorScheme) var colorScheme
     
-    //Toast duration
+    /// Duration in seconds for toast notifications to remain visible.
     @Published var toastDuration = 3.0
     
-    // Indicator for ongoing communication
+    /// Indicates whether a network request is currently in progress.
     @Published var isCommunicating: Bool = false
 
-    // Initialize SignInViewModel
-    init(shpeito: SHPEito) {
+    /// Initializes a new sign-in view model.
+    ///
+    /// This initializer sets up the view model with user data from the provided `SHPEito` object.
+    ///
+    /// - Parameter shpeito: A `SHPEito` object containing user data.
+        init(shpeito: SHPEito) {
         self.shpeito = shpeito
         self.username = shpeito.username
         self.password = shpeito.password
@@ -43,7 +57,7 @@ final class SignInViewModel: ObservableObject
        
     }
     
-    // In View variables (What is being DISPLAYED & What is being INTERACTED WITH)
+    // Published user properties
     @Published var signInButtonClicked: Bool = false
     @Published var username: String
     @Published var password: String
@@ -158,6 +172,19 @@ final class SignInViewModel: ObservableObject
 //    }
 
     // Methods to call in View
+    /// Authenticates a user with the provided credentials.
+    ///
+    /// This method:
+    /// 1. Sets the credentials in the `SHPEito` model
+    /// 2. Makes a sign-in network request
+    /// 3. Processes the response, handling errors or successful authentication
+    /// 4. Updates the app state and navigates to the appropriate view on success
+    /// 5. Shows toast notifications for error cases
+    ///
+    /// - Parameters:
+    ///   - username: The user's username
+    ///   - password: The user's password
+    ///   - viewContext: The Core Data managed object context for storing user data
     func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {
         // Set the username and password to the SHPEito model
         self.shpeito.username = username

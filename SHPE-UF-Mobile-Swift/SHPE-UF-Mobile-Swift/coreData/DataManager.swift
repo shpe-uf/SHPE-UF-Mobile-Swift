@@ -1,7 +1,18 @@
 import CoreData
 import Foundation
 
-/// Main data manager to handle the todo items
+/// A manager class for handling Core Data operations in the application.
+///
+/// `DataManager` provides centralized access to the Core Data stack, including the persistent container
+/// and managed object context. It handles loading the persistent store, migration of the data model,
+/// and provides access to the user data.
+///
+/// # Example
+/// ```swift
+/// let dataManager = DataManager()
+/// let context = dataManager.managedObjectContext
+/// // Use context for Core Data operations
+/// ```
 class DataManager: NSObject, ObservableObject {
     /// Dynamic properties that the UI will react to
     @Published var shpeito: User = User()
@@ -9,12 +20,18 @@ class DataManager: NSObject, ObservableObject {
     /// Add the Core Data container with the model name
     let container: NSPersistentContainer
     
-    /// Managed object context connected to the persistent store coordinator
+    /// The managed object context connected to the persistent store coordinator.
+    ///
+    /// Use this context for all Core Data operations within the application.
     var managedObjectContext: NSManagedObjectContext {
         container.viewContext
     }
     
-    /// Default init method. Load the Core Data container
+    /// Initializes the Data Manager and loads the Core Data stack.
+    ///
+    /// This initializer sets up the persistent container and attempts to load the
+    /// persistent stores. If loading fails, it attempts a migration. It also configures
+    /// the merge policy to handle conflicts.
     override init() {
         container = NSPersistentContainer(name: "CoreUserModel")
         super.init()
@@ -34,8 +51,11 @@ class DataManager: NSObject, ObservableObject {
             self.container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         }
     }
-    
-    // updated to use shared container for widget
+    /// Attempts to migrate the Core Data store to a new model version.
+    ///
+    /// This method is called when loading the persistent store fails. It tries to
+    /// add the persistent store with migration options enabled. If migration fails,
+    /// it clears the Core Data store as a last resort.
     private func attemptMigration() {
         let persistentStoreCoordinator = container.persistentStoreCoordinator
         
@@ -61,7 +81,10 @@ class DataManager: NSObject, ObservableObject {
             self.clearCoreData()
         }
     }
-    
+    /// Clears all data from the Core Data store.
+    ///
+    /// This method is called when migration fails. It fetches all entity names from
+    /// the managed object model and executes a batch delete request for each entity.
     private func clearCoreData() {
         let context = container.viewContext
 

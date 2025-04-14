@@ -12,6 +12,17 @@ import SwiftData
 /// The `Destination` class stores location-related information, including
 /// latitude, longitude, and coordinate span. It also manages a relationship
 /// to `MTPlacemark` instances.
+///
+/// # Example
+/// ```swift
+/// let campus = Destination(
+///     name: "UF Campus",
+///     latitude: 29.6516,
+///     longitude: -82.3248,
+///     latitudeDelta: 0.05,
+///     longitudeDelta: 0.05
+/// )
+/// ```
 @Model
 class Destination {
     /// The name of the destination

@@ -10,8 +10,34 @@ import SwiftUI
 import MapKit
 import SwiftData
 
-/// A view that displays location details and navigation options.
-struct LocationDetailView: View{
+/// A view that provides detailed information about a selected location.
+///
+/// `LocationDetailView` displays comprehensive location information including:
+/// - Location name and address
+/// - Map preview with LookAround scene when available
+/// - Transportation options (driving/walking)
+/// - Estimated travel time
+/// - Options to view the route or open in external map applications
+///
+/// The view automatically fetches route information and LookAround previews
+/// based on the selected destination.
+///
+/// # Example
+/// ```swift
+/// LocationDetailView(
+///     destinationCoordinate: $coordinate,
+///     selectedPlacemark: placemark,
+///     showRoute: $showRoute,
+///     widgetOffset: $offset,
+///     travelInterval: $interval,
+///     transportType: $transport,
+///     cameraPosition: $camera,
+///     region: $region,
+///     routeDestination: $destination,
+///     route: $route
+/// )
+/// ```
+struct LocationDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var locationManager:LocationManager
     
@@ -228,7 +254,12 @@ struct LocationDetailView: View{
         })
     }
     
-    /// Fetches the travel route from the user's location to the selected destination
+    // View body implementation
+    
+    /// Fetches the travel route from the user's location to the selected destination.
+    ///
+    /// This method calculates a route based on the current location, selected destination,
+    /// and transportation type, then updates the route and travel time information.
     func fetchRoute() async{
         if let userLocation = locationManager.userLocation, let selectedPlacemark{
             let request = MKDirections.Request()
@@ -289,7 +320,10 @@ struct LocationDetailView: View{
         }
     }
     
-    /// Fetches a Look Around preview for the destination location
+    /// Fetches a Look Around preview for the destination location.
+    ///
+    /// This method attempts to retrieve a Look Around scene for the destination
+    /// coordinate to provide an immersive preview of the location.
     func fetchLookaroundPreview() async{
         if let destination = destinationCoordinate{
             lookaroundScene = nil
