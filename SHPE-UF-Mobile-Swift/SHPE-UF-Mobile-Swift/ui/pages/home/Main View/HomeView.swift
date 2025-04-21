@@ -3,6 +3,30 @@
 import SwiftUI
 import CoreData
 
+/// The primary view displaying upcoming events in a scrollable list.
+///
+/// This view:
+/// 1. Shows a monthly calendar-style event list
+/// 2. Handles navigation to event details and notifications
+/// 3. Supports swipe gestures for navigation
+/// 4. Adapts to light/dark mode
+///
+/// ## Key Features
+/// - Dynamic month header that updates during scroll
+/// - Visual separation between events on different days
+/// - Smooth transitions between views
+/// - Gesture-based navigation
+///
+/// ## Data Flow
+/// - Uses `HomeViewModel` for event data
+/// - Integrates with Core Data for persistence
+/// - Shares state with `AppViewModel` for navigation
+///
+/// ## Example Usage
+/// ```swift
+/// HomeView(viewModel: HomeViewModel())
+///     .environmentObject(AppViewModel.shared)
+/// ```
 struct HomeView: View {
     //Variables for the view model
     @Environment(\.colorScheme) var colorScheme // Detects the system's color scheme (dark or light mode)
@@ -220,10 +244,33 @@ struct HomeView: View {
     }
             
     
-    // Helper function to check if two events occur on the same day
+    /// Determines whether two events occur on the same calendar day.
+    ///
+    /// This function:
+    /// 1. Compares the calendar day (ignoring time components)
+    /// 2. Uses the current calendar (respects user's locale/timezone)
+    /// 3. Handles all time zones and date formats correctly
+    ///
+    /// - Parameters:
+    ///   - event1: First event to compare
+    ///   - event2: Second event to compare
+    /// - Returns: `true` if both events occur on the same day, `false` otherwise
+    ///
+    /// ## Example Usage
+    /// ```swift
+    /// let eventA = Event(start: ...) // Jan 15 10:00
+    /// let eventB = Event(start: ...) // Jan 15 20:00
+    /// sameDay(eventA, eventB) // Returns true
+    ///
+    /// let eventC = Event(start: ...) // Jan 15 23:59
+    /// let eventD = Event(start: ...) // Jan 16 00:01
+    /// sameDay(eventC, eventD) // Returns false
+    /// ```
     func sameDay(_ event1: Event, _ event2: Event) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(event1.start.dateTime, inSameDayAs: event2.start.dateTime)
+        Calendar.current.isDate(
+            event1.start.dateTime,
+            inSameDayAs: event2.start.dateTime
+        )
     }
 }
 

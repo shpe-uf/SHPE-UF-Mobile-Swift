@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+/// A centralized collection of design constants used throughout the application.
+///
+/// This struct provides:
+/// 1. Consistent color palette for the entire app
+/// 2. Centralized color management
+/// 3. Support for both light and dark modes
+///
+/// ## Usage Guidelines
+/// - Use these constants instead of hard-coded colors
+/// - For color scheme-dependent values, use `.adaptive` modifier
+/// - Add new constants here when new colors are needed
+///
+/// ## Color Palette
+/// - Primary Colors: orange, blue, teal
+/// - Secondary Colors: grey, green, yellow, pink
+/// - UI Colors: background, text, icons
 struct Constants {
     static let BackgroundColor: Color = Color(red: 0.93, green: 0.93, blue: 0.93) // Default background color
     static let darkModeBackground: Color = Color(red: 0, green: 0.12, blue: 0.21) // Dark blue for dark mode
