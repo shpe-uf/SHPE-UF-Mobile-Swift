@@ -9,6 +9,8 @@
 import Foundation
 import Apollo
 
+private let DEVELOPMENT = false
+
 private let PRODUCTION_ENV =
 [
     "SERVER_LINK":"",
@@ -16,9 +18,32 @@ private let PRODUCTION_ENV =
     "CALENDAR_API_KEY":""
 ]
 
+private let ACCESS = DEVELOPMENT ? ProcessInfo.processInfo.environment : PRODUCTION_ENV
+
+
+/// A network request handler for SHPE UF Mobile application
+///
+/// Handles all API communications including:
+/// - User authentication (registration, login)
+/// - Points management and redemption
+/// - Profile management
+/// - Event fetching
+///
+/// Uses Apollo Client for GraphQL operations and URLSession for REST API calls.
+///
+/// ## Important Environment Variables
+/// - `SERVER_LINK`: Backend server URL (GraphQL endpoint)
+/// - `CALENDAR_ID`: Google Calendar ID for events
+/// - `CALENDAR_API_KEY`: API key for calendar access
+///
+/// ## Error Handling
+/// All methods use completion handlers that return dictionaries which may contain:
+/// - Success data (structure varies by endpoint)
+/// - `["error": String]` for failures
+/// - `["success": Bool]` for simple operations
 class RequestHandler
 {
-    let apolloClient = ApolloClient(url: URL(string:  ProcessInfo.processInfo.environment["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string:  ACCESS["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
 //    let apolloClient = ApolloClient(url: URL(string: "")!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
     //ProcessInfo.processInfo.environment["SERVER_LINK"]!
     // MARK: Example Query Function
@@ -502,7 +527,7 @@ class RequestHandler
             response in
             
             guard (try? response.get().data) != nil
-            else 
+            else
             {
                 print("ERROR: Incomplete Request\nError Message:\(response)")
                 
@@ -528,13 +553,13 @@ class RequestHandler
         let timeMin = dateFormatter.string(from: minDate)
         
         // Get evnironment variables
-        guard let CALENDAR_ID = ProcessInfo.processInfo.environment["CALENDAR_ID"] else
+        guard let CALENDAR_ID = ACCESS["CALENDAR_ID"] else
         {
             print("CALENDAR_ID is missing from environment variables")
             completion(([],false,"FATAL_ERROR"))
             return
         }
-        guard let CALENDAR_API_KEY = ProcessInfo.processInfo.environment["CALENDAR_API_KEY"] else
+        guard let CALENDAR_API_KEY = ACCESS["CALENDAR_API_KEY"] else
         {
             print("CALENDAR_API_KEY is missing from environment variables")
             completion(([],false,"FATAL_ERROR"))
@@ -588,7 +613,11 @@ class RequestHandler
                                         let event = try self.extractEvent(from: object)
                                         eventsList.append(event)
                                     } catch {
-                                        continue
+                                        let summary = object["summary"] as? String ?? "<No summary>"
+                                        let startDict = object["start"] as? [String: Any]
+                                        let dateTime = startDict?["dateTime"] as? String ?? startDict?["date"] as? String ?? "<No dateTime>"
+                                        print("❌ Failed to parse event: \n \(summary) :\n DateTime:\n \(dateTime)")
+                                        print("Reason: \(error.localizedDescription)")
                                     }
                                 }
                                 
@@ -676,7 +705,7 @@ class RequestHandler
     private func extractCreator(from dictionary: [String: Any]) throws -> Creator {
         guard
             let email = dictionary["email"] as? String,
-            let selfValue = dictionary["self"] as? Int
+            let selfValue = (dictionary["self"] as? Bool) == true ? 1 : 0
         else {
             throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
         }
@@ -717,7 +746,7 @@ class RequestHandler
     private func extractOrganizer(from dictionary: [String: Any]) throws -> Organizer {
         guard
             let email = dictionary["email"] as? String,
-            let selfValue = dictionary["self"] as? Int
+            let selfValue = (dictionary["self"] as? Bool) == true ? 1 : 0
         else {
             throw NSError(domain: "ParsingError", code: 1, userInfo: nil)
         }
