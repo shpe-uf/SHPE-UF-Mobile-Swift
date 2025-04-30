@@ -14,8 +14,6 @@
 		206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F862AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift */; };
 		206C8F912AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F902AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift */; };
 		206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */; };
-		20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A202AE7441700916EC6 /* SignIn.swift */; };
-		20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A232AE7446500916EC6 /* MongoDB.swift */; };
 		20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2F2AE7475500916EC6 /* SignInView.swift */; };
 		20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A352AE7478400916EC6 /* HomeViewModel.swift */; };
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
@@ -40,7 +38,6 @@
 		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
 		52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* LandingPageView.swift */; };
 		53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C7704D2B9A79EF00455FC5 /* ProfileView.swift */; };
-		9506F5C22CAF4B4100C11AC9 /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */; };
 		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
 		951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */; };
 		951F6E8E2BB5E6C2001FDB50 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6E8D2BB5E6C2001FDB50 /* SignIn.graphql.swift */; };
@@ -94,8 +91,10 @@
 		95D3709E2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D3709C2B64737A00B2C5A4 /* GetPoints.graphql.swift */; };
 		95D3709F2B64737A00B2C5A4 /* GetPoints.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 95D3709C2B64737A00B2C5A4 /* GetPoints.graphql.swift */; };
 		B819E5DF2D17E1EC005046DC /* MapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B819E5DE2D17E1E8005046DC /* MapManager.swift */; };
+		B81DF1D92D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc in Sources */ = {isa = PBXBuildFile; fileRef = B81DF1D82D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc */; };
 		B8264CEF2BAE5D4B005CED1B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8264CEE2BAE5D4B005CED1B /* Constants.swift */; };
 		B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8264CF02BAE5E07005CED1B /* DateHelper.swift */; };
+		B85B8D062D5A65E8000A8958 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85B8D052D5A65E8000A8958 /* Destination.swift */; };
 		B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */; };
 		B8A10DA52B817793006BC59D /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A10DA42B817793006BC59D /* NotificationViewModel.swift */; };
 		B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */; };
@@ -142,8 +141,6 @@
 		206C8F8C2AE182020081A35A /* SHPE-UF-Mobile-SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SHPE-UF-Mobile-SwiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		206C8F902AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITests.swift; sourceTree = "<group>"; };
 		206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		20CF4A202AE7441700916EC6 /* SignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.swift; sourceTree = "<group>"; };
-		20CF4A232AE7446500916EC6 /* MongoDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MongoDB.swift; sourceTree = "<group>"; };
 		20CF4A2F2AE7475500916EC6 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		20CF4A352AE7478400916EC6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
@@ -168,7 +165,6 @@
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
 		53C7704D2B9A79EF00455FC5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanner.swift; sourceTree = "<group>"; };
 		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		951F6E8D2BB5E6C2001FDB50 /* SignIn.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.graphql.swift; sourceTree = "<group>"; };
@@ -213,8 +209,10 @@
 		95D370982B64732000B2C5A4 /* GetPercentiles.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPercentiles.graphql.swift; sourceTree = "<group>"; };
 		95D3709C2B64737A00B2C5A4 /* GetPoints.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPoints.graphql.swift; sourceTree = "<group>"; };
 		B819E5DE2D17E1E8005046DC /* MapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapManager.swift; sourceTree = "<group>"; };
+		B81DF1D82D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = "SHPE-UF-Mobile-Swift.docc"; sourceTree = "<group>"; };
 		B8264CEE2BAE5D4B005CED1B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B8264CF02BAE5E07005CED1B /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		B85B8D052D5A65E8000A8958 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B8A10DA42B817793006BC59D /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageContentView.swift; sourceTree = "<group>"; };
@@ -300,6 +298,7 @@
 				206C8F792AE182020081A35A /* Assets.xcassets */,
 				B8EF26FE2B8FB40B00F98FA2 /* Info.plist */,
 				206C8F7B2AE182020081A35A /* Preview Content */,
+				B81DF1D82D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc */,
 			);
 			path = "SHPE-UF-Mobile-Swift";
 			sourceTree = "<group>";
@@ -363,8 +362,6 @@
 			isa = PBXGroup;
 			children = (
 				20CF4A252AE7449E00916EC6 /* Models */,
-				20CF4A222AE7443D00916EC6 /* database */,
-				20CF4A1E2AE743E000916EC6 /* auth */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -372,26 +369,9 @@
 		20CF4A1D2AE7424100916EC6 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				9506F5BF2CAF4B1900C11AC9 /* utilities */,
 				20CF4A292AE7467300916EC6 /* pages */,
 			);
 			path = ui;
-			sourceTree = "<group>";
-		};
-		20CF4A1E2AE743E000916EC6 /* auth */ = {
-			isa = PBXGroup;
-			children = (
-				20CF4A202AE7441700916EC6 /* SignIn.swift */,
-			);
-			path = auth;
-			sourceTree = "<group>";
-		};
-		20CF4A222AE7443D00916EC6 /* database */ = {
-			isa = PBXGroup;
-			children = (
-				20CF4A232AE7446500916EC6 /* MongoDB.swift */,
-			);
-			path = database;
 			sourceTree = "<group>";
 		};
 		20CF4A252AE7449E00916EC6 /* Models */ = {
@@ -407,9 +387,7 @@
 		20CF4A282AE7466400916EC6 /* home */ = {
 			isa = PBXGroup;
 			children = (
-				B8DCB94A2D161EB800602068 /* Map View */,
 				B8264CEC2BAE5C30005CED1B /* Main View */,
-				B8264CED2BAE5C56005CED1B /* Notifcation View */,
 			);
 			path = home;
 			sourceTree = "<group>";
@@ -422,6 +400,8 @@
 				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
 				20CF4A2A2AE746CE00916EC6 /* signIn */,
+				B8DCB94A2D161EB800602068 /* Map View */,
+				B8264CED2BAE5C56005CED1B /* Notifcation View */,
 				20CF4A282AE7466400916EC6 /* home */,
 				206C8FA52AE18F720081A35A /* points */,
 			);
@@ -444,22 +424,6 @@
 				951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */,
 			);
 			path = profile;
-			sourceTree = "<group>";
-		};
-		9506F5BF2CAF4B1900C11AC9 /* utilities */ = {
-			isa = PBXGroup;
-			children = (
-				9506F5C02CAF4B2700C11AC9 /* camera */,
-			);
-			path = utilities;
-			sourceTree = "<group>";
-		};
-		9506F5C02CAF4B2700C11AC9 /* camera */ = {
-			isa = PBXGroup;
-			children = (
-				9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */,
-			);
-			path = camera;
 			sourceTree = "<group>";
 		};
 		951F6E792BB262C5001FDB50 /* coreData */ = {
@@ -618,6 +582,7 @@
 		B8DCB94A2D161EB800602068 /* Map View */ = {
 			isa = PBXGroup;
 			children = (
+				B85B8D052D5A65E8000A8958 /* Destination.swift */,
 				B819E5DE2D17E1E8005046DC /* MapManager.swift */,
 				B8E3870B2D177D5800E9BBF0 /* LocationDetailView.swift */,
 				B8DCB9532D16FC6800602068 /* LocationManager.swift */,
@@ -809,7 +774,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9506F5C22CAF4B4100C11AC9 /* QRCodeScanner.swift in Sources */,
 				528D72BE2B74648600702D0B /* RegisterView.swift in Sources */,
 				52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */,
 				528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */,
@@ -828,6 +792,7 @@
 				959BEA6B2BF461CD0009789D /* DeleteUserMutation.graphql.swift in Sources */,
 				4632E47C2B6B64170048782D /* SHPEito.swift in Sources */,
 				959BEA6E2BF461CD0009789D /* RegisterUserMutation.graphql.swift in Sources */,
+				B81DF1D92D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc in Sources */,
 				951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */,
 				959BEA742BF461CD0009789D /* GetUsersQuery.graphql.swift in Sources */,
 				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
@@ -844,7 +809,6 @@
 				959BEA762BF461CD0009789D /* RedeemPointsInput.graphql.swift in Sources */,
 				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
 				959BEA702BF461CD0009789D /* GetPercentilesQuery.graphql.swift in Sources */,
-				20CF4A212AE7441700916EC6 /* SignIn.swift in Sources */,
 				958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */,
 				95D327002B8FED88002A7DDA /* Event.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
@@ -853,6 +817,7 @@
 				B8E3870C2D177D5F00E9BBF0 /* LocationDetailView.swift in Sources */,
 				B8A10DA32B7F1A7D006BC59D /* NotificationView.swift in Sources */,
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
+				B85B8D062D5A65E8000A8958 /* Destination.swift in Sources */,
 				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				B8DCB9482D1610F300602068 /* EventBox.swift in Sources */,
 				959BEA772BF461CD0009789D /* RegisterInput.graphql.swift in Sources */,
@@ -863,7 +828,6 @@
 				959BEA752BF461CD0009789D /* EditUserProfileInput.graphql.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
-				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				959BEA7B2BF461CD0009789D /* User.graphql.swift in Sources */,
 				B8DCB9542D16FC8200602068 /* LocationManager.swift in Sources */,
 				53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */,
@@ -1046,7 +1010,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2.2;
+				CURRENT_PROJECT_VERSION = 1.2.4;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
 				DEVELOPMENT_TEAM = 7F4NDT3MRR;
 				ENABLE_PREVIEWS = YES;
@@ -1067,7 +1031,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shpeuf.shpe-uf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1082,7 +1046,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2.2;
+				CURRENT_PROJECT_VERSION = 1.2.4;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
 				DEVELOPMENT_TEAM = 7F4NDT3MRR;
 				ENABLE_PREVIEWS = YES;
@@ -1103,7 +1067,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shpeuf.shpe-uf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

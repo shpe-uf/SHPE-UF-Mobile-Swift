@@ -117,10 +117,10 @@ struct TableView: View {
     
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        TableView(vm: PointsViewModel(shpeito:
-                                        SHPEito()
-                                     ))
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TableView(vm: PointsViewModel(shpeito:
+//                                        SHPEito()
+//                                     ))
+//    }
+//}
