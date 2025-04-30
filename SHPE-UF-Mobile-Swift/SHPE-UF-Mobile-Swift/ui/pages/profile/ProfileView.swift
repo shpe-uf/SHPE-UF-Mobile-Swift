@@ -23,7 +23,7 @@ struct ProfileView: View
     
     @State var validUsername:Bool = true
     @State var clickedDeleteAccount:Bool = false
-    
+    @State private var showingAdminPanel = false
     @State var loadingDelete:Bool = false
     @State var errorDeleting:Bool = false
     
@@ -169,30 +169,26 @@ struct ProfileView: View
                                 }
                             }
 
-                            // ✅ Show Admin Panel button if user has admin permissions
-                            if vm.shpeito.permission.lowercased().contains("admin")
-                            {
-                                Button
-                                {
-                                    print("Navigating to Admin Panel") // Replace with actual navigation logic
-                                }
-                                label:
-                                {
-                                    HStack
-                                    {
+                            if vm.shpeito.permission.lowercased().contains("admin") {
+                                    Button {
+                                      showingAdminPanel = true
+                                    } label: {
+                                      HStack {
                                         Text("Admin Panel")
-                                            .foregroundStyle(Color.white)
-                                            .padding(10)
-
-                                        Image(systemName: "shield.fill") // Admin icon
-                                            .resizable()
-                                            .frame(width: 20, height: 20)
+                                          .foregroundStyle(.white)
+                                          .padding(10)
+                                        Image(systemName: "shield.fill")
+                                          .resizable()
+                                          .frame(width: 20, height: 20)
+                                      }
+                                      .padding(.horizontal)
+                                      .background(Color.red)
+                                      .cornerRadius(50)
                                     }
-                                    .padding(.horizontal)
-                                    .background(Color.red)
-                                    .cornerRadius(50)
-                                }
-                            }
+                                    .fullScreenCover(isPresented: $showingAdminPanel) {
+                                      AdminView()
+                                    }
+                                  }
                         }
                         .padding(.top, 10)
                         
