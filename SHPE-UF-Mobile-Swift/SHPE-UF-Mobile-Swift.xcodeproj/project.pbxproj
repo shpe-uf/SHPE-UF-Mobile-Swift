@@ -109,6 +109,11 @@
 		B8E3870C2D177D5F00E9BBF0 /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3870B2D177D5800E9BBF0 /* LocationDetailView.swift */; };
 		B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */; };
 		B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
+		DD375C772D9ADDA700C6592F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */; };
+		DD8622172D76192C00949246 /* EventCreatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8622162D76192400949246 /* EventCreatorView.swift */; };
+		DDA99E262DB69054004CA737 /* EventCreatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA99E252DB69043004CA737 /* EventCreatorViewModel.swift */; };
+		DDC422852D6CE2FC006B2A0E /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC422842D6CE2FB006B2A0E /* AdminView.swift */; };
+		DDE684FD2D63C96B0010D9A4 /* QrCodeGenerator.swift in Resources */ = {isa = PBXBuildFile; fileRef = DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,6 +232,11 @@
 		B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Viga-Regular.ttf"; sourceTree = "<group>"; };
 		B8EF26FE2B8FB40B00F98FA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UniversLTStd.otf; sourceTree = "<group>"; };
+		DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
+		DD8622162D76192400949246 /* EventCreatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreatorView.swift; sourceTree = "<group>"; };
+		DDA99E252DB69043004CA737 /* EventCreatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreatorViewModel.swift; sourceTree = "<group>"; };
+		DDC422842D6CE2FB006B2A0E /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
+		DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -397,6 +407,7 @@
 		20CF4A292AE7467300916EC6 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				DDE684FE2D63C98B0010D9A4 /* admin */,
 				53C7704C2B9A79BF00455FC5 /* profile */,
 				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
@@ -614,6 +625,18 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		DDE684FE2D63C98B0010D9A4 /* admin */ = {
+			isa = PBXGroup;
+			children = (
+				DDC422842D6CE2FB006B2A0E /* AdminView.swift */,
+				DD8622162D76192400949246 /* EventCreatorView.swift */,
+				DDA99E252DB69043004CA737 /* EventCreatorViewModel.swift */,
+				DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */,
+				DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */,
+			);
+			path = admin;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -735,6 +758,7 @@
 				95D370992B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
 				958A5E6C2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				951F6ED92BB69806001FDB50 /* GetUsers.graphql.swift in Resources */,
+				DDE684FD2D63C96B0010D9A4 /* QrCodeGenerator.swift in Resources */,
 				B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */,
 				B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */,
 				959BEA4F2BF45F4C0009789D /* DeleteUser.graphql.swift in Resources */,
@@ -801,6 +825,9 @@
 				20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */,
 				B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */,
 				B8DCB9522D16395200602068 /* MTPlacemark.swift in Sources */,
+				DD8622172D76192C00949246 /* EventCreatorView.swift in Sources */,
+				DD375C772D9ADDA700C6592F /* ComingSoonView.swift in Sources */,
+				959BEA762BF461CD0009789D /* RedeemPointsInput.graphql.swift in Sources */,
 				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
 				959BEA702BF461CD0009789D /* GetPercentilesQuery.graphql.swift in Sources */,
 				958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */,
@@ -814,6 +841,7 @@
 				46909E4A2B96952000E99274 /* PointsViewDark.swift in Sources */,
 				B8DCB9482D1610F300602068 /* EventBox.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
+				DDA99E262DB69054004CA737 /* EventCreatorViewModel.swift in Sources */,
 				B8DCB9462D160F4800602068 /* EventInfoView.swift in Sources */,
 				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
 				24D7806A2D7F67D2007DAB09 /* SchemaConfiguration.swift in Sources */,
@@ -852,6 +880,8 @@
 				B8DCB94E2D161EE000602068 /* LocationView.swift in Sources */,
 				46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
+				DDC422852D6CE2FC006B2A0E /* AdminView.swift in Sources */,
+				959BEA712BF461CD0009789D /* GetPointsQuery.graphql.swift in Sources */,
 				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
 				B8264CEF2BAE5D4B005CED1B /* Constants.swift in Sources */,
 				523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */,
@@ -1017,6 +1047,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
+				CURRENT_PROJECT_VERSION = 1.2.4;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
 				DEVELOPMENT_TEAM = P29A326V9R;
 				ENABLE_PREVIEWS = YES;
@@ -1039,6 +1070,8 @@
 				);
 				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "shpeuf.shpe-uf.com";
+				MARKETING_VERSION = 1.2.4;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.shpeuf.shpe-uf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1053,6 +1086,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
+				CURRENT_PROJECT_VERSION = 1.2.4;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
 				DEVELOPMENT_TEAM = P29A326V9R;
 				ENABLE_PREVIEWS = YES;
@@ -1075,6 +1109,8 @@
 				);
 				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "shpeuf.shpe-uf.com";
+				MARKETING_VERSION = 1.2.4;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.shpeuf.shpe-uf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
