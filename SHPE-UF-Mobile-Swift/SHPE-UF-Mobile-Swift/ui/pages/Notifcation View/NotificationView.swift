@@ -7,7 +7,33 @@
 import SwiftUI
 import CoreData
 
-// Define a view for managing notification settings within the app
+/// A view that manages and displays the SHPE UF event notification settings.
+///
+/// `NotificationView` allows users to enable or disable notifications
+/// for different event types (e.g., GBMs, Info Sessions, Workshops, etc.).
+/// It provides toggles for individual event types, as well as a global "Allow for all"
+/// option that updates notification settings in Core Data and the system notification center.
+///
+/// This view integrates with Core Data, system settings, and a shared `NotificationViewModel`
+/// instance to provide persistent and responsive behavior.
+///
+/// The UI includes:
+/// - A top bar with a back button and title
+/// - Instructions for the user
+/// - Notification toggles for event categories
+/// - A system settings prompt when permission is denied
+///
+/// > Important: This view assumes that `NotificationViewModel.instance`,
+/// `CalendarEvent`, and `User` are correctly configured and fetched.
+///
+/// ## Parameters:
+/// - `viewModel`: A reference to the `HomeViewModel` containing event data.
+/// - `showView`: A `Binding` to control which view is shown in the app navigation.
+///
+/// ## Example:
+/// ```swift
+/// NotificationView(viewModel: homeVM, showView: $currentView)
+/// ```
 struct NotificationView: View {
     @ObservedObject var viewModel:HomeViewModel
     @Binding var showView: String
@@ -223,7 +249,37 @@ struct NotificationView: View {
         .navigationBarHidden(true) // Hide the navigation bar for this view
     }
 
-    // Helper function for creating button sections
+    /// Creates a vertically stacked button section for a specific event type.
+    ///
+    /// This view renders:
+    /// - A tappable icon button with a selection state (on/off)
+    /// - A label displaying the event name
+    ///
+    /// When tapped, the button toggles the selected state and updates both:
+    /// - Local notification settings via `NotificationViewModel`
+    /// - Persistent settings using `saveNotificationSetting(...)`
+    ///
+    /// The icon and background styling adjust dynamically based on the current
+    /// selection state and system color scheme.
+    ///
+    /// ## Parameters:
+    /// - `eventName`: The display name for the event type (e.g., "GBM").
+    /// - `eventIcon`: The asset name for the event's icon.
+    /// - `isSelected`: A `Binding<Bool>` tracking whether this event is enabled for notifications.
+    /// - `eventType`: A string identifier used by `NotificationViewModel` for targeting the event category.
+    ///
+    /// ## Returns:
+    /// A vertically stacked `VStack` containing the toggleable event button and its label.
+    ///
+    /// ## Example:
+    /// ```swift
+    /// eventButtonSection(
+    ///     eventName: "Workshops",
+    ///     eventIcon: "Training",
+    ///     isSelected: $viewNotificationModel.isWorkShopSelected,
+    ///     eventType: "Workshop"
+    /// )
+    /// ```
     private func eventButtonSection(eventName: String, eventIcon: String, isSelected: Binding<Bool>, eventType:String) -> some View {
         VStack(spacing: 20) {
             Button(action: {
@@ -255,6 +311,26 @@ struct NotificationView: View {
         }
     }
     
+    /// Saves the user's notification preference for a specific event type.
+    ///
+    /// This function updates the appropriate selection flag within the
+    /// shared `NotificationViewModel` based on the provided event type.
+    /// It also persists the user's preferences to Core Data using
+    /// `CoreFunctions().editUserNotificationSettings(...)`.
+    ///
+    /// - Parameters:
+    ///   - eventType: A string identifier for the event category
+    ///     (e.g., `"GBM"`, `"Info"`, `"Workshop"`).
+    ///   - state: A Boolean value representing whether notifications
+    ///     for the event type should be enabled (`true`) or disabled (`false`).
+    ///
+    /// > Note: If an invalid event type is provided, the function logs an error
+    ///         and no state is updated.
+    ///
+    /// ## Example:
+    /// ```swift
+    /// saveNotificationSetting(eventType: "Workshop", state: true)
+    /// ```
     private func saveNotificationSetting(eventType:String, state:Bool)
     {
         switch eventType
