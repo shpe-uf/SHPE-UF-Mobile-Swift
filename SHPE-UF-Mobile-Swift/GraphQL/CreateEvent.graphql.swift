@@ -1,6 +1,5 @@
 mutation CreateEvent($createEventInput: CreateEventInput) {
-  createEvent(createEventInput: $createEventInput)
-  {
+  createEvent(createEventInput: $createEventInput) {
     category
     code
     expiration
@@ -9,4 +8,3 @@ mutation CreateEvent($createEventInput: CreateEventInput) {
     request
   }
 }
-
