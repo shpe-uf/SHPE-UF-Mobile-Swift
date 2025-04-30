@@ -109,6 +109,7 @@
 		B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
 		DD375C772D9ADDA700C6592F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */; };
 		DD8622172D76192C00949246 /* EventCreatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8622162D76192400949246 /* EventCreatorView.swift */; };
+		DDA99E262DB69054004CA737 /* EventCreatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA99E252DB69043004CA737 /* EventCreatorViewModel.swift */; };
 		DDC422852D6CE2FC006B2A0E /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC422842D6CE2FB006B2A0E /* AdminView.swift */; };
 		DDE684FD2D63C96B0010D9A4 /* QrCodeGenerator.swift in Resources */ = {isa = PBXBuildFile; fileRef = DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */; };
 /* End PBXBuildFile section */
@@ -229,6 +230,7 @@
 		B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = UniversLTStd.otf; sourceTree = "<group>"; };
 		DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonView.swift; sourceTree = "<group>"; };
 		DD8622162D76192400949246 /* EventCreatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreatorView.swift; sourceTree = "<group>"; };
+		DDA99E252DB69043004CA737 /* EventCreatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCreatorViewModel.swift; sourceTree = "<group>"; };
 		DDC422842D6CE2FB006B2A0E /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrCodeGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -638,10 +640,11 @@
 		DDE684FE2D63C98B0010D9A4 /* admin */ = {
 			isa = PBXGroup;
 			children = (
-				DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */,
-				DD8622162D76192400949246 /* EventCreatorView.swift */,
 				DDC422842D6CE2FB006B2A0E /* AdminView.swift */,
+				DD8622162D76192400949246 /* EventCreatorView.swift */,
+				DDA99E252DB69043004CA737 /* EventCreatorViewModel.swift */,
 				DDE684FB2D63C96B0010D9A4 /* QrCodeGenerator.swift */,
+				DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */,
 			);
 			path = admin;
 			sourceTree = "<group>";
@@ -854,6 +857,7 @@
 				B8DCB9482D1610F300602068 /* EventBox.swift in Sources */,
 				959BEA772BF461CD0009789D /* RegisterInput.graphql.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
+				DDA99E262DB69054004CA737 /* EventCreatorViewModel.swift in Sources */,
 				B8DCB9462D160F4800602068 /* EventInfoView.swift in Sources */,
 				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
 				959BEA752BF461CD0009789D /* EditUserProfileInput.graphql.swift in Sources */,

@@ -9,154 +9,202 @@ import SwiftUI
 
 struct EventCreatorView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var eventVM = EventCreatorViewModel()
+    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+    @State var showPopup: Bool = false
     
     var body: some View{
+        
         ZStack{
-            Color(.darkdarkBlue)
-                .ignoresSafeArea(edges: .all)
             
-            ZStack{
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color(.white))
-                    .frame(width: 320, height: 750, alignment: .topLeading)
+            VStack{
+                ZStack{
+                    Image(appVM.darkMode ? "Gator" : "Gator2")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 180, height: 200)
+                        .offset(x:-UIScreen.main.bounds.width*0.42, y: appVM.darkMode ? 40 : 30)
+                    
+                    
+                    CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
+                        .fill(Color("Profile-Background"))
+                        .frame(width: UIScreen.main.bounds.width * 1.9, height: 150)
+                        .padding(.top, 100)
+                    
+                
+                    Image("EVENTS")
+                        
+                        
+                    Image("Edit Event")
+                        .resizable()
+                        .frame(width: 120, height: 24, alignment: .trailing)
+                        .padding(.top, 140)
+                        .padding(.trailing, 225)
+                }
+                .frame(maxWidth:.infinity)
+                .background(Color("profile-orange"))
+                
                 ScrollView{
-                    VStack{
-                        HStack{
-                            Image("CreateEventWord")
-                                .resizable()
-                                .frame(width:180, height: 30, alignment: .trailing)
-                                .padding(.trailing, 40)
-                                
-                            Button{
-                                dismiss()
-                            }label:{
-                                ExitButton()
-                            }
+                    
+                    InputGrid(vm : eventVM)
+                        .padding(.leading, 30)
+                        .frame(width: UIScreen.main.bounds.width)
+                        .padding(.bottom, 100)
+                }
+                HStack(spacing: 0){
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color("buttonColor"))
+                                .stroke(.white, lineWidth: 2)
+                                .frame(width: 160, height: 50)
+                                .padding()
+                            
+                            Text("Cancel")
+                                .font(Font.custom("Viga-Regular", size: 25))
+                                .foregroundColor(.white)
                         }
-                        .padding(.top, 60)
-                        .padding(.bottom, 20)
-                        
-                        InputGrid()
-                        
-                        Button{
-                            print("tapped")
-                        }label:{
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 15)
-                                    .fill(Color(.rblue))
-                                    .frame(width: 113, height: 42, alignment: .trailing)
-                                
-                                Text("Create")
-                                    .foregroundColor(.white)
-                                    .font(Font.custom("UniversLTStd", size: 20))
-                            }
-                            .padding(.trailing, 145)
+                    }
+                    
+                    Button {
+                        eventVM.SaveEvent()
+                        showPopup.toggle()
+                    } label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color("buttonColor"))
+                                .stroke(.white, lineWidth: 2)
+                                .frame(width: 160, height: 50)
+                                .padding()
+                            
+                            Text("Save")
+                                .font(Font.custom("Viga-Regular", size: 25))
+                                .foregroundColor(.white)
                         }
                     }
                 }
+                .padding(.bottom, 30)
+            }
+            .ignoresSafeArea()
+            .background(Color("Profile-Background"))
+            .preferredColorScheme(appVM.darkMode ? .dark : .light)
+            .blur(radius: showPopup ? 5 : 0)
+            
+            if showPopup{
+                Color.clear
+                    .contentShape(Rectangle())
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation{
+                            showPopup.toggle()
+                        }
+                    }
+                ConfirmPopUp(isShowing: $showPopup)
             }
         }
         .navigationBarBackButtonHidden(true)
     }
+   
 }
 
-struct ExitButton: View {
+struct ConfirmPopUp: View{
+    @Binding var isShowing: Bool
     var body: some View{
         ZStack{
-            RoundedRectangle(cornerRadius: 5)
-                .fill(Color(.lightGray))
-                .frame(width: 30, height: 30)
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color("profile-orange"))
+                .frame(width: 300, height: 400)
             
-            Image("xMark")
-                .resizable()
-                .frame(width: 20, height: 20)
+            VStack{
+                        
+                Button{
+                    isShowing.toggle()
+                }label:{
+                    
+                    ZStack{
+                        Circle()
+                            .fill(Color(.black))
+                            .frame(width: 28, height: 28)
+                            
+                        Image("xMark")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
+                        
+                }
+                    .padding(.leading, 240)
+                
+                Text("Create Event?")
+                    .font(Font.custom("Viga-Regular", size: 28))
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+                
+                Text("      Are you sure you wish to \n create this event, and that all \n        the info is acurate?")
+                    .font(Font.custom("Viga-Regular", size:16))
+                    .foregroundColor(.lightGray)
+                    .padding(.top, 5)
+                
+                Image("DefaultPFPL")
+                    .resizable()
+                    .frame(width:100, height: 100)
+                
+                Button {
+                    print("saved")
+                } label: {
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color("buttonColor"))
+                            .frame(width: 140, height: 40)
+                            .padding()
+                        
+                        Text("Create")
+                            .font(Font.custom("Viga-Regular", size: 25))
+                            .foregroundColor(.white)
+                    }
+                }
+            }
         }
     }
 }
 
-struct TextBox: View {
-    @State var inputText: String = ""
-    var name: String
-    var body: some View{
-        VStack{
-            HStack{
-                Text(name)
-                    .font(Font.custom("UniversLTStd", size: 20))
-                    .padding(.leading, 70)
-                    .padding(.top, 15)
-                Spacer()
-            }
-            TextField("", text: $inputText)
-                .padding()
-                .frame(width: 260, height: 40, alignment: .center)
-                .background(Color.lightGray)
-                .cornerRadius(8)
-                .foregroundColor(.black)
-            }
-        .padding(.bottom, 5)
-        }
-}
 
-struct DropDownBox: View{
-    var name : String
-    var options: [String]
-    
-    @State private var isExpanded = false
-    @Binding var selection: String?
-    
-    var body: some View{
-        VStack(alignment: .leading){
-            HStack{
+struct TextBox: View
+{
+    @Binding var inputText: String
+    var name: String
+    var imageName: String
+    var width: CGFloat
+    var body: some View
+    {
+        VStack(alignment: .leading)
+        {
+            HStack
+            {
+                Image(imageName)
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width:35,height:35)
+                    .padding(.trailing, 4)
+                
                 Text(name)
-                    .font(Font.custom("UniversLTStd", size: 20))
-                    .padding(.leading, 70)
-                    .padding(.top, 15)
-                Spacer()
+                    .font(Font.custom("Viga-Regular", size: 22))
+                    .foregroundStyle(Color("profile-orange"))
             }
-            VStack{
-                HStack{
-                    Spacer()
-                    Image(systemName: "chevron.down")
-                        .foregroundColor(.gray)
-                        .frame(width: 8, height: 8)
-                        .rotationEffect(.degrees(isExpanded ?  180 : 0))
-                        .padding(.trailing)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            TextField("", text: $inputText)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .font(.system(size: 16))
+                .frame(width: width)
+                .overlay(Rectangle().frame(height: 1).padding(.top, 20).padding(.leading,4))
+                .onSubmit {
+                    print("submitted")
                 }
-                .frame(height: 40)
-                .background(Color.lightGray)
-                .onTapGesture {
-                    withAnimation(.snappy){
-                        isExpanded.toggle()
-                    }
-                }
-                if isExpanded {
-                    VStack{
-                        ForEach(options, id: \.self){option in
-                            ZStack{
-                                RoundedRectangle(cornerRadius: 8)
-                                HStack{
-                                    Text(option)
-                                    Spacer()
-                                }
-                            }
-                            .frame(height: 40)
-                            
-                            .padding(.horizontal)
-                            .onTapGesture {
-                                withAnimation(.snappy){
-                                    selection = option
-                                    isExpanded.toggle()
-                                }
-                            }
-                        }
-                    }
-                    .transition(.move(edge: .bottom))
-                }
-            }
-            .background(Color.lightGray)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .frame(width: 260, height: 40)
-            .padding(.leading, 70)
         }
     }
 }
@@ -164,49 +212,125 @@ struct DropDownBox: View{
 struct InputGrid: View {
     
     let Categories = [
-        "Hangout",
-        "Tutoring",
+        "General Body Meeting",
+        "Cabinet Meeting",
         "Workshop",
-        "GBM"
+        "Form/Survey"
     ]
     
     let ExpiresIn = [
-        "Today",
-        "tomorrow",
-        "tuesday"
+        "1 hour",
+        "2 hours",
+        "3 hours",
+        "4 hours"
     ]
     
-    @State var selectedCategory: String?
-    @State var selectedDate: String?
+    @ObservedObject var vm: EventCreatorViewModel
     
     var body: some View {
-        VStack{
-            TextBox(name: "Name")
-            TextBox(name: "Code")
-            TextBox(name: "Password")
-            DropDownBox(name: "Category",
-                        options: Categories,
-                        selection: $selectedCategory)
+        VStack(spacing: 40){
+            TextBox(inputText: $vm.eventTitle, name: "TITLE", imageName: "list", width : 270)
+            TextBox(inputText: $vm.eventCode,  name: "CODE", imageName: "lock", width: 270)
             
-            TextBox(name: "Points")
-            DropDownBox(name: "Expires in",
-                        options: ExpiresIn,
-                        selection: $selectedDate)
+            AdminDropDown(selection: $vm.eventCategory, options: Categories, width: 120, name: "CATEGORY", imageName: "list")
+                .zIndex(999)
+            
+            TextBox(inputText: $vm.eventPoints, name: "POINTS", imageName: "list", width : 120)
+            AdminDropDown(selection: $vm.eventDate, options: ExpiresIn, width: 120, name: "EXPIRES IN", imageName: "list")
+                .zIndex(998)
         }
         .padding(.bottom, 10)
     }
 }
 
+struct AdminDropDown:View
+{
+    @Binding var selection: String
+    
+    let options: [String]
+    let width: CGFloat
+    
+    @State private var isExpanded: Bool = false
+    
+    var name: String
+    var imageName: String
+    
+    var body: some View {
+        VStack
+        {
+            HStack
+            {
+                Image(imageName)
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width:35,height:35)
+                    .padding(.trailing, 4)
+                
+                Text(name)
+                    .font(Font.custom("Viga-Regular", size: 22))
+                    .foregroundStyle(Color("profile-orange"))
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            HStack
+            {
+                Text(selection)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.down")
+                    .rotationEffect(isExpanded ? .degrees(180) : .zero)
+            }
+            .frame(width: width, alignment: .leading)
+            .overlay(Rectangle().frame(height: 1).padding(.top, 50))
+            .padding(.trailing, 244)
+            .onTapGesture {
+                withAnimation(.easeInOut)
+                {
+                    isExpanded.toggle()
+                }
+            }
+            
+            if isExpanded
+            {
+                ScrollView
+                {
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color("lightGray"))
+                        VStack(alignment: .leading)
+                        {
+                            ForEach(options, id:\.self)
+                            {
+                            option in
+                            Text(option)
+                                .font(.system(size: 16))
+                                .foregroundStyle(Color.black)
+                                .padding(5)
+                                .frame(width: width - 10, alignment: .leading)
+                                .onTapGesture {
+                                    selection = option
+                                    isExpanded = false
+                                }
+                            }
+                        }
+                    .padding(.vertical, 10)
+                    }
+                    .zIndex(2)
+                }
+                .frame(width: width, height: options.count > 4 ? 165 : 45 * CGFloat(options.count))
+                .background(Color("lightGray"))
+                .clipped(antialiased: false)
+                .cornerRadius(10)
+            }
+    
+        }
+        .padding(.top, isExpanded ? options.count > 4 ? 175 : 45 * CGFloat(options.count) + 10 : 0)
+        .frame(height: 35)
+    }
+}
 
 #Preview {
    EventCreatorView()
-}
-
-class CreatedEvent: ObservableObject {
-    @Published var name: String = ""
-    @Published var Code: String = ""
-    @Published var Password: String = ""
-    @Published var Category: String = ""
-    @Published var Points: String = ""
-    @Published var ExpiresIn: String = ""
 }

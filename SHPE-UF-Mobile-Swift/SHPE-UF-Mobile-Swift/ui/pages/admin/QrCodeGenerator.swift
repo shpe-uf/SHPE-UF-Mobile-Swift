@@ -8,6 +8,8 @@ import Foundation
 import SwiftUI
 import CoreImage.CIFilterBuiltins
 
+
+// Testing the Qr Code
 struct QRTestView: View {
     var code: String
     
@@ -19,6 +21,7 @@ struct QRTestView: View {
             
     }
 }
+
 
 func QrCodeGenerator(eventCode: String) -> UIImage {
     // Contatenate string
@@ -37,9 +40,9 @@ func QrCodeGenerator(eventCode: String) -> UIImage {
         }
     }
     return UIImage(systemName: "xmark") ?? UIImage()
-    
-    
 }
 
-
+#Preview{
+    QRTestView(code: "Meow")
+}
 
