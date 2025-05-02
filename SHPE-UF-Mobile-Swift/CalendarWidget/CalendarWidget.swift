@@ -2,17 +2,9 @@ import WidgetKit
 import CoreData
 import SwiftUI
 
-// Define an Event struct to use in the widget - matching your app's Event model
-struct WidgetEvent: Identifiable {
-    let id = UUID()
-    let title: String
-    let startDate: Date
-    let endDate: Date
-    let eventType: String
-    
-}
-
 struct Provider: TimelineProvider {
+    
+    // data manager simpleton to use AppGroups / CoreData
     let dataManager: DataManager
     
     init(dataManager: DataManager) {
@@ -23,12 +15,14 @@ struct Provider: TimelineProvider {
         SimpleEntry(date: Date(), events: [])
     }
     
+    // this is what displays when the user is adding a widget
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
         let events = fetchEventsDirectly()
         let entry = SimpleEntry(date: Date(), events: events)
         completion(entry)
     }
     
+    // timeline on how often the widget updates -- updates once a day
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         let events = fetchEventsDirectly()
         
@@ -37,7 +31,7 @@ struct Provider: TimelineProvider {
         
         // Create timeline entries for the next day hours
         print("GETTING TIMELINE")
-        for hourOffset in 0..<24 {
+        for hourOffset in 0..<24 { // change to update timeline
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let upcomingEvents = events.filter { $0.startDate >= entryDate }
             let entry = SimpleEntry(date: entryDate, events: upcomingEvents)
@@ -49,13 +43,19 @@ struct Provider: TimelineProvider {
     
     // Method to directly fetch and format events from CoreData
     private func fetchEventsDirectly() -> [WidgetEvent] {
-        print("FETCHING EVENTS")
+        print("FETCHING EVENTS FOR WIDGET")
         // initialize viewContext with DataManager class
         let viewContext = dataManager.container.viewContext
         
-        // initialize fetch request from https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/FetchingObjects.html
+        // Log the container URL
+        if let url = dataManager.container.persistentStoreDescriptions.first?.url {
+            print("USING PERSISTENT STORE AT: \(url)")
+        }
         
+        // initialize fetch request
         let fetchRequest = NSFetchRequest<CalendarEvent>(entityName: "CalendarEvent")
+        
+        print("fetching events...")
         
         // Use NSPredicate to only get events that has happened after now '>='
         let currentDate = Date()
@@ -69,32 +69,33 @@ struct Provider: TimelineProvider {
         
         // fetch the coreEvents
         do {
+            // get from CoreData
             let coreEvents = try viewContext.fetch(fetchRequest)
-            print("CORE EVNTS::: \(coreEvents)")
-            return convertCoreEventsToEvents(coreEvents)
+            
+            // convert to WidgetEvents
+            return convertCoreEventsToWidgetEvents(coreEvents)
             
         } catch {
-            print("ERROR FETCHING EEVENTS")
-            fatalError(error.localizedDescription)
+            print("ERROR FETCHING EVENTS: \(error.localizedDescription)")
+            return []
         }
-        
     }
     
     // CoreData [event] to [WidgetEvent]
-    private func convertCoreEventsToEvents(_ coreEvents: [CalendarEvent]) -> [WidgetEvent] {
+    private func convertCoreEventsToWidgetEvents(_ coreEvents: [CalendarEvent]) -> [WidgetEvent] {
         
-        // use compact map to filter out unwanted objects
+        // use compact map to filter out objects
         let widgetEvents = coreEvents.compactMap { coreEvent in
             // check the required types
             guard let start = coreEvent.start as Date?,
                   let end = coreEvent.end as Date?,
-                  let title = coreEvent.identifier as String?,
+                  let title = coreEvent.summary as String?,
                   let eventType = coreEvent.eventType as String?
             else {
                 return WidgetEvent(title: "", startDate: Date(), endDate: Date(), eventType: "")
             }
             
-            // create the corresponding WidgetEvent
+            // create WidgetEvent
             return WidgetEvent(title: title, startDate: start, endDate: end, eventType: eventType)
         }
         
@@ -109,6 +110,7 @@ struct SimpleEntry: TimelineEntry {
 
 struct CalendarWidgetEntryView: View {
     var entry: Provider.Entry
+    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
     
     @Environment(\.widgetFamily) var family
     
@@ -119,7 +121,7 @@ struct CalendarWidgetEntryView: View {
     var body: some View {
         switch family {
         case .accessoryCircular:
-            // circular accessory
+            // circular accessory -- TODO
             MediumCalendarWidget(events: entry.events)
         case .systemSmall:
             // small widget
@@ -128,7 +130,7 @@ struct CalendarWidgetEntryView: View {
         case .systemMedium:
             // medium widget.
             MediumCalendarWidget(events: entry.events)
-                .environment(\.colorScheme, .dark)
+                .environment(\.colorScheme, .light)
         default:
             MediumCalendarWidget(events: entry.events)
         }
@@ -153,14 +155,8 @@ struct SmallCalendarWidget: View {
                     
                     HStack {
                         
-                        //                        Text("\(formatDate(Date(), format: "MMM"))")
-                        //                            .font(Font.custom("Viga-Regular", size: 15))
-                        //                            .offset(y: -4)
-                        
-                        // Date Number
                         Text("\(formattedDayWithSuffix(Date()))")
                             .font(Font.custom("Viga-Regular", size: 30))
-                        //.foregroundStyle(Color(.orangeButton))
                             .offset(y: -4)
                         
                     }
@@ -171,12 +167,11 @@ struct SmallCalendarWidget: View {
                             .font(.body)
                             .foregroundColor(.secondary)
                     } else {
+                        // filter events happening today
                         let todayEvents = events.filter { Calendar.current.isDate($0.startDate, inSameDayAs: Date()) }
                         ForEach(todayEvents.prefix(2), id: \.id) { event in
                             EventRow(event: event, isToday: true)
                                 .environment(\.colorScheme, colorScheme)
-                               
-                            
                             
                         }
                     }
@@ -215,6 +210,7 @@ struct MediumCalendarWidget: View {
                         .offset(y: -4)
                     
                     VStack(alignment: .leading) {
+                        // filter events for today
                         let todayEvents = events.filter { Calendar.current.isDate($0.startDate, inSameDayAs: Date()) }
                         
                         if !todayEvents.isEmpty {
@@ -276,7 +272,7 @@ struct EventRow: View {
         HStack {
             // Vertical Bar for Today's Events
             Rectangle()
-                .fill(getEventTypeColor(event.eventType))
+                .fill(getEventTypeColor(event.eventType))   // event type color
                 .frame(width: 2, height: 20)
                 .cornerRadius(1)
             
@@ -291,18 +287,21 @@ struct EventRow: View {
                     .foregroundColor(colorScheme == .dark ? .gray : .secondary)
             }
         }
-        // You can also add background color if needed
+        
+        // add background color if needed
         .containerBackground(colorScheme == .dark ? Color(.darkdarkBlue).gradient : Color(.white).gradient, for: .widget)
     }
 }
 
+
+// return a formatted date given the specified format
 private func formatDate(_ date: Date, format: String) -> String {
     let formatter = DateFormatter()
     formatter.dateFormat = format
     return formatter.string(from: date)
 }
 
-
+// returns the event "color" type to differentiate between the different meetings
 private func getEventTypeColor(_ eventType: String) -> Color {
     switch eventType {
     case "GBM":
@@ -320,13 +319,14 @@ private func getEventTypeColor(_ eventType: String) -> Color {
     }
 }
 
+// return date's suffix
 private func formattedDayWithSuffix(_ date: Date) -> String {
     let calendar = Calendar.current
-    let day = calendar.component(.day, from: date) // Extracts day number
+    let day = calendar.component(.day, from: date) // day number
     
     let suffix: String
     switch day {
-    case 11, 12, 13: suffix = "th" // Special case for 11-13
+    case 11, 12, 13: suffix = "th" // case for 11-13
     default:
         switch day % 10 {
         case 1: suffix = "st"
@@ -343,7 +343,8 @@ private func formattedDayWithSuffix(_ date: Date) -> String {
 struct CalendarWidget: Widget {
     
     let kind: String = "CalendarWidget"
-    // DataManager instance
+    
+    // DataManager instance with AppGroups
     let dataManager = DataManager()
     
     var body: some WidgetConfiguration {
@@ -352,7 +353,7 @@ struct CalendarWidget: Widget {
         }
         .configurationDisplayName("Calendar Widget")
         .description("Displays your upcoming events.")
-        .supportedFamilies([.systemMedium, .accessoryCircular])
+        .supportedFamilies([.systemMedium, .systemSmall])
     }
 }
 
