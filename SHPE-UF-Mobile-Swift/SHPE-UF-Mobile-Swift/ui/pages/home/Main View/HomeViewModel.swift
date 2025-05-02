@@ -18,10 +18,14 @@ final class HomeViewModel: ObservableObject {
     //Keep this commented if testing
     init(coreEvents: FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext) {
 //            #if DEBUG
-//            self.events = createDummyEvents()
+            // self.events = createDummyEvents()
+        // Save to Core Data
+       
 //            #else
-            fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
+             fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
 //            #endif
+        
+            
     }
     
 //    init(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
@@ -59,6 +63,11 @@ final class HomeViewModel: ObservableObject {
                     
                     sortedEvents = self?.events.sorted(by: { $0.start.dateTime < $1.start.dateTime }) ?? []
                     self?.events = sortedEvents
+                    
+                    /// NEW to save events to core Data
+                    // Save to Core Data ?
+                    self?.saveEventsToCoreData(sortedEvents, viewContext: viewContext)
+                    
                 } else {
                     // Handle error condition
                     self?.events = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
@@ -146,6 +155,29 @@ final class HomeViewModel: ObservableObject {
         events = expandedEvents
     }
     
+    /// Saving Events to CoreData?
+    func saveEventsToCoreData(_ events: [Event], viewContext: NSManagedObjectContext) {
+        for event in events {
+            let calendarEvent = CalendarEvent(context: viewContext)
+            calendarEvent.identifier = event.identifier
+            calendarEvent.summary = event.summary
+            calendarEvent.start = event.start.dateTime
+            calendarEvent.end = event.end.dateTime
+            calendarEvent.location = event.location
+            calendarEvent.eventType = event.eventType
+            calendarEvent.desc = event.description
+        }
+        
+        DispatchQueue.main.async {
+            do {
+                try viewContext.save()
+            } catch {
+                print("Failed to save: \(error)")
+            }
+        }
+    }
+    
+    
     /// For testing create dummy events
     func createDummyEvents() -> [Event] {
             let formatter = DateFormatter()
@@ -155,7 +187,7 @@ final class HomeViewModel: ObservableObject {
                 Event(
                     created: Date(),
                     creator: Creator(email: "test1@example.com", selfValue: 0),
-                    end: EventDateTime(dateTime: formatter.date(from: "2025-12-25T15:00:00Z")!, timeZone: "UTC"),
+                    end: EventDateTime(dateTime: formatter.date(from: "2025-05-02T23:00:00Z")!, timeZone: "UTC"),
                     etag: "123",
                     eventType: "GBM",
                     htmlLink: "http://example.com",
@@ -164,7 +196,7 @@ final class HomeViewModel: ObservableObject {
                     kind: "calendar#event",
                     organizer: Organizer(email: "organizer@example.com", selfValue:0),
                     sequence: 0,
-                    start: EventDateTime(dateTime: formatter.date(from: "2025-12-25T14:00:00Z")!, timeZone: "UTC"),
+                    start: EventDateTime(dateTime: formatter.date(from: "2025-05-01T02:00:00Z")!, timeZone: "UTC"),
                     status: "confirmed",
                     summary: "GBM #1",
                     updated: Date(),
@@ -210,5 +242,6 @@ final class HomeViewModel: ObservableObject {
                     description: "Plan your resolutions and achieve your goals!"
                 )
             ]
+        
         }
 }

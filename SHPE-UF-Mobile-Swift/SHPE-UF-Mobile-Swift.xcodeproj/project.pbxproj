@@ -32,14 +32,17 @@
 		46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46909E4B2B96955100E99274 /* CircularProgressViewDark.swift */; };
 		46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418C2B7EC7DB0083F81C /* TableView.swift */; };
 		46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CA418E2B7EC82B0083F81C /* SingleEventView.swift */; };
-		46D8DE192D6FE693001A695C /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46D8DE162D6FE693001A695C /* CoreUserModel.xcdatamodeld */; };
+		46CEB8A32DC2E9CB00C1162A /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959BEA692BF461CD0009789D /* SHPESchema.graphql.swift */; };
+		46CEB8BA2DC2EA0600C1162A /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D326FF2B8FED87002A7DDA /* Event.swift */; };
 		46D8DE252D6FE8F3001A695C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D8DDA92D6ECBF2001A695C /* WidgetKit.framework */; };
 		46D8DE262D6FE8F3001A695C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46D8DDAB2D6ECBF2001A695C /* SwiftUI.framework */; };
 		46D8DE352D6FE8F4001A695C /* CalendarWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 46D8DE242D6FE8F3001A695C /* CalendarWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		46D8DE3A2D6FE91D001A695C /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46D8DE162D6FE693001A695C /* CoreUserModel.xcdatamodeld */; };
 		46D8DE3B2D6FE93A001A695C /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
 		46D8DE3C2D6FED00001A695C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F792AE182020081A35A /* Assets.xcassets */; };
 		46D8DE6D2D7101A9001A695C /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */; };
+		46E385BB2DB6CB65000BD914 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46E385B92DB6CB65000BD914 /* CoreUserModel.xcdatamodeld */; };
+		46E385BC2DB6CB65000BD914 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46E385B92DB6CB65000BD914 /* CoreUserModel.xcdatamodeld */; };
+		46F7AFE82D99EA6F00DEF6B6 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
 		521249D52CEFA22600EB0364 /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521249D42CEFA21A00EB0364 /* QRCodeScannerView.swift */; };
 		523C398E2B7DD0990019C353 /* AcademicInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523C398D2B7DD0990019C353 /* AcademicInfoView.swift */; };
 		5256A4352B7C0AFF00DD21EE /* PersonalDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256A4342B7C0AFF00DD21EE /* PersonalDetailsView.swift */; };
@@ -185,8 +188,8 @@
 		46CA418E2B7EC82B0083F81C /* SingleEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleEventView.swift; sourceTree = "<group>"; };
 		46D8DDA92D6ECBF2001A695C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		46D8DDAB2D6ECBF2001A695C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		46D8DE172D6FE693001A695C /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		46D8DE242D6FE8F3001A695C /* CalendarWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CalendarWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		46E385BA2DB6CB65000BD914 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		46E8A56A2D7644D9002ECABC /* SHPE-UF-Mobile-Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SHPE-UF-Mobile-Swift.entitlements"; sourceTree = "<group>"; };
 		521249D42CEFA21A00EB0364 /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
 		523C398D2B7DD0990019C353 /* AcademicInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademicInfoView.swift; sourceTree = "<group>"; };
@@ -259,6 +262,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		46CEB8BE2DC2F35C00C1162A /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				WidgetEvent.swift,
+			);
+			target = 206C8F712AE181FF0081A35A /* SHPE-UF-Mobile-Swift */;
+		};
 		46D8DE362D6FE8F4001A695C /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -270,7 +280,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		463355992D63C8C8008C1B58 /* aboutUs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = aboutUs; sourceTree = "<group>"; };
-		46D8DE272D6FE8F3001A695C /* CalendarWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (46D8DE362D6FE8F4001A695C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CalendarWidget; sourceTree = "<group>"; };
+		46D8DE272D6FE8F3001A695C /* CalendarWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (46CEB8BE2DC2F35C00C1162A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 46D8DE362D6FE8F4001A695C /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CalendarWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -526,7 +536,7 @@
 		951F6E792BB262C5001FDB50 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
-				46D8DE162D6FE693001A695C /* CoreUserModel.xcdatamodeld */,
+				46E385B92DB6CB65000BD914 /* CoreUserModel.xcdatamodeld */,
 				951F6E7D2BB265D3001FDB50 /* DataManager.swift */,
 				951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */,
 			);
@@ -886,6 +896,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46D8DE3C2D6FED00001A695C /* Assets.xcassets in Resources */,
+				46F7AFE82D99EA6F00DEF6B6 /* UniversLTStd.otf in Resources */,
 				46D8DE6D2D7101A9001A695C /* Viga-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -946,7 +957,7 @@
 				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
 				959BEA752BF461CD0009789D /* EditUserProfileInput.graphql.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
-				46D8DE192D6FE693001A695C /* CoreUserModel.xcdatamodeld in Sources */,
+				46E385BC2DB6CB65000BD914 /* CoreUserModel.xcdatamodeld in Sources */,
 				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
 				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				959BEA7B2BF461CD0009789D /* User.graphql.swift in Sources */,
@@ -993,8 +1004,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46CEB8BA2DC2EA0600C1162A /* Event.swift in Sources */,
+				46CEB8A32DC2E9CB00C1162A /* SHPESchema.graphql.swift in Sources */,
 				46D8DE3B2D6FE93A001A695C /* DataManager.swift in Sources */,
-				46D8DE3A2D6FE91D001A695C /* CoreUserModel.xcdatamodeld in Sources */,
+				46E385BB2DB6CB65000BD914 /* CoreUserModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1425,12 +1438,12 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		46D8DE162D6FE693001A695C /* CoreUserModel.xcdatamodeld */ = {
+		46E385B92DB6CB65000BD914 /* CoreUserModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				46D8DE172D6FE693001A695C /* CoreUserModel.xcdatamodel */,
+				46E385BA2DB6CB65000BD914 /* CoreUserModel.xcdatamodel */,
 			);
-			currentVersion = 46D8DE172D6FE693001A695C /* CoreUserModel.xcdatamodel */;
+			currentVersion = 46E385BA2DB6CB65000BD914 /* CoreUserModel.xcdatamodel */;
 			path = CoreUserModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
