@@ -35,7 +35,7 @@ struct ButtonGrid: View {
         ScrollView{
             VStack(spacing: UIScreen.main.bounds.height * 0.035){
                 HStack{
-                    AdminButton(symbol: "Event", label: "Events", color: .adminBlue)
+                    AdminButton(symbol: "Event", label: "Events", color: .adminBlue, enabled: true)
                     Spacer()
                     AdminButton(symbol: "dark_customer", label: "Members", color: .adminBlue)
                 }
@@ -64,26 +64,51 @@ struct AdminButton: View {
     var symbol : String
     var label : String
     var color : Color
+    var enabled: Bool = false
     
     var recWidth  : CGFloat = UIScreen.main.bounds.width  * 0.40
     var recHeight : CGFloat = UIScreen.main.bounds.height * 0.17
     
+    var frameWidth : CGFloat = UIScreen.main.bounds.width  * 0.1
+    var frameHeight = UIScreen.main.bounds.height  * 0.05
+    
     var body : some View{
-        NavigationLink(destination: destinationSelector(label: label)){
-            ZStack{
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(color)
-                    .frame(width: recWidth, height: recHeight)
-                VStack{
-                    Image(symbol)
-                        .frame(width: 55, height: 55)
-            
-                    Text(label)
-                        .font(Font.custom("Viga-Regular", size: 26))
-                        .foregroundColor(.white)
-                }
-            }
-        }
+        if enabled {
+                  NavigationLink(destination: destinationSelector(label: label)) {
+                      ZStack {
+                          RoundedRectangle(cornerRadius: 8)
+                              .fill(color)
+                              .frame(width: recWidth, height: recHeight)
+                          VStack {
+                              Image(symbol)
+                                  .resizable()
+                                  .frame(width: frameWidth, height: frameHeight)
+                                  .padding(.top, UIScreen.main.bounds.height * 0.015)
+                              
+                              Text(label)
+                                  .font(Font.custom("Viga-Regular", size: 26))
+                                  .foregroundColor(.white)
+                          }
+                      }
+                  }
+              } else {
+                  ZStack {
+                      RoundedRectangle(cornerRadius: 8)
+                          .fill(color)
+                          .frame(width: recWidth, height: recHeight)
+                      VStack {
+                          Image(symbol)
+                              .resizable()
+                              .frame(width: frameWidth, height: frameHeight)
+                              .padding(.top, UIScreen.main.bounds.height * 0.015)
+                          
+                          Text(label)
+                              .font(Font.custom("Viga-Regular", size: 26))
+                              .foregroundColor(.white)
+                      }
+                  }
+                  .opacity(0.4)
+              }
     }
 }
 
@@ -92,22 +117,8 @@ func destinationSelector(label: String) -> some View{
     switch label{
         case "Events":
             EventCreatorView()
-        case "Members":
-            ComingSoonView()
-        case "Resources":
-            ComingSoonView()
-        case "Requests":
-            ComingSoonView()
-        case "Statistics":
-            ComingSoonView()
-        case "Corporate Database":
-            ComingSoonView()
-        case "Reimburse":
-            ComingSoonView()
-        case "SHPE Rentals":
-            ComingSoonView()
         default:
-            Text("Label not found")
+            AdminView()
     }
 }
 
