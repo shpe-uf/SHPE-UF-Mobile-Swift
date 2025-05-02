@@ -51,7 +51,7 @@ struct AboutUsView: View {
             .padding(.top, -8)
             
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .top)
 
     }
 }

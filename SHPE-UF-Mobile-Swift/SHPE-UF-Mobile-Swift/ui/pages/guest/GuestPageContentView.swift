@@ -32,7 +32,7 @@ struct GuestPageContentView: View {
                 
                 }
             
-            GuestCalendarView(viewModel: HomeViewModel(coreEvents: coreEvents, viewContext: viewContext))
+            GuestCalendarView(viewModel: HomeViewModel(coreEvents: coreEvents, viewContext: viewContext, useDummyEvents: true))
                 .tag(1)
                 .tabItem {
                     Image(selectedTab == 1 ? "icon_calendar" : colorScheme == .dark ? "unclicked_calendar":"unclicked_calendar_light")

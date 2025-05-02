@@ -16,11 +16,18 @@ final class HomeViewModel: ObservableObject {
     
     //This is for testing events when there are no events present
     //Keep this commented if testing
-    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext) {
+    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, useDummyEvents: Bool = true) {
 //            #if DEBUG
 //            self.events = createDummyEvents()
 //            #else
-            fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
+            if useDummyEvents {
+                self.events = createDummyEvents()
+                updateEventTypes()
+                expandMultiDayEvents()
+            }
+            else {
+                fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
+            }
 //            #endif
     }
     
@@ -28,7 +35,7 @@ final class HomeViewModel: ObservableObject {
 //        fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
 //    }
     
-    func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext){
+    func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext, useDummyEvents: Bool = false){
         // Set the minimum date for events to be fetched (e.g., today's date)
         
         func dateOneMonthAgo() -> Date? {
@@ -45,6 +52,7 @@ final class HomeViewModel: ObservableObject {
         }
         
         let minDate = dateOneMonthAgo()!
+        
         
         // Call the fetchEvents method from the RequestHandler
         requestHandler.fetchEvents(minDate: minDate) { [weak self] (events, success, error) in
@@ -66,6 +74,7 @@ final class HomeViewModel: ObservableObject {
                 }
             }
         }
+    
     }
     
     func getUpcomingEvents()->[Event]
@@ -211,4 +220,6 @@ final class HomeViewModel: ObservableObject {
                 )
             ]
         }
+    
+    
 }
