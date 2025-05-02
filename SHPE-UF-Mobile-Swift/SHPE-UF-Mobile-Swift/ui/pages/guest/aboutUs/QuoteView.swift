@@ -13,7 +13,7 @@ struct QuoteView: View {
             // Background with cut-out effect
             CutoutBackground()
                 .fill(Color(.profileOrange)) // Use your desired color
-               
+                
             
             // Text Content
             VStack(spacing: 20) {
@@ -35,11 +35,16 @@ struct QuoteView: View {
                         .font(Font.custom("Viga-Regular", size: 17))
                         .multilineTextAlignment(.center)
                         .foregroundColor(.white)
+                        
                 }
+                .frame(height: UIScreen.main.bounds.height * 0.15)
             }
-            .padding()
-            .padding(.bottom, 75)
+            .padding(.top, 60)
+            
+            
         }
+        
+
     }
 }
 
