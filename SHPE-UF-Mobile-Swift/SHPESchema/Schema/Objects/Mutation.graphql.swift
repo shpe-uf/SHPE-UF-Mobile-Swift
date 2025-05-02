@@ -6,6 +6,7 @@ import ApolloAPI
 extension SHPESchema.Objects {
   static let Mutation = ApolloAPI.Object(
     typename: "Mutation",
-    implementedInterfaces: []
+    implementedInterfaces: [],
+    keyFields: nil
   )
 }
