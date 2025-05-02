@@ -6,6 +6,7 @@ import ApolloAPI
 extension SHPESchema.Objects {
   static let Query = ApolloAPI.Object(
     typename: "Query",
-    implementedInterfaces: []
+    implementedInterfaces: [],
+    keyFields: nil
   )
 }
