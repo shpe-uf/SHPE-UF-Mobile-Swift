@@ -776,34 +776,32 @@ class RequestHandler
         return Organizer(email: email, selfValue: selfValue)
     }
     
-    func createEvent(input: SHPESchema.CreateEventInput, completion: @escaping ([String: Any]) -> Void) {
+    func createEvent(input: SHPESchema.CreateEventInput,
+                       completion: @escaping ([String:Any]) -> Void)
+      {
         let validInput = GraphQLNullable(input)
-
-        apolloClient.perform(mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)) { result in
-            switch result {
-            case .success(let graphQLResult):
-                guard let event = graphQLResult.data?.createEvent?.first ?? nil else {
-                    completion(["error": "Event not returned"])
-                    return
-                }
-
-                let resultDict: [String: Any] = [
-                    "category": event.category,
-                    "code": event.code,
-                    "expiration": event.expiration,
-                    "name": event.name,
-                    "points": event.points,
-                    "request": event.request
-                ]
-
-                completion(resultDict)
-
-            case .failure(let error):
-                print("❌ ERROR: \(error.localizedDescription)")
-                completion(["error": error.localizedDescription])
+        apolloClient.perform(
+          mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)
+        ) { result in
+          switch result {
+          case .success(let graphQLResult):
+            guard let event = graphQLResult.data?.createEvent?.first ?? nil else {
+              completion(["error":"Event not returned"])
+              return
             }
+            completion([
+              "category":  event.category,
+              "code":      event.code,
+              "expiration":event.expiration,
+              "name":      event.name,
+              "points":    event.points,
+              "request":   event.request
+            ])
+          case .failure(let error):
+            completion(["error":error.localizedDescription])
+          }
         }
-    }
+      }
 
 }
 

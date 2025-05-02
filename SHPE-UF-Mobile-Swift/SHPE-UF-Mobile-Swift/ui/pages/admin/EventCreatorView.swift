@@ -1,10 +1,3 @@
-//
-//  EventCreatorView.swift
-//  SHPE-UF-Mobile-Swift
-//
-//  Created by Evan Schroeder on 3/3/25.
-//
-
 import SwiftUI
 
 struct EventCreatorView: View {
@@ -16,30 +9,33 @@ struct EventCreatorView: View {
     var body: some View{
         
         ZStack{
-            
+
             VStack{
                 ZStack{
                     Image(appVM.darkMode ? "Gator" : "Gator2")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 200)
+                        .frame(width: UIScreen.main.bounds.width * 0.5, height: UIScreen.main.bounds.height * 0.150)
                         .offset(x:-UIScreen.main.bounds.width*0.42, y: appVM.darkMode ? 40 : 30)
+                      
                     
                     
                     CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
                         .fill(Color("Profile-Background"))
-                        .frame(width: UIScreen.main.bounds.width * 1.9, height: 150)
-                        .padding(.top, 100)
+                        .frame(width: UIScreen.main.bounds.width * 1.9, height: UIScreen.main.bounds.height * 0.2)
+                        .padding(.top, UIScreen.main.bounds.height * 0.17)
                     
                 
                     Image("EVENTS")
-                        
+                        .resizable()
+                        .frame(width: UIScreen.main.bounds.width * 0.375, height: UIScreen.main.bounds.height * 0.0360, alignment: .center)
+                                        
                         
                     Image("Edit Event")
                         .resizable()
-                        .frame(width: 120, height: 24, alignment: .trailing)
-                        .padding(.top, 140)
-                        .padding(.trailing, 225)
+                        .frame(width: UIScreen.main.bounds.width * 0.35, height: UIScreen.main.bounds.width * 0.065, alignment: .trailing)
+                        .padding(.top, UIScreen.main.bounds.height * 0.225)
+                        .padding(.trailing, UIScreen.main.bounds.width * 0.52)
                 }
                 .frame(maxWidth:.infinity)
                 .background(Color("profile-orange"))
@@ -47,7 +43,7 @@ struct EventCreatorView: View {
                 ScrollView{
                     
                     InputGrid(vm : eventVM)
-                        .padding(.leading, 30)
+                        .padding(.leading, UIScreen.main.bounds.width * 0.05)
                         .frame(width: UIScreen.main.bounds.width)
                         .padding(.bottom, 100)
                 }
@@ -87,6 +83,7 @@ struct EventCreatorView: View {
                     }
                 }
                 .padding(.bottom, 30)
+                .zIndex(10)
             }
             .ignoresSafeArea()
             .background(Color("Profile-Background"))
@@ -186,12 +183,12 @@ struct TextBox: View
                 Image(imageName)
                     .renderingMode(.original)
                     .resizable()
+                    .frame(width: UIScreen.main.bounds.width * 0.080,height:UIScreen.main.bounds.height * 0.035)
                     .aspectRatio(contentMode: .fit)
-                    .frame(width:35,height:35)
                     .padding(.trailing, 4)
                 
                 Text(name)
-                    .font(Font.custom("Viga-Regular", size: 22))
+                    .font(Font.custom("Viga-Regular", size: 26))
                     .foregroundStyle(Color("profile-orange"))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -228,15 +225,15 @@ struct InputGrid: View {
     @ObservedObject var vm: EventCreatorViewModel
     
     var body: some View {
-        VStack(spacing: 40){
-            TextBox(inputText: $vm.eventTitle, name: "TITLE", imageName: "list", width : 270)
-            TextBox(inputText: $vm.eventCode,  name: "CODE", imageName: "lock", width: 270)
+        VStack(spacing: UIScreen.main.bounds.height * 0.06){
+            TextBox(inputText: $vm.eventTitle, name: "TITLE", imageName: "list", width : UIScreen.main.bounds.width * 0.7)
+            TextBox(inputText: $vm.eventCode,  name: "CODE", imageName: "lock", width: UIScreen.main.bounds.width * 0.7)
             
-            AdminDropDown(selection: $vm.eventCategory, options: Categories, width: 120, name: "CATEGORY", imageName: "list")
+            AdminDropDown(selection: $vm.eventCategory, options: Categories, width: UIScreen.main.bounds.width * 0.3, name: "CATEGORY", imageName: "list")
                 .zIndex(999)
             
-            TextBox(inputText: $vm.eventPoints, name: "POINTS", imageName: "list", width : 120)
-            AdminDropDown(selection: $vm.eventDate, options: ExpiresIn, width: 120, name: "EXPIRES IN", imageName: "list")
+            TextBox(inputText: $vm.eventPoints, name: "POINTS", imageName: "list", width : UIScreen.main.bounds.width * 0.3)
+            AdminDropDown(selection: $vm.eventDate, options: ExpiresIn, width: UIScreen.main.bounds.width * 0.3, name: "EXPIRES IN", imageName: "list")
                 .zIndex(998)
         }
         .padding(.bottom, 10)
@@ -264,14 +261,15 @@ struct AdminDropDown:View
                     .renderingMode(.original)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width:35,height:35)
+                    .frame(width: UIScreen.main.bounds.width * 0.085,height:UIScreen.main.bounds.height * 0.0375)
                     .padding(.trailing, 4)
                 
                 Text(name)
-                    .font(Font.custom("Viga-Regular", size: 22))
+                    .font(Font.custom("Viga-Regular", size: 26))
                     .foregroundStyle(Color("profile-orange"))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .padding([.bottom, .top], 15)
             
             HStack
             {
@@ -284,7 +282,7 @@ struct AdminDropDown:View
             }
             .frame(width: width, alignment: .leading)
             .overlay(Rectangle().frame(height: 1).padding(.top, 50))
-            .padding(.trailing, 244)
+            .padding(.trailing, UIScreen.main.bounds.width * 0.625)
             .onTapGesture {
                 withAnimation(.easeInOut)
                 {
@@ -317,16 +315,16 @@ struct AdminDropDown:View
                         }
                     .padding(.vertical, 10)
                     }
-                    .zIndex(2)
+                    .zIndex(9999)
                 }
                 .frame(width: width, height: options.count > 4 ? 165 : 45 * CGFloat(options.count))
                 .background(Color("lightGray"))
                 .clipped(antialiased: false)
                 .cornerRadius(10)
             }
-    
         }
         .padding(.top, isExpanded ? options.count > 4 ? 175 : 45 * CGFloat(options.count) + 10 : 0)
+        .padding(.bottom, 30)
         .frame(height: 35)
     }
 }
@@ -334,3 +332,4 @@ struct AdminDropDown:View
 #Preview {
    EventCreatorView()
 }
+
