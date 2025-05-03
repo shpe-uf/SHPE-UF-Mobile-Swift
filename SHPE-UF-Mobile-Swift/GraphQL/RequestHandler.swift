@@ -540,6 +540,39 @@ class RequestHandler
             completion(([],false,"FATAL_ERROR"))
             return
         }
+        
+        // MARK: - Partners
+//
+//        func fetchPartners(completion: @escaping ([[String: Any]]) -> Void) {
+//            apolloClient.fetch(query: SHPESchema.GetPartnersQuery()) { result in
+//                switch result {
+//                case .success(let graphQLResult):
+//                    guard let partners = graphQLResult.data?.getPartners else {
+//                        print("ERROR: No partners in response")
+//                        completion([])
+//                        return
+//                    }
+//
+//                    let formattedPartners = partners.compactMap { partner -> [String: Any]? in
+//                        guard let partner = partner else { return nil }
+//                        return [
+//                            "id": partner.id,
+//                            "name": partner.name,
+//                            "photo": partner.photo ?? "",
+//                            "tier": partner.tier ?? ""
+//                        ]
+//                    }
+//
+//                    completion(formattedPartners)
+//
+//                case .failure(let error):
+//                    print("GraphQL Error: \(error.localizedDescription)")
+//                    completion([])
+//                }
+//            }
+//        }
+
+
 
         // Make an API call
         
@@ -613,6 +646,8 @@ class RequestHandler
             task.resume()
         }
     }
+    
+
     
     private func extractEvent(from dictionary: [String: Any]) throws -> Event {
         let dateFormatter = DateFormatter()
