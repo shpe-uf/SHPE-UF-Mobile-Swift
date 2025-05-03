@@ -39,6 +39,9 @@
 		528D72BE2B74648600702D0B /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BD2B74648600702D0B /* RegisterView.swift */; };
 		528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D72BF2B74649900702D0B /* RegisterViewModel.swift */; };
 		52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A67A582B91642D00D21F73 /* LandingPageView.swift */; };
+		533B4F362DC48872005E6256 /* GetPartners.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 533B4F352DC48872005E6256 /* GetPartners.graphql.swift */; };
+		533B4F372DC48872005E6256 /* GetPartners.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 533B4F352DC48872005E6256 /* GetPartners.graphql.swift */; };
+		533B4F382DC48872005E6256 /* GetPartners.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 533B4F352DC48872005E6256 /* GetPartners.graphql.swift */; };
 		53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C7704D2B9A79EF00455FC5 /* ProfileView.swift */; };
 		816E38F32D63B5C400320651 /* GuestCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E38F22D63B5BB00320651 /* GuestCalendarView.swift */; };
 		816E38F52D63B5E800320651 /* GuestPartnersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E38F42D63B5DC00320651 /* GuestPartnersView.swift */; };
@@ -172,6 +175,7 @@
 		528D72BD2B74648600702D0B /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
+		533B4F352DC48872005E6256 /* GetPartners.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPartners.graphql.swift; sourceTree = "<group>"; };
 		53C7704D2B9A79EF00455FC5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		816E38F22D63B5BB00320651 /* GuestCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestCalendarView.swift; sourceTree = "<group>"; };
 		816E38F42D63B5DC00320651 /* GuestPartnersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestPartnersView.swift; sourceTree = "<group>"; };
@@ -530,6 +534,7 @@
 				951F6ED82BB69806001FDB50 /* GetUsers.graphql.swift */,
 				951F6F1F2BB8D766001FDB50 /* RedeemPoints.graphql.swift */,
 				959BEA4E2BF45F4C0009789D /* DeleteUser.graphql.swift */,
+				533B4F352DC48872005E6256 /* GetPartners.graphql.swift */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -799,6 +804,7 @@
 				95D3708B2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
 				951F6F202BB8D766001FDB50 /* RedeemPoints.graphql.swift in Resources */,
 				951F6E8E2BB5E6C2001FDB50 /* SignIn.graphql.swift in Resources */,
+				533B4F362DC48872005E6256 /* GetPartners.graphql.swift in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +812,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				533B4F372DC48872005E6256 /* GetPartners.graphql.swift in Resources */,
 				958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				95D3709A2B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
 				95D3708C2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
@@ -817,6 +824,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				533B4F382DC48872005E6256 /* GetPartners.graphql.swift in Resources */,
 				958A5E6E2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				95D3709B2B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
 				95D3708D2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,
