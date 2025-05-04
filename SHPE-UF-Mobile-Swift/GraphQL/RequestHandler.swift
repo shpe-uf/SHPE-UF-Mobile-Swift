@@ -60,6 +60,28 @@ class RequestHandler
         }
     }
     
+    func fetchPartners(completion: @escaping ([SHPESchema.GetPartnersQuery.Data.GetPartner]) -> Void)
+    {
+        apolloClient.fetch(query: SHPESchema.GetPartnersQuery(),
+                           cachePolicy: .fetchIgnoringCacheData) { result in
+          switch result {
+          case .success(let graphQLResult):
+            // compactMap to drop any nils
+            let partners = graphQLResult
+              .data?
+              .getPartners?
+              .compactMap { $0 }
+              ?? []
+            completion(partners)
+
+          case .failure(let error):
+            print("❌ Error fetching partners:", error)
+            completion([])
+          }
+        }
+    }
+    
+    
     //MARK: Register/SignIn Page Functions
     
     // RegisterUserMutation <= RegisterUser.graphql
