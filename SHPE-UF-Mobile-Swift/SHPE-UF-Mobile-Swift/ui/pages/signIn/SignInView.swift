@@ -21,8 +21,8 @@ struct SignInView: View
     @Environment(\.managedObjectContext) private var viewContext
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var viewModel: SignInViewModel
-    @State public var username = ""
-    @State public var password = ""
+    @State public var username = "mazinsaleh"
+    @State public var password = "Luna?!13025593"
     @State private var isHovered = false
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
