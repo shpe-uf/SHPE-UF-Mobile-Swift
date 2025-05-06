@@ -776,32 +776,80 @@ class RequestHandler
         return Organizer(email: email, selfValue: selfValue)
     }
     
-    func createEvent(input: SHPESchema.CreateEventInput,
-                       completion: @escaping ([String:Any]) -> Void)
-      {
-        let validInput = GraphQLNullable(input)
-        apolloClient.perform(
-          mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)
-        ) { result in
-          switch result {
-          case .success(let graphQLResult):
-            guard let event = graphQLResult.data?.createEvent?.first ?? nil else {
-              completion(["error":"Event not returned"])
-              return
-            }
-            completion([
-              "category":  event.category,
-              "code":      event.code,
-              "expiration":event.expiration,
-              "name":      event.name,
-              "points":    event.points,
-              "request":   event.request
-            ])
-          case .failure(let error):
-            completion(["error":error.localizedDescription])
+//    func createEvent(input: SHPESchema.CreateEventInput,
+//                       completion: @escaping ([String:Any]) -> Void)
+//      {
+//        let validInput = GraphQLNullable(input)
+//        apolloClient.perform(
+//          mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)
+//        ) { result in
+//          switch result {
+//          case .success(let graphQLResult):
+//            guard let event = graphQLResult.data?.createEvent?.first ?? nil else {
+//              completion(["error":"Event not returned"])
+//              return
+//            }
+//            completion([
+//              "category":  event.category,
+//              "code":      event.code,
+//              "expiration":event.expiration,
+//              "name":      event.name,
+//              "points":    event.points,
+//              "request":   event.request
+//            ])
+//          case .failure(let error):
+//            completion(["error":error.localizedDescription])
+//          }
+//        }
+//      }
+
+    func createEvent(
+      input: SHPESchema.CreateEventInput,
+      completion: @escaping ([String:Any]) -> Void
+    ) {
+      let validInput = GraphQLNullable(input)
+      apolloClient.perform(
+        mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)
+      ) { result in
+        switch result {
+        case .success(let graphQLResult):
+          // 1) Handle any GraphQL-level errors first:
+          if let gqlErrors = graphQLResult.errors, !gqlErrors.isEmpty {
+            let messages = gqlErrors.map { $0.localizedDescription }.joined(separator: "\n")
+            completion(["error": messages])
+            return
           }
+
+          // 2) Safely drill into data.createEvent → [CreateEvent?] → first → CreateEvent
+          guard
+            let data            = graphQLResult.data,
+            let rawList         = data.createEvent,         // [CreateEvent?]
+            let firstElement    = rawList.first,            // CreateEvent?
+            let event           = firstElement              // unwrap CreateEvent
+          else {
+            completion(["error": "Event not returned"])
+            return
+          }
+
+          // 3) Now that `event` is non‐optional, pull out its properties:
+          completion([
+            "category":   event.category,
+            "code":       event.code,
+            "expiration": event.expiration,
+            "name":       event.name,
+            "points":     event.points,
+            "request":    event.request
+          ])
+
+        case .failure(let error):
+          // Network / parsing failure
+          completion(["error": error.localizedDescription])
         }
       }
+    }
+    
+    
+
 
 }
 

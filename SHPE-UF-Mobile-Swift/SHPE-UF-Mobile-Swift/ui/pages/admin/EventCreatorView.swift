@@ -5,8 +5,8 @@ struct EventCreatorView: View {
     @StateObject private var eventVM = EventCreatorViewModel()
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
 
-    @State private var showPopup: Bool = false
-    @State private var didAttemptSave: Bool = false
+    @State private var didAttemptSave = false
+    @State private var showingConfirm = false
 
     var body: some View {
         ZStack {
@@ -60,7 +60,7 @@ struct EventCreatorView: View {
                         .padding(.bottom, 10)
                 }
 
-                // ── BUTTONS ─────────────────────────────────────────────────────
+                // ── BUTTONS ────────────────────────────────────────────────────
                 HStack(spacing: 0) {
                     // Cancel
                     Button {
@@ -78,16 +78,12 @@ struct EventCreatorView: View {
                         }
                     }
 
-                    // Save → dry‐run uniqueness and only then show Confirm
+                    // Save → client-side validation only
                     Button {
                         didAttemptSave = true
                         eventVM.validateFields()
                         guard eventVM.fieldErrors.isEmpty else { return }
-
-                        // Dry‐run check on server (request:"false")
-                        eventVM.createEvent(requestFlag: "false") {
-                            showPopup = true
-                        }
+                        showingConfirm = true
                     } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 20)
@@ -100,6 +96,14 @@ struct EventCreatorView: View {
                                 .foregroundColor(.white)
                         }
                     }
+                    .alert("Create Event?", isPresented: $showingConfirm) {
+                        Button("Cancel", role: .cancel) {}
+                        Button("Create") {
+                            eventVM.createEvent()
+                        }
+                    } message: {
+                        Text("Are you sure you wish to create this event, and that all the info is accurate?")
+                    }
                 }
                 .padding(.bottom, 30)
                 .zIndex(10)
@@ -107,23 +111,11 @@ struct EventCreatorView: View {
             .ignoresSafeArea()
             .background(Color("Profile-Background"))
             .preferredColorScheme(appVM.darkMode ? .dark : .light)
-            .blur(radius: showPopup ? 5 : 0)
-
-            // ── CONFIRM POP-UP ─────────────────────────────────────────────
-            if showPopup {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture { withAnimation { showPopup = false } }
-
-                ConfirmPopUp(isShowing: $showPopup, vm: eventVM)
-                    .zIndex(20)
-            }
         }
         .navigationBarBackButtonHidden(true)
         // ── QR SHEET ────────────────────────────────────────────────────
         .sheet(isPresented: $eventVM.showingQR) {
             VStack(spacing: 24) {
-                // Close + pop to admin
                 HStack {
                     Spacer()
                     Button {
@@ -131,9 +123,7 @@ struct EventCreatorView: View {
                         dismiss()
                     } label: {
                         ZStack {
-                            Circle()
-                                .fill(Color.black)
-                                .frame(width: 28, height: 28)
+                            Circle().fill(Color.black).frame(width: 28, height: 28)
                             Image("xMark")
                                 .resizable()
                                 .frame(width: 20, height: 20)
@@ -143,7 +133,6 @@ struct EventCreatorView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
 
-                // QR image
                 if let qr = eventVM.qrImage {
                     Image(uiImage: qr)
                         .resizable()
@@ -151,7 +140,6 @@ struct EventCreatorView: View {
                         .frame(width: 200, height: 200)
                 }
 
-                // Download
                 Button("Download QR") {
                     guard let img = eventVM.qrImage else { return }
                     UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
@@ -166,76 +154,8 @@ struct EventCreatorView: View {
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
-// ConfirmPopUp
-// ConfirmPopUp
-struct ConfirmPopUp: View {
-    @Binding var isShowing: Bool
-    @ObservedObject var vm: EventCreatorViewModel
+// InputGrid
 
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color("profile-orange"))
-                .frame(width: 300, height: 400)
-
-            VStack(spacing: 16) {
-                HStack {
-                    Spacer()
-                    Button {
-                        isShowing = false
-                    } label: {
-                        ZStack {
-                            Circle().fill(Color.black).frame(width: 28, height: 28)
-                            Image("xMark")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                        }
-                    }
-                }
-                .padding(.horizontal, 16)
-
-                Text("Create Event?")
-                    .font(Font.custom("Viga-Regular", size: 28))
-                    .foregroundColor(.white)
-                    .bold()
-
-                Text("Are you sure you wish to create this event, and that all the info is accurate?")
-                    .font(Font.custom("Viga-Regular", size: 16))
-                    .foregroundColor(.white.opacity(0.8))
-                    .multilineTextAlignment(.center)
-                    .frame(width: 260)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Image("DefaultPFPL")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-
-                // Real‐write on confirm
-                Button {
-                    vm.createEvent(requestFlag: "true") {
-                        isShowing = false
-                    }
-                } label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color("buttonColor"))
-                            .frame(width: 140, height: 40)
-                        Text("Create")
-                            .font(Font.custom("Viga-Regular", size: 25))
-                            .foregroundColor(.white)
-                    }
-                }
-                .padding(.top, 8)
-
-                Spacer()
-            }
-            .padding(.top, 16)
-        }
-    }
-}
-
-// ────────────────────────────────────────────────────────────────────────────────
-// InputGrid (with didAttemptSave, updated widths & error logic)
 struct InputGrid: View {
     let Categories = [
         "General Body Meeting",
@@ -249,21 +169,14 @@ struct InputGrid: View {
         "Volunteering",
         "Miscellaneous"
     ]
-    let ExpiresIn = [
-        "1 hour",
-        "2 hours",
-        "3 hours",
-        "4 hours"
-    ]
+    let ExpiresIn = ["1 hour", "2 hours", "3 hours", "4 hours"]
 
     @ObservedObject var vm: EventCreatorViewModel
     let didAttemptSave: Bool
 
     var body: some View {
         VStack(spacing: UIScreen.main.bounds.height * 0.06) {
-            // ── TITLE + ERROR ─────────────────────────────
-            // ── TITLE + ERROR ─────────────────────────────
-            // ── TITLE + ERROR ─────────────────────────────
+            // TITLE + ERROR
             VStack(spacing: 4) {
                 TextBox(
                     inputText: $vm.eventTitle,
@@ -271,19 +184,14 @@ struct InputGrid: View {
                     imageName: "list",
                     width: UIScreen.main.bounds.width * 0.7
                 )
-
-                // only after Save was tapped...
                 if didAttemptSave {
-                    // collect all errors that apply to Title
-                    let titleErrors = vm.fieldErrors.filter { err in
+                    let titleErrors = vm.fieldErrors.enumerated().filter { _, err in
                         let lower = err.lowercased()
                         return lower.contains("title")
                             || lower.contains("name")
                             || lower.contains("exists")
                     }
-
-                    // render each one under the box
-                    ForEach(titleErrors, id: \.self) { msg in
+                    ForEach(titleErrors, id: \.offset) { _, msg in
                         Text(msg)
                             .foregroundColor(.red)
                             .font(.caption)
@@ -291,10 +199,7 @@ struct InputGrid: View {
                 }
             }
 
-
-
-
-            // ── CODE + ERROR ──────────────────────────────
+            // CODE + ERROR
             VStack(spacing: 4) {
                 TextBox(
                     inputText: $vm.eventCode,
@@ -303,16 +208,14 @@ struct InputGrid: View {
                     width: UIScreen.main.bounds.width * 0.7
                 )
                 if didAttemptSave,
-                   let msg = vm.fieldErrors.first(where: {
-                       $0.lowercased().contains("code")
-                   }) {
+                   let msg = vm.fieldErrors.first(where: { $0.lowercased().contains("code") }) {
                     Text(msg)
                         .foregroundColor(.red)
                         .font(.caption)
                 }
             }
 
-            // ── CATEGORY + ERROR ──────────────────────────
+            // CATEGORY + ERROR
             VStack(spacing: 4) {
                 AdminDropDown(
                     selection: $vm.eventCategory,
@@ -323,16 +226,14 @@ struct InputGrid: View {
                 )
                 .zIndex(999)
                 if didAttemptSave,
-                   let msg = vm.fieldErrors.first(where: {
-                       $0.contains("Category")
-                   }) {
+                   let msg = vm.fieldErrors.first(where: { $0.contains("Category") }) {
                     Text(msg)
                         .foregroundColor(.red)
                         .font(.caption)
                 }
             }
 
-            // ── POINTS (no error) ─────────────────────────
+            // POINTS
             TextBox(
                 inputText: $vm.eventPoints,
                 name: "POINTS",
@@ -340,7 +241,7 @@ struct InputGrid: View {
                 width: UIScreen.main.bounds.width * 0.3
             )
 
-            // ── EXPIRES IN + ERROR ────────────────────────
+            // EXPIRES IN + ERROR
             VStack(spacing: 4) {
                 AdminDropDown(
                     selection: $vm.eventDate,
@@ -351,9 +252,7 @@ struct InputGrid: View {
                 )
                 .zIndex(998)
                 if didAttemptSave,
-                   let msg = vm.fieldErrors.first(where: {
-                       $0.contains("Expires")
-                   }) {
+                   let msg = vm.fieldErrors.first(where: { $0.contains("Expires") }) {
                     Text(msg)
                         .foregroundColor(.red)
                         .font(.caption)
@@ -365,7 +264,8 @@ struct InputGrid: View {
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
-// Reusable TextBox (unchanged)
+// TextBox
+
 struct TextBox: View {
     @Binding var inputText: String
     var name: String
@@ -379,7 +279,7 @@ struct TextBox: View {
                     .renderingMode(.original)
                     .resizable()
                     .frame(
-                        width: UIScreen.main.bounds.width * 0.080,
+                        width: UIScreen.main.bounds.width * 0.08,
                         height: UIScreen.main.bounds.height * 0.035
                     )
                     .padding(.trailing, 4)
@@ -401,7 +301,8 @@ struct TextBox: View {
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
-// Reusable AdminDropDown (with extra label padding)
+// AdminDropDown
+
 struct AdminDropDown: View {
     @Binding var selection: String
     let options: [String]
@@ -412,7 +313,6 @@ struct AdminDropDown: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            // Label with extra bottom padding
             HStack {
                 Image(imageName)
                     .renderingMode(.original)
@@ -425,7 +325,6 @@ struct AdminDropDown: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 8)
 
-            // Selection “text field” look
             HStack {
                 Text(selection.isEmpty ? "" : selection)
                     .foregroundStyle(selection.isEmpty ? Color.gray : Color.primary)
@@ -436,13 +335,12 @@ struct AdminDropDown: View {
             }
             .frame(width: width)
             .contentShape(Rectangle())
-            .onTapGesture { withAnimation { isExpanded.toggle() } }
+            .onTapGesture { withAnimation(.easeInOut) { isExpanded.toggle() } }
             .overlay(
                 Rectangle().frame(height: 1),
                 alignment: .bottom
             )
 
-            // Dropdown list
             if isExpanded {
                 ScrollView {
                     ZStack {

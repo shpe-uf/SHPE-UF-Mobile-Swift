@@ -1,230 +1,105 @@
-//import Foundation
-//import UIKit
-//import CoreImage.CIFilterBuiltins
-//
-//class EventCreatorViewModel: ObservableObject {
-//
-//    // MARK: – Inputs
-//    @Published var eventTitle:    String = ""
-//    @Published var eventCode:     String = ""
-//    @Published var eventCategory: String = ""
-//    @Published var eventPoints:   String = ""
-//    @Published var eventDate:     String = ""
-//
-//    // MARK: – Outputs
-//    @Published var fieldErrors:   [String] = []
-//    @Published var qrImage:       UIImage? = nil
-//    @Published var showingQR:     Bool     = false
-//
-//    private let requestHandler = RequestHandler()
-//
-//    // MARK: – Validation Regex
-//    private let validNamePattern = #"^[A-Za-z0-9\s\-\/]{6,50}$"#
-//    private let validCodePattern = #"^[A-Za-z0-9]{6,50}$"#
-//
-//    /// Validate required + regex only (no server check here)
-//    func validateFields() {
-//        fieldErrors = []
-//
-//        // Required
-//        if eventTitle.isEmpty    { fieldErrors.append("Title is required.") }
-//        if eventCode.isEmpty     { fieldErrors.append("Code is required.") }
-//        if eventCategory.isEmpty { fieldErrors.append("Category is required.") }
-//        if eventDate.isEmpty     { fieldErrors.append("Expires in is required.") }
-//
-//        // Regex
-//        if !eventTitle.isEmpty,
-//           eventTitle.range(of: validNamePattern, options: .regularExpression) == nil {
-//            fieldErrors.append(
-//                "Event name must be at least 6 characters, max 50. No special characters, except for hyphens (-) and dashes (/)."
-//            )
-//        }
-//        if !eventCode.isEmpty,
-//           eventCode.range(of: validCodePattern, options: .regularExpression) == nil {
-//            fieldErrors.append(
-//                "Event code must be at least 6 characters, max 50. No special characters."
-//            )
-//        }
-//    }
-//
-//    /// Performs a GraphQL mutation.
-//    /// - When `requestFlag=="false"` it only does a duplicate‐check dry‐run.
-//    /// - When `requestFlag=="true"` it actually writes and then generates the QR.
-//    func createEvent(
-//        requestFlag: String,
-//        onSuccess: @escaping ()->Void
-//    ) {
-//        // build input
-//        let pts = Int(eventPoints) ?? 0
-//        let gqlInput = SHPESchema.CreateEventInput(
-//            name:       eventTitle,
-//            code:       eventCode,
-//            category:   eventCategory,
-//            points:     String(pts),
-//            expiration: eventDate,
-//            request:    requestFlag
-//        )
-//
-//        // send mutation
-//        requestHandler.createEvent(input: gqlInput) { [weak self] result in
-//            DispatchQueue.main.async {
-//                if let err = result["error"] as? String {
-//                    // duplicate‐title or other server error
-//                    let msg = err.lowercased().contains("exists")
-//                        ? "An event with that name already exists."
-//                        : err
-//                    self?.fieldErrors = [msg]
-//                    return  // pop-up stays open
-//                }
-//
-//                // on real write, generate QR + show it
-//                if requestFlag == "true" {
-//                    self?.qrImage     = QrCodeGenerator(eventCode: self?.eventCode ?? "")
-//                    self?.showingQR   = true
-//                }
-//
-//                onSuccess()  // hides ConfirmPopUp
-//            }
-//        }
-//    }
-//}
-//
-//// QrCodeGenerator remains unchanged
-//
-//
-//func QrCodeGenerator(eventCode: String, size: CGFloat = 200) -> UIImage {
-//    // 1) Build the raw QR CIImage
-//    let qrString = "[SHPEUF]:" + eventCode
-//    let data = qrString.data(using: .ascii)!
-//    let filter = CIFilter.qrCodeGenerator()
-//    filter.setValue(data, forKey: "inputMessage")
-//    guard let outputImage = filter.outputImage else {
-//        return UIImage(systemName: "xmark")!
-//    }
-//
-//    // 2) Scale it up so its pixels match your desired size
-//    let originalSize = outputImage.extent.size
-//    let scaleX = size / originalSize.width
-//    let scaleY = size / originalSize.height
-//    let scaledImage = outputImage.transformed(
-//        by: CGAffineTransform(scaleX: scaleX, y: scaleY)
-//    )
-//
-//    // 3) Render that into a CGImage
-//    let context = CIContext()
-//    guard let cgImg = context.createCGImage(scaledImage, from: scaledImage.extent) else {
-//        return UIImage(systemName: "xmark")!
-//    }
-//
-//    // 4) Return a UIImage with no further interpolation
-//    return UIImage(cgImage: cgImg, scale: 1, orientation: .up)
-//}
-// EventCreatorViewModel.swift
-
 import Foundation
 import UIKit
 import CoreImage.CIFilterBuiltins
 
+/// ViewModel for the “Create Event” screen:
+/// holds form state, runs validation, performs the GraphQL mutation,
+/// and generates the QR on success.
 class EventCreatorViewModel: ObservableObject {
+    // MARK: - Inputs
+    @Published var eventTitle    = ""
+    @Published var eventCode     = ""
+    @Published var eventCategory = ""
+    @Published var eventPoints   = ""
+    @Published var eventDate     = ""
 
-    // MARK: – Inputs
-    @Published var eventTitle:    String = ""
-    @Published var eventCode:     String = ""
-    @Published var eventCategory: String = ""
-    @Published var eventPoints:   String = ""
-    @Published var eventDate:     String = ""
-
-    // MARK: – Outputs
-    @Published var fieldErrors:   [String] = []
-    @Published var qrImage:       UIImage?   = nil
-    @Published var showingQR:     Bool       = false
+    // MARK: - Outputs
+    @Published var fieldErrors: [String] = []
+    @Published var qrImage: UIImage?
+    @Published var showingQR = false
 
     private let requestHandler = RequestHandler()
 
+    // MARK: - Validation Regex
+    private let validNamePattern = #"^[A-Za-z0-9\s\-\/]{6,50}$"#
+    private let validCodePattern = #"^[A-Za-z0-9]{6,50}$"#
+
+    /// Clears and repopulates `fieldErrors` based on:
+    /// • required-field checks
+    /// • regex checks for title/code
     func validateFields() {
         fieldErrors = []
+        if eventTitle.isEmpty    { fieldErrors.append("Title is required.") }
+        if eventCode.isEmpty     { fieldErrors.append("Code is required.") }
+        if eventCategory.isEmpty { fieldErrors.append("Category is required.") }
+        if eventDate.isEmpty     { fieldErrors.append("Expires in is required.") }
 
-        // Regex
-        let validNamePattern = "^[A-Za-z0-9\\-\\/]{6,50}$"
         if !eventTitle.isEmpty,
            eventTitle.range(of: validNamePattern, options: .regularExpression) == nil {
             fieldErrors.append(
-                "Event name must be at least 6 characters, max 50. No special characters, except for hyphens (-) and slashes (/)."
+              "Event name must be 6–50 chars; letters, numbers, hyphens, or slashes only."
             )
         }
-        let validCodePattern = "^[A-Za-z0-9]{6,50}$"
         if !eventCode.isEmpty,
            eventCode.range(of: validCodePattern, options: .regularExpression) == nil {
             fieldErrors.append(
-                "Event code must be at least 6 characters, max 50. No special characters."
+              "Event code must be 6–50 alphanumeric characters."
             )
         }
-
-        // (Optional) local duplicate check, if you want to prevent the round-trip:
-        // if existingTitles.contains(eventTitle) {
-        //     fieldErrors.append("This title already exists")
-        // }
     }
 
-    func createEvent(requestFlag: String, onSuccess: @escaping ()->Void) {
-        // build input
+    /// Sends the `CreateEvent` mutation if no validation errors.
+    /// On server error (e.g. duplicate name) populates `fieldErrors`.
+    /// On success, generates the QR image and sets `showingQR = true`.
+    func createEvent(onSuccess: @escaping ()->Void = {}) {
+        validateFields()
+        guard fieldErrors.isEmpty else { return }
+
         let pts = Int(eventPoints) ?? 0
-        let gqlInput = SHPESchema.CreateEventInput(
+        let input = SHPESchema.CreateEventInput(
             name:       eventTitle,
             code:       eventCode,
             category:   eventCategory,
             points:     String(pts),
             expiration: eventDate,
-            request:    requestFlag
+            request:    "true"
         )
 
-        // send mutation
-        requestHandler.createEvent(input: gqlInput) { [weak self] result in
+        requestHandler.createEvent(input: input) { [weak self] result in
             DispatchQueue.main.async {
-                // 1) Check specifically for the "exists" error first
-                if let err = result["error"] as? String,
-                   err.lowercased().contains("exists") {
-                    var errs = self?.fieldErrors ?? []
-                    errs.append("This title already exists")
-                    self?.fieldErrors = errs
-                    return
-                }
-                // 2) Any other server error
                 if let err = result["error"] as? String {
-                    self?.fieldErrors = [err]
+                    let message = err.lowercased().contains("exists")
+                        ? "An event with that name already exists."
+                        : err
+                    self?.fieldErrors = [message]
                     return
                 }
-
-                // 3) on real write, generate QR + show it
-                if requestFlag == "true" {
-                    self?.qrImage     = QrCodeGenerator(eventCode: self?.eventCode ?? "")
-                    self?.showingQR   = true
-                }
-
-                onSuccess()  // hides ConfirmPopUp
+                // success → generate QR + show sheet
+                self?.qrImage   = QrCodeGenerator(eventCode: self?.eventCode ?? "")
+                self?.showingQR = true
+                onSuccess()
             }
         }
     }
 }
 
-// QrCodeGenerator remains unchanged
+/// Utility that takes an event code and returns a non-interpolated QR UIImage.
 func QrCodeGenerator(eventCode: String, size: CGFloat = 200) -> UIImage {
-    let qrString = "[SHPEUF]:" + eventCode
-    let data = qrString.data(using: .ascii)!
+    let raw = "[SHPEUF]:" + eventCode
     let filter = CIFilter.qrCodeGenerator()
-    filter.setValue(data, forKey: "inputMessage")
-    guard let outputImage = filter.outputImage else {
+    filter.setValue(raw.data(using: .ascii), forKey: "inputMessage")
+    guard let output = filter.outputImage else {
         return UIImage(systemName: "xmark")!
     }
-    let originalSize = outputImage.extent.size
-    let scaleX = size / originalSize.width
-    let scaleY = size / originalSize.height
-    let scaledImage = outputImage.transformed(
-        by: CGAffineTransform(scaleX: scaleX, y: scaleY)
-    )
+
+    let scaleX = size / output.extent.width
+    let scaleY = size / output.extent.height
+    let scaled = output.transformed(by: .init(scaleX: scaleX, y: scaleY))
+
     let context = CIContext()
-    guard let cgImg = context.createCGImage(scaledImage, from: scaledImage.extent) else {
+    guard let cg = context.createCGImage(scaled, from: scaled.extent) else {
         return UIImage(systemName: "xmark")!
     }
-    return UIImage(cgImage: cgImg, scale: 1, orientation: .up)
+    return UIImage(cgImage: cg, scale: 1, orientation: .up)
 }
+
