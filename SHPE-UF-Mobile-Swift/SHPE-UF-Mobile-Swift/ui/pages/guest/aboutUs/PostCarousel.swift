@@ -12,10 +12,11 @@ struct PostCarousel: View {
     @State private var showHint = true
     @ObservedObject var viewModel: InstagramViewModel
     @Environment(\.horizontalSizeClass) private var hSize
+    @Binding var isDragging: Bool
     
     var body: some View {
 
-        // ───────── REGULAR WIDTH (iPad) ─────────
+        // iPad
         if hSize == .regular {
             TabView(selection: $currentIndex) {
                 ForEach(viewModel.mockData.indices, id: \.self) { idx in
@@ -34,13 +35,13 @@ struct PostCarousel: View {
                     .animation(.easeInOut, value: currentIndex)
             }
 
-        // ───────── COMPACT WIDTH (iPhone) ─────────
+        // iPhone
         } else {
             originalCarouselBody
         }
     }
 
-    // Extract your existing VStack-&-ZStack so we can call it here
+    
     private var originalCarouselBody: some View {
         VStack {
             ZStack {
@@ -54,14 +55,18 @@ struct PostCarousel: View {
                         .offset(x: CGFloat(index - currentIndex) * 300 + dragOffset)
                 }
             }
-            .gesture(dragGesture)
+            //the carousel will recognize the swap first, then changing the isDragging variable
+            .highPriorityGesture(dragGesture)
         }
     }
 
-    // Your existing drag logic factored out so both bodies can share it
+    
     private var dragGesture: some Gesture {
         DragGesture()
+            //So that the page and carousel dont get swiped at the same time
+            .onChanged { _ in isDragging = true}
             .onEnded { value in
+                defer { isDragging = false }
                 let threshold: CGFloat = 50
                 if value.translation.width > threshold {
                     withAnimation { currentIndex = max(0, currentIndex - 1) }
@@ -85,7 +90,6 @@ private struct PageIndicatorBar: View {
     private let tinySize:   CGFloat = 4
     private let spacing:    CGFloat = 12
 
-    // Intensity falloff: 3 = center, 2 = adjacent, etc.
     private func generateDotArray() -> [Int] {
         var array = Array(repeating: 0, count: total)
         let maxValue = 3
@@ -106,7 +110,7 @@ private struct PageIndicatorBar: View {
         case 3: return normalSize
         case 2: return smallSize
         case 1: return tinySize
-        default: return nil  // hide or skip
+        default: return nil 
         }
     }
 
@@ -130,5 +134,5 @@ private struct PageIndicatorBar: View {
 
 
 #Preview {
-    PostCarousel(viewModel: InstagramViewModel())
+    PostCarousel(viewModel: InstagramViewModel(), isDragging: .constant(false) )
 }
