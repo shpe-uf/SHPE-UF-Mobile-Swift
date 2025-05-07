@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AboutUsView: View {
+    @Binding var carouselIsDragging: Bool
+    
     var body: some View {
         
         VStack {
@@ -39,7 +41,10 @@ struct AboutUsView: View {
                     .foregroundStyle(.lorange)
                     
                 /// INSERT LATEST INSTAGRAM POSTS
-                PostCarousel(viewModel: InstagramViewModel())
+                PostCarousel(
+                  viewModel: InstagramViewModel(),
+                  isDragging: $carouselIsDragging
+                )
                     .padding()
                 
                 
@@ -57,5 +62,5 @@ struct AboutUsView: View {
 }
 
 #Preview {
-    AboutUsView()
+    AboutUsView(carouselIsDragging: .constant(false))
 }

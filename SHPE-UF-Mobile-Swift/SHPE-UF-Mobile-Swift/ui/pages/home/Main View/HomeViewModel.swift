@@ -16,7 +16,7 @@ final class HomeViewModel: ObservableObject {
     
     //This is for testing events when there are no events present
     //Keep this commented if testing
-    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, useDummyEvents: Bool = true) {
+    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, useDummyEvents: Bool = false) {
 //            #if DEBUG
 //            self.events = createDummyEvents()
 //            #else

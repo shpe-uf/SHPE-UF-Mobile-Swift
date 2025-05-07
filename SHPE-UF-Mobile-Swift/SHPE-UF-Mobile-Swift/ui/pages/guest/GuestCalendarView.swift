@@ -73,8 +73,7 @@ struct GuestCalendarView: View {
                                 
                                 // Decide whether to show day heading
                                 HStack {
-                                    if index == 0
-                                       || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
+                                    if index == 0 || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
                                         
                                         // Show date heading (like "Mon" + "16")
                                         VStack(alignment: .center, spacing: 0) {
@@ -168,7 +167,7 @@ struct GuestCalendarView: View {
            
         }
         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
-        .edgesIgnoringSafeArea(.all) // Put it here
+        .edgesIgnoringSafeArea(.all)
         .overlay {
             Group {
                     if appVM.showView == "EventView" {
