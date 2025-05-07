@@ -542,28 +542,93 @@ class RequestHandler
         }
     }
     
+    
+    /// Performs the `CreateEvent` GraphQL mutation and returns the result via a callback.
+    /// - Parameters:
+    ///   - input: The `CreateEventInput` object containing event details.
+    ///   - completion: Closure returning a dictionary with event fields on success or an "error" key on failure.
+    func createEvent(
+        input: SHPESchema.CreateEventInput,
+        completion: @escaping ([String: Any]) -> Void
+    ) {
+        // Wrap the input to handle nullable GraphQL fields
+        let validInput = GraphQLNullable(input)
+
+        // Execute the mutation using Apollo client
+        apolloClient.perform(
+            mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)
+        ) { result in
+            switch result {
+
+            case .success(let graphQLResult):
+                // 1) Handle any GraphQL-level errors (returned by server schema)
+                if let gqlErrors = graphQLResult.errors, !gqlErrors.isEmpty {
+                    // Combine all error messages into one string
+                    let messages = gqlErrors.map { $0.localizedDescription }
+                                             .joined(separator: "\n")
+                    completion(["error": messages])
+                    return
+                }
+
+                // 2) Safely drill into nested data: data.createEvent is [CreateEvent?]
+                guard
+                    let data         = graphQLResult.data,
+                    let rawList      = data.createEvent,      // Array of optional CreateEvent
+                    let firstElement = rawList.first,          // Optional CreateEvent element
+                    let event        = firstElement            // Unwrapped CreateEvent
+                else {
+                    // Data missing or malformed
+                    completion(["error": "Event not returned"])
+                    return
+                }
+
+                // 3) On success, extract event properties into a dictionary
+                completion([
+                    "category":   event.category,
+                    "code":       event.code,
+                    "expiration": event.expiration,
+                    "name":       event.name,
+                    "points":     event.points,
+                    "request":    event.request
+                ])
+
+            case .failure(let error):
+                // Network or parsing failure
+                completion(["error": error.localizedDescription])
+            }
+        }
+    }
+
+    
+    /// Fetches the permission string for a given user ID via Apollo GraphQL
+    /// - Parameters:
+    ///   - userId: The unique identifier of the user
+    ///   - completion: Closure returning the permission string or nil on error
     func fetchUserPermission(userId: String, completion: @escaping (String?) -> Void) {
+        // Ensure a valid userId is provided
         guard !userId.isEmpty else {
             completion(nil)
             return
         }
 
+        // Perform the GraphQL query
         apolloClient.fetch(query: SHPESchema.GetUserPermissionQuery(userId: userId)) { response in
             DispatchQueue.main.async {
+                // Attempt to extract data from the response
                 guard let data = try? response.get().data else {
                     print("❌ ERROR: Failed to fetch user permission: \(response)")
                     completion(nil)
                     return
                 }
-                
-                // Extract permission from response
+
+                // Retrieve the permission string from the fetched user
                 let permission = data.getUser?.permission
                 completion(permission)
             }
         }
     }
 
-    
+
     
     // MARK: Home Page Functions
     // Input: minDate: Date Captures any events after minDate
@@ -775,81 +840,5 @@ class RequestHandler
 
         return Organizer(email: email, selfValue: selfValue)
     }
-    
-//    func createEvent(input: SHPESchema.CreateEventInput,
-//                       completion: @escaping ([String:Any]) -> Void)
-//      {
-//        let validInput = GraphQLNullable(input)
-//        apolloClient.perform(
-//          mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)
-//        ) { result in
-//          switch result {
-//          case .success(let graphQLResult):
-//            guard let event = graphQLResult.data?.createEvent?.first ?? nil else {
-//              completion(["error":"Event not returned"])
-//              return
-//            }
-//            completion([
-//              "category":  event.category,
-//              "code":      event.code,
-//              "expiration":event.expiration,
-//              "name":      event.name,
-//              "points":    event.points,
-//              "request":   event.request
-//            ])
-//          case .failure(let error):
-//            completion(["error":error.localizedDescription])
-//          }
-//        }
-//      }
-
-    func createEvent(
-      input: SHPESchema.CreateEventInput,
-      completion: @escaping ([String:Any]) -> Void
-    ) {
-      let validInput = GraphQLNullable(input)
-      apolloClient.perform(
-        mutation: SHPESchema.CreateEventMutation(createEventInput: validInput)
-      ) { result in
-        switch result {
-        case .success(let graphQLResult):
-          // 1) Handle any GraphQL-level errors first:
-          if let gqlErrors = graphQLResult.errors, !gqlErrors.isEmpty {
-            let messages = gqlErrors.map { $0.localizedDescription }.joined(separator: "\n")
-            completion(["error": messages])
-            return
-          }
-
-          // 2) Safely drill into data.createEvent → [CreateEvent?] → first → CreateEvent
-          guard
-            let data            = graphQLResult.data,
-            let rawList         = data.createEvent,         // [CreateEvent?]
-            let firstElement    = rawList.first,            // CreateEvent?
-            let event           = firstElement              // unwrap CreateEvent
-          else {
-            completion(["error": "Event not returned"])
-            return
-          }
-
-          // 3) Now that `event` is non‐optional, pull out its properties:
-          completion([
-            "category":   event.category,
-            "code":       event.code,
-            "expiration": event.expiration,
-            "name":       event.name,
-            "points":     event.points,
-            "request":    event.request
-          ])
-
-        case .failure(let error):
-          // Network / parsing failure
-          completion(["error": error.localizedDescription])
-        }
-      }
-    }
-    
-    
-
-
 }
 
