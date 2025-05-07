@@ -1,17 +1,18 @@
 import SwiftUI
 
+// Main view for creating and submitting new events
 struct EventCreatorView: View {
-    @Environment(\.dismiss) private var dismiss
-    @StateObject private var eventVM = EventCreatorViewModel()
-    @StateObject var appVM: AppViewModel = AppViewModel.appVM
+    @Environment(\.dismiss) private var dismiss  // Dismisses this view when called
+    @StateObject private var eventVM = EventCreatorViewModel()  // Manages form state and actions
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM  // Shared app settings (e.g., dark mode)
 
-    @State private var didAttemptSave = false
-    @State private var showingConfirm = false
+    @State private var didAttemptSave = false  // Tracks if user tapped Save for validation
+    @State private var showingConfirm = false  // Controls display of confirmation alert
 
     var body: some View {
         ZStack {
             VStack {
-                // ── HEADER ─────────────────────────────────────────────────────
+                // ── HEADER: Logo and curved background ─────────────────
                 ZStack {
                     Image(appVM.darkMode ? "Gator" : "Gator2")
                         .resizable()
@@ -33,14 +34,14 @@ struct EventCreatorView: View {
                         )
                         .padding(.top, UIScreen.main.bounds.height * 0.17)
 
-                    Image("EVENTS")
+                    Image("EVENTS")  // Title image
                         .resizable()
                         .frame(
                             width: UIScreen.main.bounds.width * 0.375,
                             height: UIScreen.main.bounds.height * 0.036
                         )
 
-                    Image("Edit Event")
+                    Image("Edit Event")  // Subtitle image
                         .resizable()
                         .frame(
                             width: UIScreen.main.bounds.width * 0.35,
@@ -52,7 +53,7 @@ struct EventCreatorView: View {
                 .frame(maxWidth: .infinity)
                 .background(Color("profile-orange"))
 
-                // ── FORM ───────────────────────────────────────────────────────
+                // ── FORM: Scrollable input fields ────────────────────────
                 ScrollView {
                     InputGrid(vm: eventVM, didAttemptSave: didAttemptSave)
                         .padding(.leading, UIScreen.main.bounds.width * 0.05)
@@ -60,9 +61,9 @@ struct EventCreatorView: View {
                         .padding(.bottom, 10)
                 }
 
-                // ── BUTTONS ────────────────────────────────────────────────────
+                // ── BUTTONS: Cancel and Save ─────────────────────────────
                 HStack(spacing: 0) {
-                    // Cancel
+                    // Cancel button returns to previous screen
                     Button {
                         dismiss()
                     } label: {
@@ -78,10 +79,10 @@ struct EventCreatorView: View {
                         }
                     }
 
-                    // Save → client-side validation only
+                    // Save button triggers validation and confirmation
                     Button {
                         didAttemptSave = true
-                        eventVM.validateFields()
+                        eventVM.validateFields()  // Check for errors
                         guard eventVM.fieldErrors.isEmpty else { return }
                         showingConfirm = true
                     } label: {
@@ -99,7 +100,7 @@ struct EventCreatorView: View {
                     .alert("Create Event?", isPresented: $showingConfirm) {
                         Button("Cancel", role: .cancel) {}
                         Button("Create") {
-                            eventVM.createEvent()
+                            eventVM.createEvent()  // Call view model to send mutation
                         }
                     } message: {
                         Text("Are you sure you wish to create this event, and that all the info is accurate?")
@@ -109,11 +110,12 @@ struct EventCreatorView: View {
                 .zIndex(10)
             }
             .ignoresSafeArea()
-            .background(Color("Profile-Background"))
-            .preferredColorScheme(appVM.darkMode ? .dark : .light)
+            .background(Color("Profile-Background"))  // Main background color
+            .preferredColorScheme(appVM.darkMode ? .dark : .light)  // Switch theme
         }
-        .navigationBarBackButtonHidden(true)
-        // ── QR SHEET ────────────────────────────────────────────────────
+        .navigationBarBackButtonHidden(true)  // Hide default back button
+        
+        // ── QR SHEET: Shows QR code after event creation ─────────────────
         .sheet(isPresented: $eventVM.showingQR) {
             VStack(spacing: 24) {
                 HStack {
@@ -131,13 +133,13 @@ struct EventCreatorView: View {
                     }
                 }
                 .padding(.horizontal, 16)
-                .padding(.top, 16)
+                .padding(.top, 50)
 
                 if let qr = eventVM.qrImage {
                     Image(uiImage: qr)
                         .resizable()
                         .interpolation(.none)
-                        .frame(width: 200, height: 200)
+                        .frame(width: 250, height: 250)
                 }
 
                 Button("Download QR") {
@@ -154,29 +156,21 @@ struct EventCreatorView: View {
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
-// InputGrid
-
+// InputGrid: Lays out labeled inputs and error messages
 struct InputGrid: View {
     let Categories = [
-        "General Body Meeting",
-        "Cabinet Meeting",
-        "Workshop",
-        "Form/Survey",
-        "Social",
-        "Corporate Event",
-        "Fundraising",
-        "Tabling",
-        "Volunteering",
-        "Miscellaneous"
+        "General Body Meeting", "Cabinet Meeting", "Workshop",
+        "Form/Survey", "Social", "Corporate Event",
+        "Fundraising", "Tabling", "Volunteering", "Miscellaneous"
     ]
     let ExpiresIn = ["1 hour", "2 hours", "3 hours", "4 hours"]
 
-    @ObservedObject var vm: EventCreatorViewModel
-    let didAttemptSave: Bool
+    @ObservedObject var vm: EventCreatorViewModel  // Shares data and errors
+    let didAttemptSave: Bool  // Flag to show validation messages
 
     var body: some View {
         VStack(spacing: UIScreen.main.bounds.height * 0.06) {
-            // TITLE + ERROR
+            // Title input and error display
             VStack(spacing: 4) {
                 TextBox(
                     inputText: $vm.eventTitle,
@@ -185,6 +179,7 @@ struct InputGrid: View {
                     width: UIScreen.main.bounds.width * 0.7
                 )
                 if didAttemptSave {
+                    // Show only title-related errors
                     let titleErrors = vm.fieldErrors.enumerated().filter { _, err in
                         let lower = err.lowercased()
                         return lower.contains("title")
@@ -199,7 +194,7 @@ struct InputGrid: View {
                 }
             }
 
-            // CODE + ERROR
+            // Code input and error message
             VStack(spacing: 4) {
                 TextBox(
                     inputText: $vm.eventCode,
@@ -215,7 +210,7 @@ struct InputGrid: View {
                 }
             }
 
-            // CATEGORY + ERROR
+            // Category dropdown and validation
             VStack(spacing: 4) {
                 AdminDropDown(
                     selection: $vm.eventCategory,
@@ -233,7 +228,7 @@ struct InputGrid: View {
                 }
             }
 
-            // POINTS
+            // Points input (optional)
             TextBox(
                 inputText: $vm.eventPoints,
                 name: "POINTS",
@@ -241,7 +236,7 @@ struct InputGrid: View {
                 width: UIScreen.main.bounds.width * 0.3
             )
 
-            // EXPIRES IN + ERROR
+            // Expiration dropdown and error handling
             VStack(spacing: 4) {
                 AdminDropDown(
                     selection: $vm.eventDate,
@@ -264,13 +259,12 @@ struct InputGrid: View {
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
-// TextBox
-
+// TextBox: Custom text field with a title label and bottom border
 struct TextBox: View {
-    @Binding var inputText: String
-    var name: String
-    var imageName: String
-    var width: CGFloat
+    @Binding var inputText: String  // Two-way binding to view model
+    var name: String  // Field label
+    var imageName: String  // Icon name
+    var width: CGFloat  // Field width
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -293,7 +287,7 @@ struct TextBox: View {
                 .frame(width: width)
                 .overlay(
                     Rectangle()
-                        .frame(width: width, height: 1),
+                        .frame(width: width, height: 1),  // Underline
                     alignment: .bottomLeading
                 )
         }
@@ -301,15 +295,14 @@ struct TextBox: View {
 }
 
 // ────────────────────────────────────────────────────────────────────────────────
-// AdminDropDown
-
+// AdminDropDown: Expandable list for selecting one option
 struct AdminDropDown: View {
-    @Binding var selection: String
-    let options: [String]
-    let width: CGFloat
-    var name: String
-    var imageName: String
-    @State private var isExpanded = false
+    @Binding var selection: String  // Current selection
+    let options: [String]  // Items to choose from
+    let width: CGFloat  // Dropdown width
+    var name: String  // Label above dropdown
+    var imageName: String  // Icon next to label
+    @State private var isExpanded = false  // Controls list visibility
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -353,7 +346,7 @@ struct AdminDropDown: View {
                                     .padding(.vertical, 8)
                                     .padding(.horizontal, 12)
                                     .onTapGesture {
-                                        selection = opt
+                                        selection = opt  // Update selected value
                                         isExpanded = false
                                     }
                             }
@@ -367,7 +360,6 @@ struct AdminDropDown: View {
     }
 }
 
-// ────────────────────────────────────────────────────────────────────────────────
 #Preview {
     EventCreatorView()
 }

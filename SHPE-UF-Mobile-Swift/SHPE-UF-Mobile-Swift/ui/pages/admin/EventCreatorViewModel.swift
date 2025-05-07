@@ -2,59 +2,64 @@ import Foundation
 import UIKit
 import CoreImage.CIFilterBuiltins
 
-/// ViewModel for the “Create Event” screen:
-/// holds form state, runs validation, performs the GraphQL mutation,
-/// and generates the QR on success.
+// ViewModel for the “Create Event” screen:
+// Manages form inputs, validation, GraphQL mutation, and QR generation.
 class EventCreatorViewModel: ObservableObject {
-    // MARK: - Inputs
-    @Published var eventTitle    = ""
-    @Published var eventCode     = ""
-    @Published var eventCategory = ""
-    @Published var eventPoints   = ""
-    @Published var eventDate     = ""
+    // MARK: - User Inputs (bound to form fields)
+    @Published var eventTitle    = ""  // Name of the event
+    @Published var eventCode     = ""  // Unique code identifier
+    @Published var eventCategory = ""  // Selected category
+    @Published var eventPoints   = ""  // Points awarded
+    @Published var eventDate     = ""  // Expiration selection
 
-    // MARK: - Outputs
-    @Published var fieldErrors: [String] = []
-    @Published var qrImage: UIImage?
-    @Published var showingQR = false
+    // MARK: - Outputs (observed by the view)
+    @Published var fieldErrors: [String] = []  // Validation or server errors
+    @Published var qrImage: UIImage?         // Generated QR code
+    @Published var showingQR = false         // Controls QR sheet display
 
-    private let requestHandler = RequestHandler()
+    private let requestHandler = RequestHandler()  // Handles network calls
 
-    // MARK: - Validation Regex
-    private let validNamePattern = #"^[A-Za-z0-9\s\-\/]{6,50}$"#
-    private let validCodePattern = #"^[A-Za-z0-9]{6,50}$"#
+    // MARK: - Validation Patterns
+    private let validNamePattern = #"^[A-Za-z0-9\s\-\/]{6,50}$"#  // Title rules
+    private let validCodePattern = #"^[A-Za-z0-9]{6,50}$"#            // Code rules
 
-    /// Clears and repopulates `fieldErrors` based on:
-    /// • required-field checks
-    /// • regex checks for title/code
+    // Validates all form fields:
+    // Checks required inputs
+    // Applies regex for title and code formats
     func validateFields() {
-        fieldErrors = []
+        fieldErrors = []  // Reset errors
+
+        // Required-field checks
         if eventTitle.isEmpty    { fieldErrors.append("Title is required.") }
         if eventCode.isEmpty     { fieldErrors.append("Code is required.") }
         if eventCategory.isEmpty { fieldErrors.append("Category is required.") }
         if eventDate.isEmpty     { fieldErrors.append("Expires in is required.") }
 
+        // Regex checks
         if !eventTitle.isEmpty,
            eventTitle.range(of: validNamePattern, options: .regularExpression) == nil {
             fieldErrors.append(
-              "Event name must be 6–50 chars; letters, numbers, hyphens, or slashes only."
+                "Event name must be 6–50 chars; letters, numbers, hyphens, or slashes only."
             )
         }
         if !eventCode.isEmpty,
            eventCode.range(of: validCodePattern, options: .regularExpression) == nil {
             fieldErrors.append(
-              "Event code must be 6–50 alphanumeric characters."
+                "Event code must be 6–50 alphanumeric characters."
             )
         }
     }
 
-    /// Sends the `CreateEvent` mutation if no validation errors.
-    /// On server error (e.g. duplicate name) populates `fieldErrors`.
-    /// On success, generates the QR image and sets `showingQR = true`.
+    // Creates the event via GraphQL mutation:
+    // 1. Re-validates fields
+    // 2. Sends mutation on success
+    // 3. Handles duplicate-name errors
+    // 4. Generates and displays QR on success
     func createEvent(onSuccess: @escaping ()->Void = {}) {
         validateFields()
-        guard fieldErrors.isEmpty else { return }
+        guard fieldErrors.isEmpty else { return }  // Abort if errors exist
 
+        // Convert points to int (default 0)
         let pts = Int(eventPoints) ?? 0
         let input = SHPESchema.CreateEventInput(
             name:       eventTitle,
@@ -65,16 +70,18 @@ class EventCreatorViewModel: ObservableObject {
             request:    "true"
         )
 
+        // Perform network call
         requestHandler.createEvent(input: input) { [weak self] result in
             DispatchQueue.main.async {
+                // Handle server-side error
                 if let err = result["error"] as? String {
                     let message = err.lowercased().contains("exists")
-                        ? "An event with that name already exists."
+                        ? "An event with that name already exists."  // Friendly duplicate message
                         : err
                     self?.fieldErrors = [message]
                     return
                 }
-                // success → generate QR + show sheet
+                // On success, generate QR and show sheet
                 self?.qrImage   = QrCodeGenerator(eventCode: self?.eventCode ?? "")
                 self?.showingQR = true
                 onSuccess()
@@ -83,23 +90,25 @@ class EventCreatorViewModel: ObservableObject {
     }
 }
 
-/// Utility that takes an event code and returns a non-interpolated QR UIImage.
+// Generates a QR code image from the given event code:
 func QrCodeGenerator(eventCode: String, size: CGFloat = 200) -> UIImage {
-    let raw = "[SHPEUF]:" + eventCode
+    let raw = "[SHPEUF]:" + eventCode  // Payload format
     let filter = CIFilter.qrCodeGenerator()
     filter.setValue(raw.data(using: .ascii), forKey: "inputMessage")
+
     guard let output = filter.outputImage else {
-        return UIImage(systemName: "xmark")!
+        return UIImage(systemName: "xmark")!  // Fallback icon
     }
 
+    // Scale QR to target size
     let scaleX = size / output.extent.width
     let scaleY = size / output.extent.height
     let scaled = output.transformed(by: .init(scaleX: scaleX, y: scaleY))
 
+    // Render CIImage to CGImage
     let context = CIContext()
     guard let cg = context.createCGImage(scaled, from: scaled.extent) else {
-        return UIImage(systemName: "xmark")!
+        return UIImage(systemName: "xmark")!  // Fallback on render failure
     }
     return UIImage(cgImage: cg, scale: 1, orientation: .up)
 }
-
