@@ -115,8 +115,6 @@
 		C5F623562D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */; };
 		C5F623572D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */; };
 		C5F623592D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */; };
-		C5F6235A2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */; };
-		C5F6235B2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F623582D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -897,7 +895,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */,
-				C5F6235B2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,7 +902,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5F6235A2D9A0E31002C57A5 /* ForgotPasswordMutation.graphql.swift in Sources */,
 				206C8F912AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift in Sources */,
 				206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */,
 			);
@@ -1053,7 +1049,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = KCM8N6525G;
+				DEVELOPMENT_TEAM = 7F4NDT3MRR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
@@ -1090,7 +1086,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = KCM8N6525G;
+				DEVELOPMENT_TEAM = 7F4NDT3MRR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
