@@ -108,6 +108,7 @@ struct SignInView: View
                     .frame(width: 270, height: 37.64706)
                     .background(Color.white)
                     .cornerRadius(10)
+                    
                 }
                 
                 // Password Text
@@ -188,7 +189,7 @@ struct SignInView: View
                     Text("Don’t have an account?")
                       .font(Font.custom("Univers LT Std", size: 14))
                       .foregroundColor(Color("whiteText"))
-                      .frame(width:162, height:17)
+                    
                     Text("Sign Up")
                         .font(Font.custom("Univers LT Std", size: 14))
                         .foregroundColor(Color("lblue"))

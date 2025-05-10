@@ -7,10 +7,9 @@ final class ForgetPasswordViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var error: String = ""
     @Published var isCommunicating: Bool = false
-    let toastDuration: Double = 3.0
     
-    // MARK: - Forgot Password Logic
-    func forgotPassword(email: String) {
+    
+    func forgotPassword(email: String, completion: @escaping (Bool) -> Void) {
         // Overwrite local email if needed
         self.email = email
         
@@ -21,10 +20,11 @@ final class ForgetPasswordViewModel: ObservableObject {
             withAnimation(.easeIn(duration: 0.3)) {
                 AppViewModel.appVM.showToast = true
             }
+            completion(false)
             return
         }
         
-        // Show activity indicator
+        // Indicate activity
         self.isCommunicating = true
         print("🔍 Starting email validation for: \(email)")
         
@@ -35,11 +35,12 @@ final class ForgetPasswordViewModel: ObservableObject {
                 
                 // Check if there's an error
                 if let error = result["error"] as? String {
-                    self.error = error
+                    self.error = "Something went wrong"
                     AppViewModel.appVM.toastMessage = self.error
                     withAnimation(.easeIn(duration: 0.3)) {
                         AppViewModel.appVM.showToast = true
                     }
+                    completion(false)
                     print("❌ Email validation failed with error: \(error)")
                     return
                 }
@@ -51,6 +52,7 @@ final class ForgetPasswordViewModel: ObservableObject {
                     withAnimation(.easeIn(duration: 0.3)) {
                         AppViewModel.appVM.showToast = true
                     }
+                    completion(false)
                     print("⚠️ Email not registered: \(self.email)")
                     return
                 }
@@ -69,6 +71,7 @@ final class ForgetPasswordViewModel: ObservableObject {
                                 AppViewModel.appVM.showToast = true
                             }
                             print("❌ Failed to send password reset email: \(error)")
+                            completion(false)
                             return
                         }
                         
@@ -79,6 +82,7 @@ final class ForgetPasswordViewModel: ObservableObject {
                                 AppViewModel.appVM.showToast = true
                             }
                             print("📬 Password reset request successful. Message: \(message)")
+                            completion(true) 
                         } else {
                             print("⚠️ Password reset response missing 'message' field.")
                         }
