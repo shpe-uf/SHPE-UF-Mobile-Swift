@@ -754,4 +754,3 @@ class RequestHandler
         return Organizer(email: email, selfValue: selfValue)
     }
 }
-
