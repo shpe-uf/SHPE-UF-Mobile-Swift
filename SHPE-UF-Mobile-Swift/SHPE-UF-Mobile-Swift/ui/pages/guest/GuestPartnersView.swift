@@ -77,7 +77,7 @@ struct GuestPartnersView: View {
                         .multilineTextAlignment(.center)
                     
                     Button(action: {
-                        if let url = URL(string: "mailto:vpcorporate.shpeuf@gmail.com") {
+                        if let url = URL(string: "https://mailto:vpcorporate.shpeuf@gmail.com") {
                             UIApplication.shared.open(url)
                         }
                     }) {
