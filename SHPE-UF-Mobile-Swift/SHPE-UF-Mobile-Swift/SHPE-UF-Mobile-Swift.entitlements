@@ -6,6 +6,9 @@
 	<array>
 		<string>webcredentials:www.shpeuf.com</string>
 		<string>applinks:www.shpeuf.com</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.widgets-shared</string>
 	</array>
 </dict>
 </plist>

@@ -88,26 +88,46 @@ struct LandingPageView: View {
                     .shadow(color: .black, radius: 3, x: 0, y: 0)
                     .foregroundColor(Color.lightGray)
                     .position(x: geometry.size.width / 2, y: geometry.size.height * 0.58)
-
-                // Button to navigate to RegisterView
-                Button(action: {
-                    withAnimation(.easeIn(duration: 0.2)) {
-                        appVM.setPageIndex(index: 0)
+                
+                VStack(spacing: 12) {
+                    // Button to navigate to RegisterView
+                    Button(action: {
+                        withAnimation(.easeIn(duration: 0.2)) {
+                            appVM.setPageIndex(index: 0)
+                        }
+                    }) {
+                        HStack {
+                            Spacer() // Add spacer to push the text to the center
+                            Text("Get Started")
+                                .font(.custom("UniversLTStd", size: 25))
+                                .foregroundColor(.white)
+                            Spacer() // Add another spacer to push the text to the center
+                        }
                     }
-                }) {
-                    HStack {
-                        Spacer() // Add spacer to push the text to the center
-                        Text("Get Started")
-                            .font(.custom("UniversLTStd", size: 25))
-                            .foregroundColor(.white)
-                        Spacer() // Add another spacer to push the text to the center
+                    .frame(width: 290, height: 40)
+                    .padding()
+                    .foregroundColor(.white)
+                    .background(Color.blue)
+                    .cornerRadius(25)
+                    
+                    
+                    //Button to navigate to GuestWelcomeView
+                    Button(action: {
+                        withAnimation(.easeIn(duration: 0.2)) {
+                            appVM.setPageIndex(index: 4)
+                        }
+                    }) {
+                        HStack{
+                            Text("View as Guest")
+                                .font(.custom("UniversLTStd", size: 25))
+                                .foregroundColor(.white)
+                        }
                     }
+                    .frame(width: 290, height: 40)
+                    .padding()
+                    .background(Color.darkdarkBlue)
+                    .cornerRadius(25)
                 }
-                .frame(width: 290, height: 40)
-                .padding()
-                .foregroundColor(.white)
-                .background(Color.darkdarkBlue)
-                .cornerRadius(25)
                 .padding(.bottom, 60)
             }
             .gesture(
@@ -151,8 +171,8 @@ struct LandingPageView: View {
     }
 }
 
-struct placeholderForLandingPageView_Preview: PreviewProvider {
-    static var previews: some View {
-        LandingPageView(viewModel: RegisterViewModel())
-    }
-}
+//struct placeholderForLandingPageView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        LandingPageView(viewModel: RegisterViewModel())
+//    }
+//}
