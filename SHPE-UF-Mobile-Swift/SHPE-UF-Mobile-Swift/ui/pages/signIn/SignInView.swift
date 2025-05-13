@@ -169,7 +169,7 @@ struct SignInView: View
                         .cornerRadius(100)
                         .padding()
                 }
-
+                
                 
                 HStack
                 {
@@ -185,7 +185,18 @@ struct SignInView: View
                         }
                 }
                 
+                // Continue as Guest Button
+                Button(action: {
+                    appVM.setPageIndex(index: 4)
+                }) {
+                    Text("Continue as Guest")
+                        .font(Font.custom("Univers LT Std", size: 14))
+                        .foregroundColor(Color("lblue"))
+                        .padding(.top, 10)
+                }
+               
                 Spacer()
+                
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
             .background(Color("darkBlue"))
