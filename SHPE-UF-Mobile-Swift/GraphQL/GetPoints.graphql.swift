@@ -5,4 +5,3 @@ query GetPoints($userId: ID!) {
     summerPoints
   }
 }
-
