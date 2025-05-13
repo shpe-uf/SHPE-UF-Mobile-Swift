@@ -7,7 +7,18 @@
 import SwiftUI
 
 struct DateHelper {
-    // Gets the current month as a string
+    /// Returns the current month as a string.
+    ///
+    /// This function uses a `DateFormatter` to get the current date and format it
+    /// to return the full month name (e.g., "March").
+    ///
+    /// - Returns: A string representing the current month.
+    ///
+    ///# Example
+    /// ```swift
+    /// let currentMonth = getCurrentMonth()
+    /// print(currentMonth) // Output: "March" (depending on the current date)
+    /// ```
     func getCurrentMonth() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMMM"
@@ -27,7 +38,17 @@ struct DateHelper {
         return dateFormatter.string(from: date)
     }
 
-    // Gets the full date format for an event
+    /// Return a formatted string of a full date from `Date` object
+    ///
+    ///This is a function that returns an event `Date` object into a string in the
+    ///format of `MMM dd, yyy`(e.g Mar 06, 2025)
+    ///
+    /// ## Example
+    /// ```swift
+    /// let date = Date()
+    /// let formattedDate = getDayFull(for: date)
+    /// print(formattedDate) //Formatted day of "date" ("Mar 06, 2025")
+    /// ```
     func getDayFull(for date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
