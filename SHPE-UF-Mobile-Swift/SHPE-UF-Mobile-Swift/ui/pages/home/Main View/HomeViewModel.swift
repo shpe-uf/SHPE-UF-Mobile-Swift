@@ -17,20 +17,19 @@ final class HomeViewModel: ObservableObject {
     //This is for testing events when there are no events present
     //Keep this commented if testing
     init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, useDummyEvents: Bool = false) {
-//            #if DEBUG
-            // self.events = createDummyEvents()
-        // Save to Core Data
-       
-//            #else
-             fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
-//            #endif
-        
-            
+        if useDummyEvents {
+            self.events = createDummyEvents()
+            updateEventTypes()
+            expandMultiDayEvents()
+            saveEventsToCoreData(self.events, viewContext: viewContext)
+        }
+        else {
+            fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
+        }
+
     }
     
-//    init(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext) {
-//        fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
-//    }
+
     
     func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext, useDummyEvents: Bool = false){
         // Set the minimum date for events to be fetched (e.g., today's date)
@@ -173,6 +172,7 @@ final class HomeViewModel: ObservableObject {
         DispatchQueue.main.async {
             do {
                 try viewContext.save()
+                print("✅ Saved \(events.count) events to Core Data")
             } catch {
                 print("Failed to save: \(error)")
             }
@@ -181,71 +181,69 @@ final class HomeViewModel: ObservableObject {
     
     
     /// For testing create dummy events
-    func createDummyEvents() -> [Event] {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            
-            return [
-                Event(
-                    created: Date(),
-                    creator: Creator(email: "test1@example.com", selfValue: 0),
-                    end: EventDateTime(dateTime: formatter.date(from: "2025-05-02T23:00:00Z")!, timeZone: "UTC"),
-                    etag: "123",
-                    eventType: "GBM",
-                    htmlLink: "http://example.com",
-                    iCalUID: "event1",
-                    identifier: "1",
-                    kind: "calendar#event",
-                    organizer: Organizer(email: "organizer@example.com", selfValue:0),
-                    sequence: 0,
-                    start: EventDateTime(dateTime: formatter.date(from: "2025-05-01T02:00:00Z")!, timeZone: "UTC"),
-                    status: "confirmed",
-                    summary: "GBM #1",
-                    updated: Date(),
-                    location: "655 Reitz Union Drive, Campus, Gainesville, FL 32611",
-                    description: "End of year GBM"
-                ),
-                Event(
-                    created: Date(),
-                    creator: Creator(email: "test2@example.com", selfValue: 0),
-                    end: EventDateTime(dateTime: formatter.date(from: "2025-12-31T23:59:00Z")!, timeZone: "UTC"),
-                    etag: "456",
-                    eventType: "Social",
-                    htmlLink: "http://example.com",
-                    iCalUID: "event2",
-                    identifier: "2",
-                    kind: "calendar#event",
-                    organizer: Organizer(email: "organizer@example.com", selfValue: 0),
-                    sequence: 0,
-                    start: EventDateTime(dateTime: formatter.date(from: "2025-12-31T20:00:00Z")!, timeZone: "UTC"),
-                    status: "confirmed",
-                    summary: "SHPE 2025 Convention",
-                    updated: Date(),
-                    location:"790 W Katella Ave, Anaheim",
-                    description: "Ring in the New Year with us!"
-                ),
-                Event(
-                    created: Date(),
-                    creator: Creator(email: "test3@example.com", selfValue: 0),
-                    end: EventDateTime(dateTime: formatter.date(from: "2025-01-10T10:00:00Z")!, timeZone: "UTC"),
-                    etag: "789",
-                    eventType: "Workshop",
-                    htmlLink: "http://example.com",
-                    iCalUID: "event3",
-                    identifier: "3",
-                    kind: "calendar#event",
-                    organizer: Organizer(email: "organizer@example.com", selfValue: 0),
-                    sequence: 0,
-                    start: EventDateTime(dateTime: formatter.date(from: "2025-01-10T08:00:00Z")!, timeZone: "UTC"),
-                    status: "confirmed",
-                    summary: "New Year's Resolution Workshop",
-                    updated: Date(),
-                    location: "1545 W University Ave, Gainesville, FL 32603",
-                    description: "Plan your resolutions and achieve your goals!"
-                )
-            ]
-        
-        }
-    
-    
+   func createDummyEvents() -> [Event] {
+           let formatter = DateFormatter()
+           formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+           
+           return [
+               Event(
+                   created: Date(),
+                   creator: Creator(email: "test1@example.com", selfValue: 0),
+                   end: EventDateTime(dateTime: formatter.date(from: "2025-05-016T23:00:00Z")!, timeZone: "UTC"),
+                   etag: "123",
+                   eventType: "GBM",
+                   htmlLink: "http://example.com",
+                   iCalUID: "event1",
+                   identifier: "1",
+                   kind: "calendar#event",
+                   organizer: Organizer(email: "organizer@example.com", selfValue:0),
+                   sequence: 0,
+                   start: EventDateTime(dateTime: formatter.date(from: "2025-05-16T02:00:00Z")!, timeZone: "UTC"),
+                   status: "confirmed",
+                   summary: "GBM #1",
+                   updated: Date(),
+                   location: "655 Reitz Union Drive, Campus, Gainesville, FL 32611",
+                   description: "End of year GBM"
+               ),
+               Event(
+                   created: Date(),
+                   creator: Creator(email: "test2@example.com", selfValue: 0),
+                   end: EventDateTime(dateTime: formatter.date(from: "2025-12-31T23:59:00Z")!, timeZone: "UTC"),
+                   etag: "456",
+                   eventType: "Social",
+                   htmlLink: "http://example.com",
+                   iCalUID: "event2",
+                   identifier: "2",
+                   kind: "calendar#event",
+                   organizer: Organizer(email: "organizer@example.com", selfValue: 0),
+                   sequence: 0,
+                   start: EventDateTime(dateTime: formatter.date(from: "2025-12-31T20:00:00Z")!, timeZone: "UTC"),
+                   status: "confirmed",
+                   summary: "SHPE 2025 Convention",
+                   updated: Date(),
+                   location:"790 W Katella Ave, Anaheim",
+                   description: "Ring in the New Year with us!"
+               ),
+               Event(
+                   created: Date(),
+                   creator: Creator(email: "test3@example.com", selfValue: 0),
+                   end: EventDateTime(dateTime: formatter.date(from: "2025-10-10T10:00:00Z")!, timeZone: "UTC"),
+                   etag: "789",
+                   eventType: "Workshop",
+                   htmlLink: "http://example.com",
+                   iCalUID: "event3",
+                   identifier: "3",
+                   kind: "calendar#event",
+                   organizer: Organizer(email: "organizer@example.com", selfValue: 0),
+                   sequence: 0,
+                   start: EventDateTime(dateTime: formatter.date(from: "2025-10-10T08:00:00Z")!, timeZone: "UTC"),
+                   status: "confirmed",
+                   summary: "New Year's Resolution Workshop",
+                   updated: Date(),
+                   location: "1545 W University Ave, Gainesville, FL 32603",
+                   description: "Plan your resolutions and achieve your goals!"
+               )
+           ]
+       
+       }
 }

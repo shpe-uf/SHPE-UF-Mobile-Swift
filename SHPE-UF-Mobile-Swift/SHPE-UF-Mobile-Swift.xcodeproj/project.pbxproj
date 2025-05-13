@@ -63,7 +63,6 @@
 		816E39572D7F52E400320651 /* InstagramPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E394F2D7F52E400320651 /* InstagramPost.swift */; };
 		816E39582D7F52E400320651 /* MissionStatementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39512D7F52E400320651 /* MissionStatementView.swift */; };
 		816E39592D7F52E400320651 /* PostCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39522D7F52E400320651 /* PostCarousel.swift */; };
-		9506F5C22CAF4B4100C11AC9 /* QRCodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */; };
 		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
 		951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */; };
 		951F6E8E2BB5E6C2001FDB50 /* SignIn.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 951F6E8D2BB5E6C2001FDB50 /* SignIn.graphql.swift */; };
@@ -211,7 +210,6 @@
 		528D72BF2B74649900702D0B /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		52A67A582B91642D00D21F73 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
 		53C7704D2B9A79EF00455FC5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		812F466E2DC5187B007D7125 /* GetPartners.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPartners.graphql.swift; sourceTree = "<group>"; };
 		812F46722DC52744007D7125 /* GetPartnersQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPartnersQuery.graphql.swift; sourceTree = "<group>"; };
 		812F467C2DC6B3C1007D7125 /* Partner.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.graphql.swift; sourceTree = "<group>"; };
@@ -226,9 +224,6 @@
 		816E39512D7F52E400320651 /* MissionStatementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionStatementView.swift; sourceTree = "<group>"; };
 		816E39522D7F52E400320651 /* PostCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCarousel.swift; sourceTree = "<group>"; };
 		816E39532D7F52E400320651 /* QuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteView.swift; sourceTree = "<group>"; };
-		9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScanner.swift; sourceTree = "<group>"; };
-=======
->>>>>>> main
 		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		951F6E8D2BB5E6C2001FDB50 /* SignIn.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.graphql.swift; sourceTree = "<group>"; };
@@ -492,11 +487,7 @@
 		20CF4A292AE7467300916EC6 /* pages */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				816E38E82D5EF7D100320651 /* guest */,
-=======
-				463355992D63C8C8008C1B58 /* aboutUs */,
->>>>>>> main
 				53C7704C2B9A79BF00455FC5 /* profile */,
 				958CB0312B9D7F62002B83F9 /* startup */,
 				206C8FA62AE1929D0081A35A /* register */,
@@ -536,7 +527,6 @@
 			path = profile;
 			sourceTree = "<group>";
 		};
-<<<<<<< HEAD
 		812F467F2DC70EB4007D7125 /* CustomScalars */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,24 +560,6 @@
 			path = aboutUs;
 			sourceTree = "<group>";
 		};
-		9506F5BF2CAF4B1900C11AC9 /* utilities */ = {
-			isa = PBXGroup;
-			children = (
-				9506F5C02CAF4B2700C11AC9 /* camera */,
-			);
-			path = utilities;
-			sourceTree = "<group>";
-		};
-		9506F5C02CAF4B2700C11AC9 /* camera */ = {
-			isa = PBXGroup;
-			children = (
-				9506F5C12CAF4B4100C11AC9 /* QRCodeScanner.swift */,
-			);
-			path = camera;
-			sourceTree = "<group>";
-		};
-=======
->>>>>>> main
 		951F6E792BB262C5001FDB50 /* coreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -631,6 +603,7 @@
 			children = (
 				B8CD7F752B75A9E800F05DBA /* Event.swift */,
 				958CB02C2B9D79AD002B83F9 /* DataManager.swift */,
+				463355992D63C8C8008C1B58 /* aboutUs */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1031,11 +1004,7 @@
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				46E385BC2DB6CB65000BD914 /* CoreUserModel.xcdatamodeld in Sources */,
 				951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */,
-<<<<<<< HEAD
-				20CF4A242AE7446500916EC6 /* MongoDB.swift in Sources */,
 				812F467D2DC6B3C1007D7125 /* Partner.graphql.swift in Sources */,
-=======
->>>>>>> main
 				959BEA7B2BF461CD0009789D /* User.graphql.swift in Sources */,
 				B8DCB9542D16FC8200602068 /* LocationManager.swift in Sources */,
 				53C7704E2B9A79EF00455FC5 /* ProfileView.swift in Sources */,
