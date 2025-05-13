@@ -18,6 +18,14 @@ class DataManager: NSObject, ObservableObject {
     override init() {
         container = NSPersistentContainer(name: "CoreUserModel")
         super.init()
+        
+        // Configure the container to use the App Group shared container for the Widget Extension
+        if let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.widgets-shared")?.appendingPathComponent("CoreUserModel.sqlite") {
+            let storeDescription = NSPersistentStoreDescription(url: storeURL)
+            container.persistentStoreDescriptions = [storeDescription]
+            print("Using shared App Group store at: \(storeURL)")
+        }
+        
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error {
                 self.attemptMigration()
@@ -27,10 +35,14 @@ class DataManager: NSObject, ObservableObject {
         }
     }
     
+    // updated to use shared container for widget
     private func attemptMigration() {
         let persistentStoreCoordinator = container.persistentStoreCoordinator
-        let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("CoreUserModel.sqlite")
-
+        
+        guard let storeURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.widgets-shared")?.appendingPathComponent("CoreUserModel.sqlite") else {
+                   print("Failed to get App Group container URL")
+                   return
+               }
         
         let migrationOptions: [AnyHashable: Any] = [
             NSMigratePersistentStoresAutomaticallyOption: true,
