@@ -35,7 +35,7 @@ extension SHPESchema {
       let __data: DataDict
       init(_dataDict: DataDict) { __data = _dataDict }
 
-      static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.Mutation }
+      static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.Mutation }
       static var __selections: [ApolloAPI.Selection] { [
         .field("login", Login.self, arguments: [
           "username": .variable("username"),
@@ -53,7 +53,7 @@ extension SHPESchema {
         let __data: DataDict
         init(_dataDict: DataDict) { __data = _dataDict }
 
-        static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.User }
+        static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.User }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("year", String.self),
@@ -108,7 +108,7 @@ extension SHPESchema {
           let __data: DataDict
           init(_dataDict: DataDict) { __data = _dataDict }
 
-          static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.Event }
+          static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.Event }
           static var __selections: [ApolloAPI.Selection] { [
             .field("__typename", String.self),
             .field("attendance", Int.self),

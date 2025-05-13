@@ -23,7 +23,7 @@ extension SHPESchema {
       let __data: DataDict
       init(_dataDict: DataDict) { __data = _dataDict }
 
-      static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.Mutation }
+      static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.Mutation }
       static var __selections: [ApolloAPI.Selection] { [
         .field("editUserProfile", EditUserProfile.self, arguments: ["editUserProfileInput": .variable("editUserProfileInput")]),
       ] }
@@ -37,7 +37,7 @@ extension SHPESchema {
         let __data: DataDict
         init(_dataDict: DataDict) { __data = _dataDict }
 
-        static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.User }
+        static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.User }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("id", SHPESchema.ID.self),
