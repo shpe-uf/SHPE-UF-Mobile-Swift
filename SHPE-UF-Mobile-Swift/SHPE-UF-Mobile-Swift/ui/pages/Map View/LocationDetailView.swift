@@ -274,9 +274,8 @@ struct LocationDetailView: View{
     func openInAppleMaps() {
         let latitude = selectedPlacemark!.latitude
         let longitude = selectedPlacemark!.longitude
-        let name = selectedPlacemark!.name
 
-        if let url = URL(string: "http://maps.apple.com/?q=\(name)&ll=\(latitude),\(longitude)") {
+        if let url = URL(string: "http://maps.apple.com/?daddr=\(latitude),\(longitude)") {
             UIApplication.shared.open(url)
         }
     }
