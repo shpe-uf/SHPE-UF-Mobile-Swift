@@ -258,11 +258,10 @@ struct ToastView: View
     }
 }
 
-
-struct SignInView_Previews: PreviewProvider 
-{
-    static var previews: some View 
-    {
-        SignInView(viewModel: SignInViewModel(shpeito:SHPEito()))
-    }
-}
+//struct SignInView_Previews: PreviewProvider 
+//{
+//    static var previews: some View 
+//    {
+//        SignInView(viewModel: SignInViewModel(shpeito:SHPEito()))
+//    }
+//}
