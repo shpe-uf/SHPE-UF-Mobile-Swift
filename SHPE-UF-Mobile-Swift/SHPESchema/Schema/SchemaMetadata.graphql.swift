@@ -31,6 +31,7 @@ extension SHPESchema {
       switch typename {
       case "Event": return SHPESchema.Objects.Event
       case "Mutation": return SHPESchema.Objects.Mutation
+      case "Partner": return SHPESchema.Objects.Partner
       case "Query": return SHPESchema.Objects.Query
       case "User": return SHPESchema.Objects.User
       default: return nil
