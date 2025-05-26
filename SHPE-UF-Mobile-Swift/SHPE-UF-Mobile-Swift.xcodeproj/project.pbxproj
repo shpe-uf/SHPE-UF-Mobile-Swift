@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		206C8F762AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F752AE181FF0081A35A /* SHPE_UF_Mobile_SwiftApp.swift */; };
-		206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */; };
 		206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F792AE182020081A35A /* Assets.xcassets */; };
 		206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206C8F7C2AE182020081A35A /* Preview Assets.xcassets */; };
 		206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F862AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift */; };
@@ -159,31 +158,6 @@
 		B8EA2CBB2DE3D2BC004D2AAD /* SchemaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C852DE3D2BC004D2AAD /* SchemaConfiguration.swift */; };
 		B8EA2CBC2DE3D2BC004D2AAD /* RedeemPointsMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C6B2DE3D2BC004D2AAD /* RedeemPointsMutation.graphql.swift */; };
 		B8EA2CBD2DE3D2BC004D2AAD /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C882DE3D2BC004D2AAD /* SHPESchema.graphql.swift */; };
-		B8EA2CBE2DE3D2BC004D2AAD /* ID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C782DE3D2BC004D2AAD /* ID.swift */; };
-		B8EA2CBF2DE3D2BC004D2AAD /* GetPercentilesQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C702DE3D2BC004D2AAD /* GetPercentilesQuery.graphql.swift */; };
-		B8EA2CC02DE3D2BC004D2AAD /* User.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C832DE3D2BC004D2AAD /* User.graphql.swift */; };
-		B8EA2CC12DE3D2BC004D2AAD /* CreateEventInput.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C7A2DE3D2BC004D2AAD /* CreateEventInput.graphql.swift */; };
-		B8EA2CC22DE3D2BC004D2AAD /* GetUserPermissionQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C732DE3D2BC004D2AAD /* GetUserPermissionQuery.graphql.swift */; };
-		B8EA2CC32DE3D2BC004D2AAD /* EditUserProfileMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C6A2DE3D2BC004D2AAD /* EditUserProfileMutation.graphql.swift */; };
-		B8EA2CC42DE3D2BC004D2AAD /* GetUsersQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C752DE3D2BC004D2AAD /* GetUsersQuery.graphql.swift */; };
-		B8EA2CC52DE3D2BC004D2AAD /* EditUserProfileInput.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C7B2DE3D2BC004D2AAD /* EditUserProfileInput.graphql.swift */; };
-		B8EA2CC62DE3D2BC004D2AAD /* Query.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C822DE3D2BC004D2AAD /* Query.graphql.swift */; };
-		B8EA2CC72DE3D2BC004D2AAD /* RegisterUserMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C6C2DE3D2BC004D2AAD /* RegisterUserMutation.graphql.swift */; };
-		B8EA2CC82DE3D2BC004D2AAD /* Mutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C802DE3D2BC004D2AAD /* Mutation.graphql.swift */; };
-		B8EA2CC92DE3D2BC004D2AAD /* RegisterInput.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C7D2DE3D2BC004D2AAD /* RegisterInput.graphql.swift */; };
-		B8EA2CCA2DE3D2BC004D2AAD /* DeleteUserMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C692DE3D2BC004D2AAD /* DeleteUserMutation.graphql.swift */; };
-		B8EA2CCB2DE3D2BC004D2AAD /* GetPartnersQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C6F2DE3D2BC004D2AAD /* GetPartnersQuery.graphql.swift */; };
-		B8EA2CCC2DE3D2BC004D2AAD /* SignInMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C6D2DE3D2BC004D2AAD /* SignInMutation.graphql.swift */; };
-		B8EA2CCD2DE3D2BC004D2AAD /* GetUserPointsQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C742DE3D2BC004D2AAD /* GetUserPointsQuery.graphql.swift */; };
-		B8EA2CCE2DE3D2BC004D2AAD /* SchemaMetadata.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C862DE3D2BC004D2AAD /* SchemaMetadata.graphql.swift */; };
-		B8EA2CCF2DE3D2BC004D2AAD /* Event.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C7F2DE3D2BC004D2AAD /* Event.graphql.swift */; };
-		B8EA2CD02DE3D2BC004D2AAD /* Partner.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C812DE3D2BC004D2AAD /* Partner.graphql.swift */; };
-		B8EA2CD12DE3D2BC004D2AAD /* CreateEventMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C682DE3D2BC004D2AAD /* CreateEventMutation.graphql.swift */; };
-		B8EA2CD22DE3D2BC004D2AAD /* GetPointsQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C712DE3D2BC004D2AAD /* GetPointsQuery.graphql.swift */; };
-		B8EA2CD32DE3D2BC004D2AAD /* GetUserEventsQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C722DE3D2BC004D2AAD /* GetUserEventsQuery.graphql.swift */; };
-		B8EA2CD42DE3D2BC004D2AAD /* RedeemPointsInput.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C7C2DE3D2BC004D2AAD /* RedeemPointsInput.graphql.swift */; };
-		B8EA2CD52DE3D2BC004D2AAD /* SchemaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C852DE3D2BC004D2AAD /* SchemaConfiguration.swift */; };
-		B8EA2CD62DE3D2BC004D2AAD /* RedeemPointsMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C6B2DE3D2BC004D2AAD /* RedeemPointsMutation.graphql.swift */; };
 		B8EA2CD72DE3D2BC004D2AAD /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C882DE3D2BC004D2AAD /* SHPESchema.graphql.swift */; };
 		B8EA2CD82DE3D2BC004D2AAD /* ID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C782DE3D2BC004D2AAD /* ID.swift */; };
 		B8EA2CD92DE3D2BC004D2AAD /* GetPercentilesQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C702DE3D2BC004D2AAD /* GetPercentilesQuery.graphql.swift */; };
@@ -211,9 +185,10 @@
 		B8EA2CEF2DE3D2BC004D2AAD /* SchemaConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C852DE3D2BC004D2AAD /* SchemaConfiguration.swift */; };
 		B8EA2CF02DE3D2BC004D2AAD /* RedeemPointsMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C6B2DE3D2BC004D2AAD /* RedeemPointsMutation.graphql.swift */; };
 		B8EA2CF12DE3D2BC004D2AAD /* SHPESchema.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EA2C882DE3D2BC004D2AAD /* SHPESchema.graphql.swift */; };
-		B8EA2CF22DE3D36F004D2AAD /* GetPartnersQuery.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = B8EA2C6F2DE3D2BC004D2AAD /* GetPartnersQuery.graphql.swift */; };
-		B8EA2CF72DE3D552004D2AAD /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = B8EA2CF62DE3D552004D2AAD /* Apollo */; };
-		B8EA2CF92DE3D552004D2AAD /* ApolloAPI in Frameworks */ = {isa = PBXBuildFile; productRef = B8EA2CF82DE3D552004D2AAD /* ApolloAPI */; };
+		B8EA2D182DE3DFB8004D2AAD /* SHPE-UF-Mobile-Swift.docc in Sources */ = {isa = PBXBuildFile; fileRef = B81DF1D82D7E7F74000F67B6 /* SHPE-UF-Mobile-Swift.docc */; };
+		B8EA2D192DE3E352004D2AAD /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85B8D052D5A65E8000A8958 /* Destination.swift */; };
+		B8EA2D1A2DE3E585004D2AAD /* GetPartners.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 812F466E2DC5187B007D7125 /* GetPartners.graphql.swift */; };
+		B8EA2D1C2DE3E754004D2AAD /* SHPEUFAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F772AE181FF0081A35A /* SHPEUFAppView.swift */; };
 		B8EF26FD2B8FB0B900F98FA2 /* Viga-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF26FC2B8FB0B900F98FA2 /* Viga-Regular.ttf */; };
 		B8EF27022B8FD25700F98FA2 /* UniversLTStd.otf in Resources */ = {isa = PBXBuildFile; fileRef = B8EF27012B8FD25700F98FA2 /* UniversLTStd.otf */; };
 		DD375C772D9ADDA700C6592F /* ComingSoonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD375C762D9ADD9D00C6592F /* ComingSoonView.swift */; };
@@ -445,8 +420,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				46D8DE262D6FE8F3001A695C /* SwiftUI.framework in Frameworks */,
-				B8EA2CF72DE3D552004D2AAD /* Apollo in Frameworks */,
-				B8EA2CF92DE3D552004D2AAD /* ApolloAPI in Frameworks */,
 				46D8DE252D6FE8F3001A695C /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1017,7 +990,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8EA2CF22DE3D36F004D2AAD /* GetPartnersQuery.graphql.swift in Resources */,
+				B8EA2D1A2DE3E585004D2AAD /* GetPartners.graphql.swift in Resources */,
 				24263DE22D7E364C005180B6 /* GetUserPermission.graphql.swift in Resources */,
 				951F6E902BB5EC58001FDB50 /* EditUserProfile.graphql.swift in Resources */,
 				951F6F172BB84D28001FDB50 /* GetUserEvents.graphql.swift in Resources */,
@@ -1080,6 +1053,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8EA2D1C2DE3E754004D2AAD /* SHPEUFAppView.swift in Sources */,
+				B8EA2D192DE3E352004D2AAD /* Destination.swift in Sources */,
+				B8EA2D182DE3DFB8004D2AAD /* SHPE-UF-Mobile-Swift.docc in Sources */,
 				528D72BE2B74648600702D0B /* RegisterView.swift in Sources */,
 				52A67A592B91642D00D21F73 /* LandingPageView.swift in Sources */,
 				528D72C02B74649900702D0B /* RegisterViewModel.swift in Sources */,
@@ -1100,8 +1076,6 @@
 				46909E4C2B96955100E99274 /* CircularProgressViewDark.swift in Sources */,
 				4632E47C2B6B64170048782D /* SHPEito.swift in Sources */,
 				951F6F1E2BB8B134001FDB50 /* TextFieldHelper.swift in Sources */,
-				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
-				206C8F782AE181FF0081A35A /* SHPEUFAppView.swift in Sources */,
 				B8EA2CD82DE3D2BC004D2AAD /* ID.swift in Sources */,
 				B8EA2CD92DE3D2BC004D2AAD /* GetPercentilesQuery.graphql.swift in Sources */,
 				B8EA2CDA2DE3D2BC004D2AAD /* User.graphql.swift in Sources */,
@@ -1248,31 +1222,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				46CEB8BA2DC2EA0600C1162A /* Event.swift in Sources */,
-				B8EA2CBE2DE3D2BC004D2AAD /* ID.swift in Sources */,
-				B8EA2CBF2DE3D2BC004D2AAD /* GetPercentilesQuery.graphql.swift in Sources */,
-				B8EA2CC02DE3D2BC004D2AAD /* User.graphql.swift in Sources */,
-				B8EA2CC12DE3D2BC004D2AAD /* CreateEventInput.graphql.swift in Sources */,
-				B8EA2CC22DE3D2BC004D2AAD /* GetUserPermissionQuery.graphql.swift in Sources */,
-				B8EA2CC32DE3D2BC004D2AAD /* EditUserProfileMutation.graphql.swift in Sources */,
-				B8EA2CC42DE3D2BC004D2AAD /* GetUsersQuery.graphql.swift in Sources */,
-				B8EA2CC52DE3D2BC004D2AAD /* EditUserProfileInput.graphql.swift in Sources */,
-				B8EA2CC62DE3D2BC004D2AAD /* Query.graphql.swift in Sources */,
-				B8EA2CC72DE3D2BC004D2AAD /* RegisterUserMutation.graphql.swift in Sources */,
-				B8EA2CC82DE3D2BC004D2AAD /* Mutation.graphql.swift in Sources */,
-				B8EA2CC92DE3D2BC004D2AAD /* RegisterInput.graphql.swift in Sources */,
-				B8EA2CCA2DE3D2BC004D2AAD /* DeleteUserMutation.graphql.swift in Sources */,
-				B8EA2CCB2DE3D2BC004D2AAD /* GetPartnersQuery.graphql.swift in Sources */,
-				B8EA2CCC2DE3D2BC004D2AAD /* SignInMutation.graphql.swift in Sources */,
-				B8EA2CCD2DE3D2BC004D2AAD /* GetUserPointsQuery.graphql.swift in Sources */,
-				B8EA2CCE2DE3D2BC004D2AAD /* SchemaMetadata.graphql.swift in Sources */,
-				B8EA2CCF2DE3D2BC004D2AAD /* Event.graphql.swift in Sources */,
-				B8EA2CD02DE3D2BC004D2AAD /* Partner.graphql.swift in Sources */,
-				B8EA2CD12DE3D2BC004D2AAD /* CreateEventMutation.graphql.swift in Sources */,
-				B8EA2CD22DE3D2BC004D2AAD /* GetPointsQuery.graphql.swift in Sources */,
-				B8EA2CD32DE3D2BC004D2AAD /* GetUserEventsQuery.graphql.swift in Sources */,
-				B8EA2CD42DE3D2BC004D2AAD /* RedeemPointsInput.graphql.swift in Sources */,
-				B8EA2CD52DE3D2BC004D2AAD /* SchemaConfiguration.swift in Sources */,
-				B8EA2CD62DE3D2BC004D2AAD /* RedeemPointsMutation.graphql.swift in Sources */,
 				B8EA2CD72DE3D2BC004D2AAD /* SHPESchema.graphql.swift in Sources */,
 				46D8DE3B2D6FE93A001A695C /* DataManager.swift in Sources */,
 				46E385BB2DB6CB65000BD914 /* CoreUserModel.xcdatamodeld in Sources */,

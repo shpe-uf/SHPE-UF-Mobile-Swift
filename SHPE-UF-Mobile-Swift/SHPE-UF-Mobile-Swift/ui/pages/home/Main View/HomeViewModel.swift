@@ -16,7 +16,7 @@ final class HomeViewModel: ObservableObject {
     
     //This is for testing events when there are no events present
     //Keep this commented if testing
-    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, useDummyEvents: Bool = false) {
+    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, useDummyEvents: Bool = true) {
         if useDummyEvents {
             self.events = createDummyEvents()
             updateEventTypes()
@@ -189,7 +189,7 @@ final class HomeViewModel: ObservableObject {
                Event(
                    created: Date(),
                    creator: Creator(email: "test1@example.com", selfValue: 0),
-                   end: EventDateTime(dateTime: formatter.date(from: "2025-05-016T23:00:00Z")!, timeZone: "UTC"),
+                   end: EventDateTime(dateTime: formatter.date(from: "2025-05-027T23:00:00Z")!, timeZone: "UTC"),
                    etag: "123",
                    eventType: "GBM",
                    htmlLink: "http://example.com",
@@ -198,7 +198,7 @@ final class HomeViewModel: ObservableObject {
                    kind: "calendar#event",
                    organizer: Organizer(email: "organizer@example.com", selfValue:0),
                    sequence: 0,
-                   start: EventDateTime(dateTime: formatter.date(from: "2025-05-16T02:00:00Z")!, timeZone: "UTC"),
+                   start: EventDateTime(dateTime: formatter.date(from: "2025-05-27T02:00:00Z")!, timeZone: "UTC"),
                    status: "confirmed",
                    summary: "GBM #1",
                    updated: Date(),
