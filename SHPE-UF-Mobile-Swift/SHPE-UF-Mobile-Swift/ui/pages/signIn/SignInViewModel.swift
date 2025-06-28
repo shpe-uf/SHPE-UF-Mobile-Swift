@@ -83,6 +83,100 @@ final class SignInViewModel: ObservableObject
     //    "events": [SHPESchema.SignInMutation...Event]
     //]
     
+    func forgotPassword(email: String) {
+        self.isCommunicating = true
+        print("🔍 Starting email validation for: \(email)")
+        requestHandler.validateEmail(email: email, completion: { result in
+            DispatchQueue.main.async {
+                if let error = result["error"] as? String {
+                    self.isCommunicating = false
+                    self.error = error
+                    AppViewModel.appVM.toastMessage = self.error
+                    withAnimation(.easeIn(duration: 0.3)) {
+                        AppViewModel.appVM.showToast = true
+                    }
+                    
+                    print("❌ Email validation failed with error: \(error)")
+                    return
+                }
+                
+                guard let emailExists = result["emailExists"] as? Bool, emailExists else {
+                    self.isCommunicating = false
+                    self.error = "Email not registered"
+                    AppViewModel.appVM.toastMessage = self.error
+                    withAnimation(.easeIn(duration: 0.3)) {
+                        AppViewModel.appVM.showToast = true
+                    }
+                    print("⚠️ Email not registered: \(email)")
+                    return
+                }
+                // Email exists, now proceed to request a password reset\\
+                print("✅ Email exists. Proceeding to send password reset request...")
+                self.requestHandler.forgotPassword(email: email) { data in
+                    DispatchQueue.main.async {
+                        self.isCommunicating = false
+                        if let error = data["error"] as? String {
+                            self.error = error
+                            AppViewModel.appVM.toastMessage = self.error
+                            withAnimation(.easeIn(duration: 0.3)) {
+                                AppViewModel.appVM.showToast = true
+                            }
+                            print("❌ Failed to send password reset email: \(error)")
+                            return
+                        }
+                        if let message = data["message"] as? String {
+                            AppViewModel.appVM.toastMessage = message
+                            withAnimation(.easeIn(duration: 0.3)) {
+                                AppViewModel.appVM.showToast = true
+                            }
+                            print("📬 Password reset request successful. Message: \(message)")
+
+                            // Optionally, handle the reset token if needed:
+                            // if let token = data["token"] as? String {
+                            //     // Navigate to reset password screen or store token
+                            // }
+                        }
+                        else{
+                            print("⚠️ Password reset response missing 'message' field.")
+
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+//    func ComposeEmail(email: String, completion: @escaping ([String: Any]) -> Void) {
+//        self.isCommunicating = true
+//        
+//        // 1. Get the user’s name for the given email
+//        requestHandler.usersName(email: email) { result in
+//            
+//            // Check if usersName returned an error
+//            if let error = result["error"] as? String {
+//                self.isCommunicating = false
+//                completion(["error": error])
+//                return
+//            }
+//            
+//            // Extract the user's name
+//            guard let userName = result["name"] as? String else {
+//                self.isCommunicating = false
+//                completion(["error": "No name found for this email"])
+//                return
+//            }
+//            
+//            // 2. Compose & send the email
+//            self.requestHandler.ComposeForgetEmail(recipient: email, name: userName) { emailResult in
+//                // 3. Once done, stop the spinner and call completion
+//                DispatchQueue.main.async{
+//                    self.isCommunicating = false
+//                }
+//                completion(emailResult)
+//            }
+//        }
+//    }
+
     // Methods to call in View
     func signIn(username: String, password: String, viewContext:NSManagedObjectContext) {
         // Set the username and password to the SHPEito model
@@ -105,7 +199,7 @@ final class SignInViewModel: ObservableObject
             // Check that no error was detected
             if let error = data["error"] as? String {
                 // Handle different error types
-                switch error 
+                switch error
                 {
                     case "Wrong credentials.":
                         self.error = "Incorrect username or password."
@@ -204,8 +298,9 @@ final class SignInViewModel: ObservableObject
         user.springPercentile = Int64(shpeito.springPercentile)
         user.summerPercentile = Int64(shpeito.summerPercentile)
         user.darkMode = AppViewModel.appVM.darkMode
+        print("✅✅✅")
         
-        do { try viewContext.save() } catch { print("Could not save user to Core") }
+        do { try viewContext.save() } catch { print("Could not save user to Core❌") }
     }
 
     // Add this function to Profile View Model for sign out function

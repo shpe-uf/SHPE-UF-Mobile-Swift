@@ -26,7 +26,7 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
-    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+    <entity name="User" representedClassName=".User" syncable="YES" codeGenerationType="class">
         <attribute name="classes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <attribute name="confirmed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="country" optional="YES" attributeType="String"/>

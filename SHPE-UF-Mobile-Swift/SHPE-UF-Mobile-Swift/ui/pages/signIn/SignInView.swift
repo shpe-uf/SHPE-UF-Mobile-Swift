@@ -15,7 +15,7 @@ struct CustomTextFieldStyle: ViewModifier {
 
 
 
-struct SignInView: View 
+struct SignInView: View
 {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
@@ -26,9 +26,11 @@ struct SignInView: View
     @State private var isHovered = false
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
+    @State private var isForgetPassword = false
     
     
-    var body: some View 
+    
+    var body: some View
     {
         ZStack
         {
@@ -106,6 +108,7 @@ struct SignInView: View
                     .frame(width: 270, height: 37.64706)
                     .background(Color.white)
                     .cornerRadius(10)
+                    
                 }
                 
                 // Password Text
@@ -152,7 +155,17 @@ struct SignInView: View
                     .background(Color.white)
                     .cornerRadius(10)
                 }
-                .padding(.bottom, 50)
+                .padding(.bottom, 22)
+                VStack(alignment: .leading){
+                    Button("Forget Password?") {
+                        isForgetPassword = true
+                    }
+                    .font(Font.custom("Univers LT Std", size: 14))
+                    .foregroundColor(Color("lblue"))
+                }
+                .fullScreenCover(isPresented: $isForgetPassword){
+                    ForgetPasswordView(viewModel: ForgetPasswordViewModel())
+                }
                 
                 
                 // Sign In Button
@@ -173,10 +186,10 @@ struct SignInView: View
                 
                 HStack
                 {
-                    Text("Don’t have an acccount?")
+                    Text("Don’t have an account?")
                       .font(Font.custom("Univers LT Std", size: 14))
                       .foregroundColor(Color("whiteText"))
-                      .frame(width:162, height:17)
+                    
                     Text("Sign Up")
                         .font(Font.custom("Univers LT Std", size: 14))
                         .foregroundColor(Color("lblue"))
@@ -208,7 +221,7 @@ struct SignInView: View
 //                        .foregroundColor(.black)
 //                        .font(.caption)
 //                        .padding(.top,260)
-//                    
+//
 //                }
 //
 //                else if !viewModel.error.isEmpty{
@@ -217,8 +230,8 @@ struct SignInView: View
 //                            .font(.caption)
 //                            .padding(.bottom,60)
 //                    }
-//            
-//                
+//
+//
 //            }
         }
     }
