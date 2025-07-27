@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileView: View 
+struct ProfileView: View
 {
     @Environment(\.colorScheme) private var colorScheme
     
@@ -23,7 +23,7 @@ struct ProfileView: View
     
     @State var validUsername:Bool = true
     @State var clickedDeleteAccount:Bool = false
-    
+    @State private var showingAdminPanel = false
     @State var loadingDelete:Bool = false
     @State var errorDeleting:Bool = false
     
@@ -142,16 +142,22 @@ struct ProfileView: View
                 {
                     VStack
                     {
+                        HStack(spacing: 10)
+                        {
                         if !vm.isEditing
                         {
-                            Button {
+                                Button
+                                {
                                 vm.isEditing = true
-                            } label: {
+                                }
+                                label:
+                                {
                                 HStack
                                 {
                                     Text("Edit Profile")
                                         .foregroundStyle(Color.white)
                                         .padding(10)
+
                                     Image("pencil")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
@@ -161,6 +167,29 @@ struct ProfileView: View
                                 .background(Color("orangeButton"))
                                 .cornerRadius(50)
                             }
+                            }
+
+                            if vm.shpeito.permission.lowercased().contains("admin") {
+                                    Button {
+                                      showingAdminPanel = true
+                                    } label: {
+                                      HStack {
+                                        Text("Admin Panel")
+                                          .foregroundStyle(.white)
+                                          .padding(10)
+                                        Image(systemName: "shield.fill")
+                                          .resizable()
+                                          .frame(width: 20, height: 20)
+                                      }
+                                      .padding(.horizontal)
+                                      .background(Color.red)
+                                      .cornerRadius(50)
+                                    }
+                                    .fullScreenCover(isPresented: $showingAdminPanel) {
+                                      AdminView()
+                                    }
+                                  }
+                        }
                             .padding(.top, 10)
                         }
                         
@@ -510,7 +539,7 @@ struct ProfileView: View
                                     MultipleLabels(placeholder: "Add your classes here", change: $vm.newClasses, validationFunction: {_ in true})
                                         .frame(height: {
                                             var count:CGFloat = 0
-                                            var padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
+                                            let padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
                                             for item in vm.newClasses
                                             {
                                                 count += CGFloat(item.count)
@@ -974,7 +1003,7 @@ struct ProfileView: View
             }
         }
     }
-}
+
 
 struct VisualEffectBlur: UIViewRepresentable {
     var blurStyle: UIBlurEffect.Style
@@ -1147,7 +1176,7 @@ struct MultipleLabels:View {
         var width = CGFloat.zero
         var height = CGFloat.zero
 
-        return 
+        return
             VStack
             {
                 ZStack(alignment: .topLeading)
@@ -1259,4 +1288,3 @@ struct ImagePicker: UIViewControllerRepresentable {
     ))
 }
     
-

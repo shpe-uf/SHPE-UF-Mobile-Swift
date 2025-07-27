@@ -4,15 +4,14 @@ import SwiftUI
 import CoreData
 
 struct HomeView: View {
-    //Variables for the view model
-    @Environment(\.colorScheme) var colorScheme // Detects the system's color scheme (dark or light mode)
+    @Environment(\.colorScheme) var colorScheme // Detects system's light/dark mode
     let dateHelper = DateHelper()
     @State private var displayedMonth: String = ""
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
-    @StateObject var viewModel:HomeViewModel
-    @StateObject var appVM:AppViewModel = AppViewModel.appVM
+    @StateObject var viewModel: HomeViewModel
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM
         
     @State private var offset: CGFloat = 0
     @State private var isDragging = false
@@ -31,12 +30,19 @@ struct HomeView: View {
                         .frame(height: 0, alignment: .topLeading)
                     
                     Spacer()
-                    // Navigation link to the notification view
-                    Button {
-                        // Dismiss the current view when the button is pressed
-                        appVM.showView = "NotificationView"
-                    } label: {
-                        // Button label with an image
+
+                    // Button to navigate to SocialsView
+                    Button { appVM.showView = "SocialsView" } label: {
+                        Image("Instagram_Logo_HomePage")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50)
+                            .padding(.top, UIScreen.main.bounds.width * 0.05)
+                    }
+                    .padding(.top, 10)
+
+                    // Button to navigate to NotificationView
+                    Button { appVM.showView = "NotificationView" } label: {
                         Image("Doorbell")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -72,8 +78,6 @@ struct HomeView: View {
                                 HStack {
                                     // Display date only for the first event or when the day changes
                                     if index == 0 || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
-                                        
-                                        
                                         VStack(alignment: .center, spacing: 0) {
                                             Text(abrDateString)
                                                 .font(Font.custom("UniversLTStd", size: 14))
@@ -196,7 +200,6 @@ struct HomeView: View {
                 DragGesture()
                     .onChanged { gesture in
                         if appVM.showView == "LocationView" { return }
-                           
                         isDragging = true
                         offset = gesture.translation.width > 0 ? gesture.translation.width : 0
                     }
@@ -226,5 +229,3 @@ struct HomeView: View {
         return calendar.isDate(event1.start.dateTime, inSameDayAs: event2.start.dateTime)
     }
 }
-
-

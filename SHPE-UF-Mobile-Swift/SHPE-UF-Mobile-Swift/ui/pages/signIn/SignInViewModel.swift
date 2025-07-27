@@ -38,6 +38,7 @@ final class SignInViewModel: ObservableObject
         self.fallPoints=shpeito.fallPoints
         self.summerPoints=shpeito.summerPoints
         self.springPoints=shpeito.springPoints
+         self.permission=shpeito.permission
         //self.events=shpeito.events
        
     }
@@ -60,28 +61,7 @@ final class SignInViewModel: ObservableObject
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
-    //@Published var events: SHPESchema.SignInMutation
-    //store all of this to model
-    // SignInMutation <= SignIn.graphql
-    // Input: username: String, password: String
-    // Successful Output: [
-    //    "firstName": String,
-    //    "lastName": String,
-    //    "year": String,
-    //    "major": String,
-    //    "id": String,
-    //    "token": String,
-    //    "confirmed": Bool,
-    //    "updatedAt": String,
-    //    "createdAt": String,
-    //    "email": String,
-    //    "username": String,
-    //    "fallPoints": Int,
-    //    "springPoints": Int,
-    //    "summerPoints": Int,
-    //    "photo": String, => You may want to turn this into a Swift URL type by doing this => URL(string: <photo>)
-    //    "events": [SHPESchema.SignInMutation...Event]
-    //]
+    @Published var permission: String
     
     func forgotPassword(email: String) {
         self.isCommunicating = true
@@ -186,36 +166,32 @@ final class SignInViewModel: ObservableObject
         // Toggle indicator to show ongoing communication
         self.isCommunicating = true
         
-        
-        
-        
-        
         requestHandler.signIn(username: username, password: password) { data in
             
             // Toggle indicator to hide ongoing communication
             self.isCommunicating = false
-        
+            
             
             // Check that no error was detected
             if let error = data["error"] as? String {
                 // Handle different error types
                 switch error
                 {
-                    case "Wrong credentials.":
-                        self.error = "Incorrect username or password."
-                    case "User not found.":
-                        self.error = "User account not found."
-                    case "Network Error":
-                        self.error = "Could not establish a connection to server. Try again later."
-                    case "Errors":
-                        if username.isEmpty || password.isEmpty {
-                            self.error = "Missing username and/or password."
-                        }
-                        else{
-                            self.error = "Unexpected error occurred. Try again later."
-                            }
-                    default:
+                case "Wrong credentials.":
+                    self.error = "Incorrect username or password."
+                case "User not found.":
+                    self.error = "User account not found."
+                case "Network Error":
+                    self.error = "Could not establish a connection to server. Try again later."
+                case "Errors":
+                    if username.isEmpty || password.isEmpty {
+                        self.error = "Missing username and/or password."
+                    }
+                    else{
                         self.error = "Unexpected error occurred. Try again later."
+                    }
+                default:
+                    self.error = "Unexpected error occurred. Try again later."
                 }
                 
                 AppViewModel.appVM.toastMessage = self.error
@@ -224,7 +200,7 @@ final class SignInViewModel: ObservableObject
                     AppViewModel.appVM.showToast = true
                 }
                 
-                    
+                
                 return print(self.error)
             } else {
                 self.isCommunicating = true
@@ -247,65 +223,142 @@ final class SignInViewModel: ObservableObject
                    let classes = data["classes"] as? [String],
                    let internships = data["internships"] as? [String],
                    let links = data["links"] as? [String],
-                   let photo = data["photo"] as? String
+                   let photo = data["photo"] as? String,
+                   let permissionValue = data["permission"] as? String 
                 {
                     let prefixToRemove = "data:image/jpeg;base64,"
                     let base64StringPhoto = photo.replacingOccurrences(of: prefixToRemove, with: "")
                     //TODO: Finish adding fields to the SHPEito
-                    self.shpeito = SHPEito(username: username, password: password, remember: "True", base64StringPhoto: base64StringPhoto, firstName: firstName, lastName: lastName, year: year, major: major, id: id, token: token, confirmed: confirmed, updatedAt: updatedAt, createdAt: createdAt, email: email, gender: gender, ethnicity: ethnicity, originCountry: originCountry, graduationYear: graduationYear, classes: classes, internships: internships, links: links, fallPoints: 0, summerPoints: 0, springPoints: 0, points: 0, fallPercentile: 0, springPercentile: 0, summerPercentile: 0)
-
+                    self.shpeito = SHPEito(
+                        username: username,
+                        password: password,
+                        remember: "True",
+                        base64StringPhoto: base64StringPhoto,
+                        firstName: firstName,
+                        lastName: lastName,
+                        year: year,
+                        major: major,
+                        id: id,
+                        token: token,
+                        confirmed: confirmed,
+                        updatedAt: updatedAt,
+                        createdAt: createdAt,
+                        email: email,
+                        gender: gender,
+                        ethnicity: ethnicity,
+                        originCountry: originCountry,
+                        graduationYear: graduationYear,
+                        classes: classes,
+                        internships: internships,
+                        links: links,
+                        permission: permissionValue,
+                        fallPoints: 0,
+                        summerPoints: 0,
+                        springPoints: 0,
+                        points: 0,
+                        fallPercentile: 0,
+                        springPercentile: 0,
+                        summerPercentile: 0
+                    )
                     
+                    // Update the local property in the view model
+                    self.permission = self.shpeito.permission
+                    // Persist to CoreData
+                    self.updatePermissionInCoreData(permissionValue, viewContext: viewContext)
                     // Store user in core memory
                     self.addUserItemToCore(viewContext: viewContext)
                     
-                    AppViewModel.appVM.setPageIndex(index: 2)
+                    // Update AppViewModel state
                     AppViewModel.appVM.shpeito = self.shpeito
+                    AppViewModel.appVM.setPageIndex(index: 2)
                 }
             }
         }
-    }
+        
+        
+        
+        // Add this function to Profile View Model for sign out function
+        func deleteUserItemToCore(viewContext: NSManagedObjectContext, user: User) {
+            viewContext.delete(user)
+            do {
+                try viewContext.save()
+            } catch {
+                print("Could not delete user from Core")
+            }
+        }
+        
+        func refreshUserPermission(viewContext: NSManagedObjectContext)
+        {
+            guard !self.id.isEmpty else { return } // Ensure the user is logged in
+            
+            requestHandler.fetchUserPermission(userId: self.id) { newPermission in
+                DispatchQueue.main.async {
+                    if let newPermission = newPermission, self.permission != newPermission {
+                        print("🔄 Updating permission: \(self.permission) → \(newPermission)")
+                        
+                        // Update SignInViewModel
+                        self.permission = newPermission
+                        
+                        // Update SHPEito model
+                        self.shpeito.permission = newPermission
+                        
+                        // Update CoreData
+                        self.updatePermissionInCoreData(newPermission, viewContext: viewContext)
+                    }
+                }
+            }
+        }
+        
     
-    private func addUserItemToCore(viewContext:NSManagedObjectContext)
-    {
-        let user = User(context: viewContext)
-        user.username = shpeito.username
-        user.photo = shpeito.profileImage?.jpegData(compressionQuality: 0.0)
-        user.firstName = shpeito.firstName
-        user.lastName = shpeito.lastName
-        user.year = shpeito.year
-        user.major = shpeito.major
-        user.id = shpeito.id
-        user.token = shpeito.token
-        user.confirmed = shpeito.confirmed
-        user.updatedAt = shpeito.updatedAt
-        user.createdAt = shpeito.createdAt
-        user.loginTime = Date()
-        user.email = shpeito.email
+}
+func addUserItemToCore(viewContext: NSManagedObjectContext) {
+    let user = User(context: viewContext)
+    user.username = shpeito.username
+    user.photo = shpeito.profileImage?.jpegData(compressionQuality: 0.0)
+    user.firstName = shpeito.firstName
+    user.lastName = shpeito.lastName
+    user.year = shpeito.year
+    user.major = shpeito.major
+    user.id = shpeito.id
+    user.token = shpeito.token
+    user.confirmed = shpeito.confirmed
+    user.updatedAt = shpeito.updatedAt
+    user.createdAt = shpeito.createdAt
+    user.loginTime = Date()
+    user.email = shpeito.email
+    
+    user.ethnicity = shpeito.ethnicity
+    user.gender = shpeito.gender
+    user.country = shpeito.originCountry
+    user.graduating = shpeito.graduationYear
+    user.classes = shpeito.classes as NSObject
+    user.internships = shpeito.internships as NSObject
+    user.links = shpeito.absoluteStringsOfLinks() as NSObject
+    
+    user.fallPoints = Int64(shpeito.fallPoints)
+    user.summerPoints = Int64(shpeito.summerPoints)
+    user.springPoints = Int64(shpeito.springPoints)
+    user.points = Int64(shpeito.points)
+    user.fallPercentile = Int64(shpeito.fallPercentile)
+    user.springPercentile = Int64(shpeito.springPercentile)
+    user.summerPercentile = Int64(shpeito.summerPercentile)
+    user.darkMode = AppViewModel.appVM.darkMode
+    print("✅✅✅")
+    
+    do { try viewContext.save() } catch { print("Could not save user to Core❌") }
+}
+func updatePermissionInCoreData(_ newPermission: String, viewContext: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
         
-        user.ethnicity = shpeito.ethnicity
-        user.gender = shpeito.gender
-        user.country = shpeito.originCountry
-        user.graduating = shpeito.graduationYear
-        user.classes = shpeito.classes as NSObject
-        user.internships = shpeito.internships as NSObject
-        user.links = shpeito.absoluteStringsOfLinks() as NSObject
-        
-        user.fallPoints = Int64(shpeito.fallPoints)
-        user.summerPoints = Int64(shpeito.summerPoints)
-        user.springPoints = Int64(shpeito.springPoints)
-        user.points = Int64(shpeito.points)
-        user.fallPercentile = Int64(shpeito.fallPercentile)
-        user.springPercentile = Int64(shpeito.springPercentile)
-        user.summerPercentile = Int64(shpeito.summerPercentile)
-        user.darkMode = AppViewModel.appVM.darkMode
-        print("✅✅✅")
-        
-        do { try viewContext.save() } catch { print("Could not save user to Core❌") }
-    }
-
-    // Add this function to Profile View Model for sign out function
-    func deleteUserItemToCore(viewContext: NSManagedObjectContext, user: User) {
-        viewContext.delete(user)
-        do { try viewContext.save() } catch { print("Could not delete user from Core") }
+        do {
+            let users = try viewContext.fetch(fetchRequest)
+            if let user = users.first {
+                user.permission = newPermission
+                try viewContext.save()
+                print("✅ Updated permission in CoreData: \(newPermission)")
+            }
+        } catch {
+            print("❌ Failed to update permission in CoreData")
+        }
     }
 }
