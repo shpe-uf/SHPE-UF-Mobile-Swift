@@ -23,7 +23,7 @@ struct ProfileView: View
     
     @State var validUsername:Bool = true
     @State var clickedDeleteAccount:Bool = false
-    
+    @State private var showingAdminPanel = false
     @State var loadingDelete:Bool = false
     @State var errorDeleting:Bool = false
     
@@ -142,27 +142,55 @@ struct ProfileView: View
                 {
                     VStack
                     {
-                        if !vm.isEditing
+                        HStack(spacing: 10)
                         {
-                            Button {
-                                vm.isEditing = true
-                            } label: {
-                                HStack
+                            if !vm.isEditing
+                            {
+                                Button
                                 {
-                                    Text("Edit Profile")
-                                        .foregroundStyle(Color.white)
-                                        .padding(10)
-                                    Image("pencil")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 20, height: 20)
+                                    vm.isEditing = true
                                 }
-                                .padding(.horizontal)
-                                .background(Color("orangeButton"))
-                                .cornerRadius(50)
+                                label:
+                                {
+                                    HStack
+                                    {
+                                        Text("Edit Profile")
+                                            .foregroundStyle(Color.white)
+                                            .padding(10)
+
+                                        Image("pencil")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 20, height: 20)
+                                    }
+                                    .padding(.horizontal)
+                                    .background(Color("orangeButton"))
+                                    .cornerRadius(50)
+                                }
                             }
-                            .padding(.top, 10)
+
+                            if vm.shpeito.permission.lowercased().contains("admin") {
+                                    Button {
+                                      showingAdminPanel = true
+                                    } label: {
+                                      HStack {
+                                        Text("Admin Panel")
+                                          .foregroundStyle(.white)
+                                          .padding(10)
+                                        Image(systemName: "shield.fill")
+                                          .resizable()
+                                          .frame(width: 20, height: 20)
+                                      }
+                                      .padding(.horizontal)
+                                      .background(Color.red)
+                                      .cornerRadius(50)
+                                    }
+                                    .fullScreenCover(isPresented: $showingAdminPanel) {
+                                      AdminView()
+                                    }
+                                  }
                         }
+                        .padding(.top, 10)
                         
                         VStack(spacing: 2)
                         {
@@ -510,7 +538,7 @@ struct ProfileView: View
                                     MultipleLabels(placeholder: "Add your classes here", change: $vm.newClasses, validationFunction: {_ in true})
                                         .frame(height: {
                                             var count:CGFloat = 0
-                                            var padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
+                                            let padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
                                             for item in vm.newClasses
                                             {
                                                 count += CGFloat(item.count)
