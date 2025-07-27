@@ -27,17 +27,22 @@ struct InstagramPostView: View {
                 }
                 
                 
-                AsyncImage(url: URL(string: post.media_url)) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                    
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(maxWidth: .infinity)
-                
+//                AsyncImage(url: URL(string: post.media_url)) { image in
+//                    image
+//                        .resizable()
+//                        .scaledToFit()
+//                        .clipShape(RoundedRectangle(cornerRadius: 15))
+//                    
+//                } placeholder: {
+//                    ProgressView()
+//                }
+//                .frame(maxWidth: .infinity)
+                post.image
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .frame(maxWidth: .infinity)
+
                 
                 HStack {
                     Text("shpeuf  ").fontWeight(.bold) + Text(post.caption ?? "")
@@ -51,7 +56,7 @@ struct InstagramPostView: View {
             .padding()
             
         }
-    }
+ £   }
 }
 
 #Preview {

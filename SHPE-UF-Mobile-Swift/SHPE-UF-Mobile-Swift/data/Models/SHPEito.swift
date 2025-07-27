@@ -1,21 +1,46 @@
 import Foundation
 import SwiftUI
 
-class SHPEito
-{
+class SHPEito {
+    // Designated initializer with all parameters
     init(
-        username: String, password: String, remember: String, base64StringPhoto:String = "", firstName:String, lastName:String,year:String, major:String,id:String,token:String,confirmed:Bool,updatedAt:String, createdAt:String, email:String,
-        
-        gender:String, ethnicity:String, originCountry:String, graduationYear:String, classes:[String], internships:[String], links:[String],
-         
-         fallPoints:Int,summerPoints:Int,springPoints:Int, points: Int, fallPercentile: Int, springPercentile: Int, summerPercentile: Int)
+        username: String,
+        password: String,
+        remember: String,
+        base64StringPhoto: String = "",
+        firstName: String,
+        lastName: String,
+        year: String,
+        major: String,
+        id: String,
+        token: String,
+        confirmed: Bool,
+        updatedAt: String,
+        createdAt: String,
+        email: String,
+        gender: String,
+        ethnicity: String,
+        originCountry: String,
+        graduationYear: String,
+        classes: [String],
+        internships: [String],
+        links: [String],
+        permission: String,
+        fallPoints: Int,
+        summerPoints: Int,
+        springPoints: Int,
+        points: Int,
+        fallPercentile: Int,
+        springPercentile: Int,
+        summerPercentile: Int
+    ) 
     {
         self.username = username
         self.password = password
         self.remember = remember
         
         if let imageData = Data(base64Encoded: base64StringPhoto, options: .ignoreUnknownCharacters),
-           let image = UIImage(data: imageData)
+           let image = UIImage(data: imageData) 
         {
             self.profileImage = image
         }
@@ -31,7 +56,7 @@ class SHPEito
         self.updatedAt = updatedAt
         self.createdAt = createdAt
         self.email = email
-        
+        self.permission = permission
         self.gender = gender
         self.ethnicity = ethnicity
         self.originCountry = originCountry
@@ -39,17 +64,14 @@ class SHPEito
         self.classes = classes
         self.internships = internships
         self.links = {
-            var linkArray:[URL] = []
+            var linkArray: [URL] = []
             for link in links {
-                if let url = URL(string:link)
-                {
+                if let url = URL(string: link) {
                     linkArray.append(url)
                 }
             }
             return linkArray
         }()
-        
-        
         
         self.fallPoints = fallPoints
         self.summerPoints = summerPoints
@@ -58,11 +80,10 @@ class SHPEito
         self.fallPercentile = fallPercentile
         self.springPercentile = springPercentile
         self.summerPercentile = summerPercentile
-        //self.events = events 
     }
     
-    init ()
-    {
+    // Default initializer
+    init() {
         self.username = ""
         self.password = ""
         self.remember = ""
@@ -77,13 +98,7 @@ class SHPEito
         self.updatedAt = ""
         self.createdAt = ""
         self.email = ""
-        self.fallPoints = -1
-        self.summerPoints = -1
-        self.springPoints = -1
-        self.points = 0
-        self.fallPercentile = 0
-        self.springPercentile = 0
-        self.summerPercentile = 0
+        self.permission = ""
         self.gender = ""
         self.ethnicity = ""
         self.originCountry = ""
@@ -91,14 +106,22 @@ class SHPEito
         self.classes = []
         self.internships = []
         self.links = []
+        self.fallPoints = -1
+        self.summerPoints = -1
+        self.springPoints = -1
+        self.points = 0
+        self.fallPercentile = 0
+        self.springPercentile = 0
+        self.summerPercentile = 0
     }
     
+    // Published properties
     @Published var username: String
     @Published var password: String
     @Published var remember: String
-    @Published var name:String
-    @Published var firstName:String
-    @Published var lastName:String
+    @Published var name: String
+    @Published var firstName: String
+    @Published var lastName: String
     @Published var year: String
     @Published var major: String
     @Published var id: String
@@ -107,40 +130,34 @@ class SHPEito
     @Published var updatedAt: String
     @Published var createdAt: String
     @Published var email: String
+    @Published var permission: String  
     @Published var points: Int
     @Published var fallPoints: Int
     @Published var springPoints: Int
     @Published var summerPoints: Int
-    @Published var fallPercentile : Int
-    @Published var springPercentile : Int
-    @Published var summerPercentile : Int
+    @Published var fallPercentile: Int
+    @Published var springPercentile: Int
+    @Published var summerPercentile: Int
     @Published var profileImage: UIImage?
-    @Published var gender:String
-    @Published var ethnicity:String
-    @Published var originCountry:String
-    @Published var graduationYear:String
-    @Published var classes:[String]
-    @Published var internships:[String]
-    @Published var links:[URL]
+    @Published var gender: String
+    @Published var ethnicity: String
+    @Published var originCountry: String
+    @Published var graduationYear: String
+    @Published var classes: [String]
+    @Published var internships: [String]
+    @Published var links: [URL]
     
-    func setLinks(links:[String])
-    {
-        for link in links
-        {
-            if let url = URL(string: link),
-               !self.links.contains(url)
-            {
+    func setLinks(links: [String]) {
+        for link in links {
+            if let url = URL(string: link), !self.links.contains(url) {
                 self.links.append(url)
             }
         }
     }
     
-    func absoluteStringsOfLinks()->[String]
-    {
-        var stringArray:[String] = []
-        
-        for link in self.links
-        {
+    func absoluteStringsOfLinks() -> [String] {
+        var stringArray: [String] = []
+        for link in self.links {
             stringArray.append(link.absoluteString)
         }
         return stringArray
