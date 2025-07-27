@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileView: View 
+struct ProfileView: View
 {
     @Environment(\.colorScheme) private var colorScheme
     
@@ -144,29 +144,29 @@ struct ProfileView: View
                     {
                         HStack(spacing: 10)
                         {
-                            if !vm.isEditing
-                            {
+                        if !vm.isEditing
+                        {
                                 Button
                                 {
-                                    vm.isEditing = true
+                                vm.isEditing = true
                                 }
                                 label:
                                 {
-                                    HStack
-                                    {
-                                        Text("Edit Profile")
-                                            .foregroundStyle(Color.white)
-                                            .padding(10)
+                                HStack
+                                {
+                                    Text("Edit Profile")
+                                        .foregroundStyle(Color.white)
+                                        .padding(10)
 
-                                        Image("pencil")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 20)
-                                    }
-                                    .padding(.horizontal)
-                                    .background(Color("orangeButton"))
-                                    .cornerRadius(50)
+                                    Image("pencil")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 20)
                                 }
+                                .padding(.horizontal)
+                                .background(Color("orangeButton"))
+                                .cornerRadius(50)
+                            }
                             }
 
                             if vm.shpeito.permission.lowercased().contains("admin") {
@@ -190,7 +190,8 @@ struct ProfileView: View
                                     }
                                   }
                         }
-                        .padding(.top, 10)
+                            .padding(.top, 10)
+                        }
                         
                         VStack(spacing: 2)
                         {
@@ -1002,7 +1003,7 @@ struct ProfileView: View
             }
         }
     }
-}
+
 
 struct VisualEffectBlur: UIViewRepresentable {
     var blurStyle: UIBlurEffect.Style
@@ -1175,7 +1176,7 @@ struct MultipleLabels:View {
         var width = CGFloat.zero
         var height = CGFloat.zero
 
-        return 
+        return
             VStack
             {
                 ZStack(alignment: .topLeading)
@@ -1287,4 +1288,3 @@ struct ImagePicker: UIViewControllerRepresentable {
     ))
 }
     
-
