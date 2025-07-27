@@ -67,7 +67,7 @@ class EventCreatorViewModel: ObservableObject {
             category:   eventCategory,
             points:     String(pts),
             expiration: eventDate,
-            request:    "true"
+            request:    "false"
         )
 
         // Perform network call

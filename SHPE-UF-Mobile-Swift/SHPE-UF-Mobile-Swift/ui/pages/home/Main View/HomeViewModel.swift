@@ -9,21 +9,32 @@ import Foundation
 import CoreData
 import SwiftUI
 
+enum EventLoadMode {
+    case dummyOnly
+    case fetchedOnly
+    case combined
+}
+
+
 final class HomeViewModel: ObservableObject {
     private var requestHandler = RequestHandler()
+    private let loadMode: EventLoadMode // Type of use case
     
     @Published var events: [Event] = []
     
     //This is for testing events when there are no events present
     //Keep this commented if testing
-    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, useDummyEvents: Bool = false) {
-        if useDummyEvents {
+    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, loadMode: EventLoadMode = .combined) {
+        
+        self.loadMode = loadMode
+
+        switch loadMode {
+        case .dummyOnly:
             self.events = createDummyEvents()
             updateEventTypes()
             expandMultiDayEvents()
             saveEventsToCoreData(self.events, viewContext: viewContext)
-        }
-        else {
+        case .fetchedOnly, .combined:
             fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
         }
 
@@ -31,7 +42,7 @@ final class HomeViewModel: ObservableObject {
     
 
     
-    func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext, useDummyEvents: Bool = false){
+    func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext){
         // Set the minimum date for events to be fetched (e.g., today's date)
         
         func dateOneMonthAgo() -> Date? {
@@ -53,24 +64,34 @@ final class HomeViewModel: ObservableObject {
         // Call the fetchEvents method from the RequestHandler
         requestHandler.fetchEvents(minDate: minDate) { [weak self] (events, success, error) in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                
+                var finalEvents: [Event] = []
+                if self.loadMode == .dummyOnly || self.loadMode == .combined {
+                    finalEvents += self.createDummyEvents()
+                }
                 if success {
                     // Sort the events by their start dates
-                    var sortedEvents = events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
-                    // Update the events property with the sorted events
-                    self?.events = sortedEvents
-                    self?.updateEventTypes()
-                    self?.expandMultiDayEvents()
                     
-                    sortedEvents = self?.events.sorted(by: { $0.start.dateTime < $1.start.dateTime }) ?? []
-                    self?.events = sortedEvents
+                    var sortedEvents = events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
+                    finalEvents += sortedEvents
+                    // Update the events property with the sorted events
+                    self.events = finalEvents.sorted { $0.start.dateTime < $1.start.dateTime }
+                    
+                    self.updateEventTypes()
+                    self.expandMultiDayEvents()
+                    
+                    sortedEvents = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
+                    self.events = sortedEvents
                     
                     /// NEW to save events to core Data
                     // Save to Core Data ?
-                    self?.saveEventsToCoreData(sortedEvents, viewContext: viewContext)
+                    self.saveEventsToCoreData(sortedEvents, viewContext: viewContext)
+                    
                     
                 } else {
                     // Handle error condition
-                    self?.events = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
+                    self.events = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
                     print("Error fetching events: \(error)")
                 }
             }
@@ -189,7 +210,7 @@ final class HomeViewModel: ObservableObject {
                Event(
                    created: Date(),
                    creator: Creator(email: "test1@example.com", selfValue: 0),
-                   end: EventDateTime(dateTime: formatter.date(from: "2025-05-016T23:00:00Z")!, timeZone: "UTC"),
+                   end: EventDateTime(dateTime: formatter.date(from: "2025-08-016T23:00:00Z")!, timeZone: "UTC"),
                    etag: "123",
                    eventType: "GBM",
                    htmlLink: "http://example.com",
@@ -198,7 +219,7 @@ final class HomeViewModel: ObservableObject {
                    kind: "calendar#event",
                    organizer: Organizer(email: "organizer@example.com", selfValue:0),
                    sequence: 0,
-                   start: EventDateTime(dateTime: formatter.date(from: "2025-05-16T02:00:00Z")!, timeZone: "UTC"),
+                   start: EventDateTime(dateTime: formatter.date(from: "2025-08-16T02:00:00Z")!, timeZone: "UTC"),
                    status: "confirmed",
                    summary: "GBM #1",
                    updated: Date(),

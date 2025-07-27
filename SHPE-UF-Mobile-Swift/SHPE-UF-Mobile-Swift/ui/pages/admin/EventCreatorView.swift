@@ -144,7 +144,7 @@ struct EventCreatorView: View {
                         .frame(width: 250, height: 250)
                 }
 
-                Button("Download QR") {
+                Button("Save QR to Photos") {
                     guard let img = eventVM.qrImage else { return }
                     UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
                 }
