@@ -50,7 +50,7 @@ struct NotificationView: View {
     
     @StateObject var viewNotificationModel = NotificationViewModel.instance
     
-    var body: some View {
+    var body: some View{
         // Stack the views vertically with spacing
         VStack(spacing: 20){
             // Use a ZStack for layering the background and button horizontally

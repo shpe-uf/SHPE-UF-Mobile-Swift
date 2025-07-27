@@ -270,4 +270,39 @@ class ProfileViewModel:ObservableObject
             self.invalidLastName = !validateLastName(input: lastName)
         }
     }
+    
+    func refreshUserPermission(viewContext: NSManagedObjectContext) {
+        guard !shpeito.id.isEmpty else { return } // Ensure the user is logged in
+        
+        requestHandler.fetchUserPermission(userId: shpeito.id) { newPermission in
+            DispatchQueue.main.async {
+                if let newPermission = newPermission, self.shpeito.permission != newPermission {
+                    print("🔄 Updating permission: \(self.shpeito.permission) → \(newPermission)")
+
+                    // Update ProfileViewModel
+                    self.shpeito.permission = newPermission
+
+                    // Update CoreData
+                    self.updatePermissionInCoreData(newPermission, viewContext: viewContext)
+                }
+            }
+        }
+    }
+
+    private func updatePermissionInCoreData(_ newPermission: String, viewContext: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        
+        do {
+            let users = try viewContext.fetch(fetchRequest)
+            if let user = users.first {
+                user.permission = newPermission
+                try viewContext.save()
+                print("✅ Updated permission in CoreData: \(newPermission)")
+            }
+        } catch {
+            print("❌ Failed to update permission in CoreData")
+        }
+    }
+
+
 }
