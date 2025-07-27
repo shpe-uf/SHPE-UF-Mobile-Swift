@@ -24,7 +24,7 @@ final class HomeViewModel: ObservableObject {
     
     //This is for testing events when there are no events present
     //Keep this commented if testing
-    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, loadMode: EventLoadMode = .combined) {
+    init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, loadMode: EventLoadMode = .fetchedOnly) {
         
         self.loadMode = loadMode
 

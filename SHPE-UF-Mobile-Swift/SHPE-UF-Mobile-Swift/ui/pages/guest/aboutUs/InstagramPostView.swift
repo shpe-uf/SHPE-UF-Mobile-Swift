@@ -56,7 +56,7 @@ struct InstagramPostView: View {
             .padding()
             
         }
- £   }
+    }
 }
 
 #Preview {

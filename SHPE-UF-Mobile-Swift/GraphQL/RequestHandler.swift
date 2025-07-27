@@ -9,7 +9,7 @@
 import Foundation
 import Apollo
 
-private let DEVELOPMENT = true
+private let DEVELOPMENT = false
 
 private let PRODUCTION_ENV =
 [
