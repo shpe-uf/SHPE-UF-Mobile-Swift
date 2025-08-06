@@ -12,9 +12,11 @@ struct HomeView: View {
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     @StateObject var viewModel: HomeViewModel
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
-        
+    @StateObject var notificationVM = NotificationViewModel.instance
+    
     @State private var offset: CGFloat = 0
     @State private var isDragging = false
+    @State private var hasAskedForPermissions = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -63,6 +65,7 @@ struct HomeView: View {
                         .font(Font.custom("Viga-Regular", size: 40))
                         .foregroundStyle(Color.gray.opacity(0.5))
                 }
+                
                 ScrollView {
                     ScrollViewReader { proxy in
                         LazyVStack(spacing: 20) {
@@ -170,7 +173,27 @@ struct HomeView: View {
                         // Initialize lastUpdatedVisibleMonths with initial visible months
                         displayedMonth = dateHelper.getCurrentMonth()
                         NotificationViewModel.instance.pendingNotifications = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
-
+                        
+                        if !hasAskedForPermissions {
+                            hasAskedForPermissions = true
+                            notificationVM.checkForPermission { allowed in
+                                if allowed {
+                                    // If user granted permission, turn on all notifications by default
+                                    notificationVM.isGBMSelected = true
+                                    notificationVM.isInfoSelected = true
+                                    notificationVM.isWorkShopSelected = true
+                                    notificationVM.isVolunteeringSelected = true
+                                    notificationVM.isSocialSelected = true
+                                    
+                                    // Turn on notifications for all event types
+                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "GBM", fetchedEvents: coreEvents, viewContext: viewContext)
+                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Info", fetchedEvents: coreEvents, viewContext: viewContext)
+                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Workshop", fetchedEvents: coreEvents, viewContext: viewContext)
+                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Volunteering", fetchedEvents: coreEvents, viewContext: viewContext)
+                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Social", fetchedEvents: coreEvents, viewContext: viewContext)
+                                }
+                            }
+                        }
                     }
                 }
             }
