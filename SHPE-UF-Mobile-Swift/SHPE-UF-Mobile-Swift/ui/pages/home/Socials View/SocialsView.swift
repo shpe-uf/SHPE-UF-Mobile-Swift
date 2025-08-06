@@ -7,10 +7,10 @@ struct SocialsView: View {
 
     /// **Social media links and their corresponding icons**
     let socials: [(String, String, String)] = [
-        ("SHPE UF", "SHPEdUF", "https://www.instagram.com/shpeuf"),
+        ("SHPE UF", "shpeuf_social_icon", "https://www.instagram.com/shpeuf"),
         ("FYLP", "family_group_icon", "https://www.instagram.com/fylp.shpeuf"),
-        ("MentorSHPE", "mentorship_icon", "https://www.instagram.com/mentorshpe"),
-        ("GradSHPE", "research_icon", "https://www.instagram.com/gradshpe"),
+        ("MentorSHPE", "mentorshpe_icon", "https://www.instagram.com/ufmentorshpe"),
+        ("GradSHPE", "research_icon", "https://www.instagram.com/gradshpeuf"),
         ("PKY SHPE", "children_icon", "https://www.instagram.com/pky.shpe"),
         ("Linktree", "linktree-white-icon", "https://linktr.ee/shpeuf") // NEW LINKTREE BUTTON
     ]
@@ -21,7 +21,7 @@ struct SocialsView: View {
             // 🟠 Navigation Bar (EXACT MATCH TO NOTIFICATION VIEW)
             ZStack {
                 Constants.orange
-                    .frame(height: 110)
+                    .frame(width: UIScreen.main.bounds.width, height: 100)
                 HStack {
                     Button {
                         showView = "HomeView"
@@ -74,21 +74,34 @@ struct SocialsView: View {
 
     /// **Helper function for creating social media buttons**
     private func socialButton(name: String, icon: String, link: String) -> some View {
-        VStack(spacing: 20) { // Match button spacing
+        VStack(spacing: 20) {
             Button(action: {
-                if let url = URL(string: link), !link.isEmpty {
-                    UIApplication.shared.open(url)
+                print("Attempting to open: \(link)")
+                guard let url = URL(string: link) else {
+                    print("Invalid URL: \(link)")
+                    return
+                }
+                
+                // Check if we can open the URL
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url) { success in
+                        print("URL opened successfully: \(success)")
+                    }
+                } else {
+                    print("Cannot open URL: \(link)")
                 }
             }) {
                 ZStack {
                     Image("Ellipse")
-                        .frame(width: 92, height: 90) // Matches notification button size
+                        .frame(width: 92, height: 90)
                     Image(icon)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 42, height: 42)
                 }
             }
+            .buttonStyle(PlainButtonStyle())
+            
             Text(name)
                 .font(Font.custom("UniversLTStd", size: 16))
                 .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)

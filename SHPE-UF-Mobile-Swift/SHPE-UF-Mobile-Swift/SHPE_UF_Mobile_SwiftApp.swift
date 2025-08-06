@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct SHPE_UF_Mobile_SwiftApp: App {
+    @StateObject private var locationManager = LocationManager()
     init() {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithTransparentBackground()
@@ -24,6 +25,7 @@ struct SHPE_UF_Mobile_SwiftApp: App {
     var body: some Scene {
         WindowGroup {
             SHPEUFAppView()
+                .environmentObject(locationManager)
         }
         .modelContainer(for: MTPlacemark.self) { result in
             debugPrint("data container ready")

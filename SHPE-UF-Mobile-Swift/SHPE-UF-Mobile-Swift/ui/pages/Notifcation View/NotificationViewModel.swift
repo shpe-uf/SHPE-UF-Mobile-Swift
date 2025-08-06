@@ -167,6 +167,7 @@ class NotificationViewModel : ObservableObject {
         }
     }
     
+    
     /// Schedules a notification for a single event and updates Core Data storage.
     ///
     /// This function:
