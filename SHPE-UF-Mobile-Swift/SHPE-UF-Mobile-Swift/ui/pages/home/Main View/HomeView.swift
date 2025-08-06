@@ -207,6 +207,11 @@ struct HomeView: View {
                 {
                     NotificationView(viewModel: viewModel, showView: $appVM.showView)
                 }
+                else if appVM.showView == "SocialsView"
+                {
+                    SocialsView(showView: $appVM.showView)
+                        .transition(.move(edge: .trailing))
+                }
                 else if appVM.showView == "EventView"
                 {
                     EventInfoView(event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0], showView: $appVM.showView)

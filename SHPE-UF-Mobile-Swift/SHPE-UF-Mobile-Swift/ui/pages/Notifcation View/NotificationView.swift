@@ -152,11 +152,19 @@ struct NotificationView: View {
                 VStack(spacing: 50) {
                     Spacer()
                     // Prompt text for user action
-                    Text("Tap an event to get notifications")
-                        .font(Font.custom("Viga-Regular", size: 20))
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                        .frame(height: 50, alignment: .bottomLeading)
+                    VStack{
+                        Text("Tap an event to turn notifications on/off")
+                            .font(Font.custom("Viga-Regular", size: 20))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                            .frame(height: 50, alignment: .bottomLeading)
+                        Text("Orange selections have notifications turned on")
+                            .font(Font.custom("Viga-Regular", size: 15))
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
+                            .frame(height: 30, alignment: .bottomLeading)
+                    }
+                    
                     
                     // Horizontal stack for event type buttons
                     HStack(spacing: 30) {
