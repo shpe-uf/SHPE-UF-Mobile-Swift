@@ -17,6 +17,7 @@ struct HomeView: View {
     @State private var offset: CGFloat = 0
     @State private var isDragging = false
     @State private var hasAskedForPermissions = false
+    @State private var hasSetUpNotifications = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -170,30 +171,15 @@ struct HomeView: View {
                     .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
                     .frame(maxWidth: .infinity)
                     .onAppear {
+                        guard !hasSetUpNotifications else { return }
+                        hasSetUpNotifications = true
                         // Initialize lastUpdatedVisibleMonths with initial visible months
                         displayedMonth = dateHelper.getCurrentMonth()
-                        NotificationViewModel.instance.pendingNotifications = CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
-                        
-                        if !hasAskedForPermissions {
-                            hasAskedForPermissions = true
-                            notificationVM.checkForPermission { allowed in
-                                if allowed {
-                                    // If user granted permission, turn on all notifications by default
-                                    notificationVM.isGBMSelected = true
-                                    notificationVM.isInfoSelected = true
-                                    notificationVM.isWorkShopSelected = true
-                                    notificationVM.isVolunteeringSelected = true
-                                    notificationVM.isSocialSelected = true
-                                    
-                                    // Turn on notifications for all event types
-                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "GBM", fetchedEvents: coreEvents, viewContext: viewContext)
-                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Info", fetchedEvents: coreEvents, viewContext: viewContext)
-                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Workshop", fetchedEvents: coreEvents, viewContext: viewContext)
-                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Volunteering", fetchedEvents: coreEvents, viewContext: viewContext)
-                                    notificationVM.turnOnEventNotification(events: viewModel.events,eventType: "Social", fetchedEvents: coreEvents, viewContext: viewContext)
-                                }
-                            }
+
+                        Task {
+                            await performInitialSetup()
                         }
+                        
                     }
                 }
             }
@@ -250,7 +236,57 @@ struct HomeView: View {
         }
     }
             
+    private func performInitialSetup() async {
+        let mappedEvents = await Task.detached { [coreEvents, viewContext] in
+            return CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
+        }.value
+
+        await MainActor.run {
+            NotificationViewModel.instance.pendingNotifications = mappedEvents
+        }
+        
+        if !hasAskedForPermissions {
+            hasAskedForPermissions = true
+            
+            notificationVM.checkForPermission { allowed in
+                if allowed {
+                    // Move notification setup to background task
+                    Task {
+                        await setupAllNotifications()
+                    }
+                }
+            }
+        }
+    }
     
+    private func setupAllNotifications() async {
+        await MainActor.run {
+            notificationVM.isGBMSelected = true
+            notificationVM.isInfoSelected = true
+            notificationVM.isWorkShopSelected = true
+            notificationVM.isVolunteeringSelected = true
+            notificationVM.isSocialSelected = true
+        }
+        
+        let events = viewModel.events
+        
+        await MainActor.run {
+            setupNotificationsForEventType(events: events, eventType: "GBM")
+            setupNotificationsForEventType(events: events, eventType: "Info")
+            setupNotificationsForEventType(events: events, eventType: "Workshop")
+            setupNotificationsForEventType(events: events, eventType: "Volunteering")
+            setupNotificationsForEventType(events: events, eventType: "Social")
+        }
+    }
+    
+    private func setupNotificationsForEventType(events: [Event], eventType: String) {
+        notificationVM.turnOnEventNotification(
+            events: events,
+            eventType: eventType,
+            fetchedEvents: coreEvents,
+            viewContext: viewContext
+        )
+    }
     // Helper function to check if two events occur on the same day
     func sameDay(_ event1: Event, _ event2: Event) -> Bool {
         let calendar = Calendar.current
