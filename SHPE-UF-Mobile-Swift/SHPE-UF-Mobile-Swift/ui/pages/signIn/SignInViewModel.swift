@@ -38,7 +38,7 @@ final class SignInViewModel: ObservableObject
         self.fallPoints=shpeito.fallPoints
         self.summerPoints=shpeito.summerPoints
         self.springPoints=shpeito.springPoints
-         self.permission=shpeito.permission
+        self.permission=shpeito.permission
         //self.events=shpeito.events
        
     }
@@ -260,13 +260,9 @@ final class SignInViewModel: ObservableObject
                         springPercentile: 0,
                         summerPercentile: 0
                     )
-                    
-                    // Update the local property in the view model
                     self.permission = self.shpeito.permission
-                    // Persist to CoreData
-                    self.updatePermissionInCoreData(permissionValue, viewContext: viewContext)
-                    // Store user in core memory
                     self.addUserItemToCore(viewContext: viewContext)
+                    self.updatePermissionInCoreData(permissionValue, viewContext: viewContext)
                     
                     // Update AppViewModel state
                     AppViewModel.appVM.shpeito = self.shpeito
