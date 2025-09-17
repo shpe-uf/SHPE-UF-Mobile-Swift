@@ -2,6 +2,25 @@ import SwiftUI
 import CodeScanner
 import AVFoundation
 
+/// A comprehensive QR code scanner view with zoom controls and visual feedback.
+///
+/// This view:
+/// 1. Scans QR codes with validation for specific format ("[SHPEUF]:")
+/// 2. Provides visual feedback with corner markers
+/// 3. Includes pinch-to-zoom and slider zoom controls
+/// 4. Shows invalid code alerts
+/// 5. Maintains proper camera device configuration
+///
+/// ## Features
+/// - Custom scanning overlay with corner markers
+/// - Dual zoom controls (gesture and slider)
+/// - Automatic device configuration handling
+/// - Validation for SHPE-specific QR codes
+///
+/// ## Example Usage
+/// ```swift
+/// QRCodeScannerView(scannedCode: $scannedValue)
+/// ```
 struct QRCodeScannerView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var scannedCode: String
@@ -193,6 +212,23 @@ struct QRCodeScannerView: View {
     }
 }
 
+/// A custom slider control for adjusting camera zoom level with +/- buttons and value display.
+///
+/// This view:
+/// 1. Provides intuitive zoom control for camera devices
+/// 2. Shows current zoom factor numerically
+/// 3. Includes quick access +/- buttons
+/// 4. Only appears when a valid capture device is available
+///
+/// ## Behavior
+/// - Slider range adapts to device capabilities (1.0 to maxZoom/5)
+/// - Displays current zoom factor with one decimal place
+/// - Automatically hides when no capture device is available
+///
+/// ## Example Usage
+/// ```swift
+/// ZoomSlider(zoomFactor: $zoomLevel, captureDevice: $cameraDevice)
+/// ```
 struct ZoomSlider: View {
     @Binding var zoomFactor:CGFloat
     @Binding var captureDevice:AVCaptureDevice?

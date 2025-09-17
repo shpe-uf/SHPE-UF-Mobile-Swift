@@ -7,7 +7,16 @@
 
 import SwiftUI
 
-
+/// A view that displays a categorized table of user event data, including event name, date, and points earned.
+///
+/// This view fetches a list of events from a `PointsViewModel`, organized by event category (e.g., "General Body Meeting").
+/// Each event is displayed as a row in the table with three columns: Event name, date, and point value.
+///
+/// The table includes a header row, and each section is styled with rounded corners and background colors.
+///
+/// - Parameters:
+///   - vm: A `PointsViewModel` that contains categorized event data to be displayed.
+///   - title: The category title for the events (default is `"General Body Meeting"`).
 struct TableView: View {
     
     @StateObject var vm : PointsViewModel
@@ -105,7 +114,20 @@ struct TableView: View {
     }
     
     
-    
+    /// Formats a `Date` object into a string with the format `"MM/dd/yyyy"`.
+    ///
+    /// This utility function uses `DateFormatter` to convert a `Date`
+    /// into a human-readable string in the U.S. month/day/year format.
+    ///
+    /// - Parameter date: The `Date` to be formatted.
+    /// - Returns: A `String` representing the formatted date.
+    ///
+    /// ## Example:
+    /// ```swift
+    /// let today = Date()
+    /// let formatted = formattedDate(date: today)
+    /// // e.g., "04/13/2025"
+    /// ```
     func formattedDate(date: Date) -> String {
         
         

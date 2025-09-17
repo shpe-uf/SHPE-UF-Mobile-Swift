@@ -6,6 +6,24 @@
 
 import SwiftUI
 
+/// A stylized button used to initiate the "Redeem Code" action.
+///
+/// `RedeemPointsButton` displays a rounded, orange button with the label
+/// "Redeem Code". It is styled with custom dimensions and padding to match
+/// the app's design language.
+///
+/// > Note: This view does **not** currently handle user interaction.
+/// If interaction is needed, wrap this view inside a `Button { ... }`
+/// or refactor it to accept an `action` closure.
+///
+/// ## Example:
+/// ```swift
+/// Button(action: {
+///     // Handle code redemption
+/// }) {
+///     RedeemPointsButton()
+/// }
+/// ```
 struct RedeemPointsButton: View {
     
     var body: some View {

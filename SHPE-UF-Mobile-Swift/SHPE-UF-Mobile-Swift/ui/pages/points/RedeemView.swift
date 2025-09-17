@@ -1,5 +1,23 @@
 import SwiftUI
 
+/// A view for redeeming event codes to earn points, with QR code scanning capability.
+///
+/// This view:
+/// 1. Allows manual entry or QR code scanning of event codes
+/// 2. Includes guest count adjustment
+/// 3. Handles points redemption logic
+/// 4. Shows validation errors
+///
+/// ## Features
+/// - QR code scanner integration
+/// - Guest count stepper
+/// - Input validation
+/// - Dark/light mode aware styling
+///
+/// ## Data Flow
+/// - Uses PointsViewModel for redemption logic
+/// - Integrates with Core Data
+/// - Maintains local state for form inputs
 struct RedeemView: View {
     
     @State var code: String = "" // Stores event code

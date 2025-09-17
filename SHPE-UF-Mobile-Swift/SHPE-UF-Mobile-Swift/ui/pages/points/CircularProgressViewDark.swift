@@ -8,6 +8,30 @@
 
 import SwiftUI
 
+/// A dark-themed animated circular progress view with vertical gradient fill.
+///
+/// `CircularProgessViewDark` displays a circular progress indicator designed
+/// to match dark mode aesthetics. It features a static background ring and
+/// an animated foreground stroke that fills vertically using a deep blue gradient.
+///
+/// - Parameters:
+///   - progress: A `Double` value between `0.0` and `1.0` representing the
+///     progress percentage to display.
+///
+/// ## Features:
+/// - Custom dark background stroke color
+/// - Smooth animated fill triggered on appearance
+/// - Vertical gradient from navy to sky blue
+///
+/// ## Appearance:
+/// - Line width: `70`
+/// - Size: `250x250`
+/// - Animation: `.smooth(duration: 2.5)`
+///
+/// ## Example:
+/// ```swift
+/// CircularProgessViewDark(progress: 0.45)
+/// ```
 struct CircularProgessViewDark: View {
    
     var progress: Double

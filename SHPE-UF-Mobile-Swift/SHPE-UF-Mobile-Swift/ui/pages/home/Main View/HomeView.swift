@@ -3,6 +3,30 @@
 import SwiftUI
 import CoreData
 
+/// The primary view displaying upcoming events in a scrollable list.
+///
+/// This view:
+/// 1. Shows a monthly calendar-style event list
+/// 2. Handles navigation to event details and notifications
+/// 3. Supports swipe gestures for navigation
+/// 4. Adapts to light/dark mode
+///
+/// ## Key Features
+/// - Dynamic month header that updates during scroll
+/// - Visual separation between events on different days
+/// - Smooth transitions between views
+/// - Gesture-based navigation
+///
+/// ## Data Flow
+/// - Uses `HomeViewModel` for event data
+/// - Integrates with Core Data for persistence
+/// - Shares state with `AppViewModel` for navigation
+///
+/// ## Example Usage
+/// ```swift
+/// HomeView(viewModel: HomeViewModel())
+///     .environmentObject(AppViewModel.shared)
+/// ```
 struct HomeView: View {
     @Environment(\.colorScheme) var colorScheme // Detects system's light/dark mode
     let dateHelper = DateHelper()
@@ -289,7 +313,9 @@ struct HomeView: View {
     }
     // Helper function to check if two events occur on the same day
     func sameDay(_ event1: Event, _ event2: Event) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDate(event1.start.dateTime, inSameDayAs: event2.start.dateTime)
+        Calendar.current.isDate(
+            event1.start.dateTime,
+            inSameDayAs: event2.start.dateTime
+        )
     }
 }
