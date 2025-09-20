@@ -1,22 +1,29 @@
-//
-//  ChatboxViewModel.swift
-//  SHPE-UF-Mobile-Swift
-//
-//  Created by Mazin Saleh on 9/19/25.
-//
-
+import Foundation
 import SwiftUI
 
-class ChatboxViewModel: ObservableObject {
-    @Published var messages: [ChatMessage] = [
-        ChatMessage(text: "I’m Tito! Ask me any questions about SHPE UF!", isUser: false)
-    ]
+struct ChatMessage: Identifiable {
+    let id = UUID()
+    let text: String
+    let isUser: Bool
+}
+
+final class ChatboxViewModel: ObservableObject {
+    @Published var messages: [ChatMessage] = []   // 👈 start EMPTY now
     @Published var inputText: String = ""
 
-    func sendMessage() {
-        guard !inputText.isEmpty else { return }
-        messages.append(ChatMessage(text: inputText, isUser: true))
+    func send() {
+        guard !inputText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+
+        // user message
+        let userMsg = ChatMessage(text: inputText, isUser: true)
+        messages.append(userMsg)
+
         inputText = ""
-        // TODO: Add bot reply logic here later
+
+        // fake Tito reply (you can replace with API later)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            let reply = ChatMessage(text: "Got it! (frontend only right now)", isUser: false)
+            self.messages.append(reply)
+        }
     }
 }
