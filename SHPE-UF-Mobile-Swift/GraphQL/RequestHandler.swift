@@ -227,6 +227,27 @@ class RequestHandler
         }
     }
     
+    func askChatBot(question: String, completion: @escaping ([String: Any]) -> Void)
+    {
+        apolloClient.fetch(query: SHPESchema.ChatBotQuery(question: question), cachePolicy: .fetchIgnoringCacheData)
+        {
+            result in
+            switch result {
+            case .success(let graphQLResult):
+            if let errors = graphQLResult.errors, !errors.isEmpty {
+              let message = errors.map { $0.localizedDescription }.joined(separator: ", ")
+              completion(["error": message])
+              return
+            }
+            let answer = graphQLResult.data?.chatBot ?? ""
+            completion(["answer": answer])
+
+          case .failure(let error):
+            completion(["error": error.localizedDescription])
+          }
+        }
+      }
+    
     func forgotPassword(email: String, completion: @escaping ([String: Any]) -> Void) {
             // Create the mutation with the email parameter
             apolloClient.perform(mutation: SHPESchema.ForgotPasswordMutation(email: email)) { response in
