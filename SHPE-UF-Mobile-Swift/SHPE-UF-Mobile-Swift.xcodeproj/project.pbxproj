@@ -62,6 +62,8 @@
 		816E39572D7F52E400320651 /* InstagramPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E394F2D7F52E400320651 /* InstagramPost.swift */; };
 		816E39582D7F52E400320651 /* MissionStatementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39512D7F52E400320651 /* MissionStatementView.swift */; };
 		816E39592D7F52E400320651 /* PostCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E39522D7F52E400320651 /* PostCarousel.swift */; };
+		818E210D2E85832800644A49 /* ChatBotQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818E210C2E85832800644A49 /* ChatBotQuery.graphql.swift */; };
+		818E210E2E85832800644A49 /* ChatBotQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818E210C2E85832800644A49 /* ChatBotQuery.graphql.swift */; };
 		951F6E7E2BB265D3001FDB50 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E7D2BB265D3001FDB50 /* DataManager.swift */; };
 		951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */; };
 		951F6EBD2BB65E1F001FDB50 /* CoreFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951F6EBC2BB65E1F001FDB50 /* CoreFunctions.swift */; };
@@ -260,6 +262,8 @@
 		816E39512D7F52E400320651 /* MissionStatementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionStatementView.swift; sourceTree = "<group>"; };
 		816E39522D7F52E400320651 /* PostCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCarousel.swift; sourceTree = "<group>"; };
 		816E39532D7F52E400320651 /* QuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteView.swift; sourceTree = "<group>"; };
+		818E210B2E85757F00644A49 /* Chatbot.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chatbot.graphql.swift; sourceTree = "<group>"; };
+		818E210C2E85832800644A49 /* ChatBotQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotQuery.graphql.swift; sourceTree = "<group>"; };
 		951F6E7D2BB265D3001FDB50 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		951F6E8B2BB3BD69001FDB50 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		951F6E8D2BB5E6C2001FDB50 /* SignIn.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignIn.graphql.swift; sourceTree = "<group>"; };
@@ -668,6 +672,7 @@
 				C5F623542D9A0DE1002C57A5 /* ForgotPassword.graphql.swift */,
 				246F8A342DC29EB000546AF7 /* CreateEvent.graphql.swift */,
 				812F466E2DC5187B007D7125 /* GetPartners.graphql.swift */,
+				818E210B2E85757F00644A49 /* Chatbot.graphql.swift */,
 			);
 			path = GraphQL;
 			sourceTree = "<group>";
@@ -754,6 +759,7 @@
 		B84305CA2E35E2BD008AB686 /* Queries */ = {
 			isa = PBXGroup;
 			children = (
+				818E210C2E85832800644A49 /* ChatBotQuery.graphql.swift */,
 				B84305C32E35E2BD008AB686 /* GetPartnersQuery.graphql.swift */,
 				B84305C42E35E2BD008AB686 /* GetPercentilesQuery.graphql.swift */,
 				B84305C52E35E2BD008AB686 /* GetPointsQuery.graphql.swift */,
@@ -1133,6 +1139,7 @@
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				DDA99E262DB69054004CA737 /* EventCreatorViewModel.swift in Sources */,
 				B8DCB9462D160F4800602068 /* EventInfoView.swift in Sources */,
+				818E210D2E85832800644A49 /* ChatBotQuery.graphql.swift in Sources */,
 				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
 				46E385BC2DB6CB65000BD914 /* CoreUserModel.xcdatamodeld in Sources */,
@@ -1194,6 +1201,7 @@
 				B84305EB2E35E2BD008AB686 /* SHPESchema.graphql.swift in Sources */,
 				B84305EC2E35E2BD008AB686 /* ForgotPasswordMutation.graphql.swift in Sources */,
 				B84305ED2E35E2BD008AB686 /* RedeemPointsMutation.graphql.swift in Sources */,
+				818E210E2E85832800644A49 /* ChatBotQuery.graphql.swift in Sources */,
 				B84305EE2E35E2BD008AB686 /* EditUserProfileMutation.graphql.swift in Sources */,
 				B84305EF2E35E2BD008AB686 /* GetUserPermissionQuery.graphql.swift in Sources */,
 				B84305F02E35E2BD008AB686 /* EditUserProfileInput.graphql.swift in Sources */,
