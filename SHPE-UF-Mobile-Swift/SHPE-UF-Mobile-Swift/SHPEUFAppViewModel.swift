@@ -27,7 +27,7 @@ class AppViewModel: ObservableObject
     @Published var placemark:MTPlacemark?
     
     private init() {
-        self.pageIndex = -1
+        self.pageIndex = 0 // Start at Sign In
         self.shpeito = SHPEito()
         self.darkMode = false
         self.showToast = false
@@ -49,3 +49,4 @@ class AppViewModel: ObservableObject
         }
     }
 }
+

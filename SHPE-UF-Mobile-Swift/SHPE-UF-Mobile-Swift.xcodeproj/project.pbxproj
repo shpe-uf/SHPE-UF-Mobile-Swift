@@ -13,12 +13,12 @@
 		206C8F872AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F862AE182020081A35A /* SHPE_UF_Mobile_SwiftTests.swift */; };
 		206C8F912AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F902AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift */; };
 		206C8F932AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */; };
-		20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A2F2AE7475500916EC6 /* SignInView.swift */; };
 		20CF4A362AE7478400916EC6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A352AE7478400916EC6 /* HomeViewModel.swift */; };
 		20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3B2AE747BC00916EC6 /* PointsView.swift */; };
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
 		24263DE32D7E364C005180B6 /* GetUserPermission.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 24263DE12D7E364C005180B6 /* GetUserPermission.graphql.swift */; };
+		24A98DCF2E8ECE0300CFC958 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A98DCE2E8ECDF700CFC958 /* SignInView.swift */; };
 		462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B6F492B7180AB00EB575C /* CircularProgessView.swift */; };
 		4632E4742B6B575E0048782D /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4732B6B575E0048782D /* PointsUI.swift */; };
 		4632E4762B6B57A00048782D /* RedeemPointsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4752B6B57A00048782D /* RedeemPointsButton.swift */; };
@@ -215,7 +215,6 @@
 		206C8F8C2AE182020081A35A /* SHPE-UF-Mobile-SwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SHPE-UF-Mobile-SwiftUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		206C8F902AE182020081A35A /* SHPE_UF_Mobile_SwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITests.swift; sourceTree = "<group>"; };
 		206C8F922AE182020081A35A /* SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHPE_UF_Mobile_SwiftUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		20CF4A2F2AE7475500916EC6 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		20CF4A352AE7478400916EC6 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		20CF4A3B2AE747BC00916EC6 /* PointsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsView.swift; sourceTree = "<group>"; };
 		20CF4A3D2AE747E900916EC6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -223,6 +222,7 @@
 		24263DE12D7E364C005180B6 /* GetUserPermission.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPermission.graphql.swift; sourceTree = "<group>"; };
 		245237BE2E859B4200F1753C /* CalendarWidgetExtensionRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CalendarWidgetExtensionRelease.entitlements; sourceTree = "<group>"; };
 		246F8A342DC29EB000546AF7 /* CreateEvent.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEvent.graphql.swift; sourceTree = "<group>"; };
+		24A98DCE2E8ECDF700CFC958 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		462B6F492B7180AB00EB575C /* CircularProgessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgessView.swift; sourceTree = "<group>"; };
 		4632E4732B6B575E0048782D /* PointsUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsUI.swift; sourceTree = "<group>"; };
 		4632E4752B6B57A00048782D /* RedeemPointsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemPointsButton.swift; sourceTree = "<group>"; };
@@ -586,11 +586,11 @@
 		20CF4A2A2AE746CE00916EC6 /* signIn */ = {
 			isa = PBXGroup;
 			children = (
+				24A98DCE2E8ECDF700CFC958 /* SignInView.swift */,
 				812F46642DAD8247007D7125 /* ResetPasswordView.swift */,
 				812F46622DAD667F007D7125 /* EmailSentView.swift */,
 				812F46602DAD666B007D7125 /* ForgetPasswordView.swift */,
 				812F465E2DAD6593007D7125 /* ForgetPasswordViewModel.swift */,
-				20CF4A2F2AE7475500916EC6 /* SignInView.swift */,
 				20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */,
 			);
 			path = signIn;
@@ -1144,6 +1144,7 @@
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				DDA99E262DB69054004CA737 /* EventCreatorViewModel.swift in Sources */,
 				B8DCB9462D160F4800602068 /* EventInfoView.swift in Sources */,
+				24A98DCF2E8ECE0300CFC958 /* SignInView.swift in Sources */,
 				818E210D2E85832800644A49 /* ChatBotQuery.graphql.swift in Sources */,
 				951F6E8C2BB3BD69001FDB50 /* ProfileViewModel.swift in Sources */,
 				46CA418F2B7EC82B0083F81C /* SingleEventView.swift in Sources */,
@@ -1161,7 +1162,6 @@
 				46CA418D2B7EC7DB0083F81C /* TableView.swift in Sources */,
 				958A5DDC2B5864E400D1BAE4 /* RequestHandler.swift in Sources */,
 				DDC422852D6CE2FC006B2A0E /* AdminView.swift in Sources */,
-				20CF4A302AE7475500916EC6 /* SignInView.swift in Sources */,
 				B8264CEF2BAE5D4B005CED1B /* Constants.swift in Sources */,
 				812F46652DAD824E007D7125 /* ResetPasswordView.swift in Sources */,
 				816E38F92D75FEDF00320651 /* GuestCalendarContainerView.swift in Sources */,

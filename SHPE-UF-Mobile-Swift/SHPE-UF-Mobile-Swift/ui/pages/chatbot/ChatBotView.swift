@@ -1,6 +1,35 @@
 import SwiftUI
 import Combine
 
+// Helper to format timestamps
+private let chatTimestampFormatter: DateFormatter = {
+    let df = DateFormatter()
+    df.timeStyle = .short
+    df.dateStyle = .none
+    return df
+}()
+
+// MARK: - Typing dots (pulsing)
+private struct TypingDots: View {
+    @State private var animate = false
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Circle().frame(width: 6, height: 6)
+                .opacity(animate ? 1.0 : 0.3)
+                .animation(.easeInOut(duration: 0.8).repeatForever().delay(0.0), value: animate)
+            Circle().frame(width: 6, height: 6)
+                .opacity(animate ? 1.0 : 0.3)
+                .animation(.easeInOut(duration: 0.8).repeatForever().delay(0.2), value: animate)
+            Circle().frame(width: 6, height: 6)
+                .opacity(animate ? 1.0 : 0.3)
+                .animation(.easeInOut(duration: 0.8).repeatForever().delay(0.4), value: animate)
+        }
+        .foregroundColor(.white.opacity(0.9))
+        .onAppear { animate = true }
+    }
+}
+
 // MARK: - Theme
 private struct ChatTheme {
     static let orange  = Color(red: 210/255, green: 89/255,  blue: 23/255) // #D25917
@@ -13,19 +42,8 @@ private struct ChatTheme {
 private struct BubbleShape: Shape {
     var isUser: Bool
     func path(in rect: CGRect) -> Path {
-        var path = Path(roundedRect: rect, cornerRadius: 22)
-        let w: CGFloat = 10, h: CGFloat = 8
-        if isUser {
-            path.move(to: CGPoint(x: rect.maxX - 18, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.maxX - 18 - w, y: rect.maxY - h))
-            path.addLine(to: CGPoint(x: rect.maxX - 34, y: rect.maxY))
-        } else {
-            path.move(to: CGPoint(x: rect.minX + 18, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.minX + 18 + w, y: rect.maxY - h))
-            path.addLine(to: CGPoint(x: rect.minX + 34, y: rect.maxY))
-        }
-        path.closeSubpath()
-        return path
+        // Just a rounded bubble — no tail
+        return Path(roundedRect: rect, cornerRadius: 22)
     }
 }
 
@@ -33,25 +51,52 @@ private struct BubbleShape: Shape {
 private struct ChatBubble: View {
     let message: ChatMessage
 
+    private var bubbleColor: Color {
+        message.isUser ? ChatTheme.orange : ChatTheme.userBlue
+    }
+
     var body: some View {
         HStack(spacing: 0) {
             if message.isUser { Spacer(minLength: 56) }
 
-            Text(message.text)
-                .font(.system(size: 18))
-                .foregroundColor(.white)
-                .padding(.vertical, 14)
-                .padding(.horizontal, 18)
-                .background(
-                    BubbleShape(isUser: message.isUser)
-                        .fill(message.isUser ? ChatTheme.orange : ChatTheme.userBlue)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 22)
-                        .stroke(.white.opacity(0.12), lineWidth: 0.5)
-                )
-                .frame(maxWidth: .infinity, alignment: message.isUser ? .trailing : .leading)
-                .padding(.horizontal, 20)
+            Group {
+                if message.isUser {
+                    Text(message.text)
+                        .font(.system(size: 18))
+                        .foregroundColor(.white)
+                } else {
+                    // Basic markdown for bot messages (bold, italics, lists)
+                    if let attributed = try? AttributedString(markdown: message.text) {
+                        Text(attributed)
+                            .font(.system(size: 18))
+                            .foregroundColor(.white)
+                    } else {
+                        Text(message.text)
+                            .font(.system(size: 18))
+                            .foregroundColor(.white)
+                    }
+                }
+            }
+            .textSelection(.enabled)
+            .padding(.vertical, 14)
+            .padding(.horizontal, 18)
+            .background(
+                BubbleShape(isUser: message.isUser)
+                    .fill(message.isUser ? ChatTheme.orange : ChatTheme.userBlue)
+            )
+            .overlay(
+                BubbleShape(isUser: message.isUser)
+                    .stroke(.white.opacity(0.12), lineWidth: 0.5)
+            )
+            .frame(maxWidth: min(UIScreen.main.bounds.width * 0.75, 500), alignment: message.isUser ? .trailing : .leading)
+            .contextMenu {
+                Button(action: {
+                    UIPasteboard.general.string = message.text
+                }) {
+                    Label("Copy", systemImage: "doc.on.doc")
+                }
+            }
+            .padding(.horizontal, 20)
 
             if !message.isUser { Spacer(minLength: 56) }
         }
@@ -85,9 +130,13 @@ private extension View {
 
 // MARK: - Chat screen
 struct ChatBotView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme
     @StateObject private var vm = ChatboxViewModel()
     @StateObject private var kb = KeyboardObserver()
+
+    @State private var showScrollToBottom = false
+    @State private var lastVisibleMessageID: UUID?
 
     private var bg: Color { scheme == .dark ? ChatTheme.darkBG : ChatTheme.lightBG }
 
@@ -104,6 +153,34 @@ struct ChatBotView: View {
                     messagesList
                         .contentShape(Rectangle())
                         .onTapGesture { dismissKeyboard() }
+                        .overlay(alignment: .bottomTrailing) {
+                            if showScrollToBottom {
+                                Button(action: {
+                                    withAnimation(.easeOut(duration: 0.2)) {
+                                        showScrollToBottom = false
+                                    }
+                                    // Scroll to last message
+                                    NotificationCenter.default.post(name: Notification.Name("ChatBotScrollToBottom"), object: nil)
+                                }) {
+                                    Image(systemName: "arrow.down.circle.fill")
+                                        .font(.system(size: 28))
+                                        .foregroundStyle(.white)
+                                        .shadow(radius: 2)
+                                }
+                                .padding(.trailing, 12)
+                                .padding(.bottom, 12)
+                                .background(
+                                    Circle().fill(Color.black.opacity(0.001)) // tap area only
+                                )
+                                .transition(.move(edge: .trailing).combined(with: .opacity))
+                            }
+                        }
+                        .gesture(DragGesture().onChanged { _ in
+                            // user is interacting; if not at bottom, show button
+                            showScrollToBottom = true
+                        }.onEnded { _ in
+                            // no-op
+                        })
                 }
             }
         }
@@ -123,26 +200,38 @@ struct ChatBotView: View {
     private var header: some View {
         ZStack {
             ChatTheme.orange.ignoresSafeArea(edges: .top)
-
-            Text("Ask Tito")
-                .font(.system(size: 22, weight: .semibold))
-                .foregroundColor(.white)
-
             HStack {
+                Button(action: { dismiss() }){
+                    Image(systemName: "xmark")
+                        .foregroundColor(.white)
+                }
+                
                 Spacer()
+
+                Text("Ask Tito")
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
                 if !vm.messages.isEmpty {
                     Image("tito")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 32, height: 32)
+                        .frame(width: 36, height: 36)
                         .clipShape(Circle())
-                        .transition(.opacity)
-                        .padding(.trailing, 12)
-                } else {
-                    // reserve space so the centered title doesn't shift
-                    Color.clear.frame(width: 32, height: 32).padding(.trailing, 12)
+                        .background(
+                            Circle()
+                                .fill(.orangeButton)
+                        )
+                        .overlay(
+                            Circle()
+                                .stroke(.white)
+                            )
+                        .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
                 }
-            }
+
+            } .padding(.horizontal)
         }
         .frame(height: 50)
     }
@@ -174,33 +263,76 @@ struct ChatBotView: View {
                 VStack(spacing: 0) {
                     Color.clear.frame(height: 12)
 
-                    ForEach(vm.messages) { msg in
-                        ChatBubble(message: msg).id(msg.id)
+                    ForEach(vm.messages.indices, id: \.self) { index in
+                        let msg = vm.messages[index]
+                        let previousSameAuthor: Bool = {
+                            guard index > 0 else { return false }
+                            return vm.messages[index - 1].isUser == msg.isUser
+                        }()
+                        VStack(spacing: 0) {
+                            ChatBubble(message: msg)
+                                .padding(.top, previousSameAuthor ? -2 : 0)
+                            Text(chatTimestampFormatter.string(from: msg.date))
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                                .frame(maxWidth: .infinity, alignment: msg.isUser ? .trailing : .leading)
+                                .padding(.horizontal, 28)
+                                .padding(.top, 2)
+                        }
                     }
 
-                    if vm.messages.count >= 2 {
-                        HStack {
+                    if vm.isLoading {
+                        HStack(spacing: 0) {
+                            // Bot-aligned typing bubble
+                            TypingDots()
+                                .frame(height: 18)
+                                .padding(.vertical, 16)
+                                .padding(.horizontal, 18)
+                                .background(
+                                    BubbleShape(isUser: false)
+                                        .fill(ChatTheme.userBlue)
+                                )
+                                .overlay(
+                                    BubbleShape(isUser: false)
+                                        .stroke(.white.opacity(0.12), lineWidth: 0.5)
+                                )
+                                .padding(.horizontal, 20)
+
                             Spacer(minLength: 56)
-                            Button {} label: {
-                                Text("Follow up with EBoard")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .foregroundColor(.white)
-                                    .padding(.vertical, 14)
-                                    .padding(.horizontal, 18)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 28).fill(ChatTheme.orange)
-                                    )
-                            }
-                            .padding(.horizontal, 20)
                         }
-                        .padding(.vertical, 8)
+                        .padding(.vertical, 4)
+                        .id("typing-indicator")
+                        .transition(.opacity)
+                        .zIndex(1)
                     }
 
                     Color.clear.frame(height: 12)
+                    Color.clear.frame(height: 1).id("bottom-anchor").onAppear {
+                        showScrollToBottom = false
+                    }
                 }
+                .frame(maxWidth: 700)
+                .frame(maxWidth: .infinity)
             }
             .background(bg)
+            .onAppear {
+                lastVisibleMessageID = vm.messages.last?.id
+            }
             .onChange(of: vm.messages.count) { _ in
+                withAnimation(.easeOut(duration: 0.2)) {
+                    proxy.scrollTo(vm.messages.last?.id, anchor: .bottom)
+                    showScrollToBottom = false
+                }
+            }
+            .onChange(of: vm.isLoading) { appeared in
+                if appeared {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        proxy.scrollTo("typing-indicator", anchor: .bottom)
+                    }
+                    showScrollToBottom = false
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: Notification.Name("ChatBotScrollToBottom"))) { _ in
                 withAnimation(.easeOut(duration: 0.2)) {
                     proxy.scrollTo(vm.messages.last?.id, anchor: .bottom)
                 }
