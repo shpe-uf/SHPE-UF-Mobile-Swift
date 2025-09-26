@@ -33,6 +33,10 @@ private struct BubbleShape: Shape {
 private struct ChatBubble: View {
     let message: ChatMessage
 
+    private var bubbleColor: Color {
+        message.isUser ? ChatTheme.orange : ChatTheme.userBlue
+    }
+
     var body: some View {
         HStack(spacing: 0) {
             if message.isUser { Spacer(minLength: 56) }
@@ -85,6 +89,7 @@ private extension View {
 
 // MARK: - Chat screen
 struct ChatBotView: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme
     @StateObject private var vm = ChatboxViewModel()
     @StateObject private var kb = KeyboardObserver()
@@ -123,26 +128,38 @@ struct ChatBotView: View {
     private var header: some View {
         ZStack {
             ChatTheme.orange.ignoresSafeArea(edges: .top)
-
-            Text("Ask Tito")
-                .font(.system(size: 22, weight: .semibold))
-                .foregroundColor(.white)
-
             HStack {
+                Button(action: { dismiss() }){
+                    Image(systemName: "xmark")
+                        .foregroundColor(.white)
+                }
+                
                 Spacer()
+
+                Text("Ask Tito")
+                    .font(.system(size: 22, weight: .semibold))
+                    .foregroundColor(.white)
+                
+                Spacer()
+                
                 if !vm.messages.isEmpty {
                     Image("tito")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 32, height: 32)
+                        .frame(width: 36, height: 36)
                         .clipShape(Circle())
-                        .transition(.opacity)
-                        .padding(.trailing, 12)
-                } else {
-                    // reserve space so the centered title doesn't shift
-                    Color.clear.frame(width: 32, height: 32).padding(.trailing, 12)
+                        .background(
+                            Circle()
+                                .fill(.orangeButton)
+                        )
+                        .overlay(
+                            Circle()
+                                .stroke(.white)
+                            )
+                        .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
                 }
-            }
+
+            } .padding(.horizontal)
         }
         .frame(height: 50)
     }
