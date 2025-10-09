@@ -89,7 +89,7 @@ struct SignInView: View
                 // Email Text
                 VStack(alignment: .leading)
                 {
-                    Text("Username")
+                    Text("Username or Email")
                       .font(Font.custom("Univers LT Std", size: 16))
                       .foregroundColor(Color("whiteText"))
                     
