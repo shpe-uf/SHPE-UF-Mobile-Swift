@@ -25,7 +25,7 @@ struct HomeView: View {
             ZStack {
                 Constants.orange
                     .frame(width: UIScreen.main.bounds.width, height: 100)
-                HStack(spacing: 20) {
+                HStack(spacing: 10) {
                     // Displaying the current month
                     Text(displayedMonth)
                         .font(Font.custom("Viga-Regular", size: 24))
@@ -33,6 +33,16 @@ struct HomeView: View {
                         .frame(height: 0, alignment: .topLeading)
                     
                     Spacer()
+                    
+                    // Button to navigate to WrappedView
+                    Button { appVM.showView = "WrappedView" } label: {
+                        Image("shpe_logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 30, height: 30)
+                            .padding(.top, UIScreen.main.bounds.width * 0.05)
+                    }
+                    .padding(.top, 10)
 
                     // Button to navigate to SocialsView
                     Button { appVM.showView = "SocialsView" } label: {
@@ -49,7 +59,7 @@ struct HomeView: View {
                         Image("Doorbell")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 33, height: 32, alignment: .topLeading)
+                            .frame(width: 50, height: 32, alignment: .topLeading)
                             .padding(.top, UIScreen.main.bounds.width * 0.05)
                     }
                     .padding(.top, 10)

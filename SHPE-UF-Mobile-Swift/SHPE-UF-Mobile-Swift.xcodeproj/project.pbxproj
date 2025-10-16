@@ -377,6 +377,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		243F6C3B2D4C14050071DAD7 /* Socials View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Socials View"; sourceTree = "<group>"; };
+		2D41E0A42E7B96900054CA5C /* Wrapped View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Wrapped View"; sourceTree = "<group>"; };
 		463355992D63C8C8008C1B58 /* aboutUs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = aboutUs; sourceTree = "<group>"; };
 		46D8DE272D6FE8F3001A695C /* CalendarWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (46CEB8BE2DC2F35C00C1162A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, B8EA2CF42DE3D45D004D2AAD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CalendarWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -561,6 +562,7 @@
 		20CF4A292AE7467300916EC6 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				2D41E0A42E7B96900054CA5C /* Wrapped View */,
 				DDE684FE2D63C98B0010D9A4 /* admin */,
 				816E38E82D5EF7D100320651 /* guest */,
 				53C7704C2B9A79BF00455FC5 /* profile */,
@@ -881,6 +883,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				243F6C3B2D4C14050071DAD7 /* Socials View */,
+				2D41E0A42E7B96900054CA5C /* Wrapped View */,
 				463355992D63C8C8008C1B58 /* aboutUs */,
 			);
 			name = "SHPE-UF-Mobile-Swift";
