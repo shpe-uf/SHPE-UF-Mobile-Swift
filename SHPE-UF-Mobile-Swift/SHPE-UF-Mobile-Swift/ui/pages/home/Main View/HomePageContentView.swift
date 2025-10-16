@@ -72,6 +72,31 @@ struct HomePageContentView: View {
             },
             isEnabled: !appVM.inMapView
         )
+        .overlay {
+            if appVM.showView == "WrappedView" {
+                ZStack {
+                    Color.black.opacity(0.752)
+                        .ignoresSafeArea()
+                        .zIndex(0)
+                    
+                    WrappedView(showView: $appVM.showView)
+                        .transition(.move(edge: .trailing))
+                        .zIndex(1)
+                }
+            }
+            if appVM.showView == "YearsBannerView" {
+                YearsBannerView(showView: $appVM.showView, vm: YearsViewModel(shpeito: appVM.shpeito))
+            }
+            if appVM.showView == "YearsView" {
+                YearsView(showView: $appVM.showView, vm: YearsViewModel(shpeito: appVM.shpeito))
+            }
+            if appVM.showView == "OverallBannerView" {
+                OverallBannerView(showView: $appVM.showView, vm: OverallViewModel(shpeito: appVM.shpeito))
+            }
+            if appVM.showView == "OverallView" {
+                OverallView(showView: $appVM.showView, vm: OverallViewModel(shpeito: appVM.shpeito))
+            }
+        }
     }
 }
 
