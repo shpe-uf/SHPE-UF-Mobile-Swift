@@ -1,0 +1,49 @@
+name: SHPE Mobile Swift CI
+
+on:
+  push:
+    branches: [ main, documentation ]
+  pull_request:
+    branches: [ main, documentation ]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-15
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Select Xcode 15.2
+      run: sudo xcode-select -switch /Applications/Xcode_15.2.app
+
+    - name: Build and Test
+      run: |
+        xcodebuild \
+          -project SHPE-UF-Mobile-Swift.xcodeproj \
+          -scheme SHPE-UF-Mobile-Swift \
+          -sdk iphonesimulator \
+          -destination 'platform=iOS Simulator,name=iPhone 15' \
+          clean test | xcpretty
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: macos-15
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Deploy to TestFlight
+        run: fastlane beta
