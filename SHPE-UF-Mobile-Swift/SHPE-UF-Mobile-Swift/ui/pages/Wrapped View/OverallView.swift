@@ -13,6 +13,12 @@ struct OverallView: View {
     @Environment(\.colorScheme) var colorScheme
     @StateObject var vm : OverallViewModel
     
+    private var orange: Color {
+        colorScheme == .dark
+        ? Color(red: 253/255, green: 101/255, blue: 47/255)
+        : Color(red: 211/255, green: 58/255, blue: 2/255)
+    }
+    
     
     var body: some View {
         ZStack {
@@ -29,7 +35,7 @@ struct OverallView: View {
                     Text("Cabinet Enthusiast!")
                         .font(.custom("Viga", size: 48))
                         .fontWeight(.regular)
-                        .foregroundColor(Color(red: 253/255, green: 101/255, blue: 47/255))
+                        .foregroundColor(orange)
                         .lineLimit(2)
                         .multilineTextAlignment(.center)
                 }

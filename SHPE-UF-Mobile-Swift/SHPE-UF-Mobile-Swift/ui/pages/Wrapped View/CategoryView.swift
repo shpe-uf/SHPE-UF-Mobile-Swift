@@ -1,14 +1,13 @@
 //
-//  YearsBannerView.swift
+//  CategoryView.swift
 //  SHPE-UF-Mobile-Swift
 //
-//  Created by Alex Milanes on 10/2/25.
+//  Created by Alex Milanes on 11/5/25.
 //
 
 import SwiftUI
 
-/// **YearsBannerView:** Swift wrapped popup
-struct YearsView: View {
+struct CategoryView: View {
     @Binding var showView: String
     @Environment(\.colorScheme) var colorScheme
     @StateObject var vm : YearsViewModel
@@ -28,22 +27,22 @@ struct YearsView: View {
             VStack(spacing: 10) {
                 Spacer()
                 VStack(spacing: 10) {
-                    Text(vm.numYears == 1 ? "1 year!" : "\(vm.numYears) year!")
-                        .font(.custom("Viga", size: 48))
-                        .fontWeight(.regular)
-                        .foregroundColor(orange)
-                    
-                    Text("Since you first became a SHPEito")
+                    Text("Top Category")
                         .font(.custom("Viga", size: 36))
                         .fontWeight(.regular)
                         .foregroundColor(colorScheme == .dark ? .white : .black)
                         .lineLimit(2)
+                    
+                    Text("General Body Meeting")
+                        .font(.custom("Viga", size: 48))
+                        .fontWeight(.regular)
+                        .foregroundColor(orange)
                 }
-                .multilineTextAlignment(.center) // keeps them centered
+                .multilineTextAlignment(.center)
                 
                 Spacer()
                 
-                Text("Thank you for being a part of the familia :)")
+                Text("You attended X\nGeneral Body Meeting events")
                     .font(.custom("Viga", size: 24))
                     .fontWeight(.regular)
                     .foregroundColor(colorScheme == .dark ? .white : .black)
@@ -55,20 +54,20 @@ struct YearsView: View {
                 Color.clear
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        showView = "YearsBannerView"
+                        showView = "CategoryBannerView"
                     }
                 
                 Color.clear
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        showView = "OverallBannerView"
+                        showView = "YearsBannerView"
                     }
             }
             .zIndex(0)
             .edgesIgnoringSafeArea(.all)
         }
         .overlay(
-            StoryIndicatorView(showView: $showView, currentIndex: 9)
+            StoryIndicatorView(showView: $showView, currentIndex: 7)
             .padding(.top, 8)
             .zIndex(1),
             alignment: .top
