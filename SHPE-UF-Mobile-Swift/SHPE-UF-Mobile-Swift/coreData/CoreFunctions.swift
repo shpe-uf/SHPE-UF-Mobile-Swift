@@ -183,7 +183,26 @@ class CoreFunctions
             {
                 eventObjectArray.append(Event(created: Date(), creator: Creator(email: "", selfValue: 0), end: EventDateTime(dateTime: end, timeZone: "EST"), etag: "", eventType: eventType, htmlLink: "", iCalUID: "", identifier: identifier, kind: "", organizer: Organizer(email: "", selfValue: 0), sequence: 0, start: EventDateTime(dateTime: start, timeZone: "EST"), status: "", summary: summary, updated: Date(), location: event.location, description: event.desc))
             }
-            
+
+        }
+        return eventObjectArray
+    }
+
+    // Overload for testing purposes - accepts an array instead of FetchedResults
+    func mapCoreEventToEvent(eventsArray:[CalendarEvent], viewContext:NSManagedObjectContext)->[Event]
+    {
+        var eventObjectArray:[Event] = []
+        for event in eventsArray
+        {
+            if let start = event.start,
+               let end = event.end,
+               let summary = event.summary,
+               let identifier = event.identifier,
+               let eventType = event.eventType
+            {
+                eventObjectArray.append(Event(created: Date(), creator: Creator(email: "", selfValue: 0), end: EventDateTime(dateTime: end, timeZone: "EST"), etag: "", eventType: eventType, htmlLink: "", iCalUID: "", identifier: identifier, kind: "", organizer: Organizer(email: "", selfValue: 0), sequence: 0, start: EventDateTime(dateTime: start, timeZone: "EST"), status: "", summary: summary, updated: Date(), location: event.location, description: event.desc))
+            }
+
         }
         return eventObjectArray
     }

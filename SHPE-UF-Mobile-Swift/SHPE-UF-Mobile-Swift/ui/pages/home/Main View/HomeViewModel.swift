@@ -44,7 +44,7 @@ final class HomeViewModel: ObservableObject {
     //This is for testing events when there are no events present
     //Keep this commented if testing
     init(coreEvents : FetchedResults<CalendarEvent>, viewContext: NSManagedObjectContext, loadMode: EventLoadMode = .fetchedOnly) {
-        
+
         self.loadMode = loadMode
 
         switch loadMode {
@@ -52,6 +52,7 @@ final class HomeViewModel: ObservableObject {
             self.events = createDummyEvents()
             updateEventTypes()
             expandMultiDayEvents()
+            self.events = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
             saveEventsToCoreData(self.events, viewContext: viewContext)
         case .fetchedOnly, .combined:
             fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
@@ -59,6 +60,29 @@ final class HomeViewModel: ObservableObject {
         
         displayWrapped = isLastMonth()
 
+    }
+
+    // Testing initializer that accepts an array instead of FetchedResults
+    init(coreEventsArray: [CalendarEvent], viewContext: NSManagedObjectContext, loadMode: EventLoadMode = .fetchedOnly) {
+
+        self.loadMode = loadMode
+
+        switch loadMode {
+        case .dummyOnly:
+            self.events = createDummyEvents()
+            updateEventTypes()
+            expandMultiDayEvents()
+            self.events = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
+            saveEventsToCoreData(self.events, viewContext: viewContext)
+        case .fetchedOnly:
+            self.events = CoreFunctions().mapCoreEventToEvent(eventsArray: coreEventsArray, viewContext: viewContext)
+            self.events = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
+        case .combined:
+            self.events = createDummyEvents() + CoreFunctions().mapCoreEventToEvent(eventsArray: coreEventsArray, viewContext: viewContext)
+            updateEventTypes()
+            expandMultiDayEvents()
+            self.events = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
+        }
     }
     
     func isLastMonth()-> Bool {
@@ -307,13 +331,23 @@ final class HomeViewModel: ObservableObject {
             calendarEvent.eventType = event.eventType
             calendarEvent.desc = event.description
         }
-        
-        DispatchQueue.main.async {
+
+        // Check if we're already on the main thread
+        if Thread.isMainThread {
             do {
                 try viewContext.save()
                 print("✅ Saved \(events.count) events to Core Data")
             } catch {
                 print("Failed to save: \(error)")
+            }
+        } else {
+            DispatchQueue.main.async {
+                do {
+                    try viewContext.save()
+                    print("✅ Saved \(events.count) events to Core Data")
+                } catch {
+                    print("Failed to save: \(error)")
+                }
             }
         }
     }
