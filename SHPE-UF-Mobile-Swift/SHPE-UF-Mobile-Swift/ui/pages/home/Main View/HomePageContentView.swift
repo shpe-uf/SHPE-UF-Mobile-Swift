@@ -84,6 +84,12 @@ struct HomePageContentView: View {
                         .zIndex(1)
                 }
             }
+            if appVM.showView == "CategoryBannerView" {
+                CategoryBannerView(showView: $appVM.showView, vm: YearsViewModel(shpeito: appVM.shpeito))
+            }
+            if appVM.showView == "CategoryView" {
+                CategoryView(showView: $appVM.showView, vm: YearsViewModel(shpeito: appVM.shpeito))
+            }
             if appVM.showView == "YearsBannerView" {
                 YearsBannerView(showView: $appVM.showView, vm: YearsViewModel(shpeito: appVM.shpeito))
             }

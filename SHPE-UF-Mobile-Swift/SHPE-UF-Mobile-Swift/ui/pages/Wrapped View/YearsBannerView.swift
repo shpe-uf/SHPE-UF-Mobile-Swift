@@ -61,89 +61,109 @@ struct YearsBannerView: View {
     
     @State private var colorSwapped: Bool = false
     
+    private var orange: Color {
+        colorScheme == .dark
+        ? Color(red: 253/255, green: 101/255, blue: 47/255)
+        : Color(red: 211/255, green: 58/255, blue: 2/255)
+    }
+    
+    private var blue: Color {
+        colorScheme == .dark
+        ? Color(red: 114/255, green: 169/255, blue: 190/255)
+        : Color(red: 0/255, green: 112/255, blue: 192/255)
+    }
+    
     var body: some View {
         let fontSize = CGFloat(vm.numYears == 1 ? 105 : 96)
         
-        ZStack {
-            (colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
-                .edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: -30) {
-                ForEach(0..<5, id: \.self) { i in
-                    if i == 2 {
-                        CurvedText(
-                            text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
-                            radius: 485,
-                            fontSize: fontSize,
-                            textColor: colorScheme == .dark ? .white : .black,
-                            startAngle: .degrees(113),
-                            endAngle: .degrees(67),
-                            rotation: .pi
-                        )
-                    } else {
-                        if colorSwapped {
+        GeometryReader { geo in
+            ZStack {
+                (colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack(spacing: -30) {
+                    ForEach(0..<5, id: \.self) { i in
+                        if i == 2 {
                             CurvedText(
                                 text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
                                 radius: 485,
                                 fontSize: fontSize,
-                                textColor: Color(red: 114/255, green: 169/255, blue: 190/255),
-                                startAngle: .degrees(113),
-                                endAngle: .degrees(67),
-                                rotation: .pi
-                            )
-                            CurvedText(
-                                text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
-                                radius: 485,
-                                fontSize: fontSize,
-                                textColor: Color(red: 253/255, green: 101/255, blue: 47/255),
+                                textColor: colorScheme == .dark ? .white : .black,
                                 startAngle: .degrees(113),
                                 endAngle: .degrees(67),
                                 rotation: .pi
                             )
                         } else {
-                            CurvedText(
-                                text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
-                                radius: 485,
-                                fontSize: fontSize,
-                                textColor: Color(red: 253/255, green: 101/255, blue: 47/255),
-                                startAngle: .degrees(113),
-                                endAngle: .degrees(67),
-                                rotation: .pi
-                            )
-                            CurvedText(
-                                text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
-                                radius: 485,
-                                fontSize: fontSize,
-                                textColor: Color(red: 114/255, green: 169/255, blue: 190/255),
-                                startAngle: .degrees(113),
-                                endAngle: .degrees(67),
-                                rotation: .pi
-                            )
+                            if colorSwapped {
+                                CurvedText(
+                                    text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
+                                    radius: 485,
+                                    fontSize: fontSize,
+                                    textColor: blue,
+                                    startAngle: .degrees(113),
+                                    endAngle: .degrees(67),
+                                    rotation: .pi
+                                )
+                                CurvedText(
+                                    text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
+                                    radius: 485,
+                                    fontSize: fontSize,
+                                    textColor: orange,
+                                    startAngle: .degrees(113),
+                                    endAngle: .degrees(67),
+                                    rotation: .pi
+                                )
+                            } else {
+                                CurvedText(
+                                    text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
+                                    radius: 485,
+                                    fontSize: fontSize,
+                                    textColor: orange,
+                                    startAngle: .degrees(113),
+                                    endAngle: .degrees(67),
+                                    rotation: .pi
+                                )
+                                CurvedText(
+                                    text: vm.numYears == 1 ? "1 YEAR" : "\(vm.numYears) YEARS",
+                                    radius: 485,
+                                    fontSize: fontSize,
+                                    textColor: blue,
+                                    startAngle: .degrees(113),
+                                    endAngle: .degrees(67),
+                                    rotation: .pi
+                                )
+                            }
                         }
                     }
                 }
+                
+                HStack {
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture { showView = "CategoryView" }
+                    
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture { showView = "YearsView" }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            
-            HStack {
-                Color.clear
-                    .contentShape(Rectangle())
-                    .onTapGesture { showView = "WrappedView" }
-            
-                Color.clear
-                    .contentShape(Rectangle())
-                    .onTapGesture { showView = "YearsView" }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .overlay(
-            StoryIndicatorView(showView: $showView, currentIndex: 8)
-                .padding(.top, 135),
+            .frame(maxHeight: UIScreen.main.bounds.height)
+            .clipped()
+            .overlay(
+                VStack {
+                    Spacer().frame(height: geo.safeAreaInsets.top + 8)
+                    StoryIndicatorView(showView: $showView, currentIndex: 8)
+                    Spacer()
+                },
             alignment: .top
-        )
-        .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { _ in
-                withAnimation(.none) {
-                    colorSwapped = !colorSwapped
+            )
+            .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { _ in
+                    withAnimation(.none) {
+                        colorSwapped = !colorSwapped
+                    }
                 }
             }
         }

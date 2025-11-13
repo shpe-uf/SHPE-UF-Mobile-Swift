@@ -142,7 +142,7 @@ struct WrappedView: View {
                         .frame(maxWidth: 233)
                     
                     Button {
-                        showView = "YearsBannerView"
+                        showView = "CategoryBannerView"
                     } label: {
                         Text("LET'S GO!")
                             .font(Font.custom("Univers-LT-Std", size: 16))
