@@ -2,7 +2,7 @@ import SwiftUI
 
 /// **SocialsView:** Displays links to SHPE UF's social media.
 struct SocialsView: View {
-    @Binding var showView: String
+    @Binding var showView: AppRoute
     @Environment(\.colorScheme) var colorScheme // Detects system's dark/light mode
 
     /// **Social media links and their corresponding icons**
@@ -24,7 +24,7 @@ struct SocialsView: View {
                     .frame(width: UIScreen.main.bounds.width, height: 100)
                 HStack {
                     Button {
-                        showView = "HomeView"
+                        showView = .home
                     } label: {
                         Image("Back")
                             .frame(height: 75, alignment: .bottomLeading)
