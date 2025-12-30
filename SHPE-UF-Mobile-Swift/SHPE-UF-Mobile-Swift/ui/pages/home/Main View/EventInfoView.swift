@@ -11,7 +11,7 @@ import MapKit
 
 struct EventInfoView: View {
     var event: Event // The event to display information for
-    @Binding var showView: String // For dismissing the view
+    @Binding var showView: AppRoute // For dismissing the view
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.managedObjectContext) private var viewContext
@@ -123,7 +123,7 @@ struct EventInfoView: View {
                     Button {
                         withAnimation(.easeInOut(duration: 0.2))
                         {
-                            showView = "HomeView"
+                            showView = .home
                         }
                     } label: {
                         ZStack {
@@ -272,7 +272,7 @@ struct EventInfoView: View {
                                           withAnimation(.easeInOut(duration: 0.2)) {
                                               if isValidLocation
                                               {
-                                                  showView = "LocationView"
+                                                  showView = .location
                                                   AppViewModel.appVM.inMapView = true
                                               }
                                           }

@@ -36,7 +36,7 @@ import CoreData
 /// ```
 struct NotificationView: View {
     @ObservedObject var viewModel:HomeViewModel
-    @Binding var showView: String
+    @Binding var showView: AppRoute
     // Manage the presentation state of the view
     @Environment(\.colorScheme) var colorScheme
     
@@ -61,7 +61,7 @@ struct NotificationView: View {
                 HStack{
                     Button {
                         // Dismiss the current view when the button is pressed
-                        showView = "HomeView"
+                        showView = .home
                     } label: {
                         // Button label with an image
                         Image("Back")
@@ -100,7 +100,7 @@ struct NotificationView: View {
                                 .cornerRadius(20)
                                 .onTapGesture {
                                     withAnimation(.easeInOut(duration: 0.2)) {
-                                        showView = "HomeView"
+                                        showView = .home
                                     }
                                 }
                         }

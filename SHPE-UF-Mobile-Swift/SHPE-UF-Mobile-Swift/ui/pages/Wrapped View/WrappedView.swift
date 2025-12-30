@@ -9,7 +9,7 @@ import SwiftUI
 
 /// **WrappedView:** Swift wrapped popup
 struct WrappedView: View {
-    @Binding var showView: String
+    @Binding var showView: AppRoute
     @Environment(\.colorScheme) var colorScheme
     
     let wrappedLine = String(repeating: "SHPE Wrapped ", count: 10)
@@ -28,103 +28,78 @@ struct WrappedView: View {
                     .cornerRadius(16)
                 VStack{
                     Text(wrappedLine)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine2)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine3)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine4)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     HStack{
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.white.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.black.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.white.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                     }
                     Text(wrappedLine2)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine3)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine4)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     HStack{
                         Text("d")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.white.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.white.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.black.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.white.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
                     }
                     Text(wrappedLine2)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine3)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     HStack{
                         Text("ed")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.white.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.black.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
+                        
                         Text("SHPE Wrapped")
-                            .font(Font.custom("Viga", size: 25))
-                            .foregroundColor(.white.opacity(0.30))
-                            .lineLimit(1)
+                            .wrappedText()
                     }
                     Text(wrappedLine4)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine2)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine3)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                     Text(wrappedLine4)
-                        .font(Font.custom("Viga", size: 25))
-                        .foregroundColor(.white.opacity(0.30))
-                        .lineLimit(1)
+                        .wrappedText()
+                    
                 }
                     .frame(width: 570, height: 490)
                     .rotationEffect(.degrees(-20))
@@ -142,7 +117,10 @@ struct WrappedView: View {
                         .frame(maxWidth: 233)
                     
                     Button {
-                        showView = "CategoryBannerView"
+                        withAnimation(.linear) {
+                            showView = .wrapped(.intro)
+                        }
+                        
                     } label: {
                         Text("LET'S GO!")
                             .font(Font.custom("Univers-LT-Std", size: 16))
@@ -153,9 +131,10 @@ struct WrappedView: View {
                             .cornerRadius(8)
                     }
                     .shadow(color: .black.opacity(0.5), radius: 5, x: 0, y: 3)
+                    .sensoryFeedback(.impact(flexibility: .soft, intensity: 0.5), trigger: showView)
                     
                     Button {
-                        showView = "HomeView"
+                        showView = .home
                     } label: {
                         Text("Maybe later")
                             .frame(height: 30)
@@ -175,3 +154,20 @@ struct WrappedView: View {
     }
 
 }
+
+/// Extension on Text to not have repetitive modifiers
+extension Text {
+    func wrappedText() -> some View {
+        self
+            .font(Font.custom("Viga", size: 25))
+            .foregroundColor(.white.opacity(0.30))
+            .lineLimit(1)
+    }
+}
+
+#Preview {
+    WrappedView(showView: .constant(.home))
+}
+
+
+

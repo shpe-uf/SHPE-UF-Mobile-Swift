@@ -108,7 +108,7 @@ struct GuestCalendarView: View {
                                     // ── The event button ──
                                     Button {
                                         withAnimation {
-                                            appVM.showView = "EventView"
+                                            appVM.showView = .event
                                             appVM.currentEventIndex = index
                                         }
                                     } label: {
@@ -170,10 +170,10 @@ struct GuestCalendarView: View {
         .edgesIgnoringSafeArea(.all)
         .overlay {
             Group {
-                    if appVM.showView == "EventView" {
+                if appVM.showView == .event {
                         EventInfoView(event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0], showView: $appVM.showView)
                             .transition(.move(edge: .trailing))
-                    } else if appVM.showView == "LocationView" {
+                } else if appVM.showView == .location {
                         LocationView(
                             location: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].location ?? "Unknown",
                             event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].summary,
@@ -186,7 +186,7 @@ struct GuestCalendarView: View {
                 .gesture(
                     DragGesture()
                         .onChanged { gesture in
-                            if appVM.showView == "LocationView" { return }
+                            if appVM.showView == .location { return }
                             isDragging = true
                             offset = gesture.translation.width > 0 ? gesture.translation.width : 0
                         }
@@ -194,7 +194,7 @@ struct GuestCalendarView: View {
                             isDragging = false
                             if offset > 100 {
                                 withAnimation(.easeInOut(duration: 0.2)) {
-                                    appVM.showView = ""
+                                    appVM.showView = .none
                                 }
                             }
                             withAnimation(.easeOut(duration: 0.2)) {

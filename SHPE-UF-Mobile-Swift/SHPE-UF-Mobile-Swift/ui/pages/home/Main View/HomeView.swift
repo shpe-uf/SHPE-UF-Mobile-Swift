@@ -35,7 +35,12 @@ struct HomeView: View {
                     Spacer()
                     
                     // Button to navigate to WrappedView
-                    Button { appVM.showView = "WrappedView" } label: {
+                    Button {
+                        withAnimation(.snappy) {
+                            appVM.showView = .wrapped(.start)
+                        }
+                       
+                    } label: {
                         Image("shpe_logo")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -45,7 +50,7 @@ struct HomeView: View {
                     .padding(.top, 10)
 
                     // Button to navigate to SocialsView
-                    Button { appVM.showView = "SocialsView" } label: {
+                    Button { appVM.showView = .socials } label: {
                         Image("Instagram_Logo_HomePage")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -55,7 +60,7 @@ struct HomeView: View {
                     .padding(.top, 10)
 
                     // Button to navigate to NotificationView
-                    Button { appVM.showView = "NotificationView" } label: {
+                    Button { appVM.showView = .notification } label: {
                         Image("Doorbell")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -123,7 +128,7 @@ struct HomeView: View {
                                         // Dismiss the current view when the button is pressed
                                         withAnimation(.easeInOut(duration: 0.2))
                                         {
-                                            appVM.showView = "EventView"
+                                            appVM.showView = .event
                                             appVM.currentEventIndex = index
                                         }
                                     } label: {
@@ -199,20 +204,20 @@ struct HomeView: View {
         .overlay {
             Group
             {
-                if appVM.showView == "NotificationView"
+                if appVM.showView == .notification
                 {
                     NotificationView(viewModel: viewModel, showView: $appVM.showView)
                 }
-                else if appVM.showView == "SocialsView"
+                else if appVM.showView == .socials
                 {
                     SocialsView(showView: $appVM.showView)
                         .transition(.move(edge: .trailing))
                 }
-                else if appVM.showView == "EventView"
+                else if appVM.showView == .event
                 {
                     EventInfoView(event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0], showView: $appVM.showView)
                         .transition(.move(edge: .trailing))
-                } else if appVM.showView == "LocationView"
+                } else if appVM.showView == .location
                 {
                     LocationView(location: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].location ?? "Unknown",event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].summary, showView: $appVM.showView)
                         .transition(.move(edge: .trailing))
@@ -223,7 +228,7 @@ struct HomeView: View {
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
-                        if appVM.showView == "LocationView" { return }
+                        if appVM.showView == .location { return }
                         isDragging = true
                         offset = gesture.translation.width > 0 ? gesture.translation.width : 0
                     }
@@ -231,9 +236,9 @@ struct HomeView: View {
                         isDragging = false
                         if offset > 100
                         {
-                            withAnimation(.easeInOut(duration: appVM.showView == "EventView" ? 0.5 : 0.2))
+                            withAnimation(.easeInOut(duration: appVM.showView == .event ? 0.5 : 0.2))
                             {
-                                appVM.showView = ""
+                                appVM.showView = .none
                             }
                         }
                         withAnimation(.easeOut(duration: 0.2))
