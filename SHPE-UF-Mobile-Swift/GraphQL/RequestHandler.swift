@@ -43,8 +43,8 @@ private let ACCESS = DEVELOPMENT ? ProcessInfo.processInfo.environment : PRODUCT
 /// - `["success": Bool]` for simple operations
 class RequestHandler
 {
- //   let apolloClient = ApolloClient(url: URL(string:  ACCESS["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
-    let apolloClient = ApolloClient(url: URL(string: "http://127.0.0.1:4040")!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string:  ACCESS["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
+//    let apolloClient = ApolloClient(url: URL(string: "")!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
     //ProcessInfo.processInfo.environment["SERVER_LINK"]!
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
