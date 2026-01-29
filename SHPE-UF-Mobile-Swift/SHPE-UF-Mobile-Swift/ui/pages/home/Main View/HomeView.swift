@@ -34,20 +34,22 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    // Button to navigate to WrappedView
-                    Button {
-                        withAnimation(.snappy) {
-                            appVM.showView = .wrapped(.start)
+                    if viewModel.isLastMonth() {
+                        // Button to navigate to WrappedView
+                        Button {
+                            withAnimation(.snappy) {
+                                appVM.showView = .wrapped(.start)
+                            }
+                           
+                        } label: {
+                            Image("shpe_logo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30, height: 30)
+                                .padding(.top, UIScreen.main.bounds.width * 0.05)
                         }
-                       
-                    } label: {
-                        Image("shpe_logo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 30, height: 30)
-                            .padding(.top, UIScreen.main.bounds.width * 0.05)
+                        .padding(.top, 10)
                     }
-                    .padding(.top, 10)
 
                     // Button to navigate to SocialsView
                     Button { appVM.showView = .socials } label: {
