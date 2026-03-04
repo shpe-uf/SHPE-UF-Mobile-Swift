@@ -163,3 +163,41 @@ class SHPEito {
         return stringArray
     }
 }
+
+
+extension SHPEito {
+    static let mockSHPEito = SHPEito(
+        username: "ddenis",
+        password: "password",
+        remember: "true",
+        base64StringPhoto: "",
+        firstName: "David",
+        lastName: "Denis",
+        year: "Senior",
+        major: "Computer Science",
+        id: "12345",
+        token: "mock-token",
+        confirmed: true,
+        updatedAt: "2025-11-01",
+        createdAt: "2023-08-15",
+        email: "david.denis@ufl.edu",
+        gender: "Male",
+        ethnicity: "Hispanic",
+        originCountry: "Cuba",
+        graduationYear: "2026",
+        classes: ["COP3530", "CEN3031", "MAS3114"],
+        internships: ["SWE Intern"],
+        links: [
+            "https://github.com",
+            "https://linkedin.com"
+        ],
+        permission: "member",
+        fallPoints: 120,
+        summerPoints: 60,
+        springPoints: 90,
+        points: 270,
+        fallPercentile: 95,
+        springPercentile: 88,
+        summerPercentile: 90
+    )
+}

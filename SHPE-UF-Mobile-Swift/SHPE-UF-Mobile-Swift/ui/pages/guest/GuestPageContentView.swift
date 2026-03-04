@@ -45,7 +45,7 @@ struct GuestPageContentView: View {
     var body: some View {
         TabView(selection: $selectedTab.onUpdate {
             if selectedTab == 0 {
-                appVM.showView = "GuestCalendarView"
+                appVM.showView = .guestCalendar
             }
             appVM.inMapView = false
         }) {

@@ -19,7 +19,7 @@ struct LocationView: View {
     /// The name of the event
     var event : String
     /// A binding to control dismissing the view
-    @Binding var showView: String // For dismissing the view
+    @Binding var showView: AppRoute // For dismissing the view
     
     /// Detects the current color scheme (light/dark mode)
     @Environment(\.colorScheme) var colorScheme
@@ -203,7 +203,7 @@ struct LocationView: View {
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         AppViewModel.appVM.inMapView = false
-                        showView = "EventInfoView"
+                        showView = .eventInfo
                     }
                 } label: {
                         

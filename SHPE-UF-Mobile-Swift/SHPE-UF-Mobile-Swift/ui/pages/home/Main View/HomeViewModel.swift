@@ -19,6 +19,7 @@ enum EventLoadMode {
 final class HomeViewModel: ObservableObject {
     private var requestHandler = RequestHandler()
     private let loadMode: EventLoadMode // Type of use case
+    @Published var displayWrapped: Bool = false
     
     @Published var events: [Event] = []
     
@@ -37,10 +38,27 @@ final class HomeViewModel: ObservableObject {
         case .fetchedOnly, .combined:
             fetchEvents(coreEvents: coreEvents, viewContext: viewContext)
         }
+        
+        displayWrapped = isLastMonth()
 
     }
     
-
+    func isLastMonth()-> Bool {
+        var displayWrapped = false
+        
+        requestHandler.isLastMonth() { data in
+            if data["error"] == nil {
+                // check bool
+                if let isLastMonth = data["isLastMonth"] as? Bool {
+                   displayWrapped = isLastMonth
+                } else {
+                    displayWrapped = false
+                }
+            }
+        }
+        
+        return displayWrapped
+    }
     
     func fetchEvents(coreEvents: FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext){
         // Set the minimum date for events to be fetched (e.g., today's date)

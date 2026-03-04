@@ -9,6 +9,18 @@ import Foundation
 import SwiftUI
 import CoreData
 
+enum AppRoute: Equatable {
+    case home
+    case notification
+    case socials
+    case event
+    case eventInfo
+    case location
+    case guestCalendar
+    case wrapped (WrappedRoute)
+    case none
+}
+
 class AppViewModel: ObservableObject
 {
     static let appVM = AppViewModel()
@@ -19,7 +31,8 @@ class AppViewModel: ObservableObject
     @Published var toastMessage:String
     
     // Items being observed in the home view
-    @Published var showView = "HomeView"
+   
+    @Published var showView: AppRoute = .home
     @Published var currentEventIndex:Int?
     @Published var inMapView = false
     
