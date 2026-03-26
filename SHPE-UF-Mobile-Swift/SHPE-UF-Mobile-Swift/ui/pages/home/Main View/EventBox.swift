@@ -7,6 +7,23 @@
 import SwiftUI
 import CoreData
 
+/// A container view that displays either a timed or all-day event with appropriate styling.
+///
+/// This view:
+/// 1. Automatically determines whether to show time information
+/// 2. Applies consistent styling based on event type
+/// 3. Handles animations for ongoing events
+/// 4. Adapts to light/dark mode
+///
+/// ## Behavior
+/// - Shows `EventWithTimeView` when start/end times differ
+/// - Shows `EventNoTimeView` for all-day events (same start/end time)
+/// - Animates border for currently ongoing events
+///
+/// ## Example Usage
+/// ```swift
+/// EventBox(event: conferenceEvent)
+/// ```
 struct EventBox: View {
     var event: Event
     @Environment(\.colorScheme) var colorScheme
@@ -45,6 +62,28 @@ struct EventBox: View {
         }
     }
 
+    /// Returns the display properties (color and icon) for a given event type.
+    ///
+    /// This function:
+    /// 1. Matches event types to their corresponding UI properties
+    /// 2. Provides consistent styling across the application
+    /// 3. Includes a default case for unknown event types
+    ///
+    /// - Parameter event: The event to get display properties for
+    /// - Returns: A tuple containing (color, iconName) for the event type
+    ///
+    /// ## Event Type Mapping
+    /// - "GBM" → (Constants.grey, "Business_Group")
+    /// - "Workshop" → (Constants.orange, "Training")
+    /// - "Social" → (Constants.blue, "Users")
+    /// - "Volunteering" → (Constants.green, "Volunteering")
+    /// - "Info" → (Constants.teal, "Info")
+    /// - default → (.clear, "Business_Group")
+    ///
+    /// ## Example Usage
+    /// ```swift
+    /// let (color, icon) = eventTypeVariables(event: workshopEvent)
+    /// ```
     func eventTypeVariables(event: Event) -> (Color, String) {
         switch event.eventType {
         case "GBM":
@@ -63,6 +102,31 @@ struct EventBox: View {
     }
 }
 
+/// A view component that displays an all-day event without specific time information.
+///
+/// This view:
+/// 1. Shows event title and date
+/// 2. Provides visual feedback for ongoing events
+/// 3. Includes an icon representing the event type
+/// 4. Adapts its appearance based on event state
+///
+/// ## Visual Features
+/// - Colored background based on event type
+/// - Animated border for ongoing events
+/// - Date information with calendar icon
+/// - Event type icon
+///
+/// ## Example Usage
+/// ```swift
+/// EventNoTimeView(
+///     event: conferenceEvent,
+///     color: .blue,
+///     iconImage: "conference-icon",
+///     startDateString: "Jun 15",
+///     isAnimating: $isAnimating,
+///     ongoing: $isOngoing
+/// )
+/// ```
 struct EventNoTimeView: View {
     var event: Event
     var color: Color
@@ -133,6 +197,33 @@ struct EventNoTimeView: View {
     }
 }
 
+/// A view component that displays an event with its time information and visual indicators.
+///
+/// This view:
+/// 1. Shows event details (title, date, time range)
+/// 2. Provides visual feedback for ongoing events
+/// 3. Includes an icon representing the event type
+/// 4. Adapts its appearance based on event state
+///
+/// ## Visual Features
+/// - Colored background based on event type
+/// - Animated border for ongoing events
+/// - Date/time information with icons
+/// - Event type icon
+///
+/// ## Example Usage
+/// ```swift
+/// EventWithTimeView(
+///     event: conferenceEvent,
+///     color: .blue,
+///     iconImage: "conference-icon",
+///     startDateString: "Jun 15",
+///     startTimeString: "09:00",
+///     endTimeString: "17:00",
+///     isAnimating: $isAnimating,
+///     ongoing: $isOngoing
+/// )
+/// ```
 struct EventWithTimeView: View {
     var event: Event
     var color: Color

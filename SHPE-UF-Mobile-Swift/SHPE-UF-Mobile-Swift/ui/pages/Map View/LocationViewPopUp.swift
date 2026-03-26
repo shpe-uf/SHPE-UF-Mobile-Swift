@@ -31,6 +31,25 @@ import SwiftUI
 import MapKit
 
 /// A popup view displaying location details and route information.
+///
+/// `LocationViewPopUp` provides an interactive interface that displays a selected location
+/// with routing options, estimated travel time, and user-selected transportation modes.
+/// The popup can be dragged up and down to adjust its visibility.
+///
+/// # Example
+/// ```swift
+/// LocationViewPopUp(
+///     placemark: $selectedPlacemark,
+///     showRoute: $showRoute,
+///     travelInterval: $travelInterval,
+///     transportType: $transportType,
+///     destinationCoordinate: $destinationCoordinate,
+///     cameraPosition: $cameraPosition,
+///     region: $region,
+///     routeDestination: $routeDestination,
+///     route: $route
+/// )
+/// ```
 struct LocationViewPopUp: View {
     /// The selected placemark representing the location.
     @Binding var placemark: MTPlacemark?

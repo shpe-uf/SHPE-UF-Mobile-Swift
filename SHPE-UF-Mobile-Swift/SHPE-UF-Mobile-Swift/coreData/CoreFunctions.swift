@@ -8,9 +8,24 @@
 import Foundation
 import CoreData
 import SwiftUI
-
+/// A utility class for common Core Data operations.
+///
+/// `CoreFunctions` provides methods for creating, updating, and deleting Core Data entities,
+/// as well as converting between Core Data entities and model objects.
+///
+/// # Example
+/// ```swift
+/// let coreFunctions = CoreFunctions()
+/// coreFunctions.editUserInCore(users: fetchedUsers, viewContext: context, shpeito: currentUser)
+/// ```
 class CoreFunctions
 {
+    /// Updates a User entity in Core Data with data from a SHPEito model.
+    ///
+    /// - Parameters:
+    ///   - users: The fetched results containing the user to update
+    ///   - viewContext: The managed object context
+    ///   - shpeito: The SHPEito model containing the updated user data
     func editUserInCore(users:FetchedResults<User>, viewContext:NSManagedObjectContext, shpeito:SHPEito)
     {
         if let user = users.first
@@ -50,6 +65,12 @@ class CoreFunctions
         }
     }
     
+    /// Updates notification settings for a user in Core Data.
+    ///
+    /// - Parameters:
+    ///   - users: The fetched results containing the user to update
+    ///   - viewContext: The managed object context
+    ///   - shpeito: The SHPEito model for the user
     func editUserNotificationSettings(users:FetchedResults<User>, viewContext:NSManagedObjectContext, shpeito:SHPEito)
     {
         if let user = users.first
@@ -63,7 +84,14 @@ class CoreFunctions
             do { try viewContext.save() } catch { print("Could not save user notification settings to Core") }
         }
     }
-    
+    /// Saves redeemed events to Core Data.
+    ///
+    /// This method creates `CoreUserEvent` entities for each event in the provided array.
+    ///
+    /// - Parameters:
+    ///   - events: The fetched results of existing CoreUserEvent entities
+    ///   - viewContext: The managed object context
+    ///   - userEvents: An array of UserEvent models to save
     func saveRedeemedEvents(events:FetchedResults<CoreUserEvent>, viewContext:NSManagedObjectContext, userEvents:[UserEvent])
     {
         for event in userEvents {
@@ -77,7 +105,14 @@ class CoreFunctions
         
         do { try viewContext.save() } catch {print("Could not save \(userEvents.count) User Even to Core")}
     }
-    
+    /// Saves calendar events to Core Data.
+    ///
+    /// This method creates `CalendarEvent` entities for each event in the provided array.
+    ///
+    /// - Parameters:
+    ///   - events: The fetched results of existing CalendarEvent entities
+    ///   - viewContext: The managed object context
+    ///   - calendarEvents: An array of Event models to save
     func saveCalendarEvent(events:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext, calendarEvents:[Event])
     {
         for event in calendarEvents {
@@ -92,13 +127,24 @@ class CoreFunctions
         
         do { try viewContext.save() } catch {print("Could not save \(calendarEvents.count) User Even to Core")}
     }
-    
+    /// Removes a calendar event from Core Data.
+    ///
+    /// - Parameters:
+    ///   - viewContext: The managed object context
+    ///   - coreEvent: The CalendarEvent entity to remove
     func removeCalendarEventFromCore(viewContext:NSManagedObjectContext, coreEvent:CalendarEvent)
     {
         viewContext.delete(coreEvent)
         do { try viewContext.save() } catch { print("Could not update calendar events in Core") }
     }
-    
+    /// Updates calendar events in Core Data, removing past events.
+    ///
+    /// This method compares event start dates with the current date and removes
+    /// events that have already occurred.
+    ///
+    /// - Parameters:
+    ///   - events: The fetched results of existing CalendarEvent entities
+    ///   - viewContext: The managed object context
     func updateCalendarEvent(events:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)
     {
         var coreEventsToRemove:[CalendarEvent] = []
@@ -118,7 +164,12 @@ class CoreFunctions
         }
         do { try viewContext.save() } catch { print("Could not update calendar events in Core") }
     }
-    
+    /// Converts Core Data calendar events to Event model objects.
+    ///
+    /// - Parameters:
+    ///   - events: The fetched results of CalendarEvent entities
+    ///   - viewContext: The managed object context
+    /// - Returns: An array of Event model objects
     func mapCoreEventToEvent(events:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext)->[Event]
     {
         var eventObjectArray:[Event] = []
@@ -136,7 +187,16 @@ class CoreFunctions
         }
         return eventObjectArray
     }
-    
+    /// Clears all entities from Core Data.
+    ///
+    /// This method removes all CalendarEvent, User, and CoreUserEvent entities
+    /// from the persistent store.
+    ///
+    /// - Parameters:
+    ///   - events: The fetched results of CalendarEvent entities
+    ///   - users: The fetched results of User entities
+    ///   - userEvents: The fetched results of CoreUserEvent entities
+    ///   - viewContext: The managed object context
     func clearCore(events:FetchedResults<CalendarEvent>, users:FetchedResults<User>, userEvents:FetchedResults<CoreUserEvent>, viewContext:NSManagedObjectContext)
     {
         for event in events

@@ -1,7 +1,19 @@
 import Foundation
 import SwiftUI
 
-
+/// The final step of the registration process that collects academic information.
+///
+/// `AcademicView` completes the registration flow by gathering essential educational details:
+/// - Major
+/// - Current class year (e.g., Freshman, Sophomore)
+/// - Expected graduation year
+///
+/// Upon successful completion of this form, the registration process is finalized,
+/// and the user account is created. The user is then redirected to the sign-in screen
+/// with a notification to confirm their email.
+///
+/// This view marks the last step in the three-part registration sequence and triggers
+/// the API call to create the user account when all validation passes.
 struct AcademicView : View
 {
     @Environment(\.presentationMode) var isPresented
