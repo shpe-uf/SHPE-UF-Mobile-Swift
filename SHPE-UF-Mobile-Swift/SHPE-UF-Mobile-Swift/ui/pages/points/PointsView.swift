@@ -56,22 +56,14 @@ struct PointsView: View {
     
     // EVENT TYPES
     var body: some View {
-        
         VStack(spacing: 0) {
             
-            ZStack(alignment: .bottom) {
-                
-                Rectangle()
-                    .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
-                    .frame(width: UIScreen.main.bounds.width, height: 100)
-                
-                
-                Text("POINTS PROGRAM")
-                    .font(Font.custom("Viga-Regular", size: 25)).bold()
-                    .foregroundStyle(.white)
-                    .padding(.top, 20)
-                    .padding()
-            }
+            Text("Points")
+                .font(Font.custom("Viga-Regular", size: 30))
+                .bold()
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal)
             
             // CIRCULAR PROGRESS
             ZStack {
@@ -141,17 +133,17 @@ struct PointsView: View {
                         .matchedTransitionSource(id: "summerPoints", in: nameSpace)
                 } else {
                     /// Fallback on earlier versions
-                
-                PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: Constants.fallGradient, isShowingList: $isShowingFallEvents)
-                
-                PointsUI(points: vm.springPoints, semester: "Spring", percent: vm.springPercentile, gradient: Constants.springGradient, isShowingList: $isShowingSpringEvents)
-                
-                PointsUI(points: vm.summerPoints, semester: "Summer", percent: vm.summerPercentile, gradient: Constants.summerGradient, isShowingList: $isShowingSummerEvents)
+                    
+                    PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: Constants.fallGradient, isShowingList: $isShowingFallEvents)
+                    
+                    PointsUI(points: vm.springPoints, semester: "Spring", percent: vm.springPercentile, gradient: Constants.springGradient, isShowingList: $isShowingSpringEvents)
+                    
+                    PointsUI(points: vm.summerPoints, semester: "Summer", percent: vm.summerPercentile, gradient: Constants.summerGradient, isShowingList: $isShowingSummerEvents)
                 }
             }
             .padding()
         }
-        .ignoresSafeArea()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
             (colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         )
@@ -179,45 +171,46 @@ struct PointsView: View {
         .sheet(isPresented: $isShowingFallEvents) {
             if #available(iOS 26.0, *) {
                 sheetView(semester: .fall)
-                .scrollIndicators(.never)
-                .presentationDetents ([.height(450), .fraction(0.6)])
-                .navigationTransition(.zoom(sourceID: "fallPoints", in: nameSpace))
+                    .scrollIndicators(.never)
+                    .presentationDetents ([.height(450), .fraction(0.6)])
+                    .navigationTransition(.zoom(sourceID: "fallPoints", in: nameSpace))
             } else {
                 // Fallback on earlier versions
                 sheetView(semester: .fall)
-                .scrollIndicators(.never)
-                .presentationDetents ([.height(450), .fraction(0.6)])
+                    .scrollIndicators(.never)
+                    .presentationDetents ([.height(450), .fraction(0.6)])
             }
         }
         .sheet(isPresented: $isShowingSpringEvents) {
             if #available(iOS 26.0, *) {
                 sheetView(semester: .spring)
-                .scrollIndicators(.never)
-                .presentationDetents ([.height(450), .fraction(0.6)])
-                .navigationTransition(.zoom(sourceID: "springPoints", in: nameSpace))
+                    .scrollIndicators(.never)
+                    .presentationDetents ([.height(450), .fraction(0.6)])
+                    .navigationTransition(.zoom(sourceID: "springPoints", in: nameSpace))
             } else {
                 // Fallback on earlier versions
                 sheetView(semester: .spring)
-                .scrollIndicators(.never)
-                .presentationDetents ([.height(450), .fraction(0.6)])
+                    .scrollIndicators(.never)
+                    .presentationDetents ([.height(450), .fraction(0.6)])
             }
         }
         .sheet(isPresented: $isShowingSummerEvents) {
             if #available(iOS 26.0, *) {
                 sheetView(semester: .summer)
-                .scrollIndicators(.never)
-                .presentationDetents ([.height(450), .fraction(0.6)])
-                .navigationTransition(.zoom(sourceID: "summerPoints", in: nameSpace))
+                    .scrollIndicators(.never)
+                    .presentationDetents ([.height(450), .fraction(0.6)])
+                    .navigationTransition(.zoom(sourceID: "summerPoints", in: nameSpace))
                 
             } else {
                 // Fallback on earlier versions
                 sheetView(semester: .summer)
-                .scrollIndicators(.never)
-                .presentationDetents ([.height(450), .fraction(0.6)])
+                    .scrollIndicators(.never)
+                    .presentationDetents ([.height(450), .fraction(0.6)])
             }
         }
+        
     }
-
+    
     /// Converts an integer to a string with the appropriate ordinal suffix (st, nd, rd, th).
     ///
     /// This function:
@@ -268,7 +261,7 @@ struct PointsView: View {
             }
             return false
         }
-
+        
         return ScrollView {
             VStack(spacing: 25) {
                 ForEach(filteredKeys.indices, id: \.self) { index in
