@@ -54,17 +54,31 @@ struct QRCodeScannerView: View {
                 VStack {
                     // Back Button
                     HStack {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            Image("Back")
-                                .font(.system(size: 24, weight: .bold))
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.black.opacity(0.6))
-                                .clipShape(Circle())
+                        if #available(iOS 26.0, *) {
+                            Button {
+                                dismiss()
+                            } label : {
+                                Image(systemName: "chevron.backward")
+                                    .frame(width: 35, height: 35)
+                                    .foregroundColor(.white)
+                                    .padding(5)
+                                    
+                            }
+                            .glassEffect(.clear.tint(.black).interactive(), in: .circle)
+                            .padding(.leading)
+                        } else {
+                            // Fallback on earlier versions
+                            Button {
+                                dismiss()
+                            } label : {
+                                Image(systemName: "chevron.backward")
+                                    .frame(width: 35, height: 35)
+                                    .foregroundColor(.white)
+                                    .padding(5)
+                                    
+                            }
+                            .padding(.leading)
                         }
-                        .padding(.leading, 20)
 
                         Spacer()
                     }
@@ -226,4 +240,8 @@ struct ZoomSlider: View {
             }
         }
     }
+}
+
+#Preview {
+    QRCodeScannerView(scannedCode: .constant("Hello"))
 }

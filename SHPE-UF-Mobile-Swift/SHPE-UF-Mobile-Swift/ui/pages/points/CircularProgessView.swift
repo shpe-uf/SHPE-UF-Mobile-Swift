@@ -29,7 +29,7 @@ struct CircularProgessView: View {
             Circle()
                 .trim(from: 0, to: vm.doAnimation ? CGFloat(self.progress) : 0)
                 .stroke(
-                    LinearGradient(gradient: Gradient(colors: [Color.bottomBlue, Color.topBlue]), startPoint: .leading, endPoint: .trailing),
+                    LinearGradient(gradient: Gradient(colors: [Constants.orange, Constants.blue]), startPoint: .leading, endPoint: .trailing),
                     style: StrokeStyle(lineWidth: 70, lineCap: .butt))
             
         }

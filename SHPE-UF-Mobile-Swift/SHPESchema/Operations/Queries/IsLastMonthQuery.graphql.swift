@@ -21,6 +21,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("lastMontOfYear", Bool.self),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        IsLastMonthQuery.Data.self
+      ] }
 
       var lastMontOfYear: Bool { __data["lastMontOfYear"] }
     }

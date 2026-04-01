@@ -8,60 +8,35 @@
 import SwiftUI
 
 struct SingleEventView: View {
-    
-    var last: Bool = false
-    
-    var name: String = "Fall GBM\n6"
+    var name: String = "Fall GBM 6"
     var date: String = "11/08/2023"
     var points: Int = 1
     
     var body: some View {
         
         VStack(spacing: 0) {
-        
-            ZStack(alignment: .center) {
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .frame(width: 370, height: 75)
-                    .background(Color(red: 0.93, green: 0.93, blue: 0.93))
+                HStack(alignment: .center, spacing: 15) {
+                    
+                    VStack(alignment: .leading) {
+                        Text(name)
+                            .multilineTextAlignment(TextAlignment.leading)
+                            .foregroundStyle(.primary)
+                        
+                        Text(date)
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Text("\(points) \(points == 1 ? "point" : "points")")
                 
-                
-                HStack {
-                    Text(name)
-                        .font(Font.custom("Univers LT Std", size: 15))
-                        .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
-                        .padding(.leading, 20)
-                        .frame(width: 100, height: 50, alignment: .leading)
-                        .padding(.trailing)
-                    
-                    
-                    
-                    Text(date)
-                        .font(Font.custom("Univers LT Std", size: 15))
-                        .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
-                        .frame(width: 100, height: 50)
-                        .padding(.leading)
-                       
-                    
-                    
-                    
-                    Text("\(points)")
-                        .font(Font.custom("Univers LT Std", size: 15))
-                        .foregroundColor(Color(red: 0, green: 0.18, blue: 0.31))
-                        .frame(width: 100, height: 50)
-                        .padding(.leading)
-                    
+                    Image(systemName: "person.3.fill")
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(Color(.systemBlue))
                 }
-                
-            }
-            
-            Divider()
-                .frame(width: 370, height: last ? 0 : 1)
-                .overlay(.black)
-                
-           
+                .font(Font.custom("Viga-Regular", size: 15))
+                .padding()
         }
-        
     }
 }
 

@@ -344,6 +344,7 @@ final class PointsViewModel:ObservableObject {
                         self.categorizedEvents = eventbyCategory
                         for events in eventbyCategory.values
                         {
+                           
                             CoreFunctions().saveRedeemedEvents(events: coreEvents, viewContext: viewContext, userEvents: events)
                         }
                     }
@@ -419,6 +420,7 @@ final class PointsViewModel:ObservableObject {
                     for events in eventbyCategory.values
                     {
                         CoreFunctions().saveRedeemedEvents(events: coreEvents, viewContext: viewContext, userEvents: events)
+                        print(events)
                     }
                 }
                 else
@@ -467,8 +469,10 @@ final class PointsViewModel:ObservableObject {
                 if let id = event.identifier,
                    let name = event.name,
                    let category = event.category,
+                 //  let semester = event.semester, (SWE FIX)
                    let date = event.createdAt
                 {
+//                    validEvents.append(UserEvent(id: id, name: name, category: category, semester: semester, points: Int(event.points), date: date))
                     validEvents.append(UserEvent(id: id, name: name, category: category, points: Int(event.points), date: date))
                 }
             }
@@ -487,8 +491,6 @@ final class PointsViewModel:ObservableObject {
                 eventsByCategory[event.category] = [event]
             }
         }
-        
         return eventsByCategory
     }
-    
 }

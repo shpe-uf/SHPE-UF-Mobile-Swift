@@ -43,8 +43,7 @@ private let ACCESS = DEVELOPMENT ? ProcessInfo.processInfo.environment : PRODUCT
 /// - `["success": Bool]` for simple operations
 class RequestHandler
 {
-    //let apolloClient = ApolloClient(url: URL(string:  ACCESS["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
-    let apolloClient = ApolloClient(url: URL(string: "https://2e8443d5ab5f.ngrok-free.app")!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
+    let apolloClient = ApolloClient(url: URL(string:  ACCESS["SERVER_LINK"]!)!) // MUST BE NGROK URL or //http://127.0.0.1:5000/
     //ProcessInfo.processInfo.environment["SERVER_LINK"]!
     // MARK: Example Query Function
     // This is how the functions I will make for you guys will look like
@@ -469,15 +468,18 @@ class RequestHandler
                   if let eventName = event?.name,
                       let category = event?.category,
                       let points = event?.points,
+                      //let semester = event?.semester, (SWE FIX)
                       let dateString = event?.createdAt,
                       let date = formatter.date(from: dateString),
                       let id = event?.id
                   {
                       return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
+                      //return UserEvent(id: id, name: eventName, category: category, semester: semester, points: Int(points), date: date)
                   }
                   else
                   {
                       return UserEvent(id: "", name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                      //return UserEvent(id: "", name: "none", category: "", semester: "", points: -1, date: Date(timeIntervalSince1970: 0))
                   }
               })
             
@@ -585,10 +587,12 @@ class RequestHandler
                           let category = event?.category,
                           let points = event?.points,
                           let dateString = event?.createdAt,
+                          //let semester = event?.semester,
                           let date = formatter.date(from: dateString),
                           let id = event?.id
                       {
                           return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
+                          // add semester once SWE fixes the backend
                       }
                       else
                       {

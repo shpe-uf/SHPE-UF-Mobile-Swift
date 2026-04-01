@@ -15,60 +15,112 @@ struct PointsUI: View {
     
     var gradient: LinearGradient
     
+    @Binding var isShowingList : Bool
+    
     var body: some View {
         
-        ZStack {
-            
-           gradient
-            
-            HStack {
-                Text(semester.uppercased())
-                    .foregroundStyle(.white)
-                    .font(.title2).bold().fontDesign(.monospaced)
-                    .frame(width: 85)
+        if #available(iOS 26.0, *) {
+            Button {
+                isShowingList = true
+            } label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(.tint)
+                        .fill(gradient)
                     
+                    HStack {
+                        Text(semester.uppercased())
+                            .foregroundStyle(.white)
+                            .font(.title2).bold().fontDesign(.monospaced)
+                            .frame(width: 85)
 
-        
-                Divider()
-                    .frame(width: 1)
-                    .overlay(.white)
-                    .padding(.vertical)
-                
-                
-                
-                Text("TOP \(percent)%")
-                    .foregroundStyle(.white)
-                    .font(.title2).bold().fontDesign(.monospaced)
-                    .frame(width: 100)
-                    .padding()
-                
-                
-                Divider()
-                    .frame(width: 1)
-                    .overlay(.white)
-                    .padding(.vertical)
-                    
-                    
-                
-                Text(String(points))
-                    .foregroundStyle(.white)
-                    .font(.title2).bold().fontDesign(.monospaced)
-                    .frame(width: 60)
+                        Divider()
+                            .frame(width: 1)
+                            .overlay(.white)
+                            .padding(.vertical)
+                        
+                        Text("TOP \(percent)%")
+                            .foregroundStyle(.white)
+                            .font(.title2).bold().fontDesign(.monospaced)
+                            .frame(width: 100)
+                            .padding()
+                        
+                        Divider()
+                            .frame(width: 1)
+                            .overlay(.white)
+                            .padding(.vertical)
+                        
+                        Text(String(points))
+                            .foregroundStyle(.white)
+                            .font(.title2).bold().fontDesign(.monospaced)
+                            .frame(width: 60)
+                    }
+                }
+                .frame(width: 320, height: 75)
                 
             }
-
+            .glassEffect(.clear.interactive(), in: RoundedRectangle(cornerRadius: 25))
+            .padding(.horizontal)
+            .padding(.vertical, 2)
             
+        } else {
+            Button {
+                isShowingList = true
+            } label: {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(.tint)
+                        .fill( gradient)
+                    
+                    HStack {
+                        Text(semester.uppercased())
+                            .foregroundStyle(.white)
+                            .font(.title2).bold().fontDesign(.monospaced)
+                            .frame(width: 85)
+
+                        Divider()
+                            .frame(width: 1)
+                            .overlay(.white)
+                            .padding(.vertical)
+                        
+                        Text("TOP \(percent)%")
+                            .foregroundStyle(.white)
+                            .font(.title2).bold().fontDesign(.monospaced)
+                            .frame(width: 100)
+                            .padding()
+                        
+                        Divider()
+                            .frame(width: 1)
+                            .overlay(.white)
+                            .padding(.vertical)
+                        
+                        Text(String(points))
+                            .foregroundStyle(.white)
+                            .font(.title2).bold().fontDesign(.monospaced)
+                            .frame(width: 60)
+                    }
+                }
+                .frame(width: 320, height: 75)
+            }
         }
-        .frame(width: 320, height: 75)
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 25))
-        
-  
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func ifiOS26<Content: View>(
+        @ViewBuilder transform: (Self) -> Content
+    ) -> some View {
+        if #available(iOS 26.0, *) {
+            transform(self)
+        } else {
+            self
+        }
     }
 }
 
 #Preview {
-    PointsUI(points: 14, semester: "Fall", percent: 99, gradient: LinearGradient(colors: [.black, .blue], startPoint: .bottom, endPoint: .top))
-    
-    
+    PointsUI(points: 14, semester: "Fall", percent: 99, gradient: LinearGradient(colors: [.black, .blue], startPoint: .bottom, endPoint: .top), isShowingList: .constant(false))
+        .preferredColorScheme(.dark)
+
 }
