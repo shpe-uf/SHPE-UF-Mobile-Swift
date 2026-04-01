@@ -61,7 +61,7 @@ struct PointsView: View {
             Text("Points")
                 .font(Font.custom("Viga-Regular", size: 30))
                 .bold()
-                .foregroundStyle(.white)
+                .foregroundStyle(colorScheme == .dark ? .white : .black)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
             
