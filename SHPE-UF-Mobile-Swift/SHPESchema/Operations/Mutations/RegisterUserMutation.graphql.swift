@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("register", Register.self, arguments: ["registerInput": .variable("registerInput")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        RegisterUserMutation.Data.self
+      ] }
 
       var register: Register { __data["register"] }
 
@@ -47,6 +50,9 @@ extension SHPESchema {
           .field("id", SHPESchema.ID.self),
           .field("graduating", String.self),
           .field("firstName", String.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          RegisterUserMutation.Data.Register.self
         ] }
 
         var username: String { __data["username"] }

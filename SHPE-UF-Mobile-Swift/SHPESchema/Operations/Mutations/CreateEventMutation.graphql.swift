@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("createEvent", [CreateEvent?]?.self, arguments: ["createEventInput": .variable("createEventInput")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        CreateEventMutation.Data.self
+      ] }
 
       var createEvent: [CreateEvent?]? { __data["createEvent"] }
 
@@ -46,6 +49,9 @@ extension SHPESchema {
           .field("name", String.self),
           .field("points", Int.self),
           .field("request", Bool.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          CreateEventMutation.Data.CreateEvent.self
         ] }
 
         var category: String { __data["category"] }

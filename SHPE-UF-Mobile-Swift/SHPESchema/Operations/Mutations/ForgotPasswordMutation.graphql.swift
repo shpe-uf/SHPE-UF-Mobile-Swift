@@ -23,9 +23,12 @@ extension SHPESchema {
       let __data: DataDict
       init(_dataDict: DataDict) { __data = _dataDict }
 
-      static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.Mutation }
+      static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.Mutation }
       static var __selections: [ApolloAPI.Selection] { [
         .field("forgotPassword", ForgotPassword.self, arguments: ["email": .variable("email")]),
+      ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        ForgotPasswordMutation.Data.self
       ] }
 
       var forgotPassword: ForgotPassword { __data["forgotPassword"] }
@@ -37,11 +40,14 @@ extension SHPESchema {
         let __data: DataDict
         init(_dataDict: DataDict) { __data = _dataDict }
 
-        static var __parentType: ApolloAPI.ParentType { SHPESchema.Objects.User }
+        static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.User }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("id", SHPESchema.ID.self),
           .field("token", String.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          ForgotPasswordMutation.Data.ForgotPassword.self
         ] }
 
         var id: SHPESchema.ID { __data["id"] }
