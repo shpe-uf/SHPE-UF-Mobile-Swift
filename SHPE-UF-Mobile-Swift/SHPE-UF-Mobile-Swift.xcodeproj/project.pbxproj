@@ -173,11 +173,7 @@
 		B84306112E35E2BD008AB686 /* DeleteUserMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84305BC2E35E2BD008AB686 /* DeleteUserMutation.graphql.swift */; };
 		B84306122E35E2BD008AB686 /* RegisterUserMutation.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84305C02E35E2BD008AB686 /* RegisterUserMutation.graphql.swift */; };
 		B84306132E35E2BD008AB686 /* Partner.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84305D52E35E2BD008AB686 /* Partner.graphql.swift */; };
-		B874E16E2EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md in Resources */ = {isa = PBXBuildFile; fileRef = B874E16B2EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md */; };
-		B874E16F2EC5546D00CBCA48 /* QUICK_REFERENCE.md in Resources */ = {isa = PBXBuildFile; fileRef = B874E1692EC5546D00CBCA48 /* QUICK_REFERENCE.md */; };
 		B874E1702EC5546D00CBCA48 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B874E16A2EC5546D00CBCA48 /* README.md */; };
-		B874E1742EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md in Resources */ = {isa = PBXBuildFile; fileRef = B874E16B2EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md */; };
-		B874E1752EC5546D00CBCA48 /* QUICK_REFERENCE.md in Resources */ = {isa = PBXBuildFile; fileRef = B874E1692EC5546D00CBCA48 /* QUICK_REFERENCE.md */; };
 		B874E1762EC5546D00CBCA48 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B874E16A2EC5546D00CBCA48 /* README.md */; };
 		B874E1772EC5546D00CBCA48 /* PointsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B874E1682EC5546D00CBCA48 /* PointsViewModelTests.swift */; };
 		B874E1782EC5546D00CBCA48 /* HomeViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B874E1672EC5546D00CBCA48 /* HomeViewModelTests.swift */; };
@@ -391,9 +387,7 @@
 		B85B8D052D5A65E8000A8958 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		B874E1672EC5546D00CBCA48 /* HomeViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelTests.swift; sourceTree = "<group>"; };
 		B874E1682EC5546D00CBCA48 /* PointsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewModelTests.swift; sourceTree = "<group>"; };
-		B874E1692EC5546D00CBCA48 /* QUICK_REFERENCE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = QUICK_REFERENCE.md; sourceTree = "<group>"; };
 		B874E16A2EC5546D00CBCA48 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		B874E16B2EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SETUP_INSTRUCTIONS.md; sourceTree = "<group>"; };
 		B874E16C2EC5546D00CBCA48 /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
 		B8A10DA22B7F1A7D006BC59D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		B8A10DA42B817793006BC59D /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -934,9 +928,7 @@
 			children = (
 				B874E1672EC5546D00CBCA48 /* HomeViewModelTests.swift */,
 				B874E1682EC5546D00CBCA48 /* PointsViewModelTests.swift */,
-				B874E1692EC5546D00CBCA48 /* QUICK_REFERENCE.md */,
 				B874E16A2EC5546D00CBCA48 /* README.md */,
-				B874E16B2EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md */,
 				B874E16C2EC5546D00CBCA48 /* TestHelpers.swift */,
 			);
 			path = ViewModelTests;
@@ -1130,8 +1122,6 @@
 				206C8F7D2AE182020081A35A /* Preview Assets.xcassets in Resources */,
 				951F6ED12BB68A1D001FDB50 /* LaunchScreen.storyboard in Resources */,
 				206C8F7A2AE182020081A35A /* Assets.xcassets in Resources */,
-				B874E16E2EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md in Resources */,
-				B874E16F2EC5546D00CBCA48 /* QUICK_REFERENCE.md in Resources */,
 				B874E1702EC5546D00CBCA48 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1143,8 +1133,6 @@
 				958A5E6D2B62108300D1BAE4 /* GetUserPoints.graphql.swift in Resources */,
 				24263DE32D7E364C005180B6 /* GetUserPermission.graphql.swift in Resources */,
 				95D3709A2B64732000B2C5A4 /* GetPercentiles.graphql.swift in Resources */,
-				B874E1742EC5546D00CBCA48 /* SETUP_INSTRUCTIONS.md in Resources */,
-				B874E1752EC5546D00CBCA48 /* QUICK_REFERENCE.md in Resources */,
 				B874E1762EC5546D00CBCA48 /* README.md in Resources */,
 				C5F623562D9A0DE1002C57A5 /* ForgotPassword.graphql.swift in Resources */,
 				95D3708C2B64702F00B2C5A4 /* RegisterUser.graphql.swift in Resources */,

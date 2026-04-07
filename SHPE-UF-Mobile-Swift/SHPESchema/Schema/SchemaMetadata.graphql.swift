@@ -27,15 +27,16 @@ extension SHPESchema {
   enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     static let configuration: any ApolloAPI.SchemaConfiguration.Type = SchemaConfiguration.self
 
+    private static let objectTypeMap: [String: ApolloAPI.Object] = [
+      "Event": SHPESchema.Objects.Event,
+      "Mutation": SHPESchema.Objects.Mutation,
+      "Partner": SHPESchema.Objects.Partner,
+      "Query": SHPESchema.Objects.Query,
+      "User": SHPESchema.Objects.User
+    ]
+
     static func objectType(forTypename typename: String) -> ApolloAPI.Object? {
-      switch typename {
-      case "Event": return SHPESchema.Objects.Event
-      case "Mutation": return SHPESchema.Objects.Mutation
-      case "Partner": return SHPESchema.Objects.Partner
-      case "Query": return SHPESchema.Objects.Query
-      case "User": return SHPESchema.Objects.User
-      default: return nil
-      }
+      objectTypeMap[typename]
     }
   }
 

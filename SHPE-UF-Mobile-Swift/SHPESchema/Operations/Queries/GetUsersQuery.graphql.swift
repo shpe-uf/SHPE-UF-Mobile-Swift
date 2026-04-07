@@ -21,6 +21,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("getUsers", [GetUser?]?.self),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        GetUsersQuery.Data.self
+      ] }
 
       var getUsers: [GetUser?]? { __data["getUsers"] }
 
@@ -36,6 +39,9 @@ extension SHPESchema {
           .field("__typename", String.self),
           .field("email", String.self),
           .field("username", String.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          GetUsersQuery.Data.GetUser.self
         ] }
 
         var email: String { __data["email"] }

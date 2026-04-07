@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("editUserProfile", EditUserProfile.self, arguments: ["editUserProfileInput": .variable("editUserProfileInput")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        EditUserProfileMutation.Data.self
+      ] }
 
       var editUserProfile: EditUserProfile { __data["editUserProfile"] }
 
@@ -41,6 +44,9 @@ extension SHPESchema {
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("id", SHPESchema.ID.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          EditUserProfileMutation.Data.EditUserProfile.self
         ] }
 
         var id: SHPESchema.ID { __data["id"] }

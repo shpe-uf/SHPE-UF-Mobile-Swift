@@ -1,4 +1,19 @@
 {
+  "schemaDownload": {
+    "downloadMethod": {
+      "introspection": {
+        "endpointURL": "http://localhost:4000/",
+        "httpMethod": {
+          "POST": {}
+        },
+        "includeDeprecatedInputValues": false,
+        "outputFormat": "SDL"
+      }
+    },
+    "downloadTimeout": 60,
+    "headers": [],
+    "outputPath": "./schema.graphqls"
+  },
   "schemaNamespace" : "SHPESchema",
   "input" : {
     "operationSearchPaths" : [

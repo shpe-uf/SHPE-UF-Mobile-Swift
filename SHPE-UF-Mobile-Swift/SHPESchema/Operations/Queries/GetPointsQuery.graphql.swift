@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("getUser", GetUser?.self, arguments: ["userId": .variable("userId")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        GetPointsQuery.Data.self
+      ] }
 
       var getUser: GetUser? { __data["getUser"] }
 
@@ -43,6 +46,9 @@ extension SHPESchema {
           .field("fallPoints", Int.self),
           .field("springPoints", Int.self),
           .field("summerPoints", Int.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          GetPointsQuery.Data.GetUser.self
         ] }
 
         var fallPoints: Int { __data["fallPoints"] }
