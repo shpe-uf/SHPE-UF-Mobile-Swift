@@ -1026,4 +1026,75 @@ class RequestHandler
 
         return Organizer(email: email, selfValue: selfValue)
     }
+    
+    
+    func getMajorStat(completion: @escaping ([[String: Any]]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.MajorStatQuery()) { response in
+            guard let data = try? response.get().data,
+                  let stats = data.getMajorStat else {
+                completion([]); return
+            }
+            let result = stats.compactMap { item -> [String: Any]? in
+                guard let item = item else { return nil }
+                return ["name": item._id, "value": item.value]
+            }
+            completion(result)
+        }
+    }
+    
+    func getYearStat(completion: @escaping ([[String: Any]]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.YearStatQuery()) { response in
+            guard let data = try? response.get().data,
+                  let stats = data.getYearStat else {
+                completion([]); return
+            }
+            let result = stats.compactMap { item -> [String: Any]? in
+                guard let item = item else { return nil }
+                return ["name": item._id, "value": item.value]
+            }
+            completion(result)
+        }
+    }
+    
+    func getCountryStat(completion: @escaping ([[String: Any]]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.CountryStatQuery()) { response in
+            guard let data = try? response.get().data,
+                  let stats = data.getCountryStat else {
+                completion([]); return
+            }
+            let result = stats.compactMap { item -> [String: Any]? in
+                guard let item = item else { return nil }
+                return ["name": item._id, "value": item.value]
+            }
+            completion(result)
+        }
+    }
+    
+    func getSexStat(completion: @escaping ([[String: Any]]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.SexStatQuery()) { response in
+            guard let data = try? response.get().data,
+                  let stats = data.getSexStat else {
+                completion([]); return
+            }
+            let result = stats.compactMap { item -> [String: Any]? in
+                guard let item = item else { return nil }
+                return ["name": item._id, "value": item.value]
+            }
+            completion(result)
+        }
+    }
+    
+    func getEthnicityStat(completion: @escaping ([[String: Any]]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.EthnicityStatQuery()) { response in
+            guard let data = try? response.get().data,
+                  let stats = data.getEthnicityStat else {
+                completion([]); return
+            }
+            let result = stats.compactMap { item -> [String: Any]? in
+                guard let item = item else { return nil }
+                return ["name": item._id, "value": item.value]
+            }
+            completion(result)
+        }
+    }
 }
