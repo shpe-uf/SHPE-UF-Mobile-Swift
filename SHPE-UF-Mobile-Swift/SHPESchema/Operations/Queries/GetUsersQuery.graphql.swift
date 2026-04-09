@@ -8,7 +8,7 @@ extension SHPESchema {
     static let operationName: String = "GetUsers"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"query GetUsers { getUsers { __typename email username } }"#
+        #"query GetUsers { getUsers { __typename id email username } }"#
       ))
 
     public init() {}
@@ -37,6 +37,7 @@ extension SHPESchema {
         static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.User }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
+          .field("id", SHPESchema.ID.self),
           .field("email", String.self),
           .field("username", String.self),
         ] }
@@ -44,6 +45,7 @@ extension SHPESchema {
           GetUsersQuery.Data.GetUser.self
         ] }
 
+        var id: SHPESchema.ID { __data["id"] }
         var email: String { __data["email"] }
         var username: String { __data["username"] }
       }

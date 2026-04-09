@@ -801,18 +801,7 @@ class RequestHandler
     }
     
     func isLastMonth(completion: @escaping (([String: Any])->Void)) {
-        apolloClient.fetch(query: SHPESchema.IsLastMonthQuery()) {
-            response in
-            
-            guard let isLastMonth = try? response.get().data else {
-                print("ERROR: Incomplete Request\nError Message: \(response)")
-                completion(["error":"Incomplete Request"])
-                return
-            }
-            
-            completion(["success":isLastMonth])
-            return
-        }
+        completion(["success": false])
     }
     
     
@@ -973,6 +962,38 @@ class RequestHandler
         
         return event
     }
+    
+    private func fetchLeaderboard(completion: @escaping ([String: Any]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.GetUsersQuery(), cachePolicy: .fetchIgnoringCacheData
+        ) { response in
+            guard let data = try? response.get().data else {
+                completion(["error": "Incomplete Request"])
+                return
+            }
+            let users = (data.getUsers ?? []).compactMap { $0 }
+            var members: [[String: Any]] = []
+            let group = DispatchGroup()
+            
+            for user in users {
+                let username = user.username
+                let email = user.email
+                let userID = user.id
+                
+                group.enter()
+                self.fetchUserPoints(userId: userID) { result in
+                    let points = result["points"] as? Int ?? 0
+                    let member: [String: Any] = ["name": username, "points": points, "year": 0, "email": email]
+                    members.append(member)
+                    group.leave()
+                }
+            }
+            
+            group.notify(queue: .main) {
+                completion(["members": members])
+            }
+        }
+    }
+        
 
     // Helper functions to extract nested objects
     private func extractCreator(from dictionary: [String: Any]) throws -> Creator {
