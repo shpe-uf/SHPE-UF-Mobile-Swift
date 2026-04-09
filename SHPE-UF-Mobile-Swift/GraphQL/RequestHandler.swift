@@ -905,6 +905,29 @@ class RequestHandler
         }
     }
     
+    func fetchLeaderboard(completion: @escaping ([String: Any]) -> Void) {
+        apolloClient.fetch(query: SHPESchema.GetUsersQuery(), cachePolicy: .returnCacheDataAndFetch) { response in
+            guard let data = try? response.get().data,
+                  let rawUsers = data.getUsers else {
+                completion(["error": "Incomplete Request"])
+                return
+            }
+
+            let members: [[String: Any]] = rawUsers.compactMap { userOptional -> [String: Any]? in
+                guard let user = userOptional else { return nil }
+                return [
+                    "name": user.username,
+                    "email": user.email,
+                    "fallPoints": user.fallPoints as Any,
+                    "springPoints": user.springPoints as Any,
+                    "summerPoints": user.summerPoints as Any
+                ]
+            }
+
+            completion(["members": members])
+        }
+    }
+    
     private func extractEvent(from dictionary: [String: Any]) throws -> Event {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -1046,76 +1069,5 @@ class RequestHandler
         }
 
         return Organizer(email: email, selfValue: selfValue)
-    }
-    
-    
-    func getMajorStat(completion: @escaping ([[String: Any]]) -> Void) {
-        apolloClient.fetch(query: SHPESchema.MajorStatQuery()) { response in
-            guard let data = try? response.get().data,
-                  let stats = data.getMajorStat else {
-                completion([]); return
-            }
-            let result = stats.compactMap { item -> [String: Any]? in
-                guard let item = item else { return nil }
-                return ["name": item._id, "value": item.value]
-            }
-            completion(result)
-        }
-    }
-    
-    func getYearStat(completion: @escaping ([[String: Any]]) -> Void) {
-        apolloClient.fetch(query: SHPESchema.YearStatQuery()) { response in
-            guard let data = try? response.get().data,
-                  let stats = data.getYearStat else {
-                completion([]); return
-            }
-            let result = stats.compactMap { item -> [String: Any]? in
-                guard let item = item else { return nil }
-                return ["name": item._id, "value": item.value]
-            }
-            completion(result)
-        }
-    }
-    
-    func getCountryStat(completion: @escaping ([[String: Any]]) -> Void) {
-        apolloClient.fetch(query: SHPESchema.CountryStatQuery()) { response in
-            guard let data = try? response.get().data,
-                  let stats = data.getCountryStat else {
-                completion([]); return
-            }
-            let result = stats.compactMap { item -> [String: Any]? in
-                guard let item = item else { return nil }
-                return ["name": item._id, "value": item.value]
-            }
-            completion(result)
-        }
-    }
-    
-    func getSexStat(completion: @escaping ([[String: Any]]) -> Void) {
-        apolloClient.fetch(query: SHPESchema.SexStatQuery()) { response in
-            guard let data = try? response.get().data,
-                  let stats = data.getSexStat else {
-                completion([]); return
-            }
-            let result = stats.compactMap { item -> [String: Any]? in
-                guard let item = item else { return nil }
-                return ["name": item._id, "value": item.value]
-            }
-            completion(result)
-        }
-    }
-    
-    func getEthnicityStat(completion: @escaping ([[String: Any]]) -> Void) {
-        apolloClient.fetch(query: SHPESchema.EthnicityStatQuery()) { response in
-            guard let data = try? response.get().data,
-                  let stats = data.getEthnicityStat else {
-                completion([]); return
-            }
-            let result = stats.compactMap { item -> [String: Any]? in
-                guard let item = item else { return nil }
-                return ["name": item._id, "value": item.value]
-            }
-            completion(result)
-        }
     }
 }
