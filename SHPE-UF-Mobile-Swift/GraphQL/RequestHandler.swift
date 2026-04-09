@@ -468,15 +468,18 @@ class RequestHandler
                   if let eventName = event?.name,
                       let category = event?.category,
                       let points = event?.points,
+                      //let semester = event?.semester, (SWE FIX)
                       let dateString = event?.createdAt,
                       let date = formatter.date(from: dateString),
                       let id = event?.id
                   {
                       return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
+                      //return UserEvent(id: id, name: eventName, category: category, semester: semester, points: Int(points), date: date)
                   }
                   else
                   {
                       return UserEvent(id: "", name: "none", category: "", points: -1, date: Date(timeIntervalSince1970: 0))
+                      //return UserEvent(id: "", name: "none", category: "", semester: "", points: -1, date: Date(timeIntervalSince1970: 0))
                   }
               })
             
@@ -584,10 +587,12 @@ class RequestHandler
                           let category = event?.category,
                           let points = event?.points,
                           let dateString = event?.createdAt,
+                          //let semester = event?.semester,
                           let date = formatter.date(from: dateString),
                           let id = event?.id
                       {
                           return UserEvent(id: id, name: eventName, category: category, points: Int(points), date: date)
+                          // add semester once SWE fixes the backend
                       }
                       else
                       {

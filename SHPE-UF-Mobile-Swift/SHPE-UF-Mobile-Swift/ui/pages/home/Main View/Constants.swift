@@ -42,4 +42,24 @@ struct Constants {
     static let pink: Color = Color(red: 0.75, green: 0.29, blue: 0.51) // Custom pink color
     static let iconColor: Color = Color.black // Icon color for light mode
     static let darkModeIcon: Color = Color.white // Icon color for dark mode
+    
+    static let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Corporate Event", "Social", "Miscellaneous"]
+    
+    // GRADIENTS FOR POINTSUI
+    
+    static let fallGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
+                                                               Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 1.00)],
+                                                       startPoint: UnitPoint(x: 0.5, y: 0),
+                                                       endPoint: UnitPoint(x: 0.5, y: 1))
+    
+    static let springGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.6, green: 0.12, blue: 0.08), location: 0.00),
+                                                                 Gradient.Stop(color: Color(red: 0.97, green: 0.46, blue: 0.3), location: 1.00)],
+                                                         startPoint: UnitPoint(x: 0.5, y: 0),
+                                                         endPoint: UnitPoint(x: 0.5, y: 1))
+    
+    static let summerGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.04, green: 0.44, blue: 0.73), location: 0.00),
+                                                                 Gradient.Stop(color: Color(red: 0.52, green: 0.8, blue: 1), location: 1.00)],
+                                                         startPoint: UnitPoint(x: 0.5, y: 0),
+                                                         endPoint: UnitPoint(x: 0.5, y: 1))
 }
+

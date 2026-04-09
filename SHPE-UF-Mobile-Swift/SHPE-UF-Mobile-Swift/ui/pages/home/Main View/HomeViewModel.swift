@@ -61,29 +61,6 @@ final class HomeViewModel: ObservableObject {
         displayWrapped = isLastMonth()
 
     }
-
-    // Testing initializer that accepts an array instead of FetchedResults
-    init(coreEventsArray: [CalendarEvent], viewContext: NSManagedObjectContext, loadMode: EventLoadMode = .fetchedOnly) {
-
-        self.loadMode = loadMode
-
-        switch loadMode {
-        case .dummyOnly:
-            self.events = createDummyEvents()
-            updateEventTypes()
-            expandMultiDayEvents()
-            self.events = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
-            saveEventsToCoreData(self.events, viewContext: viewContext)
-        case .fetchedOnly:
-            self.events = CoreFunctions().mapCoreEventToEvent(eventsArray: coreEventsArray, viewContext: viewContext)
-            self.events = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
-        case .combined:
-            self.events = createDummyEvents() + CoreFunctions().mapCoreEventToEvent(eventsArray: coreEventsArray, viewContext: viewContext)
-            updateEventTypes()
-            expandMultiDayEvents()
-            self.events = self.events.sorted(by: { $0.start.dateTime < $1.start.dateTime })
-        }
-    }
     
     func isLastMonth()-> Bool {
         var displayWrapped = false
@@ -101,7 +78,6 @@ final class HomeViewModel: ObservableObject {
         
         return displayWrapped
     }
-    
     /// Fetches and processes calendar events from both network and Core Data.
     ///
     /// This function:
