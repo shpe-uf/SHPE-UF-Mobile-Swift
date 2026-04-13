@@ -18,11 +18,11 @@ struct SettingsView: View {
     @State private var socials: Bool = false
 
     private let instagramLinks: [(String, String)] = [
-        ("SHPE UF",     "https://www.instagram.com/shpeuf/"),
-        ("FYLP",        "https://www.instagram.com/shpeuf.fylp/"),
-        ("MentorSHPE",  "https://www.instagram.com/mentorshpe.uf/"),
-        ("GradSHPE",    "https://www.instagram.com/gradshpe.uf/"),
-        ("PKY SHPE",    "https://www.instagram.com/pkyshpe/"),
+        ("SHPE UF",     "https://www.instagram.com/shpeuf"),
+        ("FYLP",        "https://www.instagram.com/fylp.shpeuf"),
+        ("MentorSHPE",  "https://www.instagram.com/ufmentorshpe"),
+        ("GradSHPE",    "https://www.instagram.com/gradshpeuf"),
+        ("PKY SHPE",    "https://www.instagram.com/pky.shpe/"),
         ("Linktree",    "https://linktr.ee/shpeuf"),
     ]
 
