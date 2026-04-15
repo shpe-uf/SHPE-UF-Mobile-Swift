@@ -704,149 +704,7 @@ struct ProfileView: View
                             .frame(maxWidth: .infinity)
                             .background(Color("whiteBox"))
                             
-                            // Appearance
-                            Text("APPEARANCE")
-                                .font(Font.custom("Viga-Regular", size: 20))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(20)
-                                .padding(.top, 10)
-                            
-                            HStack
-                            {
-                                Image("LightIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:25,height:25)
-                                    .padding(.trailing, 10)
-                                    .padding(20)
-                                
-                                Text("Light Mode")
-                                    .font(Font.custom("Viga-Regular", size: 20))
-                                    .foregroundStyle(Color("profile-orange"))
-                                
-                                Spacer()
-                                
-                                if !appVM.darkMode
-                                {
-                                    Image("checkmark")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 40, height: 40)
-                                        .padding(.trailing, 16)
-                                }
-                                else
-                                {
-                                    Circle()
-                                        .frame(width: 30)
-                                        .foregroundStyle(Color("whiteBox"))
-                                        .overlay(
-                                            Circle()
-                                                .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
-                                        )
-                                        .padding(.trailing, 20)
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .onTapGesture {
-                                appVM.setDarkMode(bool: false, user: user, viewContext: viewContext)
-                            }
-                            
-                            HStack
-                            {
-                                Image("DarkModeIcon")
-                                    .renderingMode(.original)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width:25,height:25)
-                                    .padding(.trailing, 10)
-                                    .padding(20)
-                                
-                                Text("Dark Mode")
-                                    .font(Font.custom("Viga-Regular", size: 20))
-                                    .foregroundStyle(Color("profile-orange"))
-                                
-                                Spacer()
-                                
-                                if appVM.darkMode
-                                {
-                                    Image("checkmark")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 40, height: 40)
-                                        .padding(.trailing, 16)
-                                }
-                                else
-                                {
-                                    Circle()
-                                        .frame(width: 30)
-                                        .foregroundStyle(Color("whiteBox"))
-                                        .overlay(
-                                            Circle()
-                                                .stroke(Color.gray, lineWidth: 2) // Adjust border color and width as needed
-                                        )
-                                        .padding(.trailing, 20)
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .onTapGesture {
-                                appVM.setDarkMode(bool: true, user: user, viewContext: viewContext)
-                            }
-                            
-                            if !vm.isEditing
-                            {
-                                Button {
-                                    if !user.isEmpty
-                                    {
-                                        NotificationViewModel.instance.clearPendingNotifications(fetchedEvents: coreEvents, viewContext: viewContext)
-                                        CoreFunctions().clearCore(events: coreEvents, users: user, userEvents: userEvents, viewContext: viewContext)
-                                        AppViewModel.appVM.setPageIndex(index: 3)
-                                    }
-                                    else
-                                    {
-                                        print("Expected User in Core")
-                                    }
-                                } label: {
-                                    HStack
-                                    {
-                                        Text("Sign Out")
-                                            .font(Font.custom("Viga-Regular", size: 20))
-                                            .foregroundStyle(Color.white)
-                                            .padding(10)
-                                        Image("signOut")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 20)
-                                    }
-                                    .padding(.horizontal)
-                                    .background(Color.red)
-                                    .cornerRadius(50)
-                                }
-                                .padding(.vertical, 15)
-                                
-                                HStack
-                                {
-                                    Text("Delete Account")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .padding(10)
-                                }
-                                .padding(.horizontal)
-                                .cornerRadius(50)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 50)
-                                        .stroke(lineWidth: 3)
-                                        .foregroundStyle(Color.gray)
-                                }
-                                .onTapGesture {
-                                    print("Clicked Delete Account")
-                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                        clickedDeleteAccount = true
-                                    }
-                                }
-                            }
-                            else
+                            if vm.isEditing
                             {
                                 HStack
                                 {
@@ -866,7 +724,7 @@ struct ProfileView: View
                                             )
                                     }
                                     .padding(.trailing, 20)
-                                    
+
                                     Button {
                                         vm.clearFields()
                                         vm.isEditing = false

@@ -59,6 +59,10 @@ class SettingsViewModel: ObservableObject {
 
     // MARK: - Actions
 
+    func setDarkMode(_ enabled: Bool, user: FetchedResults<User>, viewContext: NSManagedObjectContext) {
+        appVM.setDarkMode(bool: enabled, user: user, viewContext: viewContext)
+    }
+
     func signOut(
         user: FetchedResults<User>,
         coreEvents: FetchedResults<CalendarEvent>,

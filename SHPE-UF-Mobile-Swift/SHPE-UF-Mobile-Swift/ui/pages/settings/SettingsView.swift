@@ -56,6 +56,18 @@ struct SettingsView: View {
                         }
                     }
 
+                    // MARK: Appearance
+                    SettingsSection(icon: "moon", title: "Appearance", foregroundColor: vm.foregroundColor) {
+                        SettingsToggleRow(
+                            label: "Dark Mode",
+                            isOn: Binding(
+                                get: { vm.appVM.darkMode },
+                                set: { vm.setDarkMode($0, user: user, viewContext: viewContext) }
+                            ),
+                            foregroundColor: vm.foregroundColor
+                        )
+                    }
+
                     // MARK: Notifications
                     SettingsSection(icon: "bell", title: "Notifications", foregroundColor: vm.foregroundColor) {
                         SettingsToggleRow(
