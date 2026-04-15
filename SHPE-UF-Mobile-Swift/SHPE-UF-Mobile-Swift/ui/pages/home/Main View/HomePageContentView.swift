@@ -39,7 +39,7 @@ extension Binding {
 /// The main tabbed interface for the application, containing three primary views:
 /// 1. Home (Calendar View)
 /// 2. Points (Leaderboard)
-/// 3. Profile
+/// 3. Settings (Profile & Notifications)
 ///
 /// This view:
 /// - Manages tab navigation with swipe gestures
@@ -61,7 +61,6 @@ extension Binding {
 struct HomePageContentView: View {
     @StateObject private var locationManager:LocationManager = LocationManager()
     @StateObject private var appVM:AppViewModel = AppViewModel.appVM
-    @Environment(\.colorScheme) var colorScheme
     @State private var selectedTab: Int = 0
     @State private var dragOffset = CGSize.zero
     
@@ -69,6 +68,7 @@ struct HomePageContentView: View {
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     
     @StateObject var pointsVM: PointsViewModel = PointsViewModel(shpeito: AppViewModel.appVM.shpeito)
+    @StateObject var settingsVM: SettingsViewModel = SettingsViewModel(profileVM: ProfileViewModel(shpeito: AppViewModel.appVM.shpeito))
     
     @FetchRequest(sortDescriptors: []) private var coreUserEvents: FetchedResults<CoreUserEvent>
     
@@ -85,22 +85,23 @@ struct HomePageContentView: View {
                 .environmentObject(locationManager)
                 .tag(0)
                 .tabItem {
-                    Image(selectedTab == 0 ? "icon_calendar" : colorScheme == .dark ? "unclicked_calendar":"unclicked_calendar_light")
+                    Label("Home", systemImage: "calendar")
                 }
-            
+
             PointsView(vm: pointsVM)
                 .tag(1)
                 .tabItem {
-                    Image(selectedTab == 1 ? "clicked_leaderboard" : colorScheme == .dark ? "dark_leaderboard":"Leaderboard")
+                    Label("Points", systemImage: "trophy")
                 }
-            
-            ProfileView(vm: ProfileViewModel(shpeito: appVM.shpeito))
+
+            SettingsView(vm: settingsVM)
                 .tag(2)
                 .tabItem {
-                    Image(selectedTab == 2 ? "clicked_customer" : colorScheme == .dark ? "dark_customer":"Customer")
+                    Label("Settings", systemImage: "gearshape")
                 }
-            
+
         }
+        .tint(Color("profile-orange"))
         .onAppear {
             if pointsVM.categorizedEvents.isEmpty {
                 pointsVM.getUserEvents(
