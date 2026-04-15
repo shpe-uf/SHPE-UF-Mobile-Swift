@@ -2,80 +2,134 @@
 //  SettingsView.swift
 //  SHPE-UF-Mobile-Swift
 //
+//  Created by Matthew Segura on 4/9/26.
+//
 
 import SwiftUI
+import CoreData
 
 struct SettingsView: View {
 
+    @StateObject var vm: SettingsViewModel
+
+    // @Environment, @EnvironmentObject, and @FetchRequest must live in the View —
+    // they are SwiftUI-only property wrappers and cannot be placed in an ObservableObject class.
+    @EnvironmentObject private var manager: DataManager
     @Environment(\.colorScheme) private var colorScheme
-
-    // Notification toggles
-    @State private var turnOnAll: Bool = true
-    @State private var gbm: Bool = true
-    @State private var infoSessions: Bool = false
-    @State private var workshops: Bool = false
-    @State private var volunteering: Bool = false
-    @State private var socials: Bool = false
-
-    private let instagramLinks: [(String, String)] = [
-        ("SHPE UF",     "https://www.instagram.com/shpeuf"),
-        ("FYLP",        "https://www.instagram.com/fylp.shpeuf"),
-        ("MentorSHPE",  "https://www.instagram.com/ufmentorshpe"),
-        ("GradSHPE",    "https://www.instagram.com/gradshpeuf"),
-        ("PKY SHPE",    "https://www.instagram.com/pky.shpe/"),
-        ("Linktree",    "https://linktr.ee/shpeuf"),
-    ]
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(sortDescriptors: []) private var user: FetchedResults<User>
+    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
+    @FetchRequest(sortDescriptors: []) private var userEvents: FetchedResults<CoreUserEvent>
 
     var body: some View {
         ZStack {
-            Color("darkdarkBlue")
+            vm.background
                 .ignoresSafeArea()
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
 
                     // MARK: Header
-                    HStack {
-                        Text("Settings")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
+                    Text("Settings")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(vm.foregroundColor)
+                        .padding(.horizontal)
+                        .padding(.top, 16)
 
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 16)
-
-                    // MARK: Notifications
-                    SettingsSection(icon: "bell", title: "Notifications") {
-                        SettingsToggleRow(label: "Turn on All", isOn: $turnOnAll)
-                        Divider().background(Color.white.opacity(0.15))
-                        SettingsToggleRow(label: "GBM", isOn: $gbm)
-                        Divider().background(Color.white.opacity(0.15))
-                        SettingsToggleRow(label: "Info Sessions", isOn: $infoSessions)
-                        Divider().background(Color.white.opacity(0.15))
-                        SettingsToggleRow(label: "Workshops", isOn: $workshops)
-                        Divider().background(Color.white.opacity(0.15))
-                        SettingsToggleRow(label: "Volunteering", isOn: $volunteering)
-                        Divider().background(Color.white.opacity(0.15))
-                        SettingsToggleRow(label: "Socials", isOn: $socials)
-                    }
+                    
 
                     // MARK: Profile
-                    SettingsSection(icon: "person", title: "Profile") {
-                        SettingsNavRow(label: "Edit Profile") {}
-                        Divider().background(Color.white.opacity(0.15))
-                        SettingsNavRow(label: "Change Password") {}
-                        Divider().background(Color.white.opacity(0.15))
-                        SettingsNavRow(label: "Account Settings") {}
+                    SettingsSection(icon: "person", title: "Profile", foregroundColor: vm.foregroundColor) {
+                        
+                        // MARK: Profile Header Card
+                        vm.profileHeaderCard
+                        
+                        SettingsNavRow(label: "Profile", foregroundColor: vm.foregroundColor) {
+                            vm.showingProfile = true
+                        }
+                        if vm.profileVM.shpeito.permission.lowercased().contains("admin") {
+                            Divider().background(vm.foregroundColor.opacity(0.15))
+                            SettingsNavRow(label: "Admin Panel", foregroundColor: vm.foregroundColor) {
+                                vm.showingAdminPanel = true
+                            }
+                        }
+                        Divider().background(vm.foregroundColor.opacity(0.15))
+                        SettingsNavRow(label: "Sign Out", foregroundColor: vm.foregroundColor) {
+                            vm.signOut(user: user, coreEvents: coreEvents, userEvents: userEvents, viewContext: viewContext)
+                        }
+                        Divider().background(vm.foregroundColor.opacity(0.15))
+                        SettingsNavRow(label: "Delete Account", foregroundColor: vm.foregroundColor) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                vm.clickedDeleteAccount = true
+                            }
+                        }
+                    }
+
+                    // MARK: Notifications
+                    SettingsSection(icon: "bell", title: "Notifications", foregroundColor: vm.foregroundColor) {
+                        SettingsToggleRow(
+                            label: "Turn on All",
+                            isOn: Binding(
+                                get: { vm.allNotificationsSelected },
+                                set: { vm.setAllNotifications($0, user: user, viewContext: viewContext) }
+                            ),
+                            foregroundColor: vm.foregroundColor
+                        )
+                        Divider().background(vm.foregroundColor.opacity(0.15))
+                        SettingsToggleRow(
+                            label: "GBM",
+                            isOn: Binding(
+                                get: { vm.notificationVM.isGBMSelected },
+                                set: { vm.setNotification("GBM", $0, user: user, viewContext: viewContext) }
+                            ),
+                            foregroundColor: vm.foregroundColor
+                        )
+                        Divider().background(vm.foregroundColor.opacity(0.15))
+                        SettingsToggleRow(
+                            label: "Info Sessions",
+                            isOn: Binding(
+                                get: { vm.notificationVM.isInfoSelected },
+                                set: { vm.setNotification("Info", $0, user: user, viewContext: viewContext) }
+                            ),
+                            foregroundColor: vm.foregroundColor
+                        )
+                        Divider().background(vm.foregroundColor.opacity(0.15))
+                        SettingsToggleRow(
+                            label: "Workshops",
+                            isOn: Binding(
+                                get: { vm.notificationVM.isWorkShopSelected },
+                                set: { vm.setNotification("Workshop", $0, user: user, viewContext: viewContext) }
+                            ),
+                            foregroundColor: vm.foregroundColor
+                        )
+                        Divider().background(vm.foregroundColor.opacity(0.15))
+                        SettingsToggleRow(
+                            label: "Volunteering",
+                            isOn: Binding(
+                                get: { vm.notificationVM.isVolunteeringSelected },
+                                set: { vm.setNotification("Volunteering", $0, user: user, viewContext: viewContext) }
+                            ),
+                            foregroundColor: vm.foregroundColor
+                        )
+                        Divider().background(vm.foregroundColor.opacity(0.15))
+                        SettingsToggleRow(
+                            label: "Socials",
+                            isOn: Binding(
+                                get: { vm.notificationVM.isSocialSelected },
+                                set: { vm.setNotification("Social", $0, user: user, viewContext: viewContext) }
+                            ),
+                            foregroundColor: vm.foregroundColor
+                        )
                     }
 
                     // MARK: Instagram Links
-                    SettingsSection(icon: "camera", title: "Instagram Links") {
-                        ForEach(instagramLinks, id: \.0) { item in
-                            if item.0 != instagramLinks.first?.0 {
-                                Divider().background(Color.white.opacity(0.15))
+                    SettingsSection(icon: "camera", title: "Instagram Links", foregroundColor: vm.foregroundColor) {
+                        ForEach(vm.instagramLinks, id: \.0) { item in
+                            if item.0 != vm.instagramLinks.first?.0 {
+                                Divider().background(vm.foregroundColor.opacity(0.15))
                             }
-                            SettingsNavRow(label: item.0) {
+                            SettingsNavRow(label: item.0, foregroundColor: vm.foregroundColor) {
                                 if let url = URL(string: item.1) {
                                     UIApplication.shared.open(url)
                                 }
@@ -88,6 +142,28 @@ struct SettingsView: View {
                 .padding(.horizontal)
             }
         }
+        // Keep vm.colorScheme in sync so foregroundColor and background stay reactive
+        .onAppear { vm.colorScheme = colorScheme }
+        .onChange(of: colorScheme) { _, newValue in vm.colorScheme = newValue }
+        .fullScreenCover(isPresented: $vm.showingProfile) {
+            ProfileView(vm: vm.profileVM)
+                .environmentObject(manager)
+                .environment(\.managedObjectContext, viewContext)
+        }
+        .fullScreenCover(isPresented: $vm.showingAdminPanel) {
+            AdminView()
+        }
+        .onAppear {
+            vm.notificationVM.checkForPermission { permission in
+                if !permission {
+                    withAnimation(.easeIn) {
+                        vm.attemptedToEnableNotifications = true
+                    }
+                }
+            }
+        }
+        .overlay(vm.notificationPermissionOverlay())
+        .overlay(vm.deleteAccountOverlay(user: user, coreEvents: coreEvents, userEvents: userEvents, viewContext: viewContext))
     }
 }
 
@@ -96,23 +172,24 @@ struct SettingsView: View {
 private struct SettingsSection<Content: View>: View {
     let icon: String
     let title: String
+    let foregroundColor: Color
     @ViewBuilder let content: () -> Content
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 8) {
                 Image(systemName: icon)
-                    .foregroundColor(.white)
+                    .foregroundColor(foregroundColor)
                 Text(title)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(foregroundColor)
             }
             .padding(.bottom, 12)
 
             VStack(spacing: 0) {
                 content()
             }
-            .background(Color.white.opacity(0.07))
+            .background(foregroundColor.opacity(0.07))
             .clipShape(RoundedRectangle(cornerRadius: 14))
         }
     }
@@ -123,11 +200,12 @@ private struct SettingsSection<Content: View>: View {
 private struct SettingsToggleRow: View {
     let label: String
     @Binding var isOn: Bool
+    let foregroundColor: Color
 
     var body: some View {
         HStack {
             Text(label)
-                .foregroundColor(.white)
+                .foregroundColor(foregroundColor)
                 .font(.body)
             Spacer()
             Toggle("", isOn: $isOn)
@@ -143,17 +221,18 @@ private struct SettingsToggleRow: View {
 
 private struct SettingsNavRow: View {
     let label: String
+    let foregroundColor: Color
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack {
                 Text(label)
-                    .foregroundColor(.white)
+                    .foregroundColor(foregroundColor)
                     .font(.body)
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(foregroundColor.opacity(0.5))
                     .font(.footnote)
             }
             .padding(.horizontal, 16)
@@ -163,5 +242,5 @@ private struct SettingsNavRow: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(vm: SettingsViewModel(profileVM: ProfileViewModel(shpeito: SHPEito())))
 }

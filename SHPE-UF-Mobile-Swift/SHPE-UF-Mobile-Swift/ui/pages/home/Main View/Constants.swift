@@ -45,8 +45,30 @@ struct Constants {
     
     static let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Corporate Event", "Social", "Miscellaneous"]
     
+    // GRADIENTS FOR SETTINGS PAGE
+
+    /// Dark mode: #011F35 (bottom) → #035B9B (top)
+    static let darkGradient: LinearGradient = LinearGradient(
+        stops: [
+            Gradient.Stop(color: Color(red: 1/255,  green: 31/255, blue: 53/255),  location: 0.00),
+            Gradient.Stop(color: Color(red: 3/255,  green: 91/255, blue: 155/255), location: 1.00)
+        ],
+        startPoint: .bottom,
+        endPoint: .top
+    )
+
+    /// Light mode: #EDEDED (bottom) → #878787 (top)
+    static let lightGradient: LinearGradient = LinearGradient(
+        stops: [
+            Gradient.Stop(color: Color(red: 237/255, green: 237/255, blue: 237/255), location: 0.00),
+            Gradient.Stop(color: Color(red: 135/255, green: 135/255, blue: 135/255), location: 1.00)
+        ],
+        startPoint: .bottom,
+        endPoint: .top
+    )
+
     // GRADIENTS FOR POINTSUI
-    
+
     static let fallGradient : LinearGradient = LinearGradient(stops: [Gradient.Stop(color: Color(red: 0.04, green: 0.13, blue: 0.35), location: 0.00),
                                                                Gradient.Stop(color: Color(red: 0.18, green: 0.38, blue: 0.62), location: 1.00)],
                                                        startPoint: UnitPoint(x: 0.5, y: 0),
