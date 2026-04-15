@@ -23,8 +23,6 @@ class SettingsViewModel: ObservableObject {
     @Published var showingProfile = false
     @Published var showingAdminPanel = false
     @Published var clickedDeleteAccount = false
-    @Published var loadingDelete = false
-    @Published var errorDeleting = false
     @Published var attemptedToEnableNotifications = false
 
     // MARK: - Data
@@ -71,6 +69,23 @@ class SettingsViewModel: ObservableObject {
         NotificationViewModel.instance.clearPendingNotifications(fetchedEvents: coreEvents, viewContext: viewContext)
         CoreFunctions().clearCore(events: coreEvents, users: user, userEvents: userEvents, viewContext: viewContext)
         AppViewModel.appVM.setPageIndex(index: 3)
+    }
+
+    func deleteAccount(
+        user: FetchedResults<User>,
+        coreEvents: FetchedResults<CalendarEvent>,
+        userEvents: FetchedResults<CoreUserEvent>,
+        viewContext: NSManagedObjectContext
+    ) {
+        profileVM.deleteAccount { _ in
+            CoreFunctions().clearCore(
+                events: coreEvents,
+                users: user,
+                userEvents: userEvents,
+                viewContext: viewContext
+            )
+            AppViewModel.appVM.setPageIndex(index: 3)
+        }
     }
 
     func setNotification(_ eventType: String, _ enabled: Bool, user: FetchedResults<User>, viewContext: NSManagedObjectContext) {
@@ -199,115 +214,4 @@ class SettingsViewModel: ObservableObject {
         }
     }
 
-    @ViewBuilder
-    func deleteAccountOverlay(
-        user: FetchedResults<User>,
-        coreEvents: FetchedResults<CalendarEvent>,
-        userEvents: FetchedResults<CoreUserEvent>,
-        viewContext: NSManagedObjectContext
-    ) -> some View {
-        if clickedDeleteAccount {
-            ZStack {
-                VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
-                    .ignoresSafeArea()
-                    .zIndex(998)
-
-                VStack {
-                    HStack {
-                        Spacer()
-                        Image("x_mark")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .padding(5)
-                            .background(Color.black.opacity(0.1))
-                            .cornerRadius(20)
-                            .onTapGesture {
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    self.errorDeleting = false
-                                    self.clickedDeleteAccount = false
-                                    self.loadingDelete = false
-                                }
-                            }
-                    }
-                    Spacer()
-                    Text("Delete Account?")
-                        .foregroundStyle(Color.white)
-                        .font(Font.custom("Viga-Regular", size: 24))
-                        .padding(.bottom, 10)
-                    Text("Deleting your account will remove all your personal data permanently.")
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(Color.white)
-                        .font(Font.custom("", size: 16))
-                    Spacer()
-                    if loadingDelete {
-                        ProgressView()
-                            .tint(.white)
-                            .padding(.bottom, 20)
-                    } else if errorDeleting {
-                        Text("Error deleting account. Please try again.")
-                            .foregroundStyle(Color.red)
-                            .font(Font.custom("", size: 14))
-                            .padding(.bottom, 10)
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                self.errorDeleting = false
-                                self.clickedDeleteAccount = false
-                            }
-                        } label: {
-                            Text("Close")
-                                .foregroundStyle(Color.white)
-                                .font(Font.custom("Viga-Regular", size: 20))
-                                .padding(.vertical, 5)
-                                .padding(.horizontal, 30)
-                                .background(Color.darkdarkBlue)
-                                .cornerRadius(12)
-                        }
-                        .padding(.bottom, 20)
-                    } else {
-                        HStack(spacing: 16) {
-                            Button {
-                                self.loadingDelete = true
-                                self.profileVM.deleteAccount { _ in
-                                    CoreFunctions().clearCore(
-                                        events: coreEvents,
-                                        users: user,
-                                        userEvents: userEvents,
-                                        viewContext: viewContext
-                                    )
-                                    AppViewModel.appVM.setPageIndex(index: 3)
-                                }
-                            } label: {
-                                Text("Delete")
-                                    .foregroundStyle(Color.white)
-                                    .font(Font.custom("Viga-Regular", size: 20))
-                                    .padding(.vertical, 5)
-                                    .padding(.horizontal, 30)
-                                    .background(Color.red)
-                                    .cornerRadius(12)
-                            }
-                            Button {
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    self.clickedDeleteAccount = false
-                                }
-                            } label: {
-                                Text("Cancel")
-                                    .foregroundStyle(Color.white)
-                                    .font(Font.custom("Viga-Regular", size: 20))
-                                    .padding(.vertical, 5)
-                                    .padding(.horizontal, 30)
-                                    .background(Color.darkdarkBlue)
-                                    .cornerRadius(12)
-                            }
-                        }
-                        .padding(.bottom, 20)
-                    }
-                }
-                .zIndex(999)
-                .padding()
-                .frame(width: 309, height: 310, alignment: .center)
-                .background(Color.profileOrange)
-                .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
-            }
-        }
-    }
 }

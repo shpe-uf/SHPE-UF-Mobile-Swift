@@ -41,10 +41,10 @@ struct SettingsView: View {
 
                     // MARK: Profile
                     SettingsSection(icon: "person", title: "Profile", foregroundColor: vm.foregroundColor) {
-                        
+
                         // MARK: Profile Header Card
                         vm.profileHeaderCard
-                        
+
                         SettingsNavRow(label: "Profile", foregroundColor: vm.foregroundColor) {
                             vm.showingProfile = true
                         }
@@ -52,16 +52,6 @@ struct SettingsView: View {
                             Divider().background(vm.foregroundColor.opacity(0.15))
                             SettingsNavRow(label: "Admin Panel", foregroundColor: vm.foregroundColor) {
                                 vm.showingAdminPanel = true
-                            }
-                        }
-                        Divider().background(vm.foregroundColor.opacity(0.15))
-                        SettingsNavRow(label: "Sign Out", foregroundColor: vm.foregroundColor) {
-                            vm.signOut(user: user, coreEvents: coreEvents, userEvents: userEvents, viewContext: viewContext)
-                        }
-                        Divider().background(vm.foregroundColor.opacity(0.15))
-                        SettingsNavRow(label: "Delete Account", foregroundColor: vm.foregroundColor) {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                vm.clickedDeleteAccount = true
                             }
                         }
                     }
@@ -137,6 +127,24 @@ struct SettingsView: View {
                         }
                     }
 
+                    // MARK: Sign Out
+                    VStack(spacing: 0) {
+                        SettingsNavRow(label: "Sign Out", foregroundColor: vm.foregroundColor) {
+                            vm.signOut(user: user, coreEvents: coreEvents, userEvents: userEvents, viewContext: viewContext)
+                        }
+                    }
+                    .background(vm.foregroundColor.opacity(0.07))
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+
+                    // MARK: Delete Account
+                    VStack(spacing: 0) {
+                        SettingsNavRow(label: "Delete Account", foregroundColor: .red) {
+                            vm.clickedDeleteAccount = true
+                        }
+                    }
+                    .background(Color.red.opacity(0.07))
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+
                     Spacer(minLength: 40)
                 }
                 .padding(.horizontal)
@@ -162,8 +170,15 @@ struct SettingsView: View {
                 }
             }
         }
+        .alert("Delete Account", isPresented: $vm.clickedDeleteAccount) {
+            Button("Delete", role: .destructive) {
+                vm.deleteAccount(user: user, coreEvents: coreEvents, userEvents: userEvents, viewContext: viewContext)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This will permanently remove all your personal data. This action cannot be undone.")
+        }
         .overlay(vm.notificationPermissionOverlay())
-        .overlay(vm.deleteAccountOverlay(user: user, coreEvents: coreEvents, userEvents: userEvents, viewContext: viewContext))
     }
 }
 
@@ -222,17 +237,18 @@ private struct SettingsToggleRow: View {
 private struct SettingsNavRow: View {
     let label: String
     let foregroundColor: Color
+    var textColor: Color? = nil
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             HStack {
                 Text(label)
-                    .foregroundColor(foregroundColor)
+                    .foregroundColor(textColor ?? foregroundColor)
                     .font(.body)
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .foregroundColor(foregroundColor.opacity(0.5))
+                    .foregroundColor((textColor ?? foregroundColor).opacity(0.5))
                     .font(.footnote)
             }
             .padding(.horizontal, 16)
