@@ -42,7 +42,6 @@ private struct ChatTheme {
 private struct BubbleShape: Shape {
     var isUser: Bool
     func path(in rect: CGRect) -> Path {
-        // Just a rounded bubble — no tail
         return Path(roundedRect: rect, cornerRadius: 22)
     }
 }
@@ -65,7 +64,6 @@ private struct ChatBubble: View {
                         .font(.system(size: 18))
                         .foregroundColor(.white)
                 } else {
-                    // Basic markdown for bot messages (bold, italics, lists)
                     if let attributed = try? AttributedString(markdown: message.text) {
                         Text(attributed)
                             .font(.system(size: 18))
@@ -159,7 +157,6 @@ struct ChatBotView: View {
                                     withAnimation(.easeOut(duration: 0.2)) {
                                         showScrollToBottom = false
                                     }
-                                    // Scroll to last message
                                     NotificationCenter.default.post(name: Notification.Name("ChatBotScrollToBottom"), object: nil)
                                 }) {
                                     Image(systemName: "arrow.down.circle.fill")
@@ -170,16 +167,14 @@ struct ChatBotView: View {
                                 .padding(.trailing, 12)
                                 .padding(.bottom, 12)
                                 .background(
-                                    Circle().fill(Color.black.opacity(0.001)) // tap area only
+                                    Circle().fill(Color.black.opacity(0.001))
                                 )
                                 .transition(.move(edge: .trailing).combined(with: .opacity))
                             }
                         }
                         .gesture(DragGesture().onChanged { _ in
-                            // user is interacting; if not at bottom, show button
                             showScrollToBottom = true
                         }.onEnded { _ in
-                            // no-op
                         })
                 }
             }
@@ -191,12 +186,12 @@ struct ChatBotView: View {
                 .background(bg)
         }
         .onChange(of: kb.isVisible) { appeared in
-            if appeared { vm.messages = vm.messages } // trigger scroll after keyboard shows
+            if appeared { vm.messages = vm.messages }
         }
-        .animation(.easeInOut(duration: 0.2), value: vm.messages.count) // fade avatar/intro changes
+        .animation(.easeInOut(duration: 0.2), value: vm.messages.count)
     }
 
-    // MARK: Header (title always centered; small Tito appears after first prompt)
+    // MARK: Header
     private var header: some View {
         ZStack {
             ChatTheme.orange.ignoresSafeArea(edges: .top)
@@ -236,7 +231,7 @@ struct ChatBotView: View {
         .frame(height: 50)
     }
 
-    // MARK: Intro Tito view (shown before first prompt)
+    // MARK: Intro Tito view
     private var introView: some View {
         VStack {
             Spacer()
@@ -247,7 +242,7 @@ struct ChatBotView: View {
                 .clipShape(Circle())
                 .shadow(radius: 6)
 
-            Text("I’m Tito! Ask me any questions\nabout SHPE UF!")
+            Text("I'm Tito! Ask me any questions\nabout SHPE UF!")
                 .font(.system(size: 18, weight: .medium))
                 .multilineTextAlignment(.center)
                 .foregroundColor(scheme == .dark ? .white : .black)
@@ -283,7 +278,6 @@ struct ChatBotView: View {
 
                     if vm.isLoading {
                         HStack(spacing: 0) {
-                            // Bot-aligned typing bubble
                             TypingDots()
                                 .frame(height: 18)
                                 .padding(.vertical, 16)
@@ -340,8 +334,7 @@ struct ChatBotView: View {
         }
     }
 
-
-    // Input bar (capsule + send button)
+    // Input bar
     private var inputBar: some View {
         HStack(spacing: 10) {
             TextField("Ask anything", text: $vm.inputText, axis: .vertical)
@@ -361,7 +354,6 @@ struct ChatBotView: View {
             .background(.white)
             .clipShape(Circle())
         }
-        // extra keyboard toolbar with a dismiss button (nice UX)
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
                 Spacer()

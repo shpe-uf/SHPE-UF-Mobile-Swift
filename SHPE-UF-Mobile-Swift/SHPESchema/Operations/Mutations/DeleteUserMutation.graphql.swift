@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("deleteUser", Bool?.self, arguments: ["email": .variable("email")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        DeleteUserMutation.Data.self
+      ] }
 
       var deleteUser: Bool? { __data["deleteUser"] }
     }

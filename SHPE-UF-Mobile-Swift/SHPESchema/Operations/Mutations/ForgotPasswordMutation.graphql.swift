@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("forgotPassword", ForgotPassword.self, arguments: ["email": .variable("email")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        ForgotPasswordMutation.Data.self
+      ] }
 
       var forgotPassword: ForgotPassword { __data["forgotPassword"] }
 
@@ -42,6 +45,9 @@ extension SHPESchema {
           .field("__typename", String.self),
           .field("id", SHPESchema.ID.self),
           .field("token", String.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          ForgotPasswordMutation.Data.ForgotPassword.self
         ] }
 
         var id: SHPESchema.ID { __data["id"] }

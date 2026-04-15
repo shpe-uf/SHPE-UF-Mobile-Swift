@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("getUser", GetUser?.self, arguments: ["userId": .variable("userId")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        GetUserPermissionQuery.Data.self
+      ] }
 
       var getUser: GetUser? { __data["getUser"] }
 
@@ -41,6 +44,9 @@ extension SHPESchema {
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
           .field("permission", String.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          GetUserPermissionQuery.Data.GetUser.self
         ] }
 
         var permission: String { __data["permission"] }

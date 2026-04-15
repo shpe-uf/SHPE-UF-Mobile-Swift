@@ -27,6 +27,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("redeemPoints", RedeemPoints.self, arguments: ["redeemPointsInput": .variable("redeemPointsInput")]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        RedeemPointsMutation.Data.self
+      ] }
 
       var redeemPoints: RedeemPoints { __data["redeemPoints"] }
 
@@ -48,6 +51,9 @@ extension SHPESchema {
           .field("summerPoints", Int.self),
           .field("points", Int.self),
           .field("events", [Event?].self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          RedeemPointsMutation.Data.RedeemPoints.self
         ] }
 
         var fallPoints: Int { __data["fallPoints"] }
@@ -74,6 +80,9 @@ extension SHPESchema {
             .field("points", Int.self),
             .field("createdAt", String.self),
             .field("id", SHPESchema.ID.self),
+          ] }
+          static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+            RedeemPointsMutation.Data.RedeemPoints.Event.self
           ] }
 
           var category: String { __data["category"] }

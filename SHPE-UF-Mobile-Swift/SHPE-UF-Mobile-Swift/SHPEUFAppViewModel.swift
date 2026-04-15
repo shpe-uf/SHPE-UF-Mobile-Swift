@@ -9,6 +9,40 @@ import Foundation
 import SwiftUI
 import CoreData
 
+enum AppRoute: Equatable {
+    case home
+    case notification
+    case socials
+    case event
+    case eventInfo
+    case location
+    case guestCalendar
+    case wrapped (WrappedRoute)
+    case none
+}
+
+/// A centralized view model that manages application state and user preferences.
+///
+/// This singleton class serves as the main state container for the application, handling:
+/// - UI navigation and view management
+/// - User preferences (dark mode)
+/// - Toast notifications
+/// - Map-related data
+///
+/// ## Overview
+/// The `AppViewModel` follows the singleton pattern to ensure consistent state across the app.
+/// It's designed to be used as an `@ObservedObject` or `@StateObject` in SwiftUI views.
+///
+/// ## Key Responsibilities
+/// - Managing the current view hierarchy
+/// - Storing and persisting user preferences
+/// - Displaying toast messages
+/// - Coordinating map interactions
+///
+/// ## Example Usage
+/// ```swift
+/// @StateObject private var appVM = AppViewModel.appVM
+/// ```
 class AppViewModel: ObservableObject
 {
     static let appVM = AppViewModel()
@@ -19,7 +53,8 @@ class AppViewModel: ObservableObject
     @Published var toastMessage:String
     
     // Items being observed in the home view
-    @Published var showView = "HomeView"
+   
+    @Published var showView: AppRoute = .home
     @Published var currentEventIndex:Int?
     @Published var inMapView = false
     
@@ -27,7 +62,7 @@ class AppViewModel: ObservableObject
     @Published var placemark:MTPlacemark?
     
     private init() {
-        self.pageIndex = 0 // Start at Sign In
+        self.pageIndex = 2 // TEMP: bypass login, go straight to calendar
         self.shpeito = SHPEito()
         self.darkMode = false
         self.showToast = false
@@ -49,4 +84,3 @@ class AppViewModel: ObservableObject
         }
     }
 }
-

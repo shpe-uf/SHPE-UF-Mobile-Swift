@@ -43,6 +43,9 @@ extension SHPESchema {
           "remember": .variable("remember")
         ]),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        SignInMutation.Data.self
+      ] }
 
       var login: Login { __data["login"] }
 
@@ -77,6 +80,9 @@ extension SHPESchema {
           .field("sex", String.self),
           .field("socialMedia", [String?]?.self),
           .field("permission", String.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          SignInMutation.Data.Login.self
         ] }
 
         var year: String { __data["year"] }
@@ -116,6 +122,9 @@ extension SHPESchema {
             .field("name", String.self),
             .field("semester", String.self),
             .field("points", Int.self),
+          ] }
+          static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+            SignInMutation.Data.Login.Event.self
           ] }
 
           var attendance: Int { __data["attendance"] }

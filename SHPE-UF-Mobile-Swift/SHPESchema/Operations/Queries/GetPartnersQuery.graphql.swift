@@ -21,6 +21,9 @@ extension SHPESchema {
       static var __selections: [ApolloAPI.Selection] { [
         .field("getPartners", [GetPartner?]?.self),
       ] }
+      static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+        GetPartnersQuery.Data.self
+      ] }
 
       var getPartners: [GetPartner?]? { __data["getPartners"] }
 
@@ -37,6 +40,9 @@ extension SHPESchema {
           .field("name", String.self),
           .field("photo", String.self),
           .field("tier", String.self),
+        ] }
+        static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
+          GetPartnersQuery.Data.GetPartner.self
         ] }
 
         var name: String { __data["name"] }

@@ -53,6 +53,8 @@ final class PointsViewModel:ObservableObject {
         self.username = shpeito.username
         self.id = shpeito.id
         self.categorizedEvents = [:]
+        
+       
     }
     
     // In View variables (What is being DISPLAYED & What is being INTERACTED WITH)
@@ -488,6 +490,5 @@ final class PointsViewModel:ObservableObject {
         
         return eventsByCategory
     }
-    
     
 }
