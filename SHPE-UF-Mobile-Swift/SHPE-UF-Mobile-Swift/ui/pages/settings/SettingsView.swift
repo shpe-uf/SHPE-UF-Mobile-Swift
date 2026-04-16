@@ -11,6 +11,8 @@ import CoreData
 struct SettingsView: View {
 
     @StateObject var vm: SettingsViewModel
+    // Observed directly so individual toggles re-render when "Turn on All" fires
+    @ObservedObject private var notificationVM = NotificationViewModel.instance
 
     // @Environment, @EnvironmentObject, and @FetchRequest must live in the View —
     // they are SwiftUI-only property wrappers and cannot be placed in an ObservableObject class.
@@ -82,7 +84,7 @@ struct SettingsView: View {
                         SettingsToggleRow(
                             label: "GBM",
                             isOn: Binding(
-                                get: { vm.notificationVM.isGBMSelected },
+                                get: { notificationVM.isGBMSelected },
                                 set: { vm.setNotification("GBM", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
@@ -91,7 +93,7 @@ struct SettingsView: View {
                         SettingsToggleRow(
                             label: "Info Sessions",
                             isOn: Binding(
-                                get: { vm.notificationVM.isInfoSelected },
+                                get: { notificationVM.isInfoSelected },
                                 set: { vm.setNotification("Info", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
@@ -100,7 +102,7 @@ struct SettingsView: View {
                         SettingsToggleRow(
                             label: "Workshops",
                             isOn: Binding(
-                                get: { vm.notificationVM.isWorkShopSelected },
+                                get: { notificationVM.isWorkShopSelected },
                                 set: { vm.setNotification("Workshop", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
@@ -109,7 +111,7 @@ struct SettingsView: View {
                         SettingsToggleRow(
                             label: "Volunteering",
                             isOn: Binding(
-                                get: { vm.notificationVM.isVolunteeringSelected },
+                                get: { notificationVM.isVolunteeringSelected },
                                 set: { vm.setNotification("Volunteering", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
@@ -118,7 +120,7 @@ struct SettingsView: View {
                         SettingsToggleRow(
                             label: "Socials",
                             isOn: Binding(
-                                get: { vm.notificationVM.isSocialSelected },
+                                get: { notificationVM.isSocialSelected },
                                 set: { vm.setNotification("Social", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor

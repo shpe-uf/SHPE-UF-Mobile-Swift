@@ -115,7 +115,11 @@ class CoreFunctions
     ///   - calendarEvents: An array of Event models to save
     func saveCalendarEvent(events:FetchedResults<CalendarEvent>, viewContext:NSManagedObjectContext, calendarEvents:[Event])
     {
+        let existingIDs = Set(events.compactMap { $0.identifier })
+
         for event in calendarEvents {
+            guard !existingIDs.contains(event.identifier) else { continue }
+
             let coreCalEvent = CalendarEvent(context: viewContext)
             coreCalEvent.identifier = event.identifier
             coreCalEvent.eventType = event.eventType
@@ -124,8 +128,8 @@ class CoreFunctions
             coreCalEvent.start = event.start.dateTime
             coreCalEvent.end = event.end.dateTime
         }
-        
-        do { try viewContext.save() } catch {print("Could not save \(calendarEvents.count) User Even to Core")}
+
+        do { try viewContext.save() } catch {print("Could not save \(calendarEvents.count) calendar events to Core")}
     }
     /// Removes a calendar event from Core Data.
     ///
