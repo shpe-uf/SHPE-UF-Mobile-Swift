@@ -32,6 +32,7 @@ struct ProfileView: View
 {
     /// The environment-provided color scheme for adapting UI based on light/dark mode
     @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.dismiss) private var dismiss
     
     /// The app's data manager for handling profile data and persistence
     @EnvironmentObject var manager: DataManager
@@ -48,7 +49,6 @@ struct ProfileView: View
     
     @State var validUsername:Bool = true
     @State var clickedDeleteAccount:Bool = false
-    @State private var showingAdminPanel = false
     @State var loadingDelete:Bool = false
     @State var errorDeleting:Bool = false
     
@@ -57,6 +57,7 @@ struct ProfileView: View
         {
             VStack
             {
+                
                 ZStack
                 {
                     let profilePFP = appVM.darkMode ? "DefaultPFPD" : "DefaultPFPL"
@@ -159,6 +160,19 @@ struct ProfileView: View
                             .font(Font.custom("Viga-Regular", size: 24))
                             .offset(y:120)
                     }
+
+                    // Back button — declared last so it renders on top of all other ZStack children
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image("Back")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.trailing, UIScreen.main.bounds.width * 0.75)
+                    .padding(.bottom, UIScreen.main.bounds.height * 0.05)
+
                 }
                 .frame(maxWidth:.infinity)
                 .background(Color("profile-orange"))
@@ -194,26 +208,6 @@ struct ProfileView: View
                             }
                             }
 
-                            if vm.shpeito.permission.lowercased().contains("admin") {
-                                    Button {
-                                      showingAdminPanel = true
-                                    } label: {
-                                      HStack {
-                                        Text("Admin Panel")
-                                          .foregroundStyle(.white)
-                                          .padding(10)
-                                        Image(systemName: "shield.fill")
-                                          .resizable()
-                                          .frame(width: 20, height: 20)
-                                      }
-                                      .padding(.horizontal)
-                                      .background(Color.red)
-                                      .cornerRadius(50)
-                                    }
-                                    .fullScreenCover(isPresented: $showingAdminPanel) {
-                                      AdminView()
-                                    }
-                                  }
                         }
                             .padding(.top, 10)
                         }

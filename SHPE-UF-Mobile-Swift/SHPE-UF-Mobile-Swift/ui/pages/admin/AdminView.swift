@@ -20,7 +20,7 @@ struct AdminView: View {
                             Image("Back")
                                 .resizable()
                                 .frame(width: 30, height: 30)
-                                .padding(.trailing, UIScreen.main.bounds.width * 0.10)
+                                .padding(.trailing, UIScreen.main.bounds.width * 0.15)
                         }
 
                         Text("Admin Panel")  // Screen title
