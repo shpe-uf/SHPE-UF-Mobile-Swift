@@ -92,14 +92,21 @@ class SettingsViewModel: ObservableObject {
         }
     }
 
-    func setNotification(_ eventType: String, _ enabled: Bool, user: FetchedResults<User>, viewContext: NSManagedObjectContext) {
-        switch eventType {
-        case "GBM":          notificationVM.isGBMSelected = enabled
-        case "Info":         notificationVM.isInfoSelected = enabled
-        case "Workshop":     notificationVM.isWorkShopSelected = enabled
-        case "Volunteering": notificationVM.isVolunteeringSelected = enabled
-        case "Social":       notificationVM.isSocialSelected = enabled
-        default: break
+    func setNotification(
+        _ eventType: String,
+        _ enabled: Bool,
+        user: FetchedResults<User>,
+        coreEvents: FetchedResults<CalendarEvent>,
+        viewContext: NSManagedObjectContext
+    ) {
+        if enabled {
+            notificationVM.turnOnEventNotification(
+                events: notificationVM.allEvents, eventType: eventType,
+                fetchedEvents: coreEvents, viewContext: viewContext)
+        } else {
+            notificationVM.turnOffEventNotification(
+                events: notificationVM.allEvents, eventType: eventType,
+                fetchedEvents: coreEvents, viewContext: viewContext)
         }
         CoreFunctions().editUserNotificationSettings(
             users: user,
@@ -108,12 +115,23 @@ class SettingsViewModel: ObservableObject {
         )
     }
 
-    func setAllNotifications(_ enabled: Bool, user: FetchedResults<User>, viewContext: NSManagedObjectContext) {
-        notificationVM.isGBMSelected = enabled
-        notificationVM.isInfoSelected = enabled
-        notificationVM.isWorkShopSelected = enabled
-        notificationVM.isVolunteeringSelected = enabled
-        notificationVM.isSocialSelected = enabled
+    func setAllNotifications(
+        _ enabled: Bool,
+        user: FetchedResults<User>,
+        coreEvents: FetchedResults<CalendarEvent>,
+        viewContext: NSManagedObjectContext
+    ) {
+        for eventType in ["GBM", "Info", "Workshop", "Volunteering", "Social"] {
+            if enabled {
+                notificationVM.turnOnEventNotification(
+                    events: notificationVM.allEvents, eventType: eventType,
+                    fetchedEvents: coreEvents, viewContext: viewContext)
+            } else {
+                notificationVM.turnOffEventNotification(
+                    events: notificationVM.allEvents, eventType: eventType,
+                    fetchedEvents: coreEvents, viewContext: viewContext)
+            }
+        }
         CoreFunctions().editUserNotificationSettings(
             users: user,
             viewContext: viewContext,

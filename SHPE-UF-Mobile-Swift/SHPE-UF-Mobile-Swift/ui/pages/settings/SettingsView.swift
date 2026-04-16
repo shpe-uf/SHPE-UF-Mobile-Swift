@@ -74,7 +74,7 @@ struct SettingsView: View {
                             label: "Turn on All",
                             isOn: Binding(
                                 get: { vm.allNotificationsSelected },
-                                set: { vm.setAllNotifications($0, user: user, viewContext: viewContext) }
+                                set: { vm.setAllNotifications($0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
                         )
@@ -83,7 +83,7 @@ struct SettingsView: View {
                             label: "GBM",
                             isOn: Binding(
                                 get: { vm.notificationVM.isGBMSelected },
-                                set: { vm.setNotification("GBM", $0, user: user, viewContext: viewContext) }
+                                set: { vm.setNotification("GBM", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
                         )
@@ -92,7 +92,7 @@ struct SettingsView: View {
                             label: "Info Sessions",
                             isOn: Binding(
                                 get: { vm.notificationVM.isInfoSelected },
-                                set: { vm.setNotification("Info", $0, user: user, viewContext: viewContext) }
+                                set: { vm.setNotification("Info", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
                         )
@@ -101,7 +101,7 @@ struct SettingsView: View {
                             label: "Workshops",
                             isOn: Binding(
                                 get: { vm.notificationVM.isWorkShopSelected },
-                                set: { vm.setNotification("Workshop", $0, user: user, viewContext: viewContext) }
+                                set: { vm.setNotification("Workshop", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
                         )
@@ -110,7 +110,7 @@ struct SettingsView: View {
                             label: "Volunteering",
                             isOn: Binding(
                                 get: { vm.notificationVM.isVolunteeringSelected },
-                                set: { vm.setNotification("Volunteering", $0, user: user, viewContext: viewContext) }
+                                set: { vm.setNotification("Volunteering", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
                         )
@@ -119,7 +119,7 @@ struct SettingsView: View {
                             label: "Socials",
                             isOn: Binding(
                                 get: { vm.notificationVM.isSocialSelected },
-                                set: { vm.setNotification("Social", $0, user: user, viewContext: viewContext) }
+                                set: { vm.setNotification("Social", $0, user: user, coreEvents: coreEvents, viewContext: viewContext) }
                             ),
                             foregroundColor: vm.foregroundColor
                         )

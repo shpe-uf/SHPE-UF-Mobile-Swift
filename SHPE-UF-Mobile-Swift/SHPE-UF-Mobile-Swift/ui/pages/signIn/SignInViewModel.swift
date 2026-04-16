@@ -366,8 +366,23 @@ func addUserItemToCore(viewContext: NSManagedObjectContext) {
     user.springPercentile = Int64(shpeito.springPercentile)
     user.summerPercentile = Int64(shpeito.summerPercentile)
     user.darkMode = AppViewModel.appVM.darkMode
-    print("✅✅✅")
-    
+
+    // Default all notification types to ON for new users
+    user.gbmNotif    = true
+    user.infoNotif   = true
+    user.workNotif   = true
+    user.volNotif    = true
+    user.socialNotif = true
+
+    // Mirror into the singleton so the current session reflects the defaults
+    NotificationViewModel.instance.isGBMSelected          = true
+    NotificationViewModel.instance.isInfoSelected          = true
+    NotificationViewModel.instance.isWorkShopSelected      = true
+    NotificationViewModel.instance.isVolunteeringSelected  = true
+    NotificationViewModel.instance.isSocialSelected        = true
+
+
+
     do { try viewContext.save() } catch { print("Could not save user to Core❌") }
 }
 func updatePermissionInCoreData(_ newPermission: String, viewContext: NSManagedObjectContext) {

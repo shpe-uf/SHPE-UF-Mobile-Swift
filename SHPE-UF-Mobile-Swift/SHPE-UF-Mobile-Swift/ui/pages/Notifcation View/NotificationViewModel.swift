@@ -47,6 +47,7 @@ class NotificationViewModel : ObservableObject {
     @Published var isVolunteeringSelected = false
     @Published var isSocialSelected = false
     
+    @Published var allEvents: [Event] = []         // set by HomeView after events load
     @Published var pendingNotifications:[Event] = []
     
     @Published var notificationsAllowed = false
