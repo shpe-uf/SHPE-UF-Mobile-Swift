@@ -284,6 +284,7 @@ struct HomeView: View {
 
         await MainActor.run {
             NotificationViewModel.instance.pendingNotifications = mappedEvents
+            notificationVM.allEvents = viewModel.events  // expose to Settings
         }
         
         if !hasAskedForPermissions {
@@ -301,22 +302,15 @@ struct HomeView: View {
     }
     
     private func setupAllNotifications() async {
-        await MainActor.run {
-            notificationVM.isGBMSelected = true
-            notificationVM.isInfoSelected = true
-            notificationVM.isWorkShopSelected = true
-            notificationVM.isVolunteeringSelected = true
-            notificationVM.isSocialSelected = true
-        }
-        
         let events = viewModel.events
-        
+
         await MainActor.run {
-            setupNotificationsForEventType(events: events, eventType: "GBM")
-            setupNotificationsForEventType(events: events, eventType: "Info")
-            setupNotificationsForEventType(events: events, eventType: "Workshop")
-            setupNotificationsForEventType(events: events, eventType: "Volunteering")
-            setupNotificationsForEventType(events: events, eventType: "Social")
+            // Respect each flag loaded from CoreData — only schedule types the user has enabled
+            if notificationVM.isGBMSelected          { setupNotificationsForEventType(events: events, eventType: "GBM") }
+            if notificationVM.isInfoSelected         { setupNotificationsForEventType(events: events, eventType: "Info") }
+            if notificationVM.isWorkShopSelected     { setupNotificationsForEventType(events: events, eventType: "Workshop") }
+            if notificationVM.isVolunteeringSelected { setupNotificationsForEventType(events: events, eventType: "Volunteering") }
+            if notificationVM.isSocialSelected       { setupNotificationsForEventType(events: events, eventType: "Social") }
         }
     }
     
