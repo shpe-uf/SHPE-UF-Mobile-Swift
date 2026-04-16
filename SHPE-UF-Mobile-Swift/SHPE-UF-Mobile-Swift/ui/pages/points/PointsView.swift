@@ -145,7 +145,8 @@ struct PointsView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(
-            (colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+            (colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
+                .ignoresSafeArea()
         )
         .onAppear(perform: {
             vm.gettingPoints = vm.points == 0

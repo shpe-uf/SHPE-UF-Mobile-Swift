@@ -209,7 +209,7 @@ struct HomeView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.trailing, 20)
                     }
-                    .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+                    .background(colorScheme == .dark ? AnyShapeStyle(Constants.darkGradient) : AnyShapeStyle(Constants.lightGradient))
                     .frame(maxWidth: .infinity)
                     .onAppear {
                         guard !hasSetUpNotifications else { return }
@@ -225,7 +225,7 @@ struct HomeView: View {
                 }
             }
         }
-        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+        .background(colorScheme == .dark ? AnyShapeStyle(Constants.darkGradient) : AnyShapeStyle(Constants.lightGradient))
         .edgesIgnoringSafeArea(.all)
         .overlay {
             Group

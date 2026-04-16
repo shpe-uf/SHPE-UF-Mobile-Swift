@@ -47,24 +47,24 @@ struct Constants {
     
     // GRADIENTS FOR SETTINGS PAGE
 
-    /// Dark mode: #011F35 (bottom) → #035B9B (top)
+    /// Dark mode: #011F35 (top) → #035B9B (bottom)
     static let darkGradient: LinearGradient = LinearGradient(
         stops: [
             Gradient.Stop(color: Color(red: 1/255,  green: 31/255, blue: 53/255),  location: 0.00),
             Gradient.Stop(color: Color(red: 3/255,  green: 91/255, blue: 155/255), location: 1.00)
         ],
-        startPoint: .bottom,
-        endPoint: .top
+        startPoint: .top,
+        endPoint: .bottom
     )
 
-    /// Light mode: #EDEDED (bottom) → #878787 (top)
+    /// Light mode: #FFFFFF (top) → #D4DFED (bottom)
     static let lightGradient: LinearGradient = LinearGradient(
         stops: [
-            Gradient.Stop(color: Color(red: 237/255, green: 237/255, blue: 237/255), location: 0.00),
-            Gradient.Stop(color: Color(red: 135/255, green: 135/255, blue: 135/255), location: 1.00)
+            Gradient.Stop(color: Color(red: 255/255, green: 255/255, blue: 255/255), location: 0.00),
+            Gradient.Stop(color: Color(red: 212/255, green: 223/255, blue: 237/255), location: 1.00)
         ],
-        startPoint: .bottom,
-        endPoint: .top
+        startPoint: .top,
+        endPoint: .bottom
     )
 
     // GRADIENTS FOR POINTSUI
