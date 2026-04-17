@@ -48,7 +48,7 @@ struct ButtonGrid: View {
                 HStack {
                     AdminButton(symbol: "Event", label: "Events", color: .adminBlue, enabled: true)
                     Spacer()
-                    AdminButton(symbol: "dark_customer", label: "Members", color: .adminBlue)
+                    AdminButton(symbol: "dark_customer", label: "Members", color: .adminBlue, enabled: true)
                 }
                 HStack {
                     AdminButton(symbol: "Resources", label: "Resources", color: .adminOrange)
@@ -125,6 +125,8 @@ func destinationSelector(label: String) -> some View {
         EventCreatorView()  // Shows event creation form
     case "Statistics":
         StatisticsView() // Shows member statistics
+    case "Members":
+        LeaderboardView() // Shows leaderboard
     default:
         AdminView()  // Fallback to admin panel
     }

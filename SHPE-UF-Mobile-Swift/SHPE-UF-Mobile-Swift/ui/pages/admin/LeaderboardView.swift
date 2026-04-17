@@ -40,35 +40,12 @@ struct Member: Identifiable, Codable {
 struct LeaderboardView : View {
     
     @Environment(\.presentationMode) private var presentationMode
-    
-    @State private var leaderboard: [Member] = []
-    @State private var isLoading: Bool = true
-    @State private var errorMessage: String? = nil
-    @State private var selectedSeason: Season = .fall
-    
-    
-    let handler = RequestHandler()
-    
-    var sorted: [Member] {
-        leaderboard.sorted {
-            let p0 = $0.points(for: selectedSeason)
-            let p1 = $1.points(for: selectedSeason)
-            if p0 == p1 { return $0.name < $1.name }
-            return p0 > p1
-        }
-    }
-    
-    
-    var ranked : [(rank: Int, member: Member)] {
-        sorted.enumerated().map { (index, member) in
-            (rank: index + 1, member: member)
-        }
-    }
+    @StateObject private var vm = LeaderboardViewModel.shared
     
     var body: some View {
         VStack(spacing: 0) {
             ColoredTopView()
-            Picker("Season", selection: $selectedSeason) {
+            Picker("Season", selection: $vm.selectedSeason) {
                 ForEach(Season.allCases, id: \.self) { season in
                     Text(season.rawValue).tag(season)
                 }
@@ -77,29 +54,29 @@ struct LeaderboardView : View {
             .padding(.horizontal)
             .padding(.vertical, 8)
             
-            if isLoading {
+            if vm.isLoading {
                 Spacer()
                 ProgressView("Loading leaderboard...")
                 Spacer()
-            } else if let error = errorMessage {
+            } else if let error = vm.errorMessage {
                 Spacer()
                 Text(error).foregroundColor(.red)
                 Spacer()
             } else {
                 ScrollView {
-                    VStack(spacing: 12) {
-                        if ranked.count >= 3 {
+                    LazyVStack(spacing: 12) {
+                        if vm.ranked.count >= 3 {
                             PodiumView(
-                                first: (rank: 1, member: ranked[0].member),
-                                second: (rank: 2, member: ranked[1].member),
-                                third: (rank: 3, member: ranked[2].member),
-                                season: selectedSeason
+                                first: (rank: 1, member: vm.ranked[0].member),
+                                second: (rank: 2, member: vm.ranked[1].member),
+                                third: (rank: 3, member: vm.ranked[2].member),
+                                season: vm.selectedSeason
                             )
                             .padding(.vertical, 8)
                         }
-                        if ranked.count > 3 {
-                            ForEach(ranked[3...], id: \.member.id) {
-                                item in LeaderboardRow(rank: item.rank, member: item.member, season: selectedSeason)
+                        if vm.ranked.count > 3 {
+                            ForEach(vm.ranked[3...], id: \.member.id) {
+                                item in LeaderboardRow(rank: item.rank, member: item.member, season: vm.selectedSeason)
                             }
                         }
                     }
@@ -124,31 +101,7 @@ struct LeaderboardView : View {
             }
         }
         .onAppear {
-            loadLeaderboard()
-        }
-    }
-    
-    
-    private func loadLeaderboard() {
-        isLoading = true
-        errorMessage = nil
-        
-        handler.fetchLeaderboard { result in
-            DispatchQueue.main.async {
-                isLoading = false
-                if let error = result["error"] as? String {
-                    errorMessage = "Failed to load: \(error)"
-                } else if let raw = result["members"] as? [[String: Any]] {
-                    leaderboard = raw.compactMap { dict in
-                        guard let name = dict["name"] as? String,
-                              let email = dict["email"] as? String else { return nil }
-                        return Member(name: name,
-                                      fallPoints: dict["fallPoints"] as? Int ?? 0,
-                                      springPoints: dict["springPoints"] as? Int ?? 0,
-                                      summerPoints: dict["summerPoints"] as? Int ?? 0, year: 0, email: email)
-                    }
-                }
-            }
+            vm.fetch()
         }
     }
 }
@@ -161,9 +114,9 @@ struct PodiumView: View {
     
     var body: some View {
         HStack(alignment: .bottom, spacing: 24) {
-            PodiumCard(rank: second.rank, member: second.member, color: Color("SHPE light blue"), height: 75, season: season)
-            PodiumCard(rank: first.rank, member: first.member, color: Color("SHPE light blue"), height: 100, season: season)
-            PodiumCard(rank: third.rank, member: third.member, color: Color("SHPE light blue"), height: 50, season: season)
+            PodiumCard(rank: second.rank, member: second.member, color: Color("lblue"), height: 75, season: season)
+            PodiumCard(rank: first.rank, member: first.member, color: Color("lblue"), height: 100, season: season)
+            PodiumCard(rank: third.rank, member: third.member, color: Color("lblue"), height: 50, season: season)
         }
         .padding(.horizontal)
     }

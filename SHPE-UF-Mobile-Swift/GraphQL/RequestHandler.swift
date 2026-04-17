@@ -905,29 +905,6 @@ class RequestHandler
         }
     }
     
-    func fetchLeaderboard(completion: @escaping ([String: Any]) -> Void) {
-        apolloClient.fetch(query: SHPESchema.GetUsersQuery(), cachePolicy: .returnCacheDataAndFetch) { response in
-            guard let data = try? response.get().data,
-                  let rawUsers = data.getUsers else {
-                completion(["error": "Incomplete Request"])
-                return
-            }
-
-            let members: [[String: Any]] = rawUsers.compactMap { userOptional -> [String: Any]? in
-                guard let user = userOptional else { return nil }
-                return [
-                    "name": user.username,
-                    "email": user.email,
-                    "fallPoints": user.fallPoints as Any,
-                    "springPoints": user.springPoints as Any,
-                    "summerPoints": user.summerPoints as Any
-                ]
-            }
-
-            completion(["members": members])
-        }
-    }
-    
     private func extractEvent(from dictionary: [String: Any]) throws -> Event {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -986,7 +963,7 @@ class RequestHandler
         return event
     }
     
-    private func fetchLeaderboard(completion: @escaping ([String: Any]) -> Void) {
+    func fetchLeaderboard(completion: @escaping ([String: Any]) -> Void) {
         apolloClient.fetch(query: SHPESchema.GetUsersQuery(), cachePolicy: .fetchIgnoringCacheData
         ) { response in
             guard let data = try? response.get().data else {
@@ -1003,9 +980,18 @@ class RequestHandler
                 let userID = user.id
                 
                 group.enter()
-                self.fetchUserPoints(userId: userID) { result in
-                    let points = result["points"] as? Int ?? 0
-                    let member: [String: Any] = ["name": username, "points": points, "year": 0, "email": email]
+                self.getPoints(userId: userID) { result in
+                    let fall   = result["fallPoints"]   as? Int ?? 0
+                    let spring = result["springPoints"] as? Int ?? 0
+                    let summer = result["summerPoints"] as? Int ?? 0
+                    let member: [String: Any] = [
+                        "name":         username,
+                        "email":        email,
+                        "fallPoints":   fall,
+                        "springPoints": spring,
+                        "summerPoints": summer,
+                        "year":         0
+                    ]
                     members.append(member)
                     group.leave()
                 }
@@ -1070,4 +1056,74 @@ class RequestHandler
 
         return Organizer(email: email, selfValue: selfValue)
     }
+    
+    func getMajorStat(completion: @escaping ([[String: Any]]) -> Void) {
+            apolloClient.fetch(query: SHPESchema.MajorStatQuery()) { response in
+                guard let data = try? response.get().data,
+                      let stats = data.getMajorStat else {
+                    completion([]); return
+                }
+                let result = stats.compactMap { item -> [String: Any]? in
+                    guard let item = item else { return nil }
+                    return ["name": item._id, "value": item.value]
+                }
+                completion(result)
+            }
+        }
+        
+        func getYearStat(completion: @escaping ([[String: Any]]) -> Void) {
+            apolloClient.fetch(query: SHPESchema.YearStatQuery()) { response in
+                guard let data = try? response.get().data,
+                      let stats = data.getYearStat else {
+                    completion([]); return
+                }
+                let result = stats.compactMap { item -> [String: Any]? in
+                    guard let item = item else { return nil }
+                    return ["name": item._id, "value": item.value]
+                }
+                completion(result)
+            }
+        }
+        
+        func getCountryStat(completion: @escaping ([[String: Any]]) -> Void) {
+            apolloClient.fetch(query: SHPESchema.CountryStatQuery()) { response in
+                guard let data = try? response.get().data,
+                      let stats = data.getCountryStat else {
+                    completion([]); return
+                }
+                let result = stats.compactMap { item -> [String: Any]? in
+                    guard let item = item else { return nil }
+                    return ["name": item._id, "value": item.value]
+                }
+                completion(result)
+            }
+        }
+        
+        func getSexStat(completion: @escaping ([[String: Any]]) -> Void) {
+            apolloClient.fetch(query: SHPESchema.SexStatQuery()) { response in
+                guard let data = try? response.get().data,
+                      let stats = data.getSexStat else {
+                    completion([]); return
+                }
+                let result = stats.compactMap { item -> [String: Any]? in
+                    guard let item = item else { return nil }
+                    return ["name": item._id, "value": item.value]
+                }
+                completion(result)
+            }
+        }
+        
+        func getEthnicityStat(completion: @escaping ([[String: Any]]) -> Void) {
+            apolloClient.fetch(query: SHPESchema.EthnicityStatQuery()) { response in
+                guard let data = try? response.get().data,
+                      let stats = data.getEthnicityStat else {
+                    completion([]); return
+                }
+                let result = stats.compactMap { item -> [String: Any]? in
+                    guard let item = item else { return nil }
+                    return ["name": item._id, "value": item.value]
+                }
+                completion(result)
+            }
+        }
 }
