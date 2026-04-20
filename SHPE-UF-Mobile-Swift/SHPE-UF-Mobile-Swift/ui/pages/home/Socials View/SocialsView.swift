@@ -24,7 +24,9 @@ struct SocialsView: View {
                     .frame(width: UIScreen.main.bounds.width, height: 100)
                 HStack {
                     Button {
-                        showView = .home
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            showView = .home
+                        }
                     } label: {
                         Image("Back")
                             .frame(height: 75, alignment: .bottomLeading)

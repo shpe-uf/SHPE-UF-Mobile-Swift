@@ -1,5 +1,4 @@
 import SwiftUI
-import Combine
 
 // Helper to format timestamps
 private let chatTimestampFormatter: DateFormatter = {
@@ -36,6 +35,7 @@ private struct ChatTheme {
     static let darkBG  = Color(red:   1/255, green: 31/255,  blue: 53/255) // #011F35
     static let lightBG = Color(white: 0.97)
     static let userBlue = Color(red: 24/255, green: 120/255, blue: 201/255)
+    static let errorRed = Color(red: 200/255, green: 50/255, blue: 50/255)
 }
 
 // MARK: - Bubble tail
@@ -49,73 +49,114 @@ private struct BubbleShape: Shape {
 // MARK: - Bubble
 private struct ChatBubble: View {
     let message: ChatMessage
+    let persona: ChatPersona
+    var onRetry: (() -> Void)?
 
-    private var bubbleColor: Color {
-        message.isUser ? ChatTheme.orange : ChatTheme.userBlue
+    private var isFailed: Bool {
+        if case .failed = message.status { return true }
+        return false
+    }
+
+    private var failedMessage: String? {
+        if case .failed(let msg) = message.status { return msg }
+        return nil
+    }
+
+    // Applies semantic .body-relative font on every run, preserving bold/italic from markdown
+    static func applySemanticFont(_ attributed: inout AttributedString) {
+        for run in attributed.runs {
+            let intent = run.inlinePresentationIntent ?? []
+            let isBold = intent.contains(.stronglyEmphasized)
+            let isItalic = intent.contains(.emphasized)
+            let weight: Font.Weight = isBold ? .bold : .regular
+            var font: Font = .body.weight(weight)
+            if isItalic {
+                font = font.italic()
+            }
+            attributed[run.range].font = font
+        }
+    }
+
+    private var bubbleAccessibilityLabel: String {
+        let sender = message.isUser ? "You said" : persona.bubbleSenderLabel
+        let status = isFailed ? ", failed to send" : ""
+        return "\(sender): \(message.text)\(status)"
     }
 
     var body: some View {
-        HStack(spacing: 0) {
-            if message.isUser { Spacer(minLength: 56) }
+        VStack(spacing: 4) {
+            HStack(spacing: 0) {
+                if message.isUser { Spacer(minLength: 56) }
 
-            Group {
-                if message.isUser {
-                    Text(message.text)
-                        .font(.system(size: 18))
-                        .foregroundColor(.white)
-                } else {
-                    if let attributed = try? AttributedString(markdown: message.text) {
-                        Text(attributed)
-                            .font(.system(size: 18))
+                Group {
+                    if message.isUser {
+                        Text(message.text)
+                            .font(.body.bold())
                             .foregroundColor(.white)
                     } else {
-                        Text(message.text)
-                            .font(.system(size: 18))
-                            .foregroundColor(.white)
+                        if var attributed = try? AttributedString(
+                            markdown: message.text,
+                            options: .init(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+                        ) {
+                            let _ = Self.applySemanticFont(&attributed)
+                            Text(attributed)
+                                .foregroundColor(.white)
+                        } else {
+                            Text(message.text)
+                                .font(.body)
+                                .foregroundColor(.white)
+                        }
                     }
                 }
+                .textSelection(.enabled)
+                .padding(.vertical, 14)
+                .padding(.horizontal, 18)
+                .background(
+                    BubbleShape(isUser: message.isUser)
+                        .fill(isFailed ? ChatTheme.errorRed : (message.isUser ? ChatTheme.orange : ChatTheme.userBlue))
+                )
+                .overlay(
+                    BubbleShape(isUser: message.isUser)
+                        .stroke(isFailed ? Color.red.opacity(0.4) : .white.opacity(0.12), lineWidth: isFailed ? 1.5 : 0.5)
+                )
+                .frame(maxWidth: min(UIScreen.main.bounds.width * 0.75, 500), alignment: message.isUser ? .trailing : .leading)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(bubbleAccessibilityLabel)
+                .accessibilityHint(isFailed ? "Double tap to retry sending" : "")
+                .accessibilityAddTraits(isFailed ? .isButton : [])
+                .contextMenu {
+                    Button(action: {
+                        UIPasteboard.general.string = message.text
+                    }) {
+                        Label("Copy", systemImage: "doc.on.doc")
+                    }
+                }
+                .padding(.horizontal, 20)
+
+                if !message.isUser { Spacer(minLength: 56) }
             }
-            .textSelection(.enabled)
-            .padding(.vertical, 14)
-            .padding(.horizontal, 18)
-            .background(
-                BubbleShape(isUser: message.isUser)
-                    .fill(message.isUser ? ChatTheme.orange : ChatTheme.userBlue)
-            )
-            .overlay(
-                BubbleShape(isUser: message.isUser)
-                    .stroke(.white.opacity(0.12), lineWidth: 0.5)
-            )
-            .frame(maxWidth: min(UIScreen.main.bounds.width * 0.75, 500), alignment: message.isUser ? .trailing : .leading)
-            .contextMenu {
-                Button(action: {
-                    UIPasteboard.general.string = message.text
-                }) {
-                    Label("Copy", systemImage: "doc.on.doc")
+
+            // Error label with tap-to-retry
+            if let errorMsg = failedMessage {
+                HStack(spacing: 4) {
+                    Image(systemName: "exclamationmark.circle.fill")
+                        .font(.caption)
+                    Text(errorMsg)
+                        .font(.caption)
+                }
+                .foregroundColor(.red)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.horizontal, 28)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(errorMsg)
+                .accessibilityHint("Tap to retry")
+                .accessibilityAddTraits(.isButton)
+                .onTapGesture {
+                    onRetry?()
                 }
             }
-            .padding(.horizontal, 20)
-
-            if !message.isUser { Spacer(minLength: 56) }
         }
         .padding(.vertical, 4)
-    }
-}
-
-// MARK: - Keyboard observer
-private final class KeyboardObserver: ObservableObject {
-    @Published var isVisible = false
-    private var cancellables: Set<AnyCancellable> = []
-
-    init() {
-        let nc = NotificationCenter.default
-        nc.publisher(for: UIResponder.keyboardWillShowNotification)
-            .sink { [weak self] _ in self?.isVisible = true }
-            .store(in: &cancellables)
-
-        nc.publisher(for: UIResponder.keyboardWillHideNotification)
-            .sink { [weak self] _ in self?.isVisible = false }
-            .store(in: &cancellables)
     }
 }
 
@@ -128,15 +169,24 @@ private extension View {
 
 // MARK: - Chat screen
 struct ChatBotView: View {
-    @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var scheme
     @StateObject private var vm = ChatboxViewModel()
-    @StateObject private var kb = KeyboardObserver()
 
-    @State private var showScrollToBottom = false
-    @State private var lastVisibleMessageID: UUID?
+    @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
+    @State private var isNearBottom = true
+    @State private var scrollProxy: ScrollViewProxy?
+
+    private var persona: ChatPersona {
+        ChatPersona(rawValue: selectedPersonaRaw) ?? .tito
+    }
+
+    private let sendHaptic = UIImpactFeedbackGenerator(style: .light)
 
     private var bg: Color { scheme == .dark ? ChatTheme.darkBG : ChatTheme.lightBG }
+
+    private var sendDisabled: Bool {
+        vm.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || vm.isLoading
+    }
 
     var body: some View {
         ZStack {
@@ -147,35 +197,28 @@ struct ChatBotView: View {
 
                 if vm.messages.isEmpty {
                     introView
+                        .contentShape(Rectangle())
+                        .onTapGesture { dismissKeyboard() }
                 } else {
                     messagesList
                         .contentShape(Rectangle())
                         .onTapGesture { dismissKeyboard() }
                         .overlay(alignment: .bottomTrailing) {
-                            if showScrollToBottom {
+                            if !isNearBottom {
                                 Button(action: {
-                                    withAnimation(.easeOut(duration: 0.2)) {
-                                        showScrollToBottom = false
-                                    }
-                                    NotificationCenter.default.post(name: Notification.Name("ChatBotScrollToBottom"), object: nil)
+                                    scrollToBottom(animated: true)
                                 }) {
                                     Image(systemName: "arrow.down.circle.fill")
-                                        .font(.system(size: 28))
+                                        .font(.title)
                                         .foregroundStyle(.white)
                                         .shadow(radius: 2)
                                 }
+                                .accessibilityLabel("Scroll to bottom")
                                 .padding(.trailing, 12)
                                 .padding(.bottom, 12)
-                                .background(
-                                    Circle().fill(Color.black.opacity(0.001))
-                                )
                                 .transition(.move(edge: .trailing).combined(with: .opacity))
                             }
                         }
-                        .gesture(DragGesture().onChanged { _ in
-                            showScrollToBottom = true
-                        }.onEnded { _ in
-                        })
                 }
             }
         }
@@ -185,10 +228,27 @@ struct ChatBotView: View {
                 .padding(.vertical, 10)
                 .background(bg)
         }
-        .onChange(of: kb.isVisible) { appeared in
-            if appeared { vm.messages = vm.messages }
-        }
         .animation(.easeInOut(duration: 0.2), value: vm.messages.count)
+    }
+
+    // MARK: Scroll helper
+    private func scrollToBottom(animated: Bool) {
+        guard let proxy = scrollProxy else { return }
+        if animated {
+            withAnimation(.easeOut(duration: 0.2)) {
+                proxy.scrollTo("bottom-anchor", anchor: .bottom)
+            }
+        } else {
+            proxy.scrollTo("bottom-anchor", anchor: .bottom)
+        }
+    }
+
+    // Returns true if a timestamp should be shown above the message at the given index
+    private func shouldShowTimestamp(at index: Int) -> Bool {
+        guard index > 0 else { return true } // Always show on first message
+        let current = vm.messages[index].date
+        let previous = vm.messages[index - 1].date
+        return current.timeIntervalSince(previous) >= 300 // 5 minutes
     }
 
     // MARK: Header
@@ -196,21 +256,16 @@ struct ChatBotView: View {
         ZStack {
             ChatTheme.orange.ignoresSafeArea(edges: .top)
             HStack {
-                Button(action: { dismiss() }){
-                    Image(systemName: "xmark")
-                        .foregroundColor(.white)
-                }
-                
                 Spacer()
 
-                Text("Ask Tito")
-                    .font(.system(size: 22, weight: .semibold))
+                Text(persona.headerTitle)
+                    .font(.title3.weight(.semibold))
                     .foregroundColor(.white)
-                
+
                 Spacer()
-                
+
                 if !vm.messages.isEmpty {
-                    Image("tito")
+                    Image(persona.imageName)
                         .resizable()
                         .scaledToFill()
                         .frame(width: 36, height: 36)
@@ -224,6 +279,7 @@ struct ChatBotView: View {
                                 .stroke(.white)
                             )
                         .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                        .accessibilityHidden(true)
                 }
 
             } .padding(.horizontal)
@@ -231,22 +287,34 @@ struct ChatBotView: View {
         .frame(height: 50)
     }
 
-    // MARK: Intro Tito view
+    // MARK: Intro view
     private var introView: some View {
         VStack {
             Spacer()
-            Image("tito")
+            Image(persona.imageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 160, height: 160)
                 .clipShape(Circle())
                 .shadow(radius: 6)
+                .accessibilityHidden(true)
 
-            Text("I'm Tito! Ask me any questions\nabout SHPE UF!")
-                .font(.system(size: 18, weight: .medium))
+            Text(persona.introMessage)
+                .font(.body.weight(.medium))
                 .multilineTextAlignment(.center)
                 .foregroundColor(scheme == .dark ? .white : .black)
                 .padding(.top, 16)
+
+            // Persona picker
+            Picker("Persona", selection: $selectedPersonaRaw) {
+                ForEach(ChatPersona.allCases, id: \.rawValue) { p in
+                    Text(p.displayName).tag(p.rawValue)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 60)
+            .padding(.top, 20)
+
             Spacer()
         }
     }
@@ -265,14 +333,20 @@ struct ChatBotView: View {
                             return vm.messages[index - 1].isUser == msg.isUser
                         }()
                         VStack(spacing: 0) {
-                            ChatBubble(message: msg)
-                                .padding(.top, previousSameAuthor ? -2 : 0)
-                            Text(chatTimestampFormatter.string(from: msg.date))
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity, alignment: msg.isUser ? .trailing : .leading)
-                                .padding(.horizontal, 28)
-                                .padding(.top, 2)
+                            // Timestamp with 5-minute gap grouping
+                            if shouldShowTimestamp(at: index) {
+                                Text(chatTimestampFormatter.string(from: msg.date))
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.vertical, 6)
+                            }
+
+                            ChatBubble(message: msg, persona: persona) {
+                                vm.retry(messageID: msg.id, persona: persona.serverValue)
+                            }
+                            .padding(.top, previousSameAuthor ? -2 : 0)
+                            .transition(.opacity.combined(with: .move(edge: .bottom)))
                         }
                     }
 
@@ -298,37 +372,51 @@ struct ChatBotView: View {
                         .id("typing-indicator")
                         .transition(.opacity)
                         .zIndex(1)
+                        .accessibilityLabel(persona.typingAccessibilityLabel)
                     }
 
                     Color.clear.frame(height: 12)
-                    Color.clear.frame(height: 1).id("bottom-anchor").onAppear {
-                        showScrollToBottom = false
+
+                    // Near-bottom detector
+                    GeometryReader { geo in
+                        Color.clear
+                            .preference(key: BottomVisiblePreferenceKey.self,
+                                        value: geo.frame(in: .named("chatScroll")).minY)
                     }
+                    .frame(height: 1)
+                    .id("bottom-anchor")
                 }
                 .frame(maxWidth: 700)
                 .frame(maxWidth: .infinity)
             }
-            .background(bg)
-            .onAppear {
-                lastVisibleMessageID = vm.messages.last?.id
-            }
-            .onChange(of: vm.messages.count) { _ in
-                withAnimation(.easeOut(duration: 0.2)) {
-                    proxy.scrollTo(vm.messages.last?.id, anchor: .bottom)
-                    showScrollToBottom = false
+            .scrollDismissesKeyboard(.interactively)
+            .coordinateSpace(name: "chatScroll")
+            .onPreferenceChange(BottomVisiblePreferenceKey.self) { bottomY in
+                let scrollViewHeight = UIScreen.main.bounds.height
+                let nearBottomThreshold: CGFloat = 100
+                let newNearBottom = bottomY < scrollViewHeight + nearBottomThreshold
+                if newNearBottom != isNearBottom {
+                    withAnimation(.easeInOut(duration: 0.15)) {
+                        isNearBottom = newNearBottom
+                    }
                 }
             }
-            .onChange(of: vm.isLoading) { appeared in
-                if appeared {
+            .background(bg)
+            .onAppear {
+                scrollProxy = proxy
+            }
+            .onChange(of: vm.messages.count) {
+                if isNearBottom {
+                    withAnimation(.easeOut(duration: 0.2)) {
+                        proxy.scrollTo("bottom-anchor", anchor: .bottom)
+                    }
+                }
+            }
+            .onChange(of: vm.isLoading) {
+                if vm.isLoading && isNearBottom {
                     withAnimation(.easeOut(duration: 0.2)) {
                         proxy.scrollTo("typing-indicator", anchor: .bottom)
                     }
-                    showScrollToBottom = false
-                }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: Notification.Name("ChatBotScrollToBottom"))) { _ in
-                withAnimation(.easeOut(duration: 0.2)) {
-                    proxy.scrollTo(vm.messages.last?.id, anchor: .bottom)
                 }
             }
         }
@@ -338,30 +426,37 @@ struct ChatBotView: View {
     private var inputBar: some View {
         HStack(spacing: 10) {
             TextField("Ask anything", text: $vm.inputText, axis: .vertical)
-                .font(.system(size: 17))
+                .font(.body)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 14)
                 .foregroundColor(.black)
                 .background(.white)
                 .clipShape(Capsule())
 
-            Button(action: vm.send) {
+            Button(action: {
+                sendHaptic.impactOccurred()
+                vm.send(persona: persona.serverValue)
+            }) {
                 Image(systemName: "paperplane.fill")
-                    .font(.system(size: 20, weight: .semibold))
-                    .foregroundStyle(ChatTheme.orange)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(sendDisabled ? Color.gray : ChatTheme.orange)
                     .padding(10)
             }
+            .disabled(sendDisabled)
+            .accessibilityLabel("Send message")
             .background(.white)
             .clipShape(Circle())
         }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done") { dismissKeyboard() }
-            }
-        }
     }
 
+}
+
+// Preference key to track the bottom anchor's Y position in the scroll coordinate space
+private struct BottomVisiblePreferenceKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
 }
 
 #Preview {

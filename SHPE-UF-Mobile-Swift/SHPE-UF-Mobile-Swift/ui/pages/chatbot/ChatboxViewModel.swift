@@ -1,12 +1,17 @@
 import Foundation
 import SwiftUI
-import Combine
 
-struct ChatMessage: Identifiable, Codable {
+enum MessageStatus {
+    case sent
+    case failed(String) // Carries the error description for display
+}
+
+struct ChatMessage: Identifiable {
     let id = UUID()
     let text: String
     let isUser: Bool
     let date: Date
+    var status: MessageStatus = .sent
 }
 
 final class ChatboxViewModel: ObservableObject {
@@ -15,69 +20,72 @@ final class ChatboxViewModel: ObservableObject {
     private let request = RequestHandler()
     @Published var isLoading: Bool = false
 
-    private var cancellable: AnyCancellable?
-    private let storageKey = "chat_messages_storage_v1"
-
-    private func save(_ messages: [ChatMessage]) {
-        do {
-            let data = try JSONEncoder().encode(messages)
-            UserDefaults.standard.set(data, forKey: storageKey)
-        } catch {
-            print("❌ Failed to save chat messages:", error)
-        }
-    }
-
-    private func load() {
-        guard let data = UserDefaults.standard.data(forKey: storageKey) else { return }
-        do {
-            let decoded = try JSONDecoder().decode([ChatMessage].self, from: data)
-            self.messages = decoded
-        } catch {
-            print("❌ Failed to load chat messages:", error)
-        }
-    }
-
-    init() {
-        load()
-        // Save whenever messages change
-        cancellable = $messages
-            .sink { [weak self] msgs in
-                self?.save(msgs)
-            }
-    }
-
-    func send() {
+    func send(persona: String? = nil) {
         let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
 
-        // Append user message with timestamp
         let userMsg = ChatMessage(text: trimmed, isUser: true, date: Date())
         messages.append(userMsg)
 
-        // Clear input and set loading
         inputText = ""
+        sendQuestion(trimmed, userMessageID: userMsg.id, persona: persona)
+    }
+
+    func retry(messageID: UUID, persona: String? = nil) {
+        guard let index = messages.firstIndex(where: { $0.id == messageID }),
+              messages[index].isUser,
+              case .failed = messages[index].status else { return }
+
+        // Reset status to sent and re-send
+        messages[index].status = .sent
+        let question = messages[index].text
+        sendQuestion(question, userMessageID: messageID, persona: persona)
+    }
+
+    private func sendQuestion(_ question: String, userMessageID: UUID, persona: String? = nil) {
         isLoading = true
 
-        // Call GraphQL backend
-        request.askChatBot(question: trimmed) { [weak self] result in
+        request.askChatBot(question: question, persona: persona) { [weak self] result in
             DispatchQueue.main.async {
                 guard let self = self else { return }
                 self.isLoading = false
 
                 if let error = result["error"] as? String {
-                    print("❌ ChatBot error:", error)
-                    self.messages.append(ChatMessage(text: "Sorry, I ran into an issue. Please try again.", isUser: false, date: Date()))
+                    print("ChatBot error:", error)
+                    // Mark the user message as failed with a descriptive error
+                    if let index = self.messages.firstIndex(where: { $0.id == userMessageID }) {
+                        let errorMessage = self.classifyError(error)
+                        self.messages[index].status = .failed(errorMessage)
+                    }
                     return
                 }
 
                 let raw = (result["answer"] as? String) ?? "No answer received."
-                // Normalize leading/trailing whitespace and excessive blank lines
-                let removedLeadingBlanks = raw.replacingOccurrences(of: #"^\s*\n+"#, with: "", options: .regularExpression)
-                let trimmed = removedLeadingBlanks.trimmingCharacters(in: .whitespacesAndNewlines)
-                let collapsed = trimmed.replacingOccurrences(of: #"(?:\n\s*){3,}"#, with: "\n\n", options: .regularExpression)
+                let normalized = Self.normalizeForMarkdown(raw)
 
-                self.messages.append(ChatMessage(text: collapsed, isUser: false, date: Date()))
+                self.messages.append(ChatMessage(text: normalized, isUser: false, date: Date()))
             }
         }
+    }
+
+    private func classifyError(_ error: String) -> String {
+        let lower = error.lowercased()
+        if lower.contains("network") || lower.contains("offline") ||
+           lower.contains("timed out") || lower.contains("not connected") ||
+           lower.contains("nsurlerror") || lower.contains("connection") {
+            return "Network error — check your connection and tap to retry."
+        } else {
+            return "Server error — tap to retry."
+        }
+    }
+
+    static func normalizeForMarkdown(_ raw: String) -> String {
+        // 1. Strip leading blank lines and trailing whitespace
+        let removedLeadingBlanks = raw.replacingOccurrences(of: #"^\s*\n+"#, with: "", options: .regularExpression)
+        let trimmedAnswer = removedLeadingBlanks.trimmingCharacters(in: .whitespacesAndNewlines)
+        // 2. Insert a newline before bullet characters that aren't already preceded by one
+        let bulletsFixed = trimmedAnswer.replacingOccurrences(of: #"(?<!\n)•"#, with: "\n•", options: .regularExpression)
+        // 3. Collapse 3+ consecutive newlines into exactly two
+        return bulletsFixed.replacingOccurrences(of: #"(?:\n\s*){3,}"#, with: "\n\n", options: .regularExpression)
     }
 }

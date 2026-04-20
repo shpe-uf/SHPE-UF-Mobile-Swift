@@ -226,9 +226,10 @@ class RequestHandler
         }
     }
     
-    func askChatBot(question: String, completion: @escaping ([String: Any]) -> Void)
+    func askChatBot(question: String, persona: String? = nil, completion: @escaping ([String: Any]) -> Void)
     {
-        apolloClient.fetch(query: SHPESchema.ChatBotQuery(question: question), cachePolicy: .fetchIgnoringCacheData)
+        let personaParam: GraphQLNullable<String> = persona.map { .some($0) } ?? .none
+        apolloClient.fetch(query: SHPESchema.ChatBotQuery(question: question, persona: personaParam), cachePolicy: .fetchIgnoringCacheData)
         {
             result in
             switch result {

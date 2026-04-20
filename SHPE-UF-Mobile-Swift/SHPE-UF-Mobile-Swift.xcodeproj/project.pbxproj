@@ -23,6 +23,7 @@
 		24C80BD62F8FF284009FF0EF /* ChatBotQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BD42F8FF284009FF0EF /* ChatBotQuery.graphql.swift */; };
 		24C80BD92F8FF2FB009FF0EF /* ChatBotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BD82F8FF2FB009FF0EF /* ChatBotView.swift */; };
 		24C80BDB2F8FF2FB009FF0EF /* ChatboxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BDA2F8FF2FB009FF0EF /* ChatboxViewModel.swift */; };
+		24F48B0E2F96D1B100B97C8A /* ChatPersona.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F48B0D2F96D1B100B97C8A /* ChatPersona.swift */; };
 		462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B6F492B7180AB00EB575C /* CircularProgessView.swift */; };
 		4632E4742B6B575E0048782D /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4732B6B575E0048782D /* PointsUI.swift */; };
 		4632E4762B6B57A00048782D /* RedeemPointsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4752B6B57A00048782D /* RedeemPointsButton.swift */; };
@@ -264,6 +265,7 @@
 		24C80BD82F8FF2FB009FF0EF /* ChatBotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotView.swift; sourceTree = "<group>"; };
 		24C80BDA2F8FF2FB009FF0EF /* ChatboxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatboxViewModel.swift; sourceTree = "<group>"; };
 		24C80BDC2F8FF369009FF0EF /* IsLastMonth.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsLastMonth.graphql.swift; sourceTree = "<group>"; };
+		24F48B0D2F96D1B100B97C8A /* ChatPersona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPersona.swift; sourceTree = "<group>"; };
 		462B6F492B7180AB00EB575C /* CircularProgessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgessView.swift; sourceTree = "<group>"; };
 		4632E4732B6B575E0048782D /* PointsUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsUI.swift; sourceTree = "<group>"; };
 		4632E4752B6B57A00048782D /* RedeemPointsButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RedeemPointsButton.swift; sourceTree = "<group>"; };
@@ -660,6 +662,7 @@
 			children = (
 				24C80BD82F8FF2FB009FF0EF /* ChatBotView.swift */,
 				24C80BDA2F8FF2FB009FF0EF /* ChatboxViewModel.swift */,
+				24F48B0D2F96D1B100B97C8A /* ChatPersona.swift */,
 			);
 			path = chatbot;
 			sourceTree = "<group>";
@@ -1265,6 +1268,7 @@
 				B843060D2E35E2BD008AB686 /* RedeemPointsInput.graphql.swift in Sources */,
 				B843060E2E35E2BD008AB686 /* GetUserPointsQuery.graphql.swift in Sources */,
 				B843060F2E35E2BD008AB686 /* GetPointsQuery.graphql.swift in Sources */,
+				24F48B0E2F96D1B100B97C8A /* ChatPersona.swift in Sources */,
 				B84306102E35E2BD008AB686 /* Mutation.graphql.swift in Sources */,
 				B84306112E35E2BD008AB686 /* DeleteUserMutation.graphql.swift in Sources */,
 				B84306122E35E2BD008AB686 /* RegisterUserMutation.graphql.swift in Sources */,
@@ -1527,7 +1531,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = V2QK7Y98W9;
+				DEVELOPMENT_TEAM = 7F4NDT3MRR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
@@ -1565,7 +1569,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.2.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SHPE-UF-Mobile-Swift/Preview Content\"";
-				DEVELOPMENT_TEAM = V2QK7Y98W9;
+				DEVELOPMENT_TEAM = 7F4NDT3MRR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
