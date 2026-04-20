@@ -26,13 +26,6 @@ struct EventCreatorView: View {
                             y: appVM.darkMode ? 40 : 30
                         )
 
-                    CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
-                        .fill(Color("Profile-Background"))
-                        .frame(
-                            width: UIScreen.main.bounds.width * 1.9,
-                            height: UIScreen.main.bounds.height * 0.2
-                        )
-                        .padding(.top, UIScreen.main.bounds.height * 0.17)
 
                     Image("EVENTS")  // Title image
                         .resizable()

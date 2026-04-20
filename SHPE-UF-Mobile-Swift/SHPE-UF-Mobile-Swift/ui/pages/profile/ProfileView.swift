@@ -53,716 +53,353 @@ struct ProfileView: View
     @State var errorDeleting:Bool = false
     
     var body: some View {
-        ZStack
-        {
-            VStack
-            {
-                
-                ZStack
-                {
+        ZStack {
+            Constants.profileGradient.ignoresSafeArea()
+
+            VStack(spacing: 0) {
+
+                // MARK: Header
+                ZStack(alignment: .top) {
                     let profilePFP = appVM.darkMode ? "DefaultPFPD" : "DefaultPFPL"
-                    
-                    Image(appVM.darkMode ? "Gator" : "Gator2")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 180, height: 200)
-                        .offset(x:-UIScreen.main.bounds.width*0.42, y: appVM.darkMode ? 40 : 30)
-                    
-                    
-                    CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
-                        .fill(Color("Profile-Background"))
-                        .frame(width: UIScreen.main.bounds.width * 1.9, height: 150)
-                        .padding(.top, 100)
-                    
-                    if let selectedImage = vm.selectedImage,
-                       vm.isEditing
-                    {
-                        Image(uiImage: selectedImage)
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width:130,height:130)
-                            .cornerRadius(100)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 100)
-                                    .stroke( Color("Profile-Background") , lineWidth: 5)
-                            )
-                            .padding(.top, 60)
-                        
-                    }
-                    else if let profileImage = vm.shpeito.profileImage
-                    {
-                        Image(uiImage: profileImage)
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width:130,height:130)
-                            .cornerRadius(100)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 100)
-                                    .stroke( Color("Profile-Background") , lineWidth: 5)
-                            )
-                            .padding(.top, 60)
-                    }
-                    else
-                    {
-                        Image(profilePFP)
-                            .renderingMode(.original)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:130,height:130)
-                            .padding(.top, 60)
-                    }
-                    
-                    
-                    if vm.isEditing
-                    {
-                        Image("imageIcon")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width:30, height: 30)
-                            .padding(10)
-                            .background(Color("gray"))
-                            .cornerRadius(50)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 50)
-                                    .stroke( Color("profile-orange") , lineWidth: 5)
-                            )
-                            .offset(x:45, y:-10)
-                            .onTapGesture {
-                                vm.showImagePicker.toggle()
+
+                    // Centered column: photo → name → action buttons
+                    VStack(spacing: 12) {
+                        Spacer().frame(height: UIScreen.main.bounds.height * 0.02)
+
+                        // Profile photo with optional edit overlay
+                        ZStack {
+                            if let selectedImage = vm.selectedImage, vm.isEditing {
+                                Image(uiImage: selectedImage)
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 110, height: 110)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color("profile-orange"), lineWidth: 4))
+                                    .padding(.top, UIScreen.main.bounds.height * 0.10)
+                            } else if let profileImage = vm.shpeito.profileImage {
+                                Image(uiImage: profileImage)
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 110, height: 110)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color("profile-orange"), lineWidth: 4))
+                                    .padding(.top, UIScreen.main.bounds.height * 0.10)
+                            } else {
+                                Image(profilePFP)
+                                    .renderingMode(.original)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 110, height: 110)
+                                    .clipShape(Circle())
+                                    .padding(.top, UIScreen.main.bounds.height * 0.10)
                             }
-                            .sheet(isPresented: $vm.showImagePicker, onDismiss: {})
-                        {
-                            ImagePicker(selectedImage: $vm.selectedImage, sourceType: .photoLibrary)
-                                .ignoresSafeArea()
+
+                            if vm.isEditing {
+                                Image("imageIcon")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 28, height: 28)
+                                    .padding(.top, UIScreen.main.bounds.height * 0.10)
+                                    .background(Color("gray"))
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color("profile-orange"), lineWidth: 4))
+                                    .offset(x: 40, y: 38)
+                                    .onTapGesture { vm.showImagePicker.toggle() }
+                                    .sheet(isPresented: $vm.showImagePicker, onDismiss: {}) {
+                                        ImagePicker(selectedImage: $vm.selectedImage, sourceType: .photoLibrary)
+                                            .ignoresSafeArea()
+                                    }
+                            }
+                        }
+
+                        // Name
+                        Text(vm.isEditing ? vm.newName : vm.shpeito.name)
+                            .font(Font.custom("Viga-Regular", size: 24))
+                            .foregroundColor(.white)
+
+                        // Edit Profile / Save + Cancel
+                        if !vm.isEditing {
+                            Button {
+                                vm.isEditing = true
+                            } label: {
+                                HStack(spacing: 8) {
+                                    Text("Edit Profile")
+                                        .foregroundStyle(Color.white)
+                                        .padding(.vertical, 10)
+                                    Image("pencil")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 18, height: 18)
+                                }
+                                .padding(.horizontal, 20)
+                                .background(Color("orangeButton"))
+                                .cornerRadius(50)
+                            }
+                        } else {
+                            HStack(spacing: 16) {
+                                Button {
+                                    vm.saveEditsToProfile(user: user, viewContext: viewContext)
+                                } label: {
+                                    Text("Save")
+                                        .foregroundStyle(Color.white)
+                                        .font(Font.custom("Viga-Regular", size: 18))
+                                        .frame(width: 120)
+                                        .padding(.vertical, 10)
+                                        .background(Color("orangeButton"))
+                                        .cornerRadius(50)
+                                        .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color.white, lineWidth: 1))
+                                }
+                                Button {
+                                    vm.clearFields()
+                                    vm.isEditing = false
+                                } label: {
+                                    Text("Cancel")
+                                        .foregroundStyle(Color.white)
+                                        .font(Font.custom("Viga-Regular", size: 18))
+                                        .frame(width: 120)
+                                        .padding(.vertical, 10)
+                                        .background(Color("orangeButton"))
+                                        .cornerRadius(50)
+                                        .overlay(RoundedRectangle(cornerRadius: 50).stroke(Color.white, lineWidth: 1))
+                                }
+                            }
                         }
                     }
-                    
-                    if vm.isEditing
-                    {
-                        TextField(vm.newName, text: $vm.newName)
-                            .autocorrectionDisabled()
-                            .textInputAutocapitalization(.never)
-                            .multilineTextAlignment(.center)
-                            .font(Font.custom("Viga-Regular", size: 24))
-                            .overlay(Rectangle().frame(height: 1).padding(.top, 35))
-                            .offset(y:120)
-                            .frame(width: CGFloat(vm.newName.count) * 15)
-                            .onSubmit {
-                                vm.validateName()
-                            }
-                        
-                    }
-                    else
-                    {
-                        Text("\(vm.shpeito.name)")
-                            .font(Font.custom("Viga-Regular", size: 24))
-                            .offset(y:120)
-                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 20)
 
-                    // Back button — declared last so it renders on top of all other ZStack children
-                    Button {
-                        dismiss()
-                    } label: {
+                    // Back button — top leading
+                    Button { dismiss() } label: {
                         Image("Back")
                             .resizable()
                             .frame(width: 30, height: 30)
                             .foregroundColor(.white)
                     }
-                    .padding(.trailing, UIScreen.main.bounds.width * 0.75)
-                    .padding(.bottom, UIScreen.main.bounds.height * 0.05)
+                    .frame(maxWidth: .infinity, maxHeight: 100, alignment: .topLeading)
+                    .padding(.leading, 20)
+                    .padding(.top, 56)
 
+                    // Title — top center
+                    Text("Profile")
+                        .font(Font.custom("Viga-Regular", size: 24))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 60)
                 }
-                .frame(maxWidth:.infinity)
-                .background(Color("profile-orange"))
-                
-                ScrollView
-                {
-                    VStack
-                    {
-                        HStack(spacing: 10)
-                        {
-                        if !vm.isEditing
-                        {
-                                Button
-                                {
-                                vm.isEditing = true
-                                }
-                                label:
-                                {
-                                HStack
-                                {
-                                    Text("Edit Profile")
-                                        .foregroundStyle(Color.white)
-                                        .padding(10)
 
-                                    Image("pencil")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 20, height: 20)
-                                }
-                                .padding(.horizontal)
-                                .background(Color("orangeButton"))
-                                .cornerRadius(50)
-                            }
-                            }
+                // MARK: Form fields
+                ScrollView {
+                    VStack(spacing: 0) {
 
-                        }
-                            .padding(.top, 10)
-                        }
-                        
-                        VStack(spacing: 2)
-                        {
-                            
-                            Text("ACCOUNT INFO")
-                                .font(Font.custom("Viga-Regular", size: 20))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(20)
-                                .padding(.top, vm.isEditing ? 30 : 0)
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("ProfileIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("NAME")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    TextField(vm.newName, text: $vm.newName)
-                                        .autocorrectionDisabled()
-                                        .textInputAutocapitalization(.never)
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                        .frame(width: 270)
-                                        .overlay(Rectangle().frame(height: 1).padding(.top, 35))
-                                        .onSubmit {
-                                            vm.validateName()
-                                        }
-                                    
-                                    if vm.invalidFirstName
-                                    {
-                                        Text("First name must be at least 1 character, no special characters or numbers")
-                                            .font(.caption)
-                                            .foregroundColor(.red)
-                                            .padding(.top, 5)
-                                    }
-                                    
-                                    if vm.invalidLastName
-                                    {
-                                        Text("Last name must be at least 1 character, no special characters or numbers")
-                                            .font(.caption)
-                                            .foregroundColor(.red)
-                                            .padding(.top, 5)
-                                    }
-                                    
-                                }
-                                else
-                                {
-                                    Text("\(vm.shpeito.name)")
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                }
-                            }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("ProfileIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("USERNAME")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                
-                                Text("\(vm.shpeito.username)")
+                        // ACCOUNT INFO
+                        Text("ACCOUNT INFO")
+                            .font(Font.custom("Viga-Regular", size: 18))
+                            .foregroundColor(.white.opacity(0.8))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 20)
+                            .padding(.bottom, 8)
+
+                        ProfileFieldRow(icon: "person", label: "NAME") {
+                            if vm.isEditing {
+                                TextField(vm.newName, text: $vm.newName)
+                                    .autocorrectionDisabled()
+                                    .textInputAutocapitalization(.never)
                                     .font(.system(size: 16))
-                                    .padding(.top, 5)
-                            }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("MessageIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("EMAIL")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
+                                    .foregroundColor(.white)
+                                    .onSubmit { vm.validateName() }
+                                if vm.invalidFirstName {
+                                    Text("First name must be at least 1 character, no special characters or numbers")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
                                 }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                Text("\(vm.shpeito.email)")
+                                if vm.invalidLastName {
+                                    Text("Last name must be at least 1 character, no special characters or numbers")
+                                        .font(.caption)
+                                        .foregroundColor(.red)
+                                }
+                            } else {
+                                Text(vm.shpeito.name)
                                     .font(.system(size: 16))
-                                    .padding(.top, 5)
+                                    .foregroundColor(.white)
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("GenderIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("GENDER")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    DropDown(vm: vm, change: $vm.newGender, options: vm.genderoptions, width: 120)
-                                }
-                                else
-                                {
-                                    Text("\(vm.shpeito.gender)")
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                }
-                                
+                        }
+
+                        ProfileFieldRow(icon: "at", label: "USERNAME") {
+                            Text(vm.shpeito.username)
+                                .font(.system(size: 16))
+                                .foregroundColor(.white)
+                        }
+
+                        ProfileFieldRow(icon: "envelope", label: "EMAIL") {
+                            Text(vm.shpeito.email)
+                                .font(.system(size: 16))
+                                .foregroundColor(.white)
+                        }
+
+                        ProfileFieldRow(icon: "person.2", label: "GENDER") {
+                            if vm.isEditing {
+                                DropDown(vm: vm, change: $vm.newGender, options: vm.genderoptions, width: 120)
+                            } else {
+                                Text(vm.shpeito.gender)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .zIndex(6)
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("GlobeIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("ETHNICITY")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    DropDown(vm: vm, change: $vm.newEthnicity, options: vm.ethnicityoptions, width: 240)
-                                }
-                                else
-                                {
-                                    Text("\(vm.shpeito.ethnicity)")
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                }
+                        }
+                        .zIndex(6)
+
+                        ProfileFieldRow(icon: "globe", label: "ETHNICITY") {
+                            if vm.isEditing {
+                                DropDown(vm: vm, change: $vm.newEthnicity, options: vm.ethnicityoptions, width: 240)
+                            } else {
+                                Text(vm.shpeito.ethnicity)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .zIndex(5)
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("GlobeIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("ORIGIN COUNTRY")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    DropDown(vm: vm, change: $vm.newOriginCountry, options: vm.originoptions, width: 240)
-                                }
-                                else
-                                {
-                                    Text("\(vm.shpeito.originCountry)")
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                }
+                        }
+                        .zIndex(5)
+
+                        ProfileFieldRow(icon: "map", label: "ORIGIN COUNTRY") {
+                            if vm.isEditing {
+                                DropDown(vm: vm, change: $vm.newOriginCountry, options: vm.originoptions, width: 240)
+                            } else {
+                                Text(vm.shpeito.originCountry)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .zIndex(4)
-                            
-                            // Eductaion Info
-                            Text("EDUCATION INFO")
-                                .font(Font.custom("Viga-Regular", size: 20))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(20)
-                                .padding(.top, 10)
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("GradIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("MAJOR")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    DropDown(vm: vm, change: $vm.newMajor, options: vm.majorOptions, width: 200)
-                                }
-                                else
-                                {
-                                    Text("\(vm.shpeito.major)")
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                }
+                        }
+                        .zIndex(4)
+
+                        // EDUCATION INFO
+                        Text("EDUCATION INFO")
+                            .font(Font.custom("Viga-Regular", size: 18))
+                            .foregroundColor(.white.opacity(0.8))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 20)
+                            .padding(.top, 20)
+                            .padding(.bottom, 8)
+
+                        ProfileFieldRow(icon: "graduationcap", label: "MAJOR") {
+                            if vm.isEditing {
+                                DropDown(vm: vm, change: $vm.newMajor, options: vm.majorOptions, width: 200)
+                            } else {
+                                Text(vm.shpeito.major)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .zIndex(3)
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("YearIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("YEAR")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    DropDown(vm: vm, change: $vm.newYear, options: vm.yearoptions, width: 200)
-                                }
-                                else
-                                {
-                                    Text("\(vm.shpeito.year)")
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                }
+                        }
+                        .zIndex(3)
+
+                        ProfileFieldRow(icon: "calendar", label: "YEAR") {
+                            if vm.isEditing {
+                                DropDown(vm: vm, change: $vm.newYear, options: vm.yearoptions, width: 200)
+                            } else {
+                                Text(vm.shpeito.year)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .zIndex(2)
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("GradIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("GRADUATION YEAR")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    DropDown(vm: vm, change: $vm.newGradYear, options: vm.gradoptions, width: 100)
-                                }
-                                else
-                                {
-                                    Text("\(vm.shpeito.graduationYear)")
-                                        .font(.system(size: 16))
-                                        .padding(.top, 5)
-                                }
+                        }
+                        .zIndex(2)
+
+                        ProfileFieldRow(icon: "flag.checkered", label: "GRADUATION YEAR") {
+                            if vm.isEditing {
+                                DropDown(vm: vm, change: $vm.newGradYear, options: vm.gradoptions, width: 100)
+                            } else {
+                                Text(vm.shpeito.graduationYear)
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            .zIndex(1)
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("ClassesIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("CLASSES")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    MultipleLabels(placeholder: "Add your classes here", change: $vm.newClasses, validationFunction: {_ in true})
-                                        .frame(height: {
-                                            var count:CGFloat = 0
-                                            let padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
-                                            for item in vm.newClasses
-                                            {
-                                                count += CGFloat(item.count)
-                                            }
-                                            return ceil( (count * 2.5 + padding) / 100.0 ) * 50 + 70
-                                        }())
-                                }
-                                else
-                                {
-                                    VStack
-                                    {
-                                        ForEach(vm.shpeito.classes, id:\.self)
-                                        {
-                                            classStr in
-                                            
-                                            Text(classStr)
-                                                .font(.system(size: 16))
-                                                .padding(.top, 5)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                            
-                                        }
-                                    }
-                                }
-                            }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("InternshipsIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("INTERNSHIPS")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    MultipleLabels(placeholder: "Add your internships here", change: $vm.newInternships, validationFunction: {_ in true})
-                                        .frame(height: {
-                                            var count:CGFloat = 0
-                                            var padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
-                                            for item in vm.newInternships
-                                            {
-                                                count += CGFloat(item.count)
-                                            }
-                                            return ceil( (count*2.5 + padding) / 100.0 ) * 50 + 70
-                                        }())
-                                }
-                                else
-                                {
-                                    VStack
-                                    {
-                                        ForEach(vm.shpeito.internships, id:\.self)
-                                        {
-                                            internship in
-                                            
-                                            Text(internship)
-                                                .font(.system(size: 16))
-                                                .padding(.top, 5)
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                            
-                                        }
-                                    }
-                                }
-                            }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            
-                            VStack(alignment: .leading)
-                            {
-                                HStack
-                                {
-                                    Image("LinksIcon")
-                                        .renderingMode(.original)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width:25,height:25)
-                                        .padding(.trailing, 10)
-                                    
-                                    Text("LINKS")
-                                        .font(Font.custom("Viga-Regular", size: 20))
-                                        .foregroundStyle(Color("profile-orange"))
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                if vm.isEditing
-                                {
-                                    MultipleLabels(placeholder: "Add your links here", change: $vm.newLinks, validationFunction: {urlString in
-                                        if let url = URL(string: urlString) {
-                                            // URL initialization succeeded, so the string is a valid URL
-                                            return UIApplication.shared.canOpenURL(url)
-                                        }
-                                        return false
-                                    })
+                        }
+                        .zIndex(1)
+
+                        ProfileFieldRow(icon: "books.vertical", label: "CLASSES") {
+                            if vm.isEditing {
+                                MultipleLabels(placeholder: "Add your classes here", change: $vm.newClasses, validationFunction: { _ in true })
                                     .frame(height: {
-                                        var count:CGFloat = 0
-                                        var padding:CGFloat = 12.5*CGFloat(vm.newClasses.count)
-                                        for item in vm.newLinks
-                                        {
-                                            count += CGFloat(item.count)
-                                        }
-                                        return ceil( (count*2.5 + padding) / 100.0 ) * 50 + 70
+                                        var count: CGFloat = 0
+                                        let padding: CGFloat = 12.5 * CGFloat(vm.newClasses.count)
+                                        for item in vm.newClasses { count += CGFloat(item.count) }
+                                        return ceil((count * 2.5 + padding) / 100.0) * 50 + 70
                                     }())
-                                }
-                                else
-                                {
-                                    VStack
-                                    {
-                                        ForEach(vm.shpeito.links, id:\.self)
-                                        {
-                                            link in
-                                            
-                                            Text(link.absoluteString)
-                                                .font(.system(size: 16))
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.top, 5)
-                                                .onTapGesture {
-                                                    UIApplication.shared.open(link)
-                                                }
-                                            
-                                        }
+                            } else {
+                                VStack(alignment: .leading) {
+                                    ForEach(vm.shpeito.classes, id: \.self) { classStr in
+                                        Text(classStr)
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.white)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
                                     }
                                 }
                             }
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color("whiteBox"))
-                            
-                            if vm.isEditing
-                            {
-                                HStack
-                                {
-                                    Button {
-                                        vm.saveEditsToProfile(user: user, viewContext: viewContext)
-                                    } label: {
-                                        Text("Save")
-                                            .foregroundStyle(Color.white)
-                                            .font(Font.custom("Viga-Regular", size: 20))
-                                            .padding(10)
-                                            .frame(width: 150)
-                                            .background(Color("orangeButton"))
-                                            .cornerRadius(50)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 50)
-                                                    .stroke( Color.white , lineWidth: 1)
-                                            )
-                                    }
-                                    .padding(.trailing, 20)
-
-                                    Button {
-                                        vm.clearFields()
-                                        vm.isEditing = false
-                                    } label: {
-                                        Text("Cancel")
-                                            .foregroundStyle(Color.white)
-                                            .font(Font.custom("Viga-Regular", size: 20))
-                                            .padding(10)
-                                            .frame(width: 150)
-                                            .background(Color("orangeButton"))
-                                            .cornerRadius(50)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 50)
-                                                    .stroke( Color.white , lineWidth: 1)
-                                            )
-                                    }
-                                }
-                                .padding(.vertical, 30)
-                            }
-                            
                         }
-                        .frame(width: UIScreen.main.bounds.width)
-                        .padding(.bottom, 100)
-                        
+
+                        ProfileFieldRow(icon: "briefcase", label: "INTERNSHIPS") {
+                            if vm.isEditing {
+                                MultipleLabels(placeholder: "Add your internships here", change: $vm.newInternships, validationFunction: { _ in true })
+                                    .frame(height: {
+                                        var count: CGFloat = 0
+                                        let padding: CGFloat = 12.5 * CGFloat(vm.newInternships.count)
+                                        for item in vm.newInternships { count += CGFloat(item.count) }
+                                        return ceil((count * 2.5 + padding) / 100.0) * 50 + 70
+                                    }())
+                            } else {
+                                VStack(alignment: .leading) {
+                                    ForEach(vm.shpeito.internships, id: \.self) { internship in
+                                        Text(internship)
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.white)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
+                                }
+                            }
+                        }
+
+                        ProfileFieldRow(icon: "link", label: "LINKS") {
+                            if vm.isEditing {
+                                MultipleLabels(placeholder: "Add your links here", change: $vm.newLinks, validationFunction: { urlString in
+                                    if let url = URL(string: urlString) {
+                                        return UIApplication.shared.canOpenURL(url)
+                                    }
+                                    return false
+                                })
+                                .frame(height: {
+                                    var count: CGFloat = 0
+                                    let padding: CGFloat = 12.5 * CGFloat(vm.newLinks.count)
+                                    for item in vm.newLinks { count += CGFloat(item.count) }
+                                    return ceil((count * 2.5 + padding) / 100.0) * 50 + 70
+                                }())
+                            } else {
+                                VStack(alignment: .leading) {
+                                    ForEach(vm.shpeito.links, id: \.self) { link in
+                                        Text(link.absoluteString)
+                                            .font(.system(size: 16))
+                                            .foregroundColor(.white)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .onTapGesture { UIApplication.shared.open(link) }
+                                    }
+                                }
+                            }
+                        }
+
+                        Spacer().frame(height: 100)
                     }
                 }
-                .padding(.top, vm.isEditing ? 20 : 0)
             }
-            .ignoresSafeArea()
-            .background(Color("Profile-Background"))
+            .ignoresSafeArea(edges: .top)
             .preferredColorScheme(appVM.darkMode ? .dark : .light)
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
-            
-            if clickedDeleteAccount
-            {
+
+            // MARK: Delete Account Overlay
+            if clickedDeleteAccount {
                 VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
-                                    .edgesIgnoringSafeArea(.all)
-                
-                VStack
-                {
-                    HStack()
-                    {
+                    .edgesIgnoringSafeArea(.all)
+
+                VStack {
+                    HStack {
                         Spacer()
                         Image("x_mark")
                             .resizable()
@@ -778,56 +415,46 @@ struct ProfileView: View
                                 }
                             }
                     }
-                    
+
                     Spacer()
-                    
+
                     Text("Delete Account?")
                         .foregroundStyle(Color.white)
                         .font(Font.custom("Viga-Regular", size: 24))
                         .padding(.bottom, 10)
-                    
+
                     Text("Deleting your account will remove all your personal data permanently.")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(Color.white)
                         .font(Font.custom("", size: 16))
-                    
+
                     let profilePFP = appVM.darkMode ? "DefaultPFPD" : "DefaultPFPL"
-                    
-                    if let profileImage = vm.shpeito.profileImage
-                    {
+
+                    if let profileImage = vm.shpeito.profileImage {
                         Image(uiImage: profileImage)
                             .renderingMode(.original)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width:130,height:130)
+                            .frame(width: 130, height: 130)
                             .cornerRadius(100)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 100)
-                                    .stroke( Color("Profile-Background") , lineWidth: 5)
-                            )
+                            .overlay(RoundedRectangle(cornerRadius: 100).stroke(Color("Profile-Background"), lineWidth: 5))
                             .padding(.vertical, 20)
-                    }
-                    else
-                    {
+                    } else {
                         Image(profilePFP)
                             .renderingMode(.original)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width:130,height:130)
+                            .frame(width: 130, height: 130)
                             .padding(.vertical, 20)
                     }
-                    
+
                     Button {
                         loadingDelete = true
                         vm.deleteAccount { data in
-                            withAnimation(.easeInOut(duration: 0.2))
-                            {
-                                if (data["error"] != nil)
-                                {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                if data["error"] != nil {
                                     errorDeleting = true
-                                }
-                                else
-                                {
+                                } else {
                                     errorDeleting = false
                                     NotificationViewModel.instance.clearPendingNotifications(fetchedEvents: coreEvents, viewContext: viewContext)
                                     CoreFunctions().clearCore(events: coreEvents, users: user, userEvents: userEvents, viewContext: viewContext)
@@ -838,21 +465,16 @@ struct ProfileView: View
                                 }
                                 loadingDelete = false
                             }
-                            
                         }
                     } label: {
-                        HStack
-                        {
+                        HStack {
                             Text("Delete")
                                 .foregroundStyle(Color.white)
                                 .font(Font.custom("Viga-Regular", size: 24))
                                 .padding(.trailing, 5)
-                            
-                            if loadingDelete
-                            {
+                            if loadingDelete {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .scaleEffect(1) // Adjust size
                                     .padding(5)
                             }
                         }
@@ -862,9 +484,8 @@ struct ProfileView: View
                         .cornerRadius(12)
                     }
                     .padding(.bottom, errorDeleting ? 10 : 20)
-                    
-                    if errorDeleting
-                    {
+
+                    if errorDeleting {
                         Text("Could not delete account at the moment. Try again later...")
                             .multilineTextAlignment(.center)
                             .foregroundStyle(Color.white)
@@ -880,20 +501,38 @@ struct ProfileView: View
             }
         }
     }
+}
 
+// MARK: - Profile Field Row
 
-/// A SwiftUI wrapper for UIKit's UIVisualEffectView to create blur effects.
-///
-/// This component enables the application of system blur effects to SwiftUI views,
-/// particularly useful for modal overlays and background effects.
-///
-/// - Important: This implementation bridges UIKit's blur functionality to SwiftUI.
-///
-/// # Example
-/// ```swift
-/// VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
-///     .edgesIgnoringSafeArea(.all)
-/// ```
+private struct ProfileFieldRow<Content: View>: View {
+    let icon: String
+    let label: String
+    @ViewBuilder let content: () -> Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Image(systemName: icon)
+                    .foregroundColor(Color("profile-orange"))
+                    .frame(width: 20)
+                Text(label)
+                    .font(Font.custom("Viga-Regular", size: 16))
+                    .foregroundColor(Color("profile-orange"))
+            }
+            content()
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(.white.opacity(0.4))
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+// MARK: - Visual Effect Blur
+
 struct VisualEffectBlur: UIViewRepresentable {
     var blurStyle: UIBlurEffect.Style
     func makeUIView(context: Context) -> UIVisualEffectView {
@@ -904,127 +543,42 @@ struct VisualEffectBlur: UIViewRepresentable {
     }
 }
 
-/// A custom shape that creates a rectangle with a curved top edge.
-///
-/// This shape is used to create visually appealing container backgrounds,
-/// particularly for the profile header section. The shape draws a rectangle
-/// with a quadratic curve along the top edge, creating a smooth, arched appearance.
-///
-/// - Parameters:
-///   - cornerRadius: The corner radius for the rectangle's corners
-///   - curveHeight: The height of the curve at the top edge (higher values create more pronounced curves)
-///
-/// # Example
-/// ```swift
-/// CurvedTopRectangle(cornerRadius: 10, curveHeight: 100)
-///     .fill(Color.blue)
-///     .frame(width: 300, height: 200)
-/// ```
-struct CurvedTopRectangle: Shape {
-    let cornerRadius: CGFloat
-    let curveHeight: CGFloat
-    
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        
-        let width = rect.width
-        let height = rect.height
-        
-        // Start drawing path from top-left corner
-        path.move(to: CGPoint(x: 0, y: curveHeight))
-        
-        // Draw quadratic curve to top-right corner
-        path.addQuadCurve(to: CGPoint(x: width, y: curveHeight), control: CGPoint(x: width / 2, y: 0))
-        
-        // Draw straight line to bottom-right corner
-        path.addLine(to: CGPoint(x: width, y: height))
-        
-        // Draw bottom-right corner
-        path.addLine(to: CGPoint(x: 0, y: height))
-        
-        // Close the path
-        path.closeSubpath()
-        
-        return path
-    }
-}
-/// A customizable dropdown selection menu for choosing from a list of options.
-///
-/// This reusable component provides a dropdown interface for selecting a single value
-/// from a predefined list of options. When tapped, it expands to show available choices
-/// and collapses when a selection is made.
-///
-/// The component is used throughout the profile for various selection fields including:
-/// - Gender selection
-/// - Ethnicity selection
-/// - Country of origin selection
-/// - Major selection
-/// - Academic year selection
-///
-/// - Parameters:
-///   - vm: The view model that manages the dropdown state
-///   - change: A binding to the selected value
-///   - options: An array of available options to choose from
-///   - width: The width of the dropdown component
-///
-/// # Example
-/// ```swift
-/// DropDown(
-///     vm: viewModel,
-///     change: $selectedOption,
-///     options: ["Option 1", "Option 2", "Option 3"],
-///     width: 200
-/// )
-/// ```
-struct DropDown:View
-{
-    /// View model containing the profile data and business logic
+// MARK: - Dropdown
+
+struct DropDown: View {
     @StateObject var vm: ProfileViewModel
     @Binding var change: String
-    
+
     let options: [String]
     let width: CGFloat
-    @State private var toggle:Bool = false
-    
+    @State private var toggle: Bool = false
+
     var body: some View {
-        VStack
-        {
-            HStack
-            {
+        VStack {
+            HStack {
                 Text(change)
-                
                 Spacer()
-                
                 Image(systemName: "chevron.down")
                     .rotationEffect(vm.dropdownPressed == change ? .degrees(180) : .zero)
             }
             .frame(width: width)
             .overlay(Rectangle().frame(height: 1).padding(.top, 35))
             .onTapGesture {
-                withAnimation(.easeInOut)
-                {
+                withAnimation(.easeInOut) {
                     vm.dropdownPressed = vm.dropdownPressed != change ? change : ""
                 }
             }
-            
-            if vm.dropdownPressed == change
-            {
-                ScrollView
-                {
-                    VStack(alignment: .leading)
-                    {
-                        ForEach(options, id:\.self)
-                        {
-                            option in
-                            
+
+            if vm.dropdownPressed == change {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        ForEach(options, id: \.self) { option in
                             Text(option)
                                 .font(.system(size: 16))
                                 .foregroundStyle(Color.black)
                                 .padding(5)
                                 .frame(width: width - 10, alignment: .leading)
-                                .onTapGesture {
-                                    change = option
-                                }
+                                .onTapGesture { change = option }
                         }
                     }
                     .padding(.vertical, 10)
@@ -1040,48 +594,21 @@ struct DropDown:View
     }
 }
 
+// MARK: - Multiple Labels
+
 typealias ValidationFunction = (String) -> Bool
-/// A component that allows users to input and display multiple string values as tags.
-///
-/// `MultipleLabels` provides an input field combined with a dynamic tag display area.
-/// Users can add multiple values which are displayed as removable tags/labels. The component
-/// includes built-in validation using a custom validation function.
-///
-/// This component is used in the profile for:
-/// - Adding and displaying classes
-/// - Adding and displaying internships
-/// - Adding and displaying external links
-///
-/// - Parameters:
-///   - placeholder: Text displayed when the input field is empty
-///   - change: A binding to the array of strings being managed
-///   - validationFunction: A function that validates each input before adding it to the array
-///
-/// The component dynamically adjusts its height based on the content and provides
-/// individual delete capabilities for each added item.
-///
-/// # Example
-/// ```swift
-/// MultipleLabels(
-///     placeholder: "Add items here",
-///     change: $items,
-///     validationFunction: { !$0.isEmpty }
-/// )
-/// ```
-struct MultipleLabels:View {
-    let placeholder:String
+
+struct MultipleLabels: View {
+    let placeholder: String
     @Binding var change: [String]
     let validationFunction: ValidationFunction
-    
-    @State private var input:String = ""
-    @State private var invalidInputMessage:String = ""
-    
-    
+
+    @State private var input: String = ""
+    @State private var invalidInputMessage: String = ""
+
     var body: some View {
-        VStack
-        {
-            HStack
-            {
+        VStack {
+            HStack {
                 TextField(placeholder, text: $input)
                     .limitInputLength(value: $input, length: 100)
                     .autocorrectionDisabled()
@@ -1090,21 +617,16 @@ struct MultipleLabels:View {
                     .padding(.top, 5)
                     .frame(width: 270)
                     .overlay(Rectangle().frame(height: 1).padding(.top, 35))
-                
+
                 Spacer()
-                
+
                 Button {
-                    if change.contains(input)
-                    {
+                    if change.contains(input) {
                         invalidInputMessage = "Input already exists"
-                    }
-                    else if validationFunction(input)
-                    {
+                    } else if validationFunction(input) {
                         invalidInputMessage = ""
                         change.append(input)
-                    }
-                    else
-                    {
+                    } else {
                         invalidInputMessage = "Invalid Input"
                     }
                     input = ""
@@ -1116,145 +638,102 @@ struct MultipleLabels:View {
                         .opacity(input.isEmpty ? 0.5 : 1)
                 }
                 .disabled(input.isEmpty)
-                
             }
-            
+
             Text(invalidInputMessage)
                 .foregroundStyle(Color.red)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
+
             GeometryReader { geometry in
                 self.generateContent(in: geometry, list: change)
             }
-                        
         }
         .padding(.vertical, 20)
     }
-    
-    private func generateContent(in g: GeometryProxy, list:[String]) -> some View {
+
+    private func generateContent(in g: GeometryProxy, list: [String]) -> some View {
         var width = CGFloat.zero
         var height = CGFloat.zero
 
-        return
-            VStack
-            {
-                ZStack(alignment: .topLeading)
-                {
-                    ForEach(list, id: \.self)
-                    { item in
-                        self.item(for: item)
-                            .padding([.horizontal, .vertical], 4)
-                            .alignmentGuide(.leading, computeValue: { d in
-                                if (abs(width - d.width) > g.size.width)
-                                {
-                                    width = 0
-                                    height -= d.height
-                                }
-                                let result = width
-                                if item == list.last! {
-                                    width = 0 //last item
-                                } else {
-                                    width -= d.width
-                                }
-                                return result
-                            })
-                            .alignmentGuide(.top, computeValue: {d in
-                                let result = height
-                                if item == list.last! {
-                                    height = 0 // last item
-                                }
-                                return result
-                            })
-                        }
-                    }
-            }
-            .padding(.top, 20)
-        }
-        
-        func item(for text: String) -> some View {
-            HStack
-            {
-                Text(text)
-                    .font(Font.custom("Manrope-Light", size: 16))
-                    .padding(.all, 5)
-                    .padding(.leading, 5)
-                    .font(.body)
-                    
-                Image("xMark")
-                    .resizable()
-                    .frame(width: 16, height: 16)
-                    .padding(.all, 5)
-                    .onTapGesture {
-                        var index = 0
-                        for interest in change
-                        {
-                           if text == interest
-                            {
-                               change.remove(at: index)
+        return VStack {
+            ZStack(alignment: .topLeading) {
+                ForEach(list, id: \.self) { item in
+                    self.item(for: item)
+                        .padding([.horizontal, .vertical], 4)
+                        .alignmentGuide(.leading, computeValue: { d in
+                            if abs(width - d.width) > g.size.width {
+                                width = 0
+                                height -= d.height
                             }
-                            index += 1
-                        }
-                    }
-                
+                            let result = width
+                            if item == list.last! { width = 0 } else { width -= d.width }
+                            return result
+                        })
+                        .alignmentGuide(.top, computeValue: { d in
+                            let result = height
+                            if item == list.last! { height = 0 }
+                            return result
+                        })
+                }
             }
-            .background(Color("buttonColor"))
-            .foregroundColor(Color.white)
-            .cornerRadius(20)
         }
+        .padding(.top, 20)
+    }
+
+    func item(for text: String) -> some View {
+        HStack {
+            Text(text)
+                .font(Font.custom("Manrope-Light", size: 16))
+                .padding(.all, 5)
+                .padding(.leading, 5)
+                .font(.body)
+            Image("xMark")
+                .resizable()
+                .frame(width: 16, height: 16)
+                .padding(.all, 5)
+                .onTapGesture {
+                    var index = 0
+                    for interest in change {
+                        if text == interest { change.remove(at: index) }
+                        index += 1
+                    }
+                }
+        }
+        .background(Color("buttonColor"))
+        .foregroundColor(Color.white)
+        .cornerRadius(20)
+    }
 }
-/// A UIKit-bridged component that provides access to the device's photo library or camera.
-///
-/// `ImagePicker` allows users to select images from their photo library or take new photos
-/// using the device camera. It's implemented as a `UIViewControllerRepresentable` to bridge
-/// UIKit's `UIImagePickerController` functionality to SwiftUI.
-///
-/// In the profile view, this component is used to allow users to select or update their
-/// profile picture.
-///
-/// - Parameters:
-///   - selectedImage: A binding to the optional UIImage that will store the selected image
-///   - sourceType: The source for the picker (camera or photo library)
-///
-/// # Example
-/// ```swift
-/// ImagePicker(
-///     selectedImage: $profileImage,
-///     sourceType: .photoLibrary
-/// )
-/// ```
+
+// MARK: - Image Picker
+
 struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     var sourceType: UIImagePickerController.SourceType
     @Environment(\.presentationMode) var presentationMode
-    
+
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
         imagePicker.delegate = context.coordinator
         return imagePicker
     }
-    
+
     func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
-    }
-    
+
+    func makeCoordinator() -> Coordinator { Coordinator(parent: self) }
+
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         let parent: ImagePicker
-        
-        init(parent: ImagePicker) {
-            self.parent = parent
-        }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        init(parent: ImagePicker) { self.parent = parent }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let image = info[.originalImage] as? UIImage {
                 parent.selectedImage = image.resize()
             }
-            
             parent.presentationMode.wrappedValue.dismiss()
         }
-        
+
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.presentationMode.wrappedValue.dismiss()
         }
@@ -1262,7 +741,5 @@ struct ImagePicker: UIViewControllerRepresentable {
 }
 
 #Preview {
-    ProfileView(vm:ProfileViewModel(shpeito: SHPEito()
-    ))
+    ProfileView(vm: ProfileViewModel(shpeito: SHPEito()))
 }
-    

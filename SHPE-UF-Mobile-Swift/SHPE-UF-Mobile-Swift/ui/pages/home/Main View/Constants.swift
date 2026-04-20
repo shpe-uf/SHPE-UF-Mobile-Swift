@@ -45,6 +45,18 @@ struct Constants {
     
     static let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Corporate Event", "Social", "Miscellaneous"]
     
+    // GRADIENT FOR PROFILE PAGE
+
+    /// Profile: #72A9BE (top) → #035B9B (bottom)
+    static let profileGradient: LinearGradient = LinearGradient(
+        stops: [
+            Gradient.Stop(color: Color(red: 114/255, green: 169/255, blue: 190/255), location: 0.00),
+            Gradient.Stop(color: Color(red:   3/255, green:  91/255, blue: 155/255), location: 1.00)
+        ],
+        startPoint: .top,
+        endPoint: .bottom
+    )
+
     // GRADIENTS FOR SETTINGS PAGE
 
     /// Dark mode: #011F35 (top) → #035B9B (bottom)
