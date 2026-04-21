@@ -47,7 +47,7 @@ struct SignInView: View
     @State private var isHovered = false
     @State private var isPasswordVisible = false
     @State private var signInSuccess = false
-    @State private var isForgetPassword = false
+    @State private var isForgotPassword = false
     
     
     
@@ -73,23 +73,11 @@ struct SignInView: View
                         }
                     }
             }
-            Color(red: 0.82, green: 0.35, blue: 0.09)
+            (colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
                 .ignoresSafeArea()
             
             
-            //gator pic
-            Rectangle()
-              .foregroundColor(.clear)
-              .background(
-                Image(colorScheme == .dark ? "Gator" : "Gator2")
-                  .resizable()
-                  .aspectRatio(contentMode: .fill)
-                  .frame(width: 306, height: 197)
-                  .clipped()
-              )
-              .offset(y: colorScheme == .dark ? -UIScreen.main.bounds.height * 0.305 : -UIScreen.main.bounds.height * 0.325)
-            
-            
+           
             VStack
             {
                 // SHPE Logo Image
@@ -110,9 +98,9 @@ struct SignInView: View
                 // Email Text
                 VStack(alignment: .leading)
                 {
-                    Text("Username or Email")
+                    Text("Username")
                       .font(Font.custom("Univers LT Std", size: 16))
-                      .foregroundColor(Color("whiteText"))
+                      .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                     
                     HStack(spacing: 0)
                     {
@@ -137,7 +125,7 @@ struct SignInView: View
                 {
                     Text("Password")
                       .font(Font.custom("Univers LT Std", size: 16))
-                      .foregroundColor(Color("whiteText"))
+                      .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                     
                     HStack(spacing: 0)
                     {
@@ -178,13 +166,14 @@ struct SignInView: View
                 }
                 .padding(.bottom, 22)
                 VStack(alignment: .leading){
-                    Button("Forget Password?") {
-                        isForgetPassword = true
+                    Button("Forgot Password?") {
+                        isForgotPassword = true
                     }
                     .font(Font.custom("Univers LT Std", size: 14))
-                    .foregroundColor(Color("lblue"))
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.blue)
+                    .bold()
                 }
-                .fullScreenCover(isPresented: $isForgetPassword){
+                .fullScreenCover(isPresented: $isForgotPassword){
                     ForgetPasswordView(viewModel: ForgetPasswordViewModel())
                 }
                 
@@ -217,11 +206,12 @@ struct SignInView: View
                 {
                     Text("Don’t have an account?")
                       .font(Font.custom("Univers LT Std", size: 14))
-                      .foregroundColor(Color("whiteText"))
+                      .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                     
                     Text("Sign Up")
                         .font(Font.custom("Univers LT Std", size: 14))
-                        .foregroundColor(Color("lblue"))
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.blue)
+                        .bold()
                         .onTapGesture {
                             appVM.setPageIndex(index: 1)
                         }
@@ -233,7 +223,8 @@ struct SignInView: View
                 }) {
                     Text("Continue as Guest")
                         .font(Font.custom("Univers LT Std", size: 14))
-                        .foregroundColor(Color("lblue"))
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.blue)
+                        .bold()
                         .padding(.top, 10)
                 }
                
@@ -241,7 +232,7 @@ struct SignInView: View
                 
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
-            .background(Color("darkBlue"))
+            .background(Color.clear)
             .padding(.top, UIScreen.main.bounds.height * 0.17)
             
 //            if viewModel.signInButtonClicked {
