@@ -64,6 +64,11 @@ struct HomePageContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var selectedTab: Int = 0
     @State private var dragOffset = CGSize.zero
+    @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
+
+    private var chatbotPersona: ChatPersona {
+        ChatPersona(rawValue: selectedPersonaRaw) ?? .tito
+    }
     
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
@@ -103,7 +108,7 @@ struct HomePageContentView: View {
             ChatBotView()
                 .tag(3)
                 .tabItem {
-                    if let uiImage = UIImage(named: "tito")?
+                    if let uiImage = UIImage(named: chatbotPersona.imageName)?
                         .preparingThumbnail(of: CGSize(width: 25, height: 25)) {
                         Image(uiImage: uiImage)
                     }

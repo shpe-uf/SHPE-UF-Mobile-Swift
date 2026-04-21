@@ -40,7 +40,6 @@ private struct ChatTheme {
 
 // MARK: - Bubble tail
 private struct BubbleShape: Shape {
-    var isUser: Bool
     func path(in rect: CGRect) -> Path {
         return Path(roundedRect: rect, cornerRadius: 22)
     }
@@ -112,11 +111,11 @@ private struct ChatBubble: View {
                 .padding(.vertical, 14)
                 .padding(.horizontal, 18)
                 .background(
-                    BubbleShape(isUser: message.isUser)
+                    BubbleShape()
                         .fill(isFailed ? ChatTheme.errorRed : (message.isUser ? ChatTheme.orange : ChatTheme.userBlue))
                 )
                 .overlay(
-                    BubbleShape(isUser: message.isUser)
+                    BubbleShape()
                         .stroke(isFailed ? Color.red.opacity(0.4) : .white.opacity(0.12), lineWidth: isFailed ? 1.5 : 0.5)
                 )
                 .frame(maxWidth: min(UIScreen.main.bounds.width * 0.75, 500), alignment: message.isUser ? .trailing : .leading)
@@ -201,8 +200,6 @@ struct ChatBotView: View {
                         .onTapGesture { dismissKeyboard() }
                 } else {
                     messagesList
-                        .contentShape(Rectangle())
-                        .onTapGesture { dismissKeyboard() }
                         .overlay(alignment: .bottomTrailing) {
                             if !isNearBottom {
                                 Button(action: {
@@ -221,6 +218,9 @@ struct ChatBotView: View {
                         }
                 }
             }
+
+            // Single floating avatar — animates between intro center and header top-right
+            floatingAvatar
         }
         .safeAreaInset(edge: .bottom) {
             inputBar
@@ -228,7 +228,7 @@ struct ChatBotView: View {
                 .padding(.vertical, 10)
                 .background(bg)
         }
-        .animation(.easeInOut(duration: 0.2), value: vm.messages.count)
+        .animation(vm.messages.count <= 1 ? .easeInOut(duration: 0.8) : .easeInOut(duration: 0.8), value: vm.messages.count)
     }
 
     // MARK: Scroll helper
@@ -256,6 +256,17 @@ struct ChatBotView: View {
         ZStack {
             ChatTheme.orange.ignoresSafeArea(edges: .top)
             HStack {
+                if !vm.messages.isEmpty {
+                    Button(action: {
+                        withAnimation { vm.messages.removeAll() }
+                    }) {
+                        Image(systemName: "trash")
+                            .foregroundColor(.white.opacity(0.85))
+                            .frame(width: 36, height: 36)
+                    }
+                    .accessibilityLabel("Clear conversation")
+                }
+
                 Spacer()
 
                 Text(persona.headerTitle)
@@ -264,22 +275,9 @@ struct ChatBotView: View {
 
                 Spacer()
 
+                // Reserve space for the floating avatar overlay
                 if !vm.messages.isEmpty {
-                    Image(persona.imageName)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 36, height: 36)
-                        .clipShape(Circle())
-                        .background(
-                            Circle()
-                                .fill(.orangeButton)
-                        )
-                        .overlay(
-                            Circle()
-                                .stroke(.white)
-                            )
-                        .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
-                        .accessibilityHidden(true)
+                    Color.clear.frame(width: 36, height: 36)
                 }
 
             } .padding(.horizontal)
@@ -287,17 +285,42 @@ struct ChatBotView: View {
         .frame(height: 50)
     }
 
+    // MARK: Floating avatar
+    private var isIntro: Bool { vm.messages.isEmpty }
+
+    private var floatingAvatar: some View {
+        let size: CGFloat = isIntro ? 160 : 36
+        return Image(persona.imageName)
+            .resizable()
+            .scaledToFill()
+            .frame(width: size, height: size)
+            .clipShape(Circle())
+            .shadow(radius: isIntro ? 6 : 0)
+            .overlay(
+                Circle()
+                    .stroke(.white, lineWidth: isIntro ? 0 : 1)
+                    .opacity(isIntro ? 0 : 1)
+            )
+            .background(
+                Circle()
+                    .fill(Color(.orangeButton))
+                    .opacity(isIntro ? 0 : 1)
+            )
+            .shadow(color: .black.opacity(isIntro ? 0 : 0.3), radius: 8, x: 0, y: 4)
+            .frame(maxWidth: .infinity, maxHeight: .infinity,
+                   alignment: isIntro ? .center : .topTrailing)
+            .offset(y: isIntro ? -60 : 7)
+            .padding(.trailing, isIntro ? 0 : 16)
+            .accessibilityHidden(true)
+            .allowsHitTesting(false)
+    }
+
     // MARK: Intro view
     private var introView: some View {
         VStack {
             Spacer()
-            Image(persona.imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 160, height: 160)
-                .clipShape(Circle())
-                .shadow(radius: 6)
-                .accessibilityHidden(true)
+            // Avatar space — actual image is in the floating overlay
+            Color.clear.frame(width: 160, height: 160)
 
             Text(persona.introMessage)
                 .font(.body.weight(.medium))
@@ -326,8 +349,7 @@ struct ChatBotView: View {
                 VStack(spacing: 0) {
                     Color.clear.frame(height: 12)
 
-                    ForEach(vm.messages.indices, id: \.self) { index in
-                        let msg = vm.messages[index]
+                    ForEach(Array(vm.messages.enumerated()), id: \.element.id) { index, msg in
                         let previousSameAuthor: Bool = {
                             guard index > 0 else { return false }
                             return vm.messages[index - 1].isUser == msg.isUser
@@ -343,6 +365,7 @@ struct ChatBotView: View {
                             }
 
                             ChatBubble(message: msg, persona: persona) {
+                                sendHaptic.impactOccurred()
                                 vm.retry(messageID: msg.id, persona: persona.serverValue)
                             }
                             .padding(.top, previousSameAuthor ? -2 : 0)
@@ -357,11 +380,11 @@ struct ChatBotView: View {
                                 .padding(.vertical, 16)
                                 .padding(.horizontal, 18)
                                 .background(
-                                    BubbleShape(isUser: false)
+                                    BubbleShape()
                                         .fill(ChatTheme.userBlue)
                                 )
                                 .overlay(
-                                    BubbleShape(isUser: false)
+                                    BubbleShape()
                                         .stroke(.white.opacity(0.12), lineWidth: 0.5)
                                 )
                                 .padding(.horizontal, 20)
@@ -429,8 +452,8 @@ struct ChatBotView: View {
                 .font(.body)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 14)
-                .foregroundColor(.black)
-                .background(.white)
+                .foregroundColor(.primary)
+                .background(scheme == .dark ? Color(.systemGray5) : .white)
                 .clipShape(Capsule())
 
             Button(action: {
@@ -444,7 +467,7 @@ struct ChatBotView: View {
             }
             .disabled(sendDisabled)
             .accessibilityLabel("Send message")
-            .background(.white)
+            .background(scheme == .dark ? Color(.systemGray5) : .white)
             .clipShape(Circle())
         }
     }

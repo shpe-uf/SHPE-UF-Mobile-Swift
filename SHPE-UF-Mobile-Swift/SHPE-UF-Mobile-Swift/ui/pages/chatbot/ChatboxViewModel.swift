@@ -51,7 +51,9 @@ final class ChatboxViewModel: ObservableObject {
                 self.isLoading = false
 
                 if let error = result["error"] as? String {
+                    #if DEBUG
                     print("ChatBot error:", error)
+                    #endif
                     // Mark the user message as failed with a descriptive error
                     if let index = self.messages.firstIndex(where: { $0.id == userMessageID }) {
                         let errorMessage = self.classifyError(error)

@@ -14,7 +14,7 @@ enum ChatPersona: String, CaseIterable {
     var imageName: String {
         switch self {
         case .tito: return "tito"
-        case .tina: return "shpe_logo" // Filler — replace with real Tina asset later
+        case .tina: return "tina"
         }
     }
 
