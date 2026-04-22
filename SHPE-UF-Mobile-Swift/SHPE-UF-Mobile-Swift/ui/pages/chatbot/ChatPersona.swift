@@ -36,4 +36,5 @@ enum ChatPersona: String, CaseIterable {
 
     /// Exact string the server expects ("Tito" or "Tina")
     var serverValue: String { displayName }
+
 }

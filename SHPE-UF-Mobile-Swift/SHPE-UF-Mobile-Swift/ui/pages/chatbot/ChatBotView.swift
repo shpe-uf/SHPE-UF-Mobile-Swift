@@ -100,6 +100,7 @@ private struct ChatBubble: View {
                             let _ = Self.applySemanticFont(&attributed)
                             Text(attributed)
                                 .foregroundColor(.white)
+                                .tint(Color(red: 1.0, green: 0.85, blue: 0.4)) // Yellow links visible on blue bubble
                         } else {
                             Text(message.text)
                                 .font(.body)
@@ -128,6 +129,9 @@ private struct ChatBubble: View {
                         UIPasteboard.general.string = message.text
                     }) {
                         Label("Copy", systemImage: "doc.on.doc")
+                    }
+                    ShareLink(item: message.text) {
+                        Label("Share", systemImage: "square.and.arrow.up")
                     }
                 }
                 .padding(.horizontal, 20)
@@ -174,12 +178,15 @@ struct ChatBotView: View {
     @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
     @State private var isNearBottom = true
     @State private var scrollProxy: ScrollViewProxy?
+    @State private var showClearAlert = false
+    @State private var showInfoSheet = false
 
     private var persona: ChatPersona {
         ChatPersona(rawValue: selectedPersonaRaw) ?? .tito
     }
 
     private let sendHaptic = UIImpactFeedbackGenerator(style: .light)
+    private let receiveHaptic = UINotificationFeedbackGenerator()
 
     private var bg: Color { scheme == .dark ? ChatTheme.darkBG : ChatTheme.lightBG }
 
@@ -200,6 +207,7 @@ struct ChatBotView: View {
                         .onTapGesture { dismissKeyboard() }
                 } else {
                     messagesList
+                        .onTapGesture { dismissKeyboard() }
                         .overlay(alignment: .bottomTrailing) {
                             if !isNearBottom {
                                 Button(action: {
@@ -229,6 +237,14 @@ struct ChatBotView: View {
                 .background(bg)
         }
         .animation(vm.messages.count <= 1 ? .easeInOut(duration: 0.8) : .easeInOut(duration: 0.8), value: vm.messages.count)
+        .sheet(isPresented: $showInfoSheet) {
+            infoSheet
+        }
+    }
+
+    private func performSend() {
+        vm.send(persona: persona.serverValue)
+        dismissKeyboard()
     }
 
     // MARK: Scroll helper
@@ -256,15 +272,34 @@ struct ChatBotView: View {
         ZStack {
             ChatTheme.orange.ignoresSafeArea(edges: .top)
             HStack {
+                Button(action: {
+                    showInfoSheet = true
+                }) {
+                    Image(systemName: "info.circle")
+                        .foregroundColor(.white.opacity(0.85))
+                        .frame(width: 36, height: 36)
+                }
+                .accessibilityLabel("About \(persona.displayName), opens info sheet")
+
                 if !vm.messages.isEmpty {
                     Button(action: {
-                        withAnimation { vm.messages.removeAll() }
+                        showClearAlert = true
                     }) {
                         Image(systemName: "trash")
                             .foregroundColor(.white.opacity(0.85))
                             .frame(width: 36, height: 36)
                     }
                     .accessibilityLabel("Clear conversation")
+                    .alert("Clear Conversation", isPresented: $showClearAlert) {
+                        Button("Clear", role: .destructive) {
+                            withAnimation {
+                                vm.messages.removeAll()
+                            }
+                        }
+                        Button("Cancel", role: .cancel) {}
+                    } message: {
+                        Text("Are you sure you want to clear this conversation?")
+                    }
                 }
 
                 Spacer()
@@ -275,8 +310,12 @@ struct ChatBotView: View {
 
                 Spacer()
 
-                // Reserve space for the floating avatar overlay
+                // Balance left side: info (36) always + trash (36) when messages exist
+                // Right side: avatar (36) when messages exist
+                // Extra clear space to keep title centered
                 if !vm.messages.isEmpty {
+                    Color.clear.frame(width: 72, height: 36)
+                } else {
                     Color.clear.frame(width: 36, height: 36)
                 }
 
@@ -416,7 +455,7 @@ struct ChatBotView: View {
             .coordinateSpace(name: "chatScroll")
             .onPreferenceChange(BottomVisiblePreferenceKey.self) { bottomY in
                 let scrollViewHeight = UIScreen.main.bounds.height
-                let nearBottomThreshold: CGFloat = 100
+                let nearBottomThreshold: CGFloat = 10
                 let newNearBottom = bottomY < scrollViewHeight + nearBottomThreshold
                 if newNearBottom != isNearBottom {
                     withAnimation(.easeInOut(duration: 0.15)) {
@@ -429,17 +468,21 @@ struct ChatBotView: View {
                 scrollProxy = proxy
             }
             .onChange(of: vm.messages.count) {
-                if isNearBottom {
-                    withAnimation(.easeOut(duration: 0.2)) {
-                        proxy.scrollTo("bottom-anchor", anchor: .bottom)
-                    }
+                // Auto-scroll when the user sends a message and dismiss keyboard
+                guard let last = vm.messages.last, last.isUser else { return }
+                dismissKeyboard()
+                withAnimation(.easeOut(duration: 0.2)) {
+                    proxy.scrollTo("bottom-anchor", anchor: .bottom)
                 }
             }
             .onChange(of: vm.isLoading) {
-                if vm.isLoading && isNearBottom {
+                if vm.isLoading {
                     withAnimation(.easeOut(duration: 0.2)) {
                         proxy.scrollTo("typing-indicator", anchor: .bottom)
                     }
+                } else {
+                    // Bot reply just arrived
+                    receiveHaptic.notificationOccurred(.success)
                 }
             }
         }
@@ -450,15 +493,29 @@ struct ChatBotView: View {
         HStack(spacing: 10) {
             TextField("Ask anything", text: $vm.inputText, axis: .vertical)
                 .font(.body)
+                .lineLimit(1...5)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 14)
                 .foregroundColor(.primary)
                 .background(scheme == .dark ? Color(.systemGray5) : .white)
                 .clipShape(Capsule())
+                .onChange(of: vm.inputText) {
+                    // Send on Return key (detect newline insertion)
+                    if vm.inputText.contains("\n") {
+                        vm.inputText = vm.inputText.replacingOccurrences(of: "\n", with: "")
+                        guard !sendDisabled else { return }
+                        sendHaptic.impactOccurred()
+                        performSend()
+                        return
+                    }
+                    if vm.inputText.count > 500 {
+                        vm.inputText = String(vm.inputText.prefix(500))
+                    }
+                }
 
             Button(action: {
                 sendHaptic.impactOccurred()
-                vm.send(persona: persona.serverValue)
+                performSend()
             }) {
                 Image(systemName: "paperplane.fill")
                     .font(.title3.weight(.semibold))
@@ -469,6 +526,92 @@ struct ChatBotView: View {
             .accessibilityLabel("Send message")
             .background(scheme == .dark ? Color(.systemGray5) : .white)
             .clipShape(Circle())
+        }
+    }
+
+    // MARK: Info sheet
+    private var infoSheet: some View {
+        let name = persona.displayName
+        return NavigationStack {
+            ZStack {
+                bg.ignoresSafeArea()
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        // Persona avatar centered at top
+                        HStack {
+                            Spacer()
+                            Image(persona.imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(ChatTheme.orange, lineWidth: 2))
+                                .shadow(radius: 4)
+                            Spacer()
+                        }
+                        .padding(.top, 8)
+
+                        Text("About \(name)")
+                            .font(.title2.bold())
+                            .foregroundColor(scheme == .dark ? .white : .primary)
+
+                        Text("Your SHPE UF assistant — chapter info, career help, and life at UF.")
+                            .foregroundColor(scheme == .dark ? .white.opacity(0.85) : .primary)
+
+                        infoSection(title: "Try asking:", items: [
+                            "When is the next GM?",
+                            "Where's the resume guide?",
+                            "How do I prep for an interview?",
+                            "Tell me about SHPE Hackathon"
+                        ])
+
+                        infoSection(title: "What I can do:", items: [
+                            "Look up events from the official calendar",
+                            "Link you to SHPE docs, Linktree, and Instagram",
+                            "Help with resumes, interviews, networking, and picking a major"
+                        ])
+
+                        infoSection(title: "What I can't do:", items: [
+                            "Code, math, or homework",
+                            "Essays, translations, or creative writing",
+                            "Anything outside SHPE, UF, or careers"
+                        ])
+
+                        Text("Tap the trash icon to clear your chat.")
+                            .foregroundColor(.secondary)
+                            .font(.footnote)
+                    }
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                }
+            }
+            .navigationTitle("About \(name)")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        showInfoSheet = false
+                    }
+                }
+            }
+        }
+    }
+
+    private func infoSection(title: String, items: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(title)
+                .font(.body.bold())
+                .foregroundColor(ChatTheme.orange)
+            ForEach(items, id: \.self) { item in
+                HStack(alignment: .top, spacing: 8) {
+                    Text("•")
+                        .foregroundColor(ChatTheme.orange)
+                    Text(item)
+                        .foregroundColor(scheme == .dark ? .white.opacity(0.85) : .primary)
+                }
+            }
         }
     }
 

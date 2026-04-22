@@ -1,24 +1,60 @@
 import Foundation
 import SwiftUI
 
-enum MessageStatus {
+enum MessageStatus: Codable {
     case sent
-    case failed(String) // Carries the error description for display
+    case failed(String)
 }
 
-struct ChatMessage: Identifiable {
-    let id = UUID()
+struct ChatMessage: Identifiable, Codable {
+    let id: UUID
     let text: String
     let isUser: Bool
     let date: Date
-    var status: MessageStatus = .sent
+    var status: MessageStatus
+
+    init(text: String, isUser: Bool, date: Date, status: MessageStatus = .sent) {
+        self.id = UUID()
+        self.text = text
+        self.isUser = isUser
+        self.date = date
+        self.status = status
+    }
 }
 
 final class ChatboxViewModel: ObservableObject {
-    @Published var messages: [ChatMessage] = []
+    @Published var messages: [ChatMessage] = [] {
+        didSet { saveMessages() }
+    }
     @Published var inputText: String = ""
     private let request = RequestHandler()
     @Published var isLoading: Bool = false
+
+    private static let messagesKey = "chatbot_messages"
+
+    init() {
+        messages = Self.loadMessages()
+    }
+
+    private static let maxPersistedMessages = 100
+
+    private func saveMessages() {
+        let toSave = messages.suffix(Self.maxPersistedMessages)
+        guard let data = try? JSONEncoder().encode(Array(toSave)) else { return }
+        UserDefaults.standard.set(data, forKey: Self.messagesKey)
+    }
+
+    private static func loadMessages() -> [ChatMessage] {
+        guard let data = UserDefaults.standard.data(forKey: messagesKey),
+              var loaded = try? JSONDecoder().decode([ChatMessage].self, from: data) else { return [] }
+        // Reset any failed messages to sent on relaunch
+        for i in loaded.indices {
+            if case .failed = loaded[i].status {
+                loaded[i].status = .sent
+            }
+        }
+        return loaded
+    }
 
     func send(persona: String? = nil) {
         let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
