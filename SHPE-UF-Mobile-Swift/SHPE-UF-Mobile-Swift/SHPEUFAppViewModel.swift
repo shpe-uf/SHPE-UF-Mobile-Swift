@@ -62,7 +62,7 @@ class AppViewModel: ObservableObject
     @Published var placemark:MTPlacemark?
     
     private init() {
-        self.pageIndex = 2 // TEMP: bypass login, go straight to calendar
+        self.pageIndex = -1
         self.shpeito = SHPEito()
         self.darkMode = false
         self.showToast = false

@@ -22,7 +22,7 @@
 		24C80BD52F8FF284009FF0EF /* ChatBotQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BD42F8FF284009FF0EF /* ChatBotQuery.graphql.swift */; };
 		24C80BD62F8FF284009FF0EF /* ChatBotQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BD42F8FF284009FF0EF /* ChatBotQuery.graphql.swift */; };
 		24C80BD92F8FF2FB009FF0EF /* ChatBotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BD82F8FF2FB009FF0EF /* ChatBotView.swift */; };
-		24C80BDB2F8FF2FB009FF0EF /* ChatboxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BDA2F8FF2FB009FF0EF /* ChatboxViewModel.swift */; };
+		24C80BDB2F8FF2FB009FF0EF /* ChatBotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24C80BDA2F8FF2FB009FF0EF /* ChatBotViewModel.swift */; };
 		24F48B0E2F96D1B100B97C8A /* ChatPersona.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F48B0D2F96D1B100B97C8A /* ChatPersona.swift */; };
 		462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B6F492B7180AB00EB575C /* CircularProgessView.swift */; };
 		4632E4742B6B575E0048782D /* PointsUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4632E4732B6B575E0048782D /* PointsUI.swift */; };
@@ -263,7 +263,7 @@
 		24C80BD32F8FF283009FF0EF /* Chatbot.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chatbot.graphql.swift; sourceTree = "<group>"; };
 		24C80BD42F8FF284009FF0EF /* ChatBotQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotQuery.graphql.swift; sourceTree = "<group>"; };
 		24C80BD82F8FF2FB009FF0EF /* ChatBotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotView.swift; sourceTree = "<group>"; };
-		24C80BDA2F8FF2FB009FF0EF /* ChatboxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatboxViewModel.swift; sourceTree = "<group>"; };
+		24C80BDA2F8FF2FB009FF0EF /* ChatBotViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotViewModel.swift; sourceTree = "<group>"; };
 		24C80BDC2F8FF369009FF0EF /* IsLastMonth.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsLastMonth.graphql.swift; sourceTree = "<group>"; };
 		24F48B0D2F96D1B100B97C8A /* ChatPersona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPersona.swift; sourceTree = "<group>"; };
 		462B6F492B7180AB00EB575C /* CircularProgessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgessView.swift; sourceTree = "<group>"; };
@@ -661,7 +661,7 @@
 			isa = PBXGroup;
 			children = (
 				24C80BD82F8FF2FB009FF0EF /* ChatBotView.swift */,
-				24C80BDA2F8FF2FB009FF0EF /* ChatboxViewModel.swift */,
+				24C80BDA2F8FF2FB009FF0EF /* ChatBotViewModel.swift */,
 				24F48B0D2F96D1B100B97C8A /* ChatPersona.swift */,
 			);
 			path = chatbot;
@@ -1264,7 +1264,7 @@
 				B843060A2E35E2BD008AB686 /* GetUserPermissionQuery.graphql.swift in Sources */,
 				B843060B2E35E2BD008AB686 /* EditUserProfileInput.graphql.swift in Sources */,
 				B843060C2E35E2BD008AB686 /* Event.graphql.swift in Sources */,
-				24C80BDB2F8FF2FB009FF0EF /* ChatboxViewModel.swift in Sources */,
+				24C80BDB2F8FF2FB009FF0EF /* ChatBotViewModel.swift in Sources */,
 				B843060D2E35E2BD008AB686 /* RedeemPointsInput.graphql.swift in Sources */,
 				B843060E2E35E2BD008AB686 /* GetUserPointsQuery.graphql.swift in Sources */,
 				B843060F2E35E2BD008AB686 /* GetPointsQuery.graphql.swift in Sources */,

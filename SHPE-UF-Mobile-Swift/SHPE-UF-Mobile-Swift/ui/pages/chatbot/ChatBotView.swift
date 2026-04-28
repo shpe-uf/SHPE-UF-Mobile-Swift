@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Helper to format timestamps
+/// Formats bubble timestamps as time-only (e.g. "2:45 PM").
 private let chatTimestampFormatter: DateFormatter = {
     let df = DateFormatter()
     df.timeStyle = .short
@@ -8,7 +8,7 @@ private let chatTimestampFormatter: DateFormatter = {
     return df
 }()
 
-// MARK: - Typing dots (pulsing)
+/// Three pulsing dots shown while waiting for the bot's response.
 private struct TypingDots: View {
     @State private var animate = false
 
@@ -29,7 +29,7 @@ private struct TypingDots: View {
     }
 }
 
-// MARK: - Theme
+/// Shared color palette for the chatbot screen.
 private struct ChatTheme {
     static let orange  = Color(red: 210/255, green: 89/255,  blue: 23/255) // #D25917
     static let darkBG  = Color(red:   1/255, green: 31/255,  blue: 53/255) // #011F35
@@ -38,17 +38,24 @@ private struct ChatTheme {
     static let errorRed = Color(red: 200/255, green: 50/255, blue: 50/255)
 }
 
-// MARK: - Bubble tail
-private struct BubbleShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        return Path(roundedRect: rect, cornerRadius: 22)
-    }
-}
+// MARK: - Bubble shape
+private let bubbleShape = RoundedRectangle(cornerRadius: 22)
 
-// MARK: - Bubble
+/// A single chat bubble in the message list.
+///
+/// This view:
+/// 1. Renders user messages with bold white text on an orange background
+/// 2. Renders bot messages with inline markdown (bold, italic, links) on a blue background
+/// 3. Shows a tap-to-retry error label when a message fails to send
+///
+/// ## Key Components
+/// - Markdown parsing via `AttributedString` with per-run font application
+/// - Context menu with Copy and Share actions
+/// - VoiceOver accessibility labels for each bubble
 private struct ChatBubble: View {
     let message: ChatMessage
     let persona: ChatPersona
+    let maxBubbleWidth: CGFloat
     var onRetry: (() -> Void)?
 
     private var isFailed: Bool {
@@ -61,7 +68,7 @@ private struct ChatBubble: View {
         return nil
     }
 
-    // Applies semantic .body-relative font on every run, preserving bold/italic from markdown
+    /// Applies `.body`-relative font to every run in an `AttributedString`, preserving bold/italic from markdown parsing.
     static func applySemanticFont(_ attributed: inout AttributedString) {
         for run in attributed.runs {
             let intent = run.inlinePresentationIntent ?? []
@@ -112,14 +119,14 @@ private struct ChatBubble: View {
                 .padding(.vertical, 14)
                 .padding(.horizontal, 18)
                 .background(
-                    BubbleShape()
+                    bubbleShape
                         .fill(isFailed ? ChatTheme.errorRed : (message.isUser ? ChatTheme.orange : ChatTheme.userBlue))
                 )
                 .overlay(
-                    BubbleShape()
+                    bubbleShape
                         .stroke(isFailed ? Color.red.opacity(0.4) : .white.opacity(0.12), lineWidth: isFailed ? 1.5 : 0.5)
                 )
-                .frame(maxWidth: min(UIScreen.main.bounds.width * 0.75, 500), alignment: message.isUser ? .trailing : .leading)
+                .frame(maxWidth: maxBubbleWidth, alignment: message.isUser ? .trailing : .leading)
                 .accessibilityElement(children: .combine)
                 .accessibilityLabel(bubbleAccessibilityLabel)
                 .accessibilityHint(isFailed ? "Double tap to retry sending" : "")
@@ -170,10 +177,33 @@ private extension View {
     }
 }
 
-// MARK: - Chat screen
+/// The main chatbot screen for interacting with the SHPE UF AI assistant.
+///
+/// This view:
+/// 1. Presents a persona picker (Tito/Tina) on the intro screen
+/// 2. Displays a scrollable message list with user and bot bubbles
+/// 3. Provides a text input bar with send-on-tap and send-on-Return
+/// 4. Shows a typing indicator while waiting for the server response
+/// 5. Offers an info sheet describing the bot's capabilities
+///
+/// ## Key Components
+/// - Floating avatar that animates from intro center to header corner on first send
+/// - ``ChatBubble`` with inline markdown rendering, context menu (copy/share), and tap-to-retry
+/// - ``TypingDots`` pulsing indicator during loading
+/// - ``ChatTheme`` shared color palette
+///
+/// ## Data Flow
+/// - Uses ``ChatBotViewModel`` as state object for messages, sending, and persistence
+/// - Persona selection persisted via `@AppStorage("selectedPersona")`
+/// - Conversations stored in `UserDefaults` (up to 100 messages)
+///
+/// ## Example Usage
+/// ```swift
+/// ChatBotView()
+/// ```
 struct ChatBotView: View {
     @Environment(\.colorScheme) private var scheme
-    @StateObject private var vm = ChatboxViewModel()
+    @StateObject private var vm = ChatBotViewModel()
 
     @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
     @State private var isNearBottom = true
@@ -195,50 +225,52 @@ struct ChatBotView: View {
     }
 
     var body: some View {
-        ZStack {
-            bg.ignoresSafeArea()
+        GeometryReader { geometry in
+            ZStack {
+                bg.ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                header
+                VStack(spacing: 0) {
+                    header
 
-                if vm.messages.isEmpty {
-                    introView
-                        .contentShape(Rectangle())
-                        .onTapGesture { dismissKeyboard() }
-                } else {
-                    messagesList
-                        .onTapGesture { dismissKeyboard() }
-                        .overlay(alignment: .bottomTrailing) {
-                            if !isNearBottom {
-                                Button(action: {
-                                    scrollToBottom(animated: true)
-                                }) {
-                                    Image(systemName: "arrow.down.circle.fill")
-                                        .font(.title)
-                                        .foregroundStyle(.white)
-                                        .shadow(radius: 2)
+                    if vm.messages.isEmpty {
+                        introView
+                            .contentShape(Rectangle())
+                            .onTapGesture { dismissKeyboard() }
+                    } else {
+                        messagesList(screenWidth: geometry.size.width, screenHeight: geometry.size.height)
+                            .onTapGesture { dismissKeyboard() }
+                            .overlay(alignment: .bottomTrailing) {
+                                if !isNearBottom {
+                                    Button(action: {
+                                        scrollToBottom(animated: true)
+                                    }) {
+                                        Image(systemName: "arrow.down.circle.fill")
+                                            .font(.title)
+                                            .foregroundStyle(.white)
+                                            .shadow(radius: 2)
+                                    }
+                                    .accessibilityLabel("Scroll to bottom")
+                                    .padding(.trailing, 12)
+                                    .padding(.bottom, 12)
+                                    .transition(.move(edge: .trailing).combined(with: .opacity))
                                 }
-                                .accessibilityLabel("Scroll to bottom")
-                                .padding(.trailing, 12)
-                                .padding(.bottom, 12)
-                                .transition(.move(edge: .trailing).combined(with: .opacity))
                             }
-                        }
+                    }
                 }
-            }
 
-            // Single floating avatar — animates between intro center and header top-right
-            floatingAvatar
-        }
-        .safeAreaInset(edge: .bottom) {
-            inputBar
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-                .background(bg)
-        }
-        .animation(vm.messages.count <= 1 ? .easeInOut(duration: 0.8) : .easeInOut(duration: 0.8), value: vm.messages.count)
-        .sheet(isPresented: $showInfoSheet) {
-            infoSheet
+                // Single floating avatar — animates between intro center and header top-right
+                floatingAvatar
+            }
+            .safeAreaInset(edge: .bottom) {
+                inputBar
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(bg)
+            }
+            .animation(.easeInOut(duration: 0.8), value: vm.messages.count)
+            .sheet(isPresented: $showInfoSheet) {
+                infoSheet
+            }
         }
     }
 
@@ -247,7 +279,7 @@ struct ChatBotView: View {
         dismissKeyboard()
     }
 
-    // MARK: Scroll helper
+    /// Scrolls the message list to the bottom anchor, optionally animated.
     private func scrollToBottom(animated: Bool) {
         guard let proxy = scrollProxy else { return }
         if animated {
@@ -259,7 +291,7 @@ struct ChatBotView: View {
         }
     }
 
-    // Returns true if a timestamp should be shown above the message at the given index
+    /// Returns `true` if a timestamp divider should appear above the message at `index` (5-minute gap threshold).
     private func shouldShowTimestamp(at index: Int) -> Bool {
         guard index > 0 else { return true } // Always show on first message
         let current = vm.messages[index].date
@@ -324,9 +356,10 @@ struct ChatBotView: View {
         .frame(height: 50)
     }
 
-    // MARK: Floating avatar
+    /// Whether the intro screen (no messages yet) is showing.
     private var isIntro: Bool { vm.messages.isEmpty }
 
+    /// Single avatar that animates between the intro center (160pt) and the header top-right (36pt).
     private var floatingAvatar: some View {
         let size: CGFloat = isIntro ? 160 : 36
         return Image(persona.imageName)
@@ -382,8 +415,9 @@ struct ChatBotView: View {
     }
 
     // MARK: Messages list
-    private var messagesList: some View {
-        ScrollViewReader { proxy in
+    private func messagesList(screenWidth: CGFloat, screenHeight: CGFloat) -> some View {
+        let maxBubbleWidth = min(screenWidth * 0.75, 500)
+        return ScrollViewReader { proxy in
             ScrollView {
                 VStack(spacing: 0) {
                     Color.clear.frame(height: 12)
@@ -403,7 +437,7 @@ struct ChatBotView: View {
                                     .padding(.vertical, 6)
                             }
 
-                            ChatBubble(message: msg, persona: persona) {
+                            ChatBubble(message: msg, persona: persona, maxBubbleWidth: maxBubbleWidth) {
                                 sendHaptic.impactOccurred()
                                 vm.retry(messageID: msg.id, persona: persona.serverValue)
                             }
@@ -419,11 +453,11 @@ struct ChatBotView: View {
                                 .padding(.vertical, 16)
                                 .padding(.horizontal, 18)
                                 .background(
-                                    BubbleShape()
+                                    bubbleShape
                                         .fill(ChatTheme.userBlue)
                                 )
                                 .overlay(
-                                    BubbleShape()
+                                    bubbleShape
                                         .stroke(.white.opacity(0.12), lineWidth: 0.5)
                                 )
                                 .padding(.horizontal, 20)
@@ -454,9 +488,8 @@ struct ChatBotView: View {
             .scrollDismissesKeyboard(.interactively)
             .coordinateSpace(name: "chatScroll")
             .onPreferenceChange(BottomVisiblePreferenceKey.self) { bottomY in
-                let scrollViewHeight = UIScreen.main.bounds.height
                 let nearBottomThreshold: CGFloat = 10
-                let newNearBottom = bottomY < scrollViewHeight + nearBottomThreshold
+                let newNearBottom = bottomY < screenHeight + nearBottomThreshold
                 if newNearBottom != isNearBottom {
                     withAnimation(.easeInOut(duration: 0.15)) {
                         isNearBottom = newNearBottom
@@ -559,13 +592,6 @@ struct ChatBotView: View {
                         Text("Your SHPE UF assistant — chapter info, career help, and life at UF.")
                             .foregroundColor(scheme == .dark ? .white.opacity(0.85) : .primary)
 
-                        infoSection(title: "Try asking:", items: [
-                            "When is the next GM?",
-                            "Where's the resume guide?",
-                            "How do I prep for an interview?",
-                            "Tell me about SHPE Hackathon"
-                        ])
-
                         infoSection(title: "What I can do:", items: [
                             "Look up events from the official calendar",
                             "Link you to SHPE docs, Linktree, and Instagram",
@@ -617,7 +643,7 @@ struct ChatBotView: View {
 
 }
 
-// Preference key to track the bottom anchor's Y position in the scroll coordinate space
+/// Tracks the bottom anchor's Y position in the scroll coordinate space to detect near-bottom state.
 private struct BottomVisiblePreferenceKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {

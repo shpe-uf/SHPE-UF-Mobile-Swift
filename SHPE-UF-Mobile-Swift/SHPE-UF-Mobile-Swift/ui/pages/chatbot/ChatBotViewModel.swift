@@ -1,11 +1,14 @@
 import Foundation
 import SwiftUI
 
+/// Delivery status of a ``ChatMessage``.
 enum MessageStatus: Codable {
     case sent
+    /// Includes a user-facing error description (e.g. "Network error — tap to retry.").
     case failed(String)
 }
 
+/// A single message in the chat conversation, persisted to `UserDefaults` via `Codable`.
 struct ChatMessage: Identifiable, Codable {
     let id: UUID
     let text: String
@@ -22,7 +25,25 @@ struct ChatMessage: Identifiable, Codable {
     }
 }
 
-final class ChatboxViewModel: ObservableObject {
+/// View model that manages the chatbot's message state, networking, and local persistence.
+///
+/// This view model:
+/// 1. Sends user questions to the server via ``RequestHandler/askChatBot(question:persona:completion:)``
+/// 2. Appends bot responses with normalized markdown formatting
+/// 3. Marks failed messages with a user-facing error and supports tap-to-retry
+/// 4. Persists the conversation to `UserDefaults` (capped at 100 messages)
+///
+/// ## Data Flow
+/// - Messages are encoded to `UserDefaults` on every change via `didSet`
+/// - On init, messages are restored from storage; failed statuses reset to `.sent`
+/// - Clearing messages writes an empty array to storage
+///
+/// ## Example Usage
+/// ```swift
+/// @StateObject private var vm = ChatBotViewModel()
+/// vm.send(persona: "Tito")
+/// ```
+final class ChatBotViewModel: ObservableObject {
     @Published var messages: [ChatMessage] = [] {
         didSet { saveMessages() }
     }
@@ -56,6 +77,8 @@ final class ChatboxViewModel: ObservableObject {
         return loaded
     }
 
+    /// Sends the current ``inputText`` as a user message and triggers the server request.
+    /// - Parameter persona: The persona value to pass to the GraphQL query (e.g. "Tito").
     func send(persona: String? = nil) {
         let trimmed = inputText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
@@ -67,6 +90,10 @@ final class ChatboxViewModel: ObservableObject {
         sendQuestion(trimmed, userMessageID: userMsg.id, persona: persona)
     }
 
+    /// Re-sends a previously failed user message.
+    /// - Parameters:
+    ///   - messageID: The `id` of the failed ``ChatMessage`` to retry.
+    ///   - persona: The persona value to pass to the server.
     func retry(messageID: UUID, persona: String? = nil) {
         guard let index = messages.firstIndex(where: { $0.id == messageID }),
               messages[index].isUser,
@@ -117,6 +144,7 @@ final class ChatboxViewModel: ObservableObject {
         }
     }
 
+    /// Cleans up the server's raw response for proper markdown rendering — trims blank lines, fixes bullet spacing, and collapses excessive newlines.
     static func normalizeForMarkdown(_ raw: String) -> String {
         // 1. Strip leading blank lines and trailing whitespace
         let removedLeadingBlanks = raw.replacingOccurrences(of: #"^\s*\n+"#, with: "", options: .regularExpression)
