@@ -38,68 +38,87 @@ struct Member: Identifiable, Codable {
 }
 
 struct LeaderboardView : View {
-    
-    @Environment(\.presentationMode) private var presentationMode
+
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var vm = LeaderboardViewModel.shared
-    
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM
+
+    var backgroundColor: Color {
+        appVM.darkMode ? Color(.darkdarkBlue) : .white
+    }
+
+    var textColor: Color {
+        appVM.darkMode ? .white : .black
+    }
+
     var body: some View {
-        VStack(spacing: 0) {
-            ColoredTopView()
-            Picker("Season", selection: $vm.selectedSeason) {
-                ForEach(Season.allCases, id: \.self) { season in
-                    Text(season.rawValue).tag(season)
+        ZStack {
+            backgroundColor
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(appVM.darkMode ? "Back" : "lightmode_back")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                            .padding(.trailing, UIScreen.main.bounds.width * 0.10)
+                    }
+
+                    Text("Leaderboard")
+                        .font(.custom("Viga-Regular", size: 28))
+                        .foregroundColor(textColor)
+                        .fontWeight(.bold)
+                        .padding(.trailing, UIScreen.main.bounds.width * 0.20)
                 }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .padding(.vertical, 8)
-            
-            if vm.isLoading {
-                Spacer()
-                ProgressView("Loading leaderboard...")
-                Spacer()
-            } else if let error = vm.errorMessage {
-                Spacer()
-                Text(error).foregroundColor(.red)
-                Spacer()
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        if vm.ranked.count >= 3 {
-                            PodiumView(
-                                first: (rank: 1, member: vm.ranked[0].member),
-                                second: (rank: 2, member: vm.ranked[1].member),
-                                third: (rank: 3, member: vm.ranked[2].member),
-                                season: vm.selectedSeason
-                            )
-                            .padding(.vertical, 8)
-                        }
-                        if vm.ranked.count > 3 {
-                            ForEach(vm.ranked[3...], id: \.member.id) {
-                                item in LeaderboardRow(rank: item.rank, member: item.member, season: vm.selectedSeason)
+                .padding(UIScreen.main.bounds.width * 0.05)
+                .frame(maxWidth: .infinity)
+                .background(backgroundColor)
+
+                Picker("Season", selection: $vm.selectedSeason) {
+                    ForEach(Season.allCases, id: \.self) { season in
+                        Text(season.rawValue).tag(season)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal)
+                .padding(.vertical, 8)
+
+                if vm.isLoading {
+                    Spacer()
+                    ProgressView("Loading leaderboard...")
+                    Spacer()
+                } else if let error = vm.errorMessage {
+                    Spacer()
+                    Text(error).foregroundColor(.red)
+                    Spacer()
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 12) {
+                            if vm.ranked.count >= 3 {
+                                PodiumView(
+                                    first: (rank: 1, member: vm.ranked[0].member),
+                                    second: (rank: 2, member: vm.ranked[1].member),
+                                    third: (rank: 3, member: vm.ranked[2].member),
+                                    season: vm.selectedSeason
+                                )
+                                .padding(.vertical, 8)
+                            }
+                            if vm.ranked.count > 3 {
+                                ForEach(vm.ranked[3...], id: \.member.id) {
+                                    item in LeaderboardRow(rank: item.rank, member: item.member, season: vm.selectedSeason)
+                                }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
             }
         }
-        .ignoresSafeArea()
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    presentationMode.wrappedValue.dismiss()
-                } label : {
-                    HStack {
-                        Image(systemName: "chevron.backward")
-                        Text("")
-                    }
-                    .foregroundStyle(.white)
-                    .padding(.bottom, 20)
-                }
-            }
-        }
+        .preferredColorScheme(appVM.darkMode ? .dark : .light)
+        .navigationBarHidden(true)
         .onAppear {
             vm.fetch()
         }
