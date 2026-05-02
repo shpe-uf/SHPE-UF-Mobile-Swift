@@ -3,11 +3,20 @@ import SwiftUI
 /// Main admin panel screen
 struct AdminView: View {
     @Environment(\.dismiss) private var dismiss  // Close this view
+    @StateObject var appVM: AppViewModel = AppViewModel.appVM
+
+    var backgroundColor: Color {
+        appVM.darkMode ? Color(.darkdarkBlue) : .white
+    }
+
+    var textColor: Color {
+        appVM.darkMode ? .white : .black
+    }
 
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.darkdarkBlue)  // Background color
+                backgroundColor
                     .ignoresSafeArea(edges: .all)
 
                 VStack {
@@ -17,15 +26,15 @@ struct AdminView: View {
                             // Return to previous view
                             dismiss()
                         } label: {
-                            Image("Back")
+                            Image(appVM.darkMode ? "Back" : "lightmode_back")
                                 .resizable()
                                 .frame(width: 30, height: 30)
-                                .padding(.trailing, UIScreen.main.bounds.width * 0.15)
+                                .padding(.trailing, UIScreen.main.bounds.width * 0.10)
                         }
 
                         Text("Admin Panel")  // Screen title
                             .font(.custom("Viga-Regular", size: 28))
-                            .foregroundColor(.white)
+                            .foregroundColor(textColor)
                             .fontWeight(.bold)
                             .padding(.trailing, UIScreen.main.bounds.width * 0.20)
                     }
@@ -35,6 +44,7 @@ struct AdminView: View {
                     ButtonGrid()
                 }
             }
+            .preferredColorScheme(appVM.darkMode ? .dark : .light)
         }
     }
 }
