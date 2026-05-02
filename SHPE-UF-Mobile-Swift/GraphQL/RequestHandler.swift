@@ -806,7 +806,18 @@ class RequestHandler
     }
     
     func isLastMonth(completion: @escaping (([String: Any])->Void)) {
-        completion(["success": false])
+        apolloClient.fetch(query: SHPESchema.IsLastMonthQuery()) {
+            response in
+            
+            guard let isLastMonth = try? response.get().data else {
+                print("ERROR: Incomplete Request\nError Message: \(response)")
+                completion(["error":"Incomplete Request"])
+                return
+            }
+            
+            completion(["success":isLastMonth])
+            return
+        }
     }
     
     
