@@ -36,7 +36,7 @@ struct SHPEUFAppView: View {
                 .environment(\.managedObjectContext, manager.container.viewContext)
         case 0:
             SignInView(viewModel: SignInViewModel(shpeito: appVM.shpeito))
-                .transition(.move(edge: .bottom))
+                .transition(.opacity)
                 .environmentObject(manager)
                 .environment(\.managedObjectContext, manager.container.viewContext)
                 .preferredColorScheme(appVM.darkMode ? .dark : .light)

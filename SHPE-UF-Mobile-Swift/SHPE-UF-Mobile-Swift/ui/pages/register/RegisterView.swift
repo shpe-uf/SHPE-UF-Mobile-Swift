@@ -76,49 +76,47 @@ struct RegisterView: View
                 {
                     //bar 1
                     Rectangle()
-                      .foregroundColor(.clear)
-                      .frame(width: 106, height: 5)
-                      .background(Color(red: 0.82, green: 0.35, blue: 0.09))
-                      .cornerRadius(1)
-                      .onTapGesture {
-                          if viewModel.onLastPage
-                          {
-                              viewModel.viewIndex = 0
-                          }
-                      }
-                    
+                    .foregroundColor(.clear)
+                    .frame(width: 106, height: 5)
+                    .background(Color(red: 0.82, green: 0.35, blue: 0.09))
+                    .cornerRadius(1)
+                    .onTapGesture {
+                        if viewModel.onLastPage
+                        {
+                            viewModel.viewIndex = 0
+                        }
+                    }
+
                     //bar 2
                     Rectangle()
-                      .foregroundColor(.clear)
-                      .frame(width: 106, height: 5)
-                      .background(viewModel.viewIndex >= 1 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
-                      .cornerRadius(1)
-                      .onTapGesture {
-                          if viewModel.onLastPage
-                          {
-                              viewModel.viewIndex = 1
-                          }
-                      }
+                    .foregroundColor(.clear)
+                    .frame(width: 106, height: 5)
+                    .background(viewModel.viewIndex >= 1 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .cornerRadius(1)
+                    .onTapGesture {
+                        if viewModel.onLastPage
+                        {
+                            viewModel.viewIndex = 1
+                        }
+                    }
                     //bar 3
                     Rectangle()
-                      .foregroundColor(.clear)
-                      .frame(width: 106, height: 5)
-                      .background(viewModel.viewIndex >= 2 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
-                      .cornerRadius(1)
-                      .onTapGesture {
-                          if viewModel.onLastPage
-                          {
-                              viewModel.viewIndex = 2
-                          }
-                      }
+                    .foregroundColor(.clear)
+                    .frame(width: 106, height: 5)
+                    .background(viewModel.viewIndex >= 2 ? Color(red: 0.82, green: 0.35, blue: 0.09) : Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .cornerRadius(1)
+                    .onTapGesture {
+                        if viewModel.onLastPage
+                        {
+                            viewModel.viewIndex = 2
+                        }
+                    }
                 }
                 .padding()
                 .padding(.vertical)
-               
+
                     ZStack
                     {
-                        Color(red: 0, green: 0.12, blue: 0.21)
-                            .ignoresSafeArea()
                         VStack
                         {
                             //welcome textbox
@@ -386,18 +384,17 @@ struct RegisterView: View
                                 //button to move back to sign in page
                                 Text("Sign In")
                                   .font(Font.custom("Univers LT Std", size: 14))
-                                  .foregroundColor(Color("lblue"))
+                                  .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
                                   .onTapGesture
                                   {
                                       appVM.setPageIndex(index: 0)
                                   }
                             }
                             .padding(.bottom, 40)
-                        
+
                         }
-                        .background(Color("darkBlue"))
                     }
-                
+
                     //nav link alternative to switch views
                     .overlay(
                     Group
@@ -412,14 +409,12 @@ struct RegisterView: View
                         {
                             AcademicView(viewModel: viewModel)
                         }
-                        
+
                     }
                 )
-                
-                .background(Color("darkBlue"))
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.83)
-            .background(Color("darkBlue"))
+            .background(colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
             .padding(.top, UIScreen.main.bounds.height * 0.17)
         }
     }

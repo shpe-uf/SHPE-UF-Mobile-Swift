@@ -17,6 +17,7 @@ import SwiftUI
 struct AcademicView : View
 {
     @Environment(\.presentationMode) var isPresented
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: RegisterViewModel
     
     @StateObject var appVM:AppViewModel = AppViewModel.appVM
@@ -25,7 +26,7 @@ struct AcademicView : View
     {
         ZStack
         {
-            Color(red: 0, green: 0.12, blue: 0.21)
+            (colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
                 .ignoresSafeArea()
             VStack
             {
@@ -36,7 +37,7 @@ struct AcademicView : View
                         //header message
                         Text("Enter your current education details")
                           .font(Font.custom("Univers LT Std", size: 14))
-                          .foregroundColor(Color("whiteText"))
+                          .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                         
                         //academic info header
                         Text("Academic Info")
@@ -62,7 +63,7 @@ struct AcademicView : View
                     //major
                     Text("Major")
                         .font(Font.custom("Univers LT Std", size: 16))
-                        .foregroundColor(Color("whiteText"))
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                         .frame(width: 250, alignment: .topLeading)
 
                     HStack(spacing: 0)
@@ -101,7 +102,7 @@ struct AcademicView : View
                     //class year
                     Text("Class Year")
                         .font(Font.custom("Univers LT Std", size: 16))
-                        .foregroundColor(Color("whiteText"))
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                         .frame(width: 200, alignment: .topLeading)
                     
                     HStack(spacing: 0)
@@ -142,7 +143,7 @@ struct AcademicView : View
                     //graduation year
                     Text("Graduation Year")
                         .font(Font.custom("Univers LT Std", size: 16))
-                        .foregroundColor(Color("whiteText"))
+                        .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                         .frame(width: 200, height: 16.47059, alignment: .topLeading)
                     
                     HStack(spacing: 0)
@@ -219,7 +220,7 @@ struct AcademicView : View
                 }
                 .padding(.bottom, 40)
             }
-            .background(Color("darkBlue"))
+            .background(Color.clear)
         }
         .onAppear
         {

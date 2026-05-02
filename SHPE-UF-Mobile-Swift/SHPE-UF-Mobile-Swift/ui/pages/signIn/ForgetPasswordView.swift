@@ -44,7 +44,8 @@ struct ForgetPasswordView: View {
                 Text("Forgot your password?")
                     .font(Font.custom("Univers LT Std-Bold", size: 30))
                     .multilineTextAlignment(.center)
-                    .foregroundColor(colorScheme == .dark ? Color(.white): Color(red: 0.82, green: 0.35, blue: 0.09))
+                    .bold()
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                 
                 Text("Enter your email and we will send you \ninstructions to reset your password.")
                     .padding(.top, 15)
@@ -53,7 +54,7 @@ struct ForgetPasswordView: View {
                     .lineLimit(2)
                     .minimumScaleFactor(0.8)
                     .multilineTextAlignment(.center)
-                    .foregroundColor(colorScheme == .dark ? Color(.white): Color(red: 0.82, green: 0.35, blue: 0.09))
+                    .foregroundColor(Color(red: 0.82, green: 0.35, blue: 0.09))
                 
                 TextField("Email address", text: $Email)
                     .onChange(of: Email) { _ in
@@ -117,7 +118,7 @@ struct ForgetPasswordView: View {
             .frame(alignment: .leading)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("darkBlue"))
+        .background(colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
     }
 }
 #Preview {

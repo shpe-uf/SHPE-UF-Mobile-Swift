@@ -71,12 +71,12 @@ struct EmailSentView: View {
                     .padding(.top, 2)
                     .font(Font.custom("Univers LT Std", size: 16))
                     .multilineTextAlignment(.center)
-                    .foregroundColor(Color("lblue"))
+                    .foregroundColor(colorScheme == .dark ? Color.white : Color.blue)
             }
             .padding(.all, 43)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("darkBlue"))
+        .background(colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
     }
 }
 #Preview {

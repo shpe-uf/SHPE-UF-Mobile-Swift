@@ -17,13 +17,14 @@ import SwiftUI
 struct PersonalView : View
 {
     @Environment(\.presentationMode) var isPresented
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var viewModel: RegisterViewModel
     
     var body: some View
     {
         ZStack
         {
-            Color("darkBlue")
+            (colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
                 .ignoresSafeArea()
             VStack
             {
@@ -34,7 +35,7 @@ struct PersonalView : View
                         //header message
                         Text("Enter your info to finalize your profile")
                           .font(Font.custom("Univers LT Std", size: 14))
-                          .foregroundColor(Color("whiteText"))
+                          .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                         
                         //personal details header
                         Text("Personal Details")
@@ -64,7 +65,7 @@ struct PersonalView : View
                         //first name
                         Text("First Name")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
+                          .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
@@ -94,7 +95,7 @@ struct PersonalView : View
                         //last name
                         Text("Last Name")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
+                          .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
@@ -124,7 +125,7 @@ struct PersonalView : View
                         //gender
                         Text("Gender")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
+                          .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         HStack(spacing: 0)
                         {
@@ -165,7 +166,7 @@ struct PersonalView : View
                         //ethnicity
                         Text("Ethncity")
                           .font(Font.custom("Univers LT Std", size: 16))
-                          .foregroundColor(Color("whiteText"))
+                          .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                           .frame(width: 95.59007, height: 16.47059, alignment: .topLeading)
                         
                         HStack(spacing: 0)
@@ -206,7 +207,7 @@ struct PersonalView : View
                         //origin
                         Text("Country of Origin")
                             .font(Font.custom("Univers LT Std", size: 16))
-                            .foregroundColor(Color("whiteText"))
+                            .foregroundColor(colorScheme == .dark ? Color.white : Color.primary)
                             .frame(width: 200, height: 16.47059, alignment: .topLeading)
                         
                         HStack(spacing: 0)
@@ -277,12 +278,12 @@ struct PersonalView : View
                 }
                 .padding(.bottom, 40)
             }
-            .background(Color("darkBlue"))
+            .background(Color.clear)
         }
     }
 }
 
-#Preview(body: 
+#Preview(body:
 {
     PersonalView(viewModel: RegisterViewModel())
 })

@@ -170,7 +170,7 @@ struct SignInView: View
                         isForgotPassword = true
                     }
                     .font(Font.custom("Univers LT Std", size: 14))
-                    .foregroundColor(colorScheme == .dark ? Color.white : Color.blue)
+                    .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
                     .bold()
                 }
                 .fullScreenCover(isPresented: $isForgotPassword){
@@ -210,7 +210,7 @@ struct SignInView: View
                     
                     Text("Sign Up")
                         .font(Font.custom("Univers LT Std", size: 14))
-                        .foregroundColor(colorScheme == .dark ? Color.white : Color.blue)
+                        .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
                         .bold()
                         .onTapGesture {
                             appVM.setPageIndex(index: 1)
@@ -223,7 +223,7 @@ struct SignInView: View
                 }) {
                     Text("Continue as Guest")
                         .font(Font.custom("Univers LT Std", size: 14))
-                        .foregroundColor(colorScheme == .dark ? Color.white : Color.blue)
+                        .foregroundColor(colorScheme == .dark ? Color.orange : Color.blue)
                         .bold()
                         .padding(.top, 10)
                 }

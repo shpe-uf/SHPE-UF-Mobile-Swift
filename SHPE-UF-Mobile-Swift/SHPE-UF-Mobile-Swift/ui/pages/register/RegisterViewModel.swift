@@ -346,11 +346,14 @@ class RegisterViewModel: ObservableObject
     func registerUser()
     {
         requestHandler.registerUser(firstName: firstnameInput, lastName: lastnameInput, major: majorInput, year: classYearInput, graduating: gradYearInput, country: originInput, ethnicity: ethnicityInput, sex: genderInput, username: usernameInput, email: emailInput, password: passwordInput, confirmPassword: passwordConfirmInput)
-        { 
+        {
             dict in if dict["error"] != nil
             {
-                print("Error occurred during registration")
-                    return
+                AppViewModel.appVM.toastMessage = "Registration failed. Please try again."
+                withAnimation(.easeIn(duration: 0.3)) {
+                    AppViewModel.appVM.showToast = true
+                }
+                return
             }
         }
     }

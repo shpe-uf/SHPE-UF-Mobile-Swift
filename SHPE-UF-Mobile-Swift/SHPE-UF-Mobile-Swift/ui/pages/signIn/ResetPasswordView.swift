@@ -1,14 +1,15 @@
 import SwiftUI
 
 struct ResetPasswordView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
 
     var body: some View {
         NavigationView {
             ZStack {
-                Color(red: 7/255, green: 26/255, blue: 47/255)
-                    .edgesIgnoringSafeArea(.all)
+                (colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient)
+                    .ignoresSafeArea()
 
                 VStack(spacing: 30) {
                     
@@ -30,7 +31,7 @@ struct ResetPasswordView: View {
                     Text("Create a new password")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(colorScheme == .dark ? .white : Color.primary)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                         .padding(.top ,100)
@@ -38,7 +39,7 @@ struct ResetPasswordView: View {
                     // Subtitle centered
                     Text("Enter a new password.\nIt must not be the same as your last.")
                         .font(.body)
-                        .foregroundColor(.white)
+                        .foregroundColor(colorScheme == .dark ? .white : Color.primary)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                         .padding(.top ,5)
@@ -67,7 +68,7 @@ struct ResetPasswordView: View {
                             .fontWeight(.medium)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color(red: 185/255, green: 84/255, blue: 33/255))
+                            .background(Constants.orange)
                             .cornerRadius(15)
                     }
                     .padding(.horizontal)

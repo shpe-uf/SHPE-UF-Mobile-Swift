@@ -48,7 +48,6 @@ struct InstagramPostView: View {
                     Text("shpeuf  ").fontWeight(.bold) + Text(post.caption ?? "")
                     
                 }
-                .frame(width: .infinity)
                 .padding(EdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3))
                 
                 
