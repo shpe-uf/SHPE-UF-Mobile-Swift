@@ -19,6 +19,20 @@
 		20CF4A3E2AE747E900916EC6 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3D2AE747E900916EC6 /* HomeView.swift */; };
 		20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */; };
 		24263DE32D7E364C005180B6 /* GetUserPermission.graphql.swift in Resources */ = {isa = PBXBuildFile; fileRef = 24263DE12D7E364C005180B6 /* GetUserPermission.graphql.swift */; };
+		2D664A9C2F86C68F00DF6B52 /* StatData.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664A9B2F86C68F00DF6B52 /* StatData.graphql.swift */; };
+		2D664A9D2F86C68F00DF6B52 /* StatData.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664A9B2F86C68F00DF6B52 /* StatData.graphql.swift */; };
+		2D664AA42F86C6A200DF6B52 /* CountryStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664A9E2F86C6A200DF6B52 /* CountryStatQuery.graphql.swift */; };
+		2D664AA52F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664A9F2F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift */; };
+		2D664AA72F86C6A200DF6B52 /* MajorStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AA12F86C6A200DF6B52 /* MajorStatQuery.graphql.swift */; };
+		2D664AA82F86C6A200DF6B52 /* SexStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AA22F86C6A200DF6B52 /* SexStatQuery.graphql.swift */; };
+		2D664AA92F86C6A200DF6B52 /* YearStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AA32F86C6A200DF6B52 /* YearStatQuery.graphql.swift */; };
+		2D664AAA2F86C6A200DF6B52 /* CountryStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664A9E2F86C6A200DF6B52 /* CountryStatQuery.graphql.swift */; };
+		2D664AAB2F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664A9F2F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift */; };
+		2D664AAD2F86C6A200DF6B52 /* MajorStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AA12F86C6A200DF6B52 /* MajorStatQuery.graphql.swift */; };
+		2D664AAE2F86C6A200DF6B52 /* SexStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AA22F86C6A200DF6B52 /* SexStatQuery.graphql.swift */; };
+		2D664AAF2F86C6A200DF6B52 /* YearStatQuery.graphql.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AA32F86C6A200DF6B52 /* YearStatQuery.graphql.swift */; };
+		2D664AB32F8FF7FA00DF6B52 /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AB22F8FF7FA00DF6B52 /* LeaderboardViewModel.swift */; };
+		2D664AB42F8FF7FA00DF6B52 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D664AB12F8FF7FA00DF6B52 /* LeaderboardView.swift */; };
 		461EFCF22F7B32AF00370564 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 461EFCF02F7B32AF00370564 /* CoreUserModel.xcdatamodeld */; };
 		461EFCF32F7B32AF00370564 /* CoreUserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 461EFCF02F7B32AF00370564 /* CoreUserModel.xcdatamodeld */; };
 		462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462B6F492B7180AB00EB575C /* CircularProgessView.swift */; };
@@ -286,6 +300,20 @@
 		20CF4A3F2AE7480500916EC6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		24263DE12D7E364C005180B6 /* GetUserPermission.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPermission.graphql.swift; sourceTree = "<group>"; };
 		246F8A342DC29EB000546AF7 /* CreateEvent.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEvent.graphql.swift; sourceTree = "<group>"; };
+		2D664A962F86C63D00DF6B52 /* EthnicityStat.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthnicityStat.graphql.swift; sourceTree = "<group>"; };
+		2D664A972F86C63D00DF6B52 /* SexStat.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SexStat.graphql.swift; sourceTree = "<group>"; };
+		2D664A982F86C63D00DF6B52 /* CountryStat.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryStat.graphql.swift; sourceTree = "<group>"; };
+		2D664A992F86C63D00DF6B52 /* YearStat.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearStat.graphql.swift; sourceTree = "<group>"; };
+		2D664A9A2F86C63D00DF6B52 /* MajorStat.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorStat.graphql.swift; sourceTree = "<group>"; };
+		2D664A9B2F86C68F00DF6B52 /* StatData.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatData.graphql.swift; sourceTree = "<group>"; };
+		2D664A9E2F86C6A200DF6B52 /* CountryStatQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryStatQuery.graphql.swift; sourceTree = "<group>"; };
+		2D664A9F2F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthnicityStatQuery.graphql.swift; sourceTree = "<group>"; };
+		2D664AA12F86C6A200DF6B52 /* MajorStatQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorStatQuery.graphql.swift; sourceTree = "<group>"; };
+		2D664AA22F86C6A200DF6B52 /* SexStatQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SexStatQuery.graphql.swift; sourceTree = "<group>"; };
+		2D664AA32F86C6A200DF6B52 /* YearStatQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearStatQuery.graphql.swift; sourceTree = "<group>"; };
+		2D664AB12F8FF7FA00DF6B52 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		2D664AB22F8FF7FA00DF6B52 /* LeaderboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModel.swift; sourceTree = "<group>"; };
+		2D664AB52F8FF91B00DF6B52 /* IsLastMonth.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsLastMonth.graphql.swift; sourceTree = "<group>"; };
 		461EFCF12F7B32AF00370564 /* CoreUserModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreUserModel.xcdatamodel; sourceTree = "<group>"; };
 		462B6F492B7180AB00EB575C /* CircularProgessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularProgessView.swift; sourceTree = "<group>"; };
 		4632E4732B6B575E0048782D /* PointsUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsUI.swift; sourceTree = "<group>"; };
@@ -307,7 +335,6 @@
 		466429282F2BDDC8002C950C /* GetUserPermissionQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPermissionQuery.graphql.swift; sourceTree = "<group>"; };
 		466429292F2BDDC8002C950C /* GetUserPointsQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserPointsQuery.graphql.swift; sourceTree = "<group>"; };
 		4664292A2F2BDDC8002C950C /* GetUsersQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUsersQuery.graphql.swift; sourceTree = "<group>"; };
-		4664292B2F2BDDC8002C950C /* IsLastMonthQuery.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsLastMonthQuery.graphql.swift; sourceTree = "<group>"; };
 		46909DF92B96907D00E99274 /* UserEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEvent.swift; sourceTree = "<group>"; };
 		46A6351F2F48FA4400C59B80 /* IsLastMonth.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsLastMonth.graphql.swift; sourceTree = "<group>"; };
 		46A636132F48FC5900C59B80 /* CreateEventMutation.graphql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventMutation.graphql.swift; sourceTree = "<group>"; };
@@ -507,6 +534,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		243F6C3B2D4C14050071DAD7 /* Socials View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Socials View"; sourceTree = "<group>"; };
 		2D41E0A42E7B96900054CA5C /* Wrapped View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Wrapped View"; sourceTree = "<group>"; };
+		2D664A912F86C5E300DF6B52 /* Statistics */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Statistics; sourceTree = "<group>"; };
 		463355992D63C8C8008C1B58 /* aboutUs */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = aboutUs; sourceTree = "<group>"; };
 		46D8DE272D6FE8F3001A695C /* CalendarWidget */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (46CEB8BE2DC2F35C00C1162A /* PBXFileSystemSynchronizedBuildFileExceptionSet */, B8EA2CF42DE3D45D004D2AAD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = CalendarWidget; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -784,6 +812,12 @@
 		958A5DC82B5850A900D1BAE4 /* GraphQL */ = {
 			isa = PBXGroup;
 			children = (
+				2D664AB52F8FF91B00DF6B52 /* IsLastMonth.graphql.swift */,
+				2D664A962F86C63D00DF6B52 /* EthnicityStat.graphql.swift */,
+				2D664A972F86C63D00DF6B52 /* SexStat.graphql.swift */,
+				2D664A982F86C63D00DF6B52 /* CountryStat.graphql.swift */,
+				2D664A992F86C63D00DF6B52 /* YearStat.graphql.swift */,
+				2D664A9A2F86C63D00DF6B52 /* MajorStat.graphql.swift */,
 				958A5DDB2B5864E400D1BAE4 /* RequestHandler.swift */,
 				24263DE12D7E364C005180B6 /* GetUserPermission.graphql.swift */,
 				95D3709C2B64737A00B2C5A4 /* GetPoints.graphql.swift */,
@@ -960,6 +994,11 @@
 				B82B5D052F88A84A001D8726 /* GetUserPointsQuery.graphql.swift */,
 				B82B5D062F88A84A001D8726 /* GetUsersQuery.graphql.swift */,
 				B82B5D072F88A84A001D8726 /* IsLastMonthQuery.graphql.swift */,
+				2D664A9E2F86C6A200DF6B52 /* CountryStatQuery.graphql.swift */,
+				2D664A9F2F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift */,
+				2D664AA12F86C6A200DF6B52 /* MajorStatQuery.graphql.swift */,
+				2D664AA22F86C6A200DF6B52 /* SexStatQuery.graphql.swift */,
+				2D664AA32F86C6A200DF6B52 /* YearStatQuery.graphql.swift */,
 			);
 			path = Queries;
 			sourceTree = "<group>";
@@ -1000,6 +1039,7 @@
 				B82B5D132F88A84A001D8726 /* Partner.graphql.swift */,
 				B82B5D142F88A84A001D8726 /* Query.graphql.swift */,
 				B82B5D152F88A84A001D8726 /* User.graphql.swift */,
+				2D664A9B2F86C68F00DF6B52 /* StatData.graphql.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1063,6 +1103,9 @@
 		DDE684FE2D63C98B0010D9A4 /* admin */ = {
 			isa = PBXGroup;
 			children = (
+				2D664AB12F8FF7FA00DF6B52 /* LeaderboardView.swift */,
+				2D664AB22F8FF7FA00DF6B52 /* LeaderboardViewModel.swift */,
+				2D664A912F86C5E300DF6B52 /* Statistics */,
 				DDC422842D6CE2FB006B2A0E /* AdminView.swift */,
 				DD8622162D76192400949246 /* EventCreatorView.swift */,
 				DDA99E252DB69043004CA737 /* EventCreatorViewModel.swift */,
@@ -1092,6 +1135,7 @@
 			fileSystemSynchronizedGroups = (
 				243F6C3B2D4C14050071DAD7 /* Socials View */,
 				2D41E0A42E7B96900054CA5C /* Wrapped View */,
+				2D664A912F86C5E300DF6B52 /* Statistics */,
 				463355992D63C8C8008C1B58 /* aboutUs */,
 			);
 			name = "SHPE-UF-Mobile-Swift";
@@ -1294,6 +1338,11 @@
 				958CB0262B9CE724002B83F9 /* SHPEUFAppViewModel.swift in Sources */,
 				812F46612DAD6670007D7125 /* ForgetPasswordView.swift in Sources */,
 				816E38F52D63B5E800320651 /* GuestPartnersView.swift in Sources */,
+				2D664AAA2F86C6A200DF6B52 /* CountryStatQuery.graphql.swift in Sources */,
+				2D664AAB2F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift in Sources */,
+				2D664AAD2F86C6A200DF6B52 /* MajorStatQuery.graphql.swift in Sources */,
+				2D664AAE2F86C6A200DF6B52 /* SexStatQuery.graphql.swift in Sources */,
+				2D664AAF2F86C6A200DF6B52 /* YearStatQuery.graphql.swift in Sources */,
 				46909DFA2B96907D00E99274 /* UserEvent.swift in Sources */,
 				958CB0352B9D8587002B83F9 /* CheckCoreViewModel.swift in Sources */,
 				951F6EC02BB669DF001FDB50 /* ImageHelper.swift in Sources */,
@@ -1311,6 +1360,9 @@
 				DD8622172D76192C00949246 /* EventCreatorView.swift in Sources */,
 				DD375C772D9ADDA700C6592F /* ComingSoonView.swift in Sources */,
 				B8264CF12BAE5E07005CED1B /* DateHelper.swift in Sources */,
+				2D664A9D2F86C68F00DF6B52 /* StatData.graphql.swift in Sources */,
+				2D664AB32F8FF7FA00DF6B52 /* LeaderboardViewModel.swift in Sources */,
+				2D664AB42F8FF7FA00DF6B52 /* LeaderboardView.swift in Sources */,
 				958CB0332B9D7F93002B83F9 /* CheckCore.swift in Sources */,
 				95D327002B8FED88002A7DDA /* Event.swift in Sources */,
 				20CF4A402AE7480500916EC6 /* SignInViewModel.swift in Sources */,
@@ -1483,6 +1535,12 @@
 				B82B5D8A2F88A84A001D8726 /* RegisterInput.graphql.swift in Sources */,
 				B82B5D8B2F88A84A001D8726 /* ForgotPasswordMutation.graphql.swift in Sources */,
 				461EFCF22F7B32AF00370564 /* CoreUserModel.xcdatamodeld in Sources */,
+				2D664A9C2F86C68F00DF6B52 /* StatData.graphql.swift in Sources */,
+				2D664AA42F86C6A200DF6B52 /* CountryStatQuery.graphql.swift in Sources */,
+				2D664AA52F86C6A200DF6B52 /* EthnicityStatQuery.graphql.swift in Sources */,
+				2D664AA72F86C6A200DF6B52 /* MajorStatQuery.graphql.swift in Sources */,
+				2D664AA82F86C6A200DF6B52 /* SexStatQuery.graphql.swift in Sources */,
+				2D664AA92F86C6A200DF6B52 /* YearStatQuery.graphql.swift in Sources */,
 				46CEB8BA2DC2EA0600C1162A /* Event.swift in Sources */,
 				46D8DE3B2D6FE93A001A695C /* DataManager.swift in Sources */,
 			);

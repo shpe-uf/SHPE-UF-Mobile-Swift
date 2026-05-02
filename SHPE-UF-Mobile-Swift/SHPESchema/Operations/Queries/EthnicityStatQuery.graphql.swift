@@ -4,11 +4,11 @@
 @_exported import ApolloAPI
 
 extension SHPESchema {
-  class GetUsersQuery: GraphQLQuery {
-    static let operationName: String = "GetUsers"
+  class EthnicityStatQuery: GraphQLQuery {
+    static let operationName: String = "EthnicityStat"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"query GetUsers { getUsers { __typename id email username } }"#
+        #"query EthnicityStat { getEthnicityStat { __typename _id value } }"#
       ))
 
     public init() {}
@@ -19,35 +19,33 @@ extension SHPESchema {
 
       static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.Query }
       static var __selections: [ApolloAPI.Selection] { [
-        .field("getUsers", [GetUser?]?.self),
+        .field("getEthnicityStat", [GetEthnicityStat?]?.self),
       ] }
       static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-        GetUsersQuery.Data.self
+        EthnicityStatQuery.Data.self
       ] }
 
-      var getUsers: [GetUser?]? { __data["getUsers"] }
+      var getEthnicityStat: [GetEthnicityStat?]? { __data["getEthnicityStat"] }
 
-      /// GetUser
+      /// GetEthnicityStat
       ///
-      /// Parent Type: `User`
-      struct GetUser: SHPESchema.SelectionSet {
+      /// Parent Type: `StatData`
+      struct GetEthnicityStat: SHPESchema.SelectionSet {
         let __data: DataDict
         init(_dataDict: DataDict) { __data = _dataDict }
 
-        static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.User }
+        static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.StatData }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
-          .field("id", SHPESchema.ID.self),
-          .field("email", String.self),
-          .field("username", String.self),
+          .field("_id", String.self),
+          .field("value", Int.self),
         ] }
         static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          GetUsersQuery.Data.GetUser.self
+          EthnicityStatQuery.Data.GetEthnicityStat.self
         ] }
 
-        var id: SHPESchema.ID { __data["id"] }
-        var email: String { __data["email"] }
-        var username: String { __data["username"] }
+        var _id: String { __data["_id"] }
+        var value: Int { __data["value"] }
       }
     }
   }

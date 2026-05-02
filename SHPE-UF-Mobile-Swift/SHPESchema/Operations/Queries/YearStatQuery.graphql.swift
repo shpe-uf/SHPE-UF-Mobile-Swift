@@ -4,11 +4,11 @@
 @_exported import ApolloAPI
 
 extension SHPESchema {
-  class GetUsersQuery: GraphQLQuery {
-    static let operationName: String = "GetUsers"
+  class YearStatQuery: GraphQLQuery {
+    static let operationName: String = "YearStat"
     static let operationDocument: ApolloAPI.OperationDocument = .init(
       definition: .init(
-        #"query GetUsers { getUsers { __typename id email username } }"#
+        #"query YearStat { getYearStat { __typename _id value } }"#
       ))
 
     public init() {}
@@ -19,35 +19,33 @@ extension SHPESchema {
 
       static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.Query }
       static var __selections: [ApolloAPI.Selection] { [
-        .field("getUsers", [GetUser?]?.self),
+        .field("getYearStat", [GetYearStat?]?.self),
       ] }
       static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-        GetUsersQuery.Data.self
+        YearStatQuery.Data.self
       ] }
 
-      var getUsers: [GetUser?]? { __data["getUsers"] }
+      var getYearStat: [GetYearStat?]? { __data["getYearStat"] }
 
-      /// GetUser
+      /// GetYearStat
       ///
-      /// Parent Type: `User`
-      struct GetUser: SHPESchema.SelectionSet {
+      /// Parent Type: `StatData`
+      struct GetYearStat: SHPESchema.SelectionSet {
         let __data: DataDict
         init(_dataDict: DataDict) { __data = _dataDict }
 
-        static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.User }
+        static var __parentType: any ApolloAPI.ParentType { SHPESchema.Objects.StatData }
         static var __selections: [ApolloAPI.Selection] { [
           .field("__typename", String.self),
-          .field("id", SHPESchema.ID.self),
-          .field("email", String.self),
-          .field("username", String.self),
+          .field("_id", String.self),
+          .field("value", Int.self),
         ] }
         static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
-          GetUsersQuery.Data.GetUser.self
+          YearStatQuery.Data.GetYearStat.self
         ] }
 
-        var id: SHPESchema.ID { __data["id"] }
-        var email: String { __data["email"] }
-        var username: String { __data["username"] }
+        var _id: String { __data["_id"] }
+        var value: Int { __data["value"] }
       }
     }
   }

@@ -32,6 +32,7 @@ extension SHPESchema {
       "Mutation": SHPESchema.Objects.Mutation,
       "Partner": SHPESchema.Objects.Partner,
       "Query": SHPESchema.Objects.Query,
+      "StatData": SHPESchema.Objects.StatData,
       "User": SHPESchema.Objects.User
     ]
 
