@@ -64,6 +64,12 @@ struct HomePageContentView: View {
     @State private var selectedTab: Int = 0
     @State private var dragOffset = CGSize.zero
     
+    // @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
+
+    // private var chatbotPersona: ChatPersona {
+    //     ChatPersona(rawValue: selectedPersonaRaw) ?? .tito
+    // }
+    
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
     
@@ -123,7 +129,7 @@ struct HomePageContentView: View {
                     if abs(value.translation.width) > abs(value.translation.height) {
                         // Handle horizontal swipe action
                         print("Horizontal swipe detected")
-                        selectedTab = value.translation.width < 0 ? (selectedTab + 1)%3 : selectedTab - 1 == -1 ? 2 : abs(selectedTab - 1)%3
+                        selectedTab = value.translation.width < 0 ? (selectedTab + 1)%4 : selectedTab - 1 == -1 ? 3 : abs(selectedTab - 1)%4
                     }
                     print(selectedTab)
                     dragOffset = .zero
