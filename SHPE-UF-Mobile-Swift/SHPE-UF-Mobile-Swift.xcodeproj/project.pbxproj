@@ -1146,6 +1146,11 @@
 				TargetAttributes = {
 					206C8F712AE181FF0081A35A = {
 						CreatedOnToolsVersion = 15.0;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					206C8F812AE182020081A35A = {
 						CreatedOnToolsVersion = 15.0;
@@ -1157,6 +1162,11 @@
 					};
 					46D8DE232D6FE8F3001A695C = {
 						CreatedOnToolsVersion = 16.2;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
