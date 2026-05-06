@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 import SwiftUI
+import WidgetKit
 
 enum EventLoadMode {
     case dummyOnly
@@ -313,6 +314,7 @@ final class HomeViewModel: ObservableObject {
             do {
                 try viewContext.save()
                 print("✅ Saved \(events.count) events to Core Data")
+                WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
             } catch {
                 print("Failed to save: \(error)")
             }
@@ -321,6 +323,7 @@ final class HomeViewModel: ObservableObject {
                 do {
                     try viewContext.save()
                     print("✅ Saved \(events.count) events to Core Data")
+                    WidgetCenter.shared.reloadTimelines(ofKind: "CalendarWidget")
                 } catch {
                     print("Failed to save: \(error)")
                 }
@@ -331,14 +334,14 @@ final class HomeViewModel: ObservableObject {
     
     /// For testing create dummy events
    func createDummyEvents() -> [Event] {
-           let formatter = DateFormatter()
-           formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            let now = Date()
+            func at(_ hours: Double) -> Date { now.addingTimeInterval(hours * 3600) }
            
            return [
                Event(
-                   created: Date(),
+                   created: now,
                    creator: Creator(email: "test1@example.com", selfValue: 0),
-                   end: EventDateTime(dateTime: formatter.date(from: "2025-08-016T23:00:00Z")!, timeZone: "UTC"),
+                   end: EventDateTime(dateTime: at(2), timeZone: "UTC"),
                    etag: "123",
                    eventType: "GBM",
                    htmlLink: "http://example.com",
@@ -347,17 +350,17 @@ final class HomeViewModel: ObservableObject {
                    kind: "calendar#event",
                    organizer: Organizer(email: "organizer@example.com", selfValue:0),
                    sequence: 0,
-                   start: EventDateTime(dateTime: formatter.date(from: "2025-08-16T02:00:00Z")!, timeZone: "UTC"),
+                   start: EventDateTime(dateTime: at(1), timeZone: "UTC"),
                    status: "confirmed",
                    summary: "GBM #1",
-                   updated: Date(),
+                   updated: now,
                    location: "655 Reitz Union Drive, Campus, Gainesville, FL 32611",
                    description: "End of year GBM"
                ),
                Event(
-                   created: Date(),
+                   created: now,
                    creator: Creator(email: "test2@example.com", selfValue: 0),
-                   end: EventDateTime(dateTime: formatter.date(from: "2025-12-31T23:59:00Z")!, timeZone: "UTC"),
+                   end: EventDateTime(dateTime: at(2), timeZone: "UTC"),
                    etag: "456",
                    eventType: "Social",
                    htmlLink: "http://example.com",
@@ -366,17 +369,17 @@ final class HomeViewModel: ObservableObject {
                    kind: "calendar#event",
                    organizer: Organizer(email: "organizer@example.com", selfValue: 0),
                    sequence: 0,
-                   start: EventDateTime(dateTime: formatter.date(from: "2025-12-31T20:00:00Z")!, timeZone: "UTC"),
+                   start: EventDateTime(dateTime: at(1), timeZone: "UTC"),
                    status: "confirmed",
                    summary: "SHPE 2025 Convention",
-                   updated: Date(),
+                   updated: now,
                    location:"790 W Katella Ave, Anaheim",
                    description: "Ring in the New Year with us!"
                ),
                Event(
-                   created: Date(),
+                   created: now,
                    creator: Creator(email: "test3@example.com", selfValue: 0),
-                   end: EventDateTime(dateTime: formatter.date(from: "2025-10-10T10:00:00Z")!, timeZone: "UTC"),
+                   end: EventDateTime(dateTime: at(2), timeZone: "UTC"),
                    etag: "789",
                    eventType: "Workshop",
                    htmlLink: "http://example.com",
@@ -385,10 +388,10 @@ final class HomeViewModel: ObservableObject {
                    kind: "calendar#event",
                    organizer: Organizer(email: "organizer@example.com", selfValue: 0),
                    sequence: 0,
-                   start: EventDateTime(dateTime: formatter.date(from: "2025-10-10T08:00:00Z")!, timeZone: "UTC"),
+                   start: EventDateTime(dateTime: at(1), timeZone: "UTC"),
                    status: "confirmed",
                    summary: "New Year's Resolution Workshop",
-                   updated: Date(),
+                   updated: now,
                    location: "1545 W University Ave, Gainesville, FL 32603",
                    description: "Plan your resolutions and achieve your goals!"
                )

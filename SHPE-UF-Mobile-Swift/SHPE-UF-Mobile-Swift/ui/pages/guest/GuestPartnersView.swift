@@ -100,10 +100,10 @@ struct GuestPartnersView: View {
                 }
             }
             .frame(width: UIScreen.main.bounds.width)
-            .background(Color("darkBlue"))
+            .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
             .ignoresSafeArea()
         }
-        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+        .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
         .edgesIgnoringSafeArea(.all)
     }
     

@@ -156,7 +156,7 @@ struct GuestCalendarView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.trailing, 20)
                     }
-                    .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+                    .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
                     .frame(maxWidth: .infinity)
                     .onAppear {
                         displayedMonth = dateHelper.getCurrentMonth()
@@ -166,7 +166,7 @@ struct GuestCalendarView: View {
             }
            
         }
-        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+        .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
         .edgesIgnoringSafeArea(.all)
         .overlay {
             Group {

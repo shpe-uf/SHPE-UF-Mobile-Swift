@@ -129,7 +129,7 @@ struct HomePageContentView: View {
                     if abs(value.translation.width) > abs(value.translation.height) {
                         // Handle horizontal swipe action
                         print("Horizontal swipe detected")
-                        selectedTab = value.translation.width < 0 ? (selectedTab + 1)%4 : selectedTab - 1 == -1 ? 3 : abs(selectedTab - 1)%4
+                        selectedTab = value.translation.width < 0 ? (selectedTab + 1)%3 : selectedTab - 1 == -1 ? 2 : abs(selectedTab - 1)%3
                     }
                     print(selectedTab)
                     dragOffset = .zero
