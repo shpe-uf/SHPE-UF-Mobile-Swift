@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AboutUsView: View {
     @Binding var carouselIsDragging: Bool
-    
+    @Environment(\.colorScheme) var colorScheme
     var body: some View {
         
         VStack {
@@ -54,6 +54,7 @@ struct AboutUsView: View {
                 
             }
             .padding(.top, -8)
+            .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
             
         }
         .ignoresSafeArea(edges: .top)
