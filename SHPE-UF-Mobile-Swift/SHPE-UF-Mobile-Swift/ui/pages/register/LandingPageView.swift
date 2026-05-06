@@ -32,7 +32,7 @@ struct LandingPageView: View {
     @State private var isRegisterViewPresented = false
 
     // list of images to display
-    let images: [String] = ["carousel1", "carousel2", "carousel3", "carousel4", "carousel5", "carousel6", "carousel7", "carousel8"]
+    let images: [String] = ["carousel1", "carousel2", "carousel3", "carousel4", "carousel5", "carousel6", "carousel7", "carousel8", "carousel9"]
 
     // list of words to display
     let displayWords: [String] = ["Familia", "Leadership", "Professionalism", "Resilience", "Mentorship", "Education", "Technology", "Community"]

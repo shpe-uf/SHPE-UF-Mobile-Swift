@@ -485,6 +485,7 @@ type Query {
   getYearStat: [StatData]
   lastMontOfYear: Boolean!
   getMostActiveMonth(userId: ID!): String
+  chatBot(question: String!, persona: String): String!
 }
 
 type Mutation {
