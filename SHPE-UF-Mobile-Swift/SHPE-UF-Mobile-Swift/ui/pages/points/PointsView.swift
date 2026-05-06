@@ -125,12 +125,15 @@ struct PointsView: View {
                 if #available(iOS 26.0, *) {
                     PointsUI(points: vm.fallPoints, semester: "Fall", percent: vm.fallPercentile, gradient: Constants.fallGradient, isShowingList: $isShowingFallEvents)
                         .matchedTransitionSource(id: "fallPoints", in: nameSpace)
+                        .sensoryFeedback(.impact, trigger: isShowingFallEvents)
                     
                     PointsUI(points: vm.springPoints, semester: "Spring", percent: vm.springPercentile, gradient: Constants.springGradient, isShowingList: $isShowingSpringEvents)
                         .matchedTransitionSource(id: "springPoints", in: nameSpace)
+                        .sensoryFeedback(.impact, trigger: isShowingSpringEvents)
                     
                     PointsUI(points: vm.summerPoints, semester: "Summer", percent: vm.summerPercentile, gradient: Constants.summerGradient, isShowingList: $isShowingSummerEvents)
                         .matchedTransitionSource(id: "summerPoints", in: nameSpace)
+                        .sensoryFeedback(.impact, trigger: isShowingSummerEvents)
                 } else {
                     /// Fallback on earlier versions
                     

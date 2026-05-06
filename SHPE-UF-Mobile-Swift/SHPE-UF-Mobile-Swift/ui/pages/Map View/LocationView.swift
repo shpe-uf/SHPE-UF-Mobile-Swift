@@ -29,7 +29,7 @@ import SwiftData
 /// ```
 struct LocationView: View {
     // MARK: - Properties
-        
+    
     /// The event location as an address string.
     var location: String // The event location to display
     
@@ -51,9 +51,9 @@ struct LocationView: View {
     
     /// The map's region, with Gainesville as the default center
     @State private var region = MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 29.6516, longitude: -82.3248), // Default: Gainesville
-            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-        )
+        center: CLLocationCoordinate2D(latitude: 29.6516, longitude: -82.3248), // Default: Gainesville
+        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    )
     
     /// The map camera position, initially set to automatic
     @State private var cameraPosition: MapCameraPosition = .automatic
@@ -65,7 +65,7 @@ struct LocationView: View {
     @State private var triggerSheet = false
     
     // MARK: - Route & Navigation
-        
+    
     /// Flag to indicate whether a route should be displayed.
     @State private var showRoute = false
     
@@ -89,6 +89,9 @@ struct LocationView: View {
     
     /// Namespace for controlling map-related animations
     @Namespace private var mapScope
+    
+    // dismiss the sheet
+    @Environment(\.dismiss) private var dismiss
     
     
     // MARK: - Body
@@ -146,7 +149,7 @@ struct LocationView: View {
                         }
                     }
                     .onChange(of: showRoute){
-//                        selectedPlacemark = nil
+                        //                        selectedPlacemark = nil
                         if showRoute && route != nil
                         {
                             withAnimation{
@@ -176,7 +179,7 @@ struct LocationView: View {
                     .mapScope(mapScope)
                     
                     // Back button and preview header
-                    header
+                    // header
                     
                     if selectedPlacemark != nil && isLocationLoaded
                     {
@@ -195,47 +198,50 @@ struct LocationView: View {
                 }
             }
         }
+        .overlay(alignment: .topTrailing) {
+            header
+        }
     }
     
     // MARK: - Header View
-    private var header: some View{
-        ZStack(alignment : .topLeading){
-            VStack(spacing: 0){
-                Rectangle()
-                    .foregroundColor(.clear)
-                    .background(Color(red: 0.82, green:0.35,blue:0.09).opacity(0.7))
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.0075)
-                ZStack{
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
-                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.11)
-                    
-                    Text("Route Preview")
-                        .font(Font.custom("Viga-Regular", size: 24))
-                        .padding(.top, 45)
-                }
-            }
-            HStack {
+    private var header: some View {
+        ZStack {
+            
+            if #available(iOS 26.0, *) {
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         AppViewModel.appVM.inMapView = false
-                        showView = .eventInfo
+                        dismiss()
                     }
                 } label: {
-                        
-                    Image(systemName: "chevron.backward")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(.whiteText)
-                            .frame(width: UIScreen.main.bounds.width * 0.05, height: UIScreen.main.bounds.height * 0.025)
+                    
+                    Image(systemName: "xmark")
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(.white)
+                        .padding(5)
+                    
                 }
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
-                Spacer()
+                .glassEffect(.regular.interactive(), in: .circle)
+                
+            } else {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        AppViewModel.appVM.inMapView = false
+                        dismiss()
+                    }
+                } label: {
+                    
+                    Image(systemName: "chevron.backward")
+                        .frame(width: 35, height: 35)
+                        .foregroundColor(.white)
+                        .padding(5)
+                }
             }
-            .padding(.top, 65)
+            
+            
+            
         }
-        .ignoresSafeArea()
+        .padding()
     }
     // MARK: - Geocoding Functions
     
@@ -245,18 +251,18 @@ struct LocationView: View {
     ///   - addressString: The address to geocode
     ///   - completionHandler: A closure that receives the coordinate result or error
     func getCoordinate( addressString : String,
-            completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
+                        completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(addressString) { (placemarks, error) in
             if error == nil {
                 if let placemark = placemarks?[0] {
                     let location = placemark.location!
-                        
+                    
                     completionHandler(location.coordinate, nil)
                     return
                 }
             }
-                
+            
             completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
         }
     }
@@ -267,26 +273,26 @@ struct LocationView: View {
     /// This method geocodes the location address and, upon success,
     /// updates the map region and creates a placemark for the location.
     private func geocodeLocation() {
-            getCoordinate(addressString: location) { coordinate, error in
-                guard error == nil else {
-                    print("Geocoding failed: \(error?.localizedDescription ?? "Unknown error")")
-                    return
-                }
-                let offsetCoordinate = CLLocationCoordinate2D(
-                                latitude: coordinate.latitude - 0.00025,
-                                longitude: coordinate.longitude
-                )
-                withAnimation {
-                    region = MKCoordinateRegion(
-                        center: offsetCoordinate,
-                        span: MKCoordinateSpan(latitudeDelta: 0.0015, longitudeDelta: 0.0015)
-                    )
-                    cameraPosition = .region(region)
-                    destinationCoordinate = coordinate
-                    isLocationLoaded = true
-                    selectedPlacemark = MTPlacemark(name: event, address: location, latitude: offsetCoordinate.latitude, longitude: offsetCoordinate.longitude)
-                }
+        getCoordinate(addressString: location) { coordinate, error in
+            guard error == nil else {
+                print("Geocoding failed: \(error?.localizedDescription ?? "Unknown error")")
+                return
             }
+            let offsetCoordinate = CLLocationCoordinate2D(
+                latitude: coordinate.latitude - 0.00025,
+                longitude: coordinate.longitude
+            )
+            withAnimation {
+                region = MKCoordinateRegion(
+                    center: offsetCoordinate,
+                    span: MKCoordinateSpan(latitudeDelta: 0.0015, longitudeDelta: 0.0015)
+                )
+                cameraPosition = .region(region)
+                destinationCoordinate = coordinate
+                isLocationLoaded = true
+                selectedPlacemark = MTPlacemark(name: event, address: location, latitude: offsetCoordinate.latitude, longitude: offsetCoordinate.longitude)
+            }
+        }
     }
     
     /// Creates a marker for the event location.
@@ -301,7 +307,10 @@ struct LocationView: View {
         return [marker]
     }
     
-
+    
 }
 
 
+#Preview {
+    LocationView(location: "1 Infinite Loop, Cupertino, CA", event: "GBM", showView: .constant(.location))
+}

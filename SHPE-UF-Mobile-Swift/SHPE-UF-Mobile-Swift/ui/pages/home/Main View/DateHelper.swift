@@ -51,7 +51,7 @@ struct DateHelper {
     /// ```
     func getDayFull(for date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, yyyy"
+        dateFormatter.dateFormat = "MMMM dd, yyyy"
         return dateFormatter.string(from: date)
     }
 

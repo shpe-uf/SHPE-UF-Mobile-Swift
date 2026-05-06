@@ -2,6 +2,7 @@
 //
 import SwiftUI
 import CoreData
+import MapKit
 
 /// The primary view displaying upcoming events in a scrollable list.
 ///
@@ -38,250 +39,246 @@ struct HomeView: View {
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var notificationVM = NotificationViewModel.instance
     
-    @State private var offset: CGFloat = 0
-    @State private var isDragging = false
+    @State private var selectedEvent: Event?
+    
     @State private var hasAskedForPermissions = false
     @State private var hasSetUpNotifications = false
+    @State private var isShowingEvent = false
+    @State private var isShowingMap = false
+    @State private var selectedLocation: String = ""
+    
+    @State private var selectedEventTitle: String = ""
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Top bar with the current month and notification icon
-            ZStack {
-                Constants.orange
-                    .frame(width: UIScreen.main.bounds.width, height: 100)
-                HStack(spacing: 10) {
-                    // Displaying the current month
-                    Text(displayedMonth)
-                        .font(Font.custom("Viga-Regular", size: 24))
-                        .foregroundColor(.white)
-                        .frame(height: 0, alignment: .topLeading)
-                    
-                    Spacer()
-                    
-                    if viewModel.isLastMonth() {
-                        // Button to navigate to WrappedView
-                        Button {
-                            withAnimation(.snappy) {
-                                appVM.showView = .wrapped(.start)
-                            }
-                           
-                        } label: {
-                            Image("shpe_logo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 30, height: 30)
-                                .padding(.top, UIScreen.main.bounds.width * 0.05)
-                        }
-                        .padding(.top, 10)
-                    }
-
-                    // Button to navigate to SocialsView
-                    Button { appVM.showView = .socials } label: {
-                        Image("Instagram_Logo_HomePage")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50, height: 50)
-                            .padding(.top, UIScreen.main.bounds.width * 0.05)
-                    }
-                    .padding(.top, 10)
-
-                    // Button to navigate to NotificationView
-                    Button { appVM.showView = .notification } label: {
-                        Image("Doorbell")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50, height: 32, alignment: .topLeading)
-                            .padding(.top, UIScreen.main.bounds.width * 0.05)
-                    }
-                    .padding(.top, 10)
-                }
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
+        ZStack(alignment: .top) {
+            let events = viewModel.getUpcomingEvents()
+            
+            /// Main Content Area
+            List {
+                eventListContent(events: events)
             }
-
-            // Main content area
-            ZStack{
-                if (viewModel.getUpcomingEvents().isEmpty)
-                {
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .listSectionSeparator(.hidden)
+            .padding(.top, 60)
+            
+            if (events.isEmpty) {
+                VStack {
+                    Spacer()
                     Text("No Upcoming Events...")
                         .multilineTextAlignment(.center)
                         .font(Font.custom("Viga-Regular", size: 40))
                         .foregroundStyle(Color.gray.opacity(0.5))
+                    Spacer()
                 }
-                
-                ScrollView {
-                    ScrollViewReader { proxy in
-                        LazyVStack(spacing: 20) {
-                            // Loop through events and display them
-                            ForEach(viewModel.getUpcomingEvents().indices, id: \.self)
-                            { index in
-                                let upcomingEvents = viewModel.getUpcomingEvents()
-                                let event = upcomingEvents[index]
-                                let abrDateString = dateHelper.getDayAbbreviation(for: event.start.dateTime)
-                                let numDateString = dateHelper.getDayNumber(for: event.start.dateTime)
-                                
-                                // Event row with date and event details
-                                HStack {
-                                    // Display date only for the first event or when the day changes
-                                    if index == 0 || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
-                                        VStack(alignment: .center, spacing: 0) {
-                                            Text(abrDateString)
-                                                .font(Font.custom("UniversLTStd", size: 14))
-                                                .multilineTextAlignment(.center)
-                                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayTextColor)
-                                                .frame(width: 35, height: 15, alignment: .top)
-                                            Text(numDateString)
-                                                .font(Font.custom("UniversLTStd", size: 20))
-                                                .multilineTextAlignment(.center)
-                                                .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                                                .frame(width: 26, height: 16, alignment: .top)
-                                        }
-                                        .frame(width: 39, height: 45, alignment: .top)
-                                        .padding(.horizontal, 2)
-                                        .padding(.top, 4)
-                                        .padding(.bottom, 8)
-                                        .padding(.trailing, 10)
-                                        
-                                    } else {
-                                        VStack { }
-                                            .frame(width: 39, height: 45, alignment: .top)
-                                            .padding(.horizontal, 2)
-                                            .padding(.top, 4)
-                                            .padding(.bottom, 8)
-                                    }
-                                    
-                                    // Navigation link to detailed event information
-                                    Button {
-                                        // Dismiss the current view when the button is pressed
-                                        withAnimation(.easeInOut(duration: 0.2))
-                                        {
-                                            appVM.showView = .event
-                                            appVM.currentEventIndex = index
-                                        }
-                                    } label: {
-                                        // Button label with an image
-                                        EventBox(event: upcomingEvents[index])
-                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
-                                            .background(
-                                                GeometryReader { geometry in
-                                                    Color.clear
-                                                        .onChange(of: geometry.frame(in: .global).maxY) {
-                                                            // Check if the event box is about to move out of view
-                                                            if geometry.frame(in: .global).maxY < UIScreen.main.bounds.height * 0.1 {
-                                                                // Get the index of the next event
-                                                                let nextEventIndex = min(index + 2, upcomingEvents.count - 1)
-                                                                // Update displayed month based on the next event
-                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[nextEventIndex].start.dateTime)
-                                                            }
-                                                            else
-                                                            {
-                                                                let priorEventIndex = max(index - 2, 0)
-                                                                // Update displayed month based on the next event
-                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[priorEventIndex].start.dateTime)
-                                                            }
-                                                        }
-                                                }
-                                            )
-                                    }
-                                }
-                               
-                                
-                                // Dashed line separator for events on different days
-                                if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {
-                                    HStack{
-                                        Rectangle()
-                                            .foregroundColor(.clear)
-                                            .frame(width: 39, height: 1, alignment: .top)
-                                        Rectangle()
-                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 1, alignment: .center)
-                                            .foregroundColor(.clear)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 1)
-                                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
-                                            )
-                                    }
-                                    
-                                }
-                            }
-                        }
-                        .padding(.bottom, 100)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .padding(.trailing, 20)
-                    }
-                    .background(colorScheme == .dark ? AnyShapeStyle(Constants.darkGradient) : AnyShapeStyle(Constants.lightGradient))
-                    .frame(maxWidth: .infinity)
-                    .onAppear {
-                        guard !hasSetUpNotifications else { return }
-                        hasSetUpNotifications = true
-                        // Initialize lastUpdatedVisibleMonths with initial visible months
-                        displayedMonth = dateHelper.getCurrentMonth()
+            }
+            
+            VStack {
+                HStack {
+                    Text(displayedMonth)
+                        .font(Font.custom("Viga-Regular", size: 30))
+                        .bold()
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
+                    
+                    Spacer()
+                    
+                    headerButtonsView
+                }
+                .padding(.horizontal)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
+        .sheet(isPresented: $isShowingEvent) {
+            if #available(iOS 26.0, *) {
 
-                        Task {
-                            await performInitialSetup()
-                        }
-                        
-                    }
+                if let selectedEvent {
+                    EventInfoView(
+                        event: selectedEvent,
+                        showView: $appVM.showView
+                    )
+                    .scrollIndicators(.never)
+                    .presentationDetents([.height(650), .fraction(0.8)])
+                }
+
+            } else {
+                // Fallback on earlier versions
+                if let selectedEvent {
+                    EventInfoView(
+                        event: selectedEvent,
+                        showView: $appVM.showView
+                    )
+                    .scrollIndicators(.never)
+                    .presentationDetents([.height(650), .fraction(0.8)])
                 }
             }
         }
-        .background(colorScheme == .dark ? AnyShapeStyle(Constants.darkGradient) : AnyShapeStyle(Constants.lightGradient))
-        .edgesIgnoringSafeArea(.all)
-        .overlay {
-            Group
-            {
-                if appVM.showView == .notification
-                {
-                    NotificationView(viewModel: viewModel, showView: $appVM.showView)
-                }
-                else if appVM.showView == .socials
-                {
-                    SocialsView(showView: $appVM.showView)
-                        .transition(.move(edge: .trailing))
-                }
-                else if appVM.showView == .event
-                {
-                    EventInfoView(event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0], showView: $appVM.showView)
-                        .transition(.move(edge: .trailing))
-                } else if appVM.showView == .location
-                {
-                    LocationView(location: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].location ?? "Unknown",event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].summary, showView: $appVM.showView)
-                        .transition(.move(edge: .trailing))
+        .sheet(isPresented: $isShowingMap) {
+            if #available(iOS 26.0, *) {
+
+                if let selectedEvent {
+                    LocationView(
+                        location: selectedEvent.location ?? "",
+                        event: selectedEvent.summary,
+                        showView: $appVM.showView
+                    )
                 }
 
+            } else {
+                // Fallback on earlier versions
+                LocationView(
+                    location: selectedEvent?.location ?? "",
+                    event: selectedEvent?.summary ?? "",
+                    showView: $appVM.showView
+                )
             }
-            .offset(x:offset)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        if appVM.showView == .location { return }
-                        isDragging = true
-                        offset = gesture.translation.width > 0 ? gesture.translation.width : 0
-                    }
-                    .onEnded { _ in
-                        isDragging = false
-                        if offset > 100
-                        {
-                            withAnimation(.easeInOut(duration: appVM.showView == .event ? 0.5 : 0.2))
-                            {
-                                appVM.showView = .none
-                            }
-                        }
-                        withAnimation(.easeOut(duration: 0.2))
-                        {
-                            offset = 0
-                        }
-                    }
-            )
-            .animation(.easeInOut, value: offset)
+        }
+        .onAppear {
+            guard !hasSetUpNotifications else {return}
+            hasSetUpNotifications = true
+            displayedMonth = dateHelper.getCurrentMonth()
+            
+            Task {
+                await performInitialSetup()
+            }
         }
     }
-            
+    
+    // MARK: Part of the view
+
+    @ViewBuilder
+    private var headerButtonsView: some View {
+        if #available(iOS 26.0, *) {
+            GlassEffectContainer {
+                HStack(spacing: 0) {
+                    if viewModel.isLastMonth() {
+                        Button {
+                            withAnimation(.snappy) { appVM.showView = .wrapped(.start) }
+                        } label: {
+                            Image("shpe_logo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .frame(width: 44, height: 44)
+                        }
+                        Divider().frame(height: 20).opacity(0.3)
+                    }
+                    Button { } label: {
+                        Image(systemName: "ellipsis.message")
+                            .font(.system(size: 18))
+                            .frame(width: 44, height: 44)
+                            .foregroundStyle(colorScheme == .dark ? .white : .black)
+                    }
+                }
+                .padding(4)
+            }
+            .glassEffect(.regular.interactive())
+        } else {
+            HStack(spacing: 0) {
+                if viewModel.isLastMonth() {
+                    Button {
+                        withAnimation(.snappy) { appVM.showView = .wrapped(.start) }
+                    } label: {
+                        Image("shpe_logo")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .frame(width: 44, height: 44)
+                    }
+                    Divider().frame(height: 20).opacity(0.3)
+                }
+                Button { } label: {
+                    Image(systemName: "ellipsis.message")
+                        .font(.system(size: 18))
+                        .frame(width: 44, height: 44)
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
+                }
+            }
+            .padding(4)
+        }
+    }
+
+    @ViewBuilder
+    private func eventListContent(events: [Event]) -> some View {
+        let groupedEvents = groupedEventsByDay(events)
+        ForEach(groupedEvents, id: \.date) { group in
+            Section {
+                ForEach(Array(group.events.enumerated()), id: \.element.identifier) { index, event in
+                    HStack(spacing: 7) {
+                        if index == 0 {
+                            dayView(date: group.date)
+                        } else {
+                            Spacer().frame(width: 35)
+                        }
+                        if #available(iOS 18.0, *) {
+                            Button {
+                                selectedEvent = event
+                                isShowingEvent = true
+                            } label: {
+                                EventBox(event: event)
+                                    .sensoryFeedback(.impact, trigger: isShowingEvent)
+                            }
+                        } else {
+                            Button {
+                                selectedEvent = event
+                                isShowingEvent = true
+                            } label: {
+                                EventBox(event: event)
+                                    .sensoryFeedback(.impact, trigger: isShowingEvent)
+                            }
+                        }
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .swipeActions(edge: .trailing) {
+                        if notificationVM.isEventNotified(event) {
+                            Button {
+                                notificationVM.removeNotificationForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                            } label: {
+                                Label("Silence", systemImage: "bell.slash.fill").tint(.red)
+                            }
+                        } else {
+                            Button {
+                                notificationVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                            } label: {
+                                Label("Notify", systemImage: "bell").tint(.blue)
+                            }
+                        }
+                        if #available(iOS 18.0, *) {
+                            Button {
+                                handleDirectionsTap(for: event)
+                            } label: {
+                                Label("Directions", systemImage: "point.topleft.filled.down.to.point.bottomright.curvepath")
+                            }
+                            .tint(.green)
+                        } else {
+                            Button {
+                                handleDirectionsTap(for: event)
+                            } label: {
+                                Label("Directions", systemImage: "point.topleft.filled.down.to.point.bottomright.curvepath")
+                            }
+                            .tint(.green)
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button { print("Calendar") } label: {
+                            Label("Add", systemImage: "calendar")
+                        }
+                    }
+                }
+            }
+            .padding(.vertical, 15)
+            .padding(.trailing, 15)
+            .textCase(nil)
+        }
+    }
+    
     private func performInitialSetup() async {
         let mappedEvents = await Task.detached { [coreEvents, viewContext] in
             return CoreFunctions().mapCoreEventToEvent(events: coreEvents, viewContext: viewContext)
         }.value
-
+        
         await MainActor.run {
             NotificationViewModel.instance.pendingNotifications = mappedEvents
             notificationVM.allEvents = viewModel.events  // expose to Settings
@@ -329,4 +326,92 @@ struct HomeView: View {
             inSameDayAs: event2.start.dateTime
         )
     }
+    
+    func handleDirectionsTap(for event: Event) {
+        guard let location = event.location, !location.isEmpty else {
+            print("Invalid location")
+            return
+        }
+        
+        Task {
+            let isValid = await isValidLocation(location)
+            
+            if isValid {
+                await MainActor.run {
+                    selectedLocation = location
+                    selectedEventTitle = event.summary
+                    selectedEvent = event
+                    isShowingMap = true
+                }
+            } else {
+                print("Invalid location")
+            }
+        }
+    }
+    
+    func groupedEventsByDay(_ events: [Event]) -> [(date: Date, events: [Event])] {
+        let calendar = Calendar.current
+        
+        let grouped = Dictionary(grouping: events) { event in
+            calendar.startOfDay(for: event.start.dateTime)
+        }
+        
+        return grouped
+            .sorted { $0.key < $1.key }
+            .map { ($0.key, $0.value.sorted { $0.start.dateTime < $1.start.dateTime }) }
+    }
+    
+    @ViewBuilder
+    func dayView(date : Date) -> some View {
+        if #available(iOS 26.0, *) {
+            return VStack {
+                Text(dateHelper.getDayAbbreviation(for: date))
+                    .font(.callout)
+                    .foregroundStyle(.red)
+                
+                Text(dateHelper.getDayNumber(for: date))
+                    .font(.title2)
+                    .fontWeight(.semibold)
+            }
+            .frame(width: 35)
+            .padding(.vertical, 10)
+            .padding(.horizontal)
+            .glassEffect(.regular, in: .rect(cornerRadius: 20))
+            .padding(.leading, 5)
+        } else {
+            return VStack {
+                Text(dateHelper.getDayAbbreviation(for: date))
+                    .font(.callout)
+                    .foregroundStyle(.red)
+                
+                Text(dateHelper.getDayNumber(for: date))
+                    .font(.title2)
+                    .fontWeight(.semibold)
+            }
+            .frame(width: 35)
+            .padding(.vertical, 10)
+            .padding(.horizontal)
+            .background(.ultraThinMaterial)
+            .padding(.leading, 5)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+    }
+    
+    func isValidLocation(_ location: String) async -> Bool {
+        
+        let geocoder = CLGeocoder()
+        
+        do {
+            let placemarks = try await geocoder.geocodeAddressString(location)
+            return !placemarks.isEmpty
+        } catch {
+            return false
+        }
+        
+    }
 }
+
+//#Preview {
+//    HomeView()
+//        .preferredColorScheme(.dark)
+//}
