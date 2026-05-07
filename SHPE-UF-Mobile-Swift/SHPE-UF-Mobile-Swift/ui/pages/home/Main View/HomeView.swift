@@ -39,12 +39,15 @@ struct HomeView: View {
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var notificationVM = NotificationViewModel.instance
     
+    @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
+    
     @State private var selectedEvent: Event?
     
     @State private var hasAskedForPermissions = false
     @State private var hasSetUpNotifications = false
     @State private var isShowingEvent = false
     @State private var isShowingMap = false
+    @State private var isShowingChatbot = false
     @State private var selectedLocation: String = ""
     
     @State private var selectedEventTitle: String = ""
@@ -90,48 +93,28 @@ struct HomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(colorScheme == .dark ? Constants.darkModeBackground : Constants.BackgroundColor)
         .sheet(isPresented: $isShowingEvent) {
-            if #available(iOS 26.0, *) {
-
-                if let selectedEvent {
-                    EventInfoView(
-                        event: selectedEvent,
-                        showView: $appVM.showView
-                    )
-                    .scrollIndicators(.never)
-                    .presentationDetents([.height(650), .fraction(0.8)])
-                }
-
-            } else {
-                // Fallback on earlier versions
-                if let selectedEvent {
-                    EventInfoView(
-                        event: selectedEvent,
-                        showView: $appVM.showView
-                    )
-                    .scrollIndicators(.never)
-                    .presentationDetents([.height(650), .fraction(0.8)])
-                }
+            if let selectedEvent {
+                EventInfoView(
+                    event: selectedEvent,
+                    showView: $appVM.showView
+                )
+                .scrollIndicators(.never)
+                .presentationDetents([.height(650), .fraction(0.8)])
             }
+            
         }
         .sheet(isPresented: $isShowingMap) {
-            if #available(iOS 26.0, *) {
-
-                if let selectedEvent {
-                    LocationView(
-                        location: selectedEvent.location ?? "",
-                        event: selectedEvent.summary,
-                        showView: $appVM.showView
-                    )
-                }
-
-            } else {
-                // Fallback on earlier versions
+            if let selectedEvent {
                 LocationView(
-                    location: selectedEvent?.location ?? "",
-                    event: selectedEvent?.summary ?? "",
+                    location: selectedEvent.location ?? "",
+                    event: selectedEvent.summary,
                     showView: $appVM.showView
                 )
             }
+            
+        }
+        .fullScreenCover(isPresented: $isShowingChatbot) {
+            ChatBotView()
         }
         .onAppear {
             guard !hasSetUpNotifications else {return}
@@ -163,9 +146,13 @@ struct HomeView: View {
                         }
                         Divider().frame(height: 20).opacity(0.3)
                     }
-                    Button { } label: {
-                        Image(systemName: "ellipsis.message")
-                            .font(.system(size: 18))
+                    // ChatBot
+                    Button {
+                        isShowingChatbot = true
+                    } label: {
+                        Image("\(selectedPersonaRaw)")
+                            .resizable()
+                            .scaledToFit()
                             .frame(width: 44, height: 44)
                             .foregroundStyle(colorScheme == .dark ? .white : .black)
                     }

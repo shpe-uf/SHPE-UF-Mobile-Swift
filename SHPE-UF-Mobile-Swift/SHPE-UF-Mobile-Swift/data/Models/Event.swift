@@ -84,7 +84,7 @@ extension Event {
                 creator: Creator(email: "creator\(i)@example.com", selfValue: 1),
                 end: EventDateTime(dateTime: endDate, timeZone: "America/New_York"),
                 etag: "etag\(i)",
-                eventType: ["Workshop", "Social", "General", "Tech Talk"].randomElement()!,
+                eventType: ["GBM", "Social", "Volunteering", "Workshop", "Info"].randomElement()!,
                 htmlLink: "https://example.com/event\(i)",
                 iCalUID: "ical\(i)",
                 identifier: "event\(i)",

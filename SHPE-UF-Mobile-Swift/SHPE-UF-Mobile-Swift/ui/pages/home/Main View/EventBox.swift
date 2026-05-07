@@ -128,6 +128,8 @@ struct EventBox: View {
 /// )
 /// ```
 struct EventNoTimeView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     var event: Event
     var color: Color
     var iconImage: String
@@ -137,62 +139,65 @@ struct EventNoTimeView: View {
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: UIScreen.main.bounds.width * 0.8, height: 69)
-                .background(color)
-                .cornerRadius(25)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 25)
-                        .stroke(isAnimating ? Color.lorange : Color.lorange.opacity(0.5), lineWidth: isAnimating ? 4 : ongoing ? 2 : 0)
-                        .animation(Animation.linear(duration: 1).repeatForever(autoreverses: true), value: ongoing)
-                )
-                .onAppear {
-                    self.ongoing = event.start.dateTime <= Date() && event.end.dateTime >= Date()
-                    self.isAnimating = ongoing
-                }
-            
-            VStack{
-                HStack{
-                    Text(event.summary)
-                        .font(Font.custom("UniversLTStd", size: 15))
-                        .foregroundColor(.white)
-                        .frame(alignment: .topLeading)
-                    Rectangle()
-                        .foregroundColor(.clear)
-                        .frame(width: 20, height: 20)
-                        .background(
-                            
-                            Image(iconImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                        )
-                }
-                .frame(width: UIScreen.main.bounds.width * 0.7, height: 17, alignment: .topLeading)
-                
-                
-                HStack(spacing: 5) {
-                    HStack{
-                        Rectangle()
-                            .foregroundColor(.clear)
-                            .frame(width: 24, height: 24)
-                            .background(
-                                Image("Calendar")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            )
-                        Text(startDateString)
-                            .font(Font.custom("UniversLTStd", size: 12))
-                            .foregroundColor(.white)
+            if #available(iOS 26.0, *) {
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(event.summary)
+                            .font(.headline)
+                            .lineLimit(1)
                     }
-                    .frame(width: UIScreen.main.bounds.width * 0.7, height: 17, alignment: .topLeading)
                     
                     Spacer()
                     
+                    Image(iconImage)
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
                 }
-                .frame(width: UIScreen.main.bounds.width * 0.7)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .glassEffect(.regular.tint(color.opacity(0.4)).interactive(),
+                             in: RoundedRectangle(cornerRadius: 25))
+
+                // subtle pulse without changing layout
+                .shadow(color: color.opacity(isAnimating ? 0.6 : 0.2),
+                        radius: isAnimating ? 10 : 4)
+                .animation(
+                    .easeInOut(duration: 1.5).repeatForever(autoreverses: true),
+                    value: isAnimating
+                )
+                
+            } else {
+                // Fallback on earlier versions
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(event.summary)
+                            .font(.headline)
+                            .lineLimit(1)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(iconImage)
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+
+                // subtle pulse without changing layout
+                .shadow(color: color.opacity(isAnimating ? 0.6 : 0.2),
+                        radius: isAnimating ? 10 : 4)
+                .animation(
+                    .easeInOut(duration: 1.5).repeatForever(autoreverses: true),
+                    value: isAnimating
+                )
             }
-            
+        }
+        .onAppear {
+            self.ongoing = event.start.dateTime <= Date() && event.end.dateTime >= Date()
+            self.isAnimating = ongoing
         }
     }
 }
@@ -225,6 +230,8 @@ struct EventNoTimeView: View {
 /// )
 /// ```
 struct EventWithTimeView: View {
+    @Environment(\.colorScheme) var colorScheme
+
     var event: Event
     var color: Color
     var iconImage: String
@@ -258,6 +265,7 @@ struct EventWithTimeView: View {
                     Image(iconImage)
                         .resizable()
                         .frame(width: 30, height: 30)
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -267,13 +275,6 @@ struct EventWithTimeView: View {
                 // subtle pulse without changing layout
                 .shadow(color: color.opacity(isAnimating ? 0.6 : 0.2),
                         radius: isAnimating ? 10 : 4)
-
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 25)
-//                        .stroke(color.opacity(isAnimating ? 0.6 : 0.2), lineWidth: 2)
-//                )
-
-                // smoother animation
                 .animation(
                     .easeInOut(duration: 1.5).repeatForever(autoreverses: true),
                     value: isAnimating
@@ -282,18 +283,6 @@ struct EventWithTimeView: View {
             } else {
                 // Fallback on earlier versions
                 HStack {
-                    // DATE
-                    VStack {
-                        Text("Sun")
-                            .font(.caption)
-                            .foregroundStyle(Color(.red))
-                        
-                        Text("23")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                    }
-                    .padding()
-                    
                     VStack(alignment: .leading) {
                         Text(event.summary)
                             .font(.headline)
@@ -313,9 +302,17 @@ struct EventWithTimeView: View {
                     Image(iconImage)
                         .resizable()
                         .frame(width: 30, height: 30)
+                        .foregroundStyle(colorScheme == .dark ? .white : .black)
                 }
-                .frame(width: .infinity)
-                .padding(.horizontal)
+                .frame(maxWidth: .infinity)
+                .padding()
+                // subtle pulse without changing layout
+                .shadow(color: color.opacity(isAnimating ? 0.6 : 0.2),
+                        radius: isAnimating ? 10 : 4)
+                .animation(
+                    .easeInOut(duration: 1.5).repeatForever(autoreverses: true),
+                    value: isAnimating
+                )
             }
         }
         .onAppear {

@@ -11,7 +11,7 @@ private let chatTimestampFormatter: DateFormatter = {
 /// Three pulsing dots shown while waiting for the bot's response.
 private struct TypingDots: View {
     @State private var animate = false
-
+    
     var body: some View {
         HStack(spacing: 6) {
             Circle().frame(width: 6, height: 6)
@@ -57,17 +57,17 @@ private struct ChatBubble: View {
     let persona: ChatPersona
     let maxBubbleWidth: CGFloat
     var onRetry: (() -> Void)?
-
+    
     private var isFailed: Bool {
         if case .failed = message.status { return true }
         return false
     }
-
+    
     private var failedMessage: String? {
         if case .failed(let msg) = message.status { return msg }
         return nil
     }
-
+    
     /// Applies `.body`-relative font to every run in an `AttributedString`, preserving bold/italic from markdown parsing.
     static func applySemanticFont(_ attributed: inout AttributedString) {
         for run in attributed.runs {
@@ -82,18 +82,18 @@ private struct ChatBubble: View {
             attributed[run.range].font = font
         }
     }
-
+    
     private var bubbleAccessibilityLabel: String {
         let sender = message.isUser ? "You said" : persona.bubbleSenderLabel
         let status = isFailed ? ", failed to send" : ""
         return "\(sender): \(message.text)\(status)"
     }
-
+    
     var body: some View {
         VStack(spacing: 4) {
             HStack(spacing: 0) {
                 if message.isUser { Spacer(minLength: 56) }
-
+                
                 Group {
                     if message.isUser {
                         Text(message.text)
@@ -142,10 +142,10 @@ private struct ChatBubble: View {
                     }
                 }
                 .padding(.horizontal, 20)
-
+                
                 if !message.isUser { Spacer(minLength: 56) }
             }
-
+            
             // Error label with tap-to-retry
             if let errorMsg = failedMessage {
                 HStack(spacing: 4) {
@@ -203,35 +203,36 @@ private extension View {
 /// ```
 struct ChatBotView: View {
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var vm = ChatBotViewModel()
-
+    
     @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
     @State private var isNearBottom = true
     @State private var scrollProxy: ScrollViewProxy?
     @State private var showClearAlert = false
     @State private var showInfoSheet = false
-
+    
     private var persona: ChatPersona {
         ChatPersona(rawValue: selectedPersonaRaw) ?? .tito
     }
-
+    
     private let sendHaptic = UIImpactFeedbackGenerator(style: .light)
     private let receiveHaptic = UINotificationFeedbackGenerator()
-
+    
     private var bg: Color { scheme == .dark ? ChatTheme.darkBG : ChatTheme.lightBG }
-
+    
     private var sendDisabled: Bool {
         vm.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || vm.isLoading
     }
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 bg.ignoresSafeArea()
-
+                
                 VStack(spacing: 0) {
                     header
-
+                    
                     if vm.messages.isEmpty {
                         introView
                             .contentShape(Rectangle())
@@ -257,7 +258,7 @@ struct ChatBotView: View {
                             }
                     }
                 }
-
+                
                 // Single floating avatar — animates between intro center and header top-right
                 floatingAvatar
             }
@@ -273,12 +274,12 @@ struct ChatBotView: View {
             }
         }
     }
-
+    
     private func performSend() {
         vm.send(persona: persona.serverValue)
         dismissKeyboard()
     }
-
+    
     /// Scrolls the message list to the bottom anchor, optionally animated.
     private func scrollToBottom(animated: Bool) {
         guard let proxy = scrollProxy else { return }
@@ -290,7 +291,7 @@ struct ChatBotView: View {
             proxy.scrollTo("bottom-anchor", anchor: .bottom)
         }
     }
-
+    
     /// Returns `true` if a timestamp divider should appear above the message at `index` (5-minute gap threshold).
     private func shouldShowTimestamp(at index: Int) -> Bool {
         guard index > 0 else { return true } // Always show on first message
@@ -298,67 +299,127 @@ struct ChatBotView: View {
         let previous = vm.messages[index - 1].date
         return current.timeIntervalSince(previous) >= 300 // 5 minutes
     }
-
+    
     // MARK: Header
     private var header: some View {
         ZStack {
-            ChatTheme.orange.ignoresSafeArea(edges: .top)
             HStack {
-                Button(action: {
-                    showInfoSheet = true
-                }) {
-                    Image(systemName: "info.circle")
-                        .foregroundColor(.white.opacity(0.85))
-                        .frame(width: 36, height: 36)
-                }
-                .accessibilityLabel("About \(persona.displayName), opens info sheet")
-
-                if !vm.messages.isEmpty {
-                    Button(action: {
-                        showClearAlert = true
-                    }) {
-                        Image(systemName: "trash")
-                            .foregroundColor(.white.opacity(0.85))
-                            .frame(width: 36, height: 36)
+                if #available(iOS 26.0, *) {
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.primary)
                     }
-                    .accessibilityLabel("Clear conversation")
-                    .alert("Clear Conversation", isPresented: $showClearAlert) {
-                        Button("Clear", role: .destructive) {
-                            withAnimation {
-                                vm.messages.removeAll()
+                    .padding(5)
+                    .glassEffect(.clear.interactive())
+                    
+                    GlassEffectContainer {
+                        HStack {
+                            Button(action: {
+                                showInfoSheet = true
+                            }) {
+                                Image(systemName: "info")
+                                    .foregroundColor(.primary)
+                                    .frame(width: 35, height: 35)
+                            }
+                            .accessibilityLabel("About \(persona.displayName), opens info sheet")
+                            
+                            if !vm.messages.isEmpty {
+                                Button(action: {
+                                    showClearAlert = true
+                                }) {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.primary)
+                                        .frame(width: 35, height: 35)
+                                }
+                                .accessibilityLabel("Clear conversation")
+                                .alert("Clear Conversation", isPresented: $showClearAlert) {
+                                    Button("Clear", role: .destructive) {
+                                        withAnimation {
+                                            vm.messages.removeAll()
+                                        }
+                                    }
+                                    Button("Cancel", role: .cancel) {}
+                                } message: {
+                                    Text("Are you sure you want to clear this conversation?")
+                                }
+                                .tint(.primary)
                             }
                         }
-                        Button("Cancel", role: .cancel) {}
-                    } message: {
-                        Text("Are you sure you want to clear this conversation?")
+                        .padding(5)
+                    }
+                    .glassEffect(.clear.interactive())
+                } else {
+                    // Fallback on earlier versions
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.backward")
+                            .frame(width: 35, height: 35)
+                            .foregroundColor(.primary)
+                    }
+                    .padding(5)
+                    
+                    HStack {
+                        Button(action: {
+                            showInfoSheet = true
+                        }) {
+                            Image(systemName: "info.circle")
+                                .foregroundColor(.primary)
+                                .frame(width: 35, height: 35)
+                        }
+                        .accessibilityLabel("About \(persona.displayName), opens info sheet")
+                        
+                        if !vm.messages.isEmpty {
+                            Button(action: {
+                                showClearAlert = true
+                            }) {
+                                Image(systemName: "trash")
+                                    .foregroundColor(.primary)
+                                    .frame(width: 35, height: 35)
+                            }
+                            .accessibilityLabel("Clear conversation")
+                            .alert("Clear Conversation", isPresented: $showClearAlert) {
+                                Button("Clear", role: .destructive) {
+                                    withAnimation {
+                                        vm.messages.removeAll()
+                                    }
+                                }
+                                Button("Cancel", role: .cancel) {}
+                                    .tint(.primary)
+                            } message: {
+                                Text("Are you sure you want to clear this conversation?")
+                            }
+                        }
                     }
                 }
-
+                
                 Spacer()
-
-                Text(persona.headerTitle)
-                    .font(.title3.weight(.semibold))
-                    .foregroundColor(.white)
-
-                Spacer()
-
-                // Balance left side: info (36) always + trash (36) when messages exist
-                // Right side: avatar (36) when messages exist
-                // Extra clear space to keep title centered
-                if !vm.messages.isEmpty {
-                    Color.clear.frame(width: 72, height: 36)
-                } else {
-                    Color.clear.frame(width: 36, height: 36)
+                
+                if isIntro {
+                    Text(persona.headerTitle)
+                        .font(Font.custom("Viga-Regular", size: 20))
+                        .foregroundColor(.primary)
                 }
-
-            } .padding(.horizontal)
+                
+                
+                Spacer()
+                Spacer()
+                Spacer()
+                
+            }
+            .padding(.horizontal)
         }
         .frame(height: 50)
     }
-
+    
     /// Whether the intro screen (no messages yet) is showing.
     private var isIntro: Bool { vm.messages.isEmpty }
-
+    
     /// Single avatar that animates between the intro center (160pt) and the header top-right (36pt).
     private var floatingAvatar: some View {
         let size: CGFloat = isIntro ? 160 : 36
@@ -386,20 +447,20 @@ struct ChatBotView: View {
             .accessibilityHidden(true)
             .allowsHitTesting(false)
     }
-
+    
     // MARK: Intro view
     private var introView: some View {
         VStack {
             Spacer()
             // Avatar space — actual image is in the floating overlay
             Color.clear.frame(width: 160, height: 160)
-
+            
             Text(persona.introMessage)
                 .font(.body.weight(.medium))
                 .multilineTextAlignment(.center)
                 .foregroundColor(scheme == .dark ? .white : .black)
                 .padding(.top, 16)
-
+            
             // Persona picker
             Picker("Persona", selection: $selectedPersonaRaw) {
                 ForEach(ChatPersona.allCases, id: \.rawValue) { p in
@@ -409,11 +470,11 @@ struct ChatBotView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal, 60)
             .padding(.top, 20)
-
+            
             Spacer()
         }
     }
-
+    
     // MARK: Messages list
     private func messagesList(screenWidth: CGFloat, screenHeight: CGFloat) -> some View {
         let maxBubbleWidth = min(screenWidth * 0.75, 500)
@@ -421,7 +482,7 @@ struct ChatBotView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     Color.clear.frame(height: 12)
-
+                    
                     ForEach(Array(vm.messages.enumerated()), id: \.element.id) { index, msg in
                         let previousSameAuthor: Bool = {
                             guard index > 0 else { return false }
@@ -436,7 +497,7 @@ struct ChatBotView: View {
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .padding(.vertical, 6)
                             }
-
+                            
                             ChatBubble(message: msg, persona: persona, maxBubbleWidth: maxBubbleWidth) {
                                 sendHaptic.impactOccurred()
                                 vm.retry(messageID: msg.id, persona: persona.serverValue)
@@ -445,7 +506,7 @@ struct ChatBotView: View {
                             .transition(.opacity.combined(with: .move(edge: .bottom)))
                         }
                     }
-
+                    
                     if vm.isLoading {
                         HStack(spacing: 0) {
                             TypingDots()
@@ -461,7 +522,7 @@ struct ChatBotView: View {
                                         .stroke(.white.opacity(0.12), lineWidth: 0.5)
                                 )
                                 .padding(.horizontal, 20)
-
+                            
                             Spacer(minLength: 56)
                         }
                         .padding(.vertical, 4)
@@ -470,9 +531,9 @@ struct ChatBotView: View {
                         .zIndex(1)
                         .accessibilityLabel(persona.typingAccessibilityLabel)
                     }
-
+                    
                     Color.clear.frame(height: 12)
-
+                    
                     // Near-bottom detector
                     GeometryReader { geo in
                         Color.clear
@@ -520,7 +581,7 @@ struct ChatBotView: View {
             }
         }
     }
-
+    
     // Input bar
     private var inputBar: some View {
         HStack(spacing: 10) {
@@ -545,7 +606,7 @@ struct ChatBotView: View {
                         vm.inputText = String(vm.inputText.prefix(500))
                     }
                 }
-
+            
             Button(action: {
                 sendHaptic.impactOccurred()
                 performSend()
@@ -561,14 +622,14 @@ struct ChatBotView: View {
             .clipShape(Circle())
         }
     }
-
+    
     // MARK: Info sheet
     private var infoSheet: some View {
         let name = persona.displayName
         return NavigationStack {
             ZStack {
                 bg.ignoresSafeArea()
-
+                
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         // Persona avatar centered at top
@@ -584,26 +645,26 @@ struct ChatBotView: View {
                             Spacer()
                         }
                         .padding(.top, 8)
-
+                        
                         Text("About \(name)")
                             .font(.title2.bold())
                             .foregroundColor(scheme == .dark ? .white : .primary)
-
+                        
                         Text("Your SHPE UF assistant — chapter info, career help, and life at UF.")
                             .foregroundColor(scheme == .dark ? .white.opacity(0.85) : .primary)
-
+                        
                         infoSection(title: "What I can do:", items: [
                             "Look up events from the official calendar",
                             "Link you to SHPE docs, Linktree, and Instagram",
                             "Help with resumes, interviews, networking, and picking a major"
                         ])
-
+                        
                         infoSection(title: "What I can't do:", items: [
                             "Code, math, or homework",
                             "Essays, translations, or creative writing",
                             "Anything outside SHPE, UF, or careers"
                         ])
-
+                        
                         Text("Tap the trash icon to clear your chat.")
                             .foregroundColor(.secondary)
                             .font(.footnote)
@@ -622,9 +683,10 @@ struct ChatBotView: View {
                     }
                 }
             }
+            .tint(.primary)
         }
     }
-
+    
     private func infoSection(title: String, items: [String]) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
@@ -640,7 +702,7 @@ struct ChatBotView: View {
             }
         }
     }
-
+    
 }
 
 /// Tracks the bottom anchor's Y position in the scroll coordinate space to detect near-bottom state.
@@ -653,4 +715,5 @@ private struct BottomVisiblePreferenceKey: PreferenceKey {
 
 #Preview {
     ChatBotView()
+        .preferredColorScheme(ColorScheme.dark)
 }
