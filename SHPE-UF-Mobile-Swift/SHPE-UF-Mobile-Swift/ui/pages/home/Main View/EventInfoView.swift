@@ -6,25 +6,15 @@
 //
 
 import SwiftUI
-import CoreData
-import MapKit
 
 struct EventInfoView: View {
     var event: Event // The event to display information for
     @Binding var showView: AppRoute // For dismissing the view
-    
+
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.managedObjectContext) private var viewContext
-    
-    @State private var notifVM: NotificationViewModel = NotificationViewModel.instance
-    @State private var tappedNotification:Bool = false
-    @State private var attemptedToEnableNotifications:Bool = false
+
     @State private var isPressed = false
-    @State private var isValidLocation = true
-    @State private var foundLocation:MTPlacemark? = nil
-    
-    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
-    
+
     var body: some View {
         let dateHelper = DateHelper()
         let startTimeString = dateHelper.getTime(for: event.start.dateTime) // Event start time
@@ -54,15 +44,6 @@ struct EventInfoView: View {
                 
                 // Location
                 infoRow(text: event.location ?? "TBA", icon: "mappin")
-                    .onTapGesture {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            if isValidLocation
-                            {
-                                showView = .location
-                                AppViewModel.appVM.inMapView = true
-                            }
-                        }
-                    }
             }
             .padding(.top)
             
@@ -89,31 +70,6 @@ struct EventInfoView: View {
         }
         .edgesIgnoringSafeArea(.all)
         .transition(.move(edge: .trailing))
-        .onAppear
-        {
-            tappedNotification = notifVM.pendingNotifications.contains(where: { e in
-                e.identifier == event.identifier
-            })
-            
-            if let location = event.location
-            {
-                let geocoder = CLGeocoder()
-                geocoder.geocodeAddressString(location)
-                {
-                    placemarks, error in
-                    isValidLocation = placemarks != nil && placemarks!.count > 0 && error == nil
-                    if isValidLocation
-                    {
-                        let coordinates = placemarks![0].location!.coordinate
-                        AppViewModel.appVM.placemark = MTPlacemark(name: event.summary, address: location, latitude: coordinates.latitude, longitude: coordinates.longitude)
-                    }
-                }
-            }
-            else {
-                isValidLocation = false
-            }
-        }
-        
     }
     
     func infoRow(text: String, icon: String) -> some View {

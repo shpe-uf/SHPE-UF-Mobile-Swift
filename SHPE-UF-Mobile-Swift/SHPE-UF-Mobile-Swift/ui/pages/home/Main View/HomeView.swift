@@ -38,6 +38,7 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
     @StateObject var notificationVM = NotificationViewModel.instance
+    @StateObject var calendarSyncVM = CalendarSyncViewModel.instance
     
     @AppStorage("selectedPersona") private var selectedPersonaRaw: String = ChatPersona.tito.rawValue
     
@@ -51,7 +52,10 @@ struct HomeView: View {
     @State private var selectedLocation: String = ""
     
     @State private var selectedEventTitle: String = ""
-    
+    @State private var attemptedToEnableNotifications = false
+    @State private var attemptedToEnableCalendarAccess = false
+    @State private var addedToCalendarMessage: String? = nil
+
     var body: some View {
         ZStack(alignment: .top) {
             let events = viewModel.getUpcomingEvents()
@@ -116,6 +120,17 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $isShowingChatbot) {
             ChatBotView()
         }
+        .overlay(permissionOverlay(
+            isPresented: $attemptedToEnableNotifications,
+            title: "Trying to Stay Notified?",
+            message: "Please go to your device's \"Settings\" and enable notifications for SHPE UF"
+        ))
+        .overlay(permissionOverlay(
+            isPresented: $attemptedToEnableCalendarAccess,
+            title: "Add to Your Calendar?",
+            message: "Please go to your device's \"Settings\" and enable calendar access for SHPE UF"
+        ))
+        .overlay(addedToCalendarBanner())
         .onAppear {
             guard !hasSetUpNotifications else {return}
             hasSetUpNotifications = true
@@ -128,6 +143,89 @@ struct HomeView: View {
     }
     
     // MARK: Part of the view
+
+    @ViewBuilder
+    private func permissionOverlay(isPresented: Binding<Bool>, title: String, message: String) -> some View {
+        if isPresented.wrappedValue {
+            ZStack {
+                VisualEffectBlur(blurStyle: .systemUltraThinMaterial)
+                    .ignoresSafeArea()
+                    .zIndex(998)
+
+                VStack(alignment: .center) {
+                    HStack {
+                        Spacer()
+                        Image("x_mark")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                            .padding(5)
+                            .background(Color.black.opacity(0.1))
+                            .cornerRadius(20)
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    isPresented.wrappedValue = false
+                                }
+                            }
+                    }
+                    Spacer()
+                    Text(title)
+                        .foregroundStyle(Color.white)
+                        .font(Font.custom("Viga-Regular", size: 24))
+                        .padding(.bottom, 10)
+                    Text(message)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(Color.white)
+                        .font(Font.custom("", size: 16))
+                    Spacer()
+                    Button {
+                        if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(appSettings)
+                        }
+                        isPresented.wrappedValue = false
+                    } label: {
+                        Text("Go to Settings")
+                            .foregroundStyle(Color.white)
+                            .font(Font.custom("Viga-Regular", size: 24))
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 30)
+                            .background(Color.darkdarkBlue)
+                            .cornerRadius(12)
+                    }
+                    .padding(.bottom, 20)
+                }
+                .zIndex(999)
+                .padding()
+                .frame(width: 309, height: 270, alignment: .center)
+                .background(Color.profileOrange)
+                .clipShape(RoundedRectangle(cornerSize: CGSize(width: 20, height: 10)))
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func addedToCalendarBanner() -> some View {
+        if let addedToCalendarMessage {
+            VStack {
+                Spacer()
+                Text(addedToCalendarMessage)
+                    .foregroundStyle(Color.white)
+                    .font(Font.custom("Viga-Regular", size: 16))
+                    .padding()
+                    .background(Color.darkdarkBlue)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .padding(.bottom, 30)
+            }
+            .transition(.move(edge: .bottom).combined(with: .opacity))
+            .zIndex(1000)
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    withAnimation {
+                        self.addedToCalendarMessage = nil
+                    }
+                }
+            }
+        }
+    }
 
     @ViewBuilder
     private var headerButtonsView: some View {
@@ -227,7 +325,15 @@ struct HomeView: View {
                             }
                         } else {
                             Button {
-                                notificationVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                notificationVM.checkForPermission { allowed in
+                                    if allowed {
+                                        notificationVM.notifyForSingleEvent(event: event, fetchedEvents: coreEvents, viewContext: viewContext)
+                                    } else {
+                                        withAnimation(.easeIn) {
+                                            attemptedToEnableNotifications = true
+                                        }
+                                    }
+                                }
                             } label: {
                                 Label("Notify", systemImage: "bell").tint(.blue)
                             }
@@ -249,8 +355,31 @@ struct HomeView: View {
                         }
                     }
                     .swipeActions(edge: .leading) {
-                        Button { print("Calendar") } label: {
-                            Label("Add", systemImage: "calendar")
+                        if calendarSyncVM.isEventAdded(event) {
+                            Button {
+                            } label: {
+                                Label("Added", systemImage: "calendar.badge.checkmark")
+                            }
+                            .tint(.gray)
+                            .disabled(true)
+                        } else {
+                            Button {
+                                calendarSyncVM.requestAccess { allowed in
+                                    if allowed {
+                                        calendarSyncVM.addEvent(event) { success in
+                                            withAnimation {
+                                                addedToCalendarMessage = success ? "Added to Calendar" : "Couldn't add to Calendar"
+                                            }
+                                        }
+                                    } else {
+                                        withAnimation(.easeIn) {
+                                            attemptedToEnableCalendarAccess = true
+                                        }
+                                    }
+                                }
+                            } label: {
+                                Label("Add", systemImage: "calendar")
+                            }
                         }
                     }
                 }
@@ -329,6 +458,7 @@ struct HomeView: View {
                     selectedEventTitle = event.summary
                     selectedEvent = event
                     isShowingMap = true
+                    AppViewModel.appVM.inMapView = true
                 }
             } else {
                 print("Invalid location")
@@ -385,16 +515,16 @@ struct HomeView: View {
     }
     
     func isValidLocation(_ location: String) async -> Bool {
-        
+
         let geocoder = CLGeocoder()
-        
+
         do {
-            let placemarks = try await geocoder.geocodeAddressString(location)
+            let placemarks = try await geocoder.geocodeAddressString(location, in: Constants.gainesvilleGeocodingRegion)
             return !placemarks.isEmpty
         } catch {
             return false
         }
-        
+
     }
 }
 

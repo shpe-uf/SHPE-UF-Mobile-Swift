@@ -185,7 +185,7 @@ struct EventNoTimeView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-
+                .background(RoundedRectangle(cornerRadius: 25).fill(color.opacity(0.4)))
                 // subtle pulse without changing layout
                 .shadow(color: color.opacity(isAnimating ? 0.6 : 0.2),
                         radius: isAnimating ? 10 : 4)
@@ -306,6 +306,7 @@ struct EventWithTimeView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
+                .background(RoundedRectangle(cornerRadius: 25).fill(color.opacity(0.4)))
                 // subtle pulse without changing layout
                 .shadow(color: color.opacity(isAnimating ? 0.6 : 0.2),
                         radius: isAnimating ? 10 : 4)

@@ -217,7 +217,7 @@ struct LocationView: View {
                     
                     Image(systemName: "xmark")
                         .frame(width: 35, height: 35)
-                        .foregroundColor(.white)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                         .padding(5)
                     
                 }
@@ -253,7 +253,7 @@ struct LocationView: View {
     func getCoordinate( addressString : String,
                         completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(addressString) { (placemarks, error) in
+        geocoder.geocodeAddressString(addressString, in: Constants.gainesvilleGeocodingRegion) { (placemarks, error) in
             if error == nil {
                 if let placemark = placemarks?[0] {
                     let location = placemark.location!

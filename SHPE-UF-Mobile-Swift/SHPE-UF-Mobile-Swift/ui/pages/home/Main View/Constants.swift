@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 /// A centralized collection of design constants used throughout the application.
 ///
@@ -44,6 +45,15 @@ struct Constants {
     static let darkModeIcon: Color = Color.white // Icon color for dark mode
     
     static let keys = ["General Body Meeting", "Workshop", "Cabinet Meeting", "Corporate Event", "Social", "Miscellaneous"]
+
+    /// Biases event-location geocoding toward Gainesville/UF so vague location strings
+    /// (e.g. just a building name) resolve to the correct campus location rather than a
+    /// similarly-named place elsewhere.
+    static let gainesvilleGeocodingRegion = CLCircularRegion(
+        center: CLLocationCoordinate2D(latitude: 29.6436, longitude: -82.3549),
+        radius: 20_000,
+        identifier: "GainesvilleUF"
+    )
     
     // GRADIENT FOR PROFILE PAGE
 
