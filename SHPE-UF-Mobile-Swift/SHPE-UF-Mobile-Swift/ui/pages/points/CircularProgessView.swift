@@ -58,7 +58,7 @@ struct CircularProgessView: View {
             
         }
         .rotationEffect(Angle(degrees: -90))
-        .frame(width: 250, height: 250)
+        .frame(width: UIScreen.main.bounds.width * 0.65, height: UIScreen.main.bounds.width * 0.65)
         .padding()
         .animation(animation, value: drawingStroke)
         .onAppear {

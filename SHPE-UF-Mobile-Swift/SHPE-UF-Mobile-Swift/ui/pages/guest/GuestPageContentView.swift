@@ -21,6 +21,9 @@ struct GuestPageContentView: View {
     private var swipeTabs: some Gesture {
         DragGesture()
         .onEnded { value in
+            // don't switch tabs while the map sheet is open
+            guard !appVM.inMapView else { return }
+
             // if the carousel is in mid-drag, bail out early
             guard !carouselIsDragging else {
                 carouselIsDragging = false

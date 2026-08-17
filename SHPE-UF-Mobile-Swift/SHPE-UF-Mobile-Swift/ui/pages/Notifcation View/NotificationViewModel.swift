@@ -535,4 +535,8 @@ class NotificationViewModel : ObservableObject {
             e.start.dateTime < Date()
         }
     }
+    
+    func isEventNotified(_ event: Event) -> Bool {
+        pendingNotifications.contains { $0.identifier == event.identifier }
+    }
 }

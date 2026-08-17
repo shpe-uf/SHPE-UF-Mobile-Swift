@@ -1,9 +1,8 @@
 import SwiftUI
 import CoreData
+import MapKit
 
 struct GuestCalendarView: View {
-    @FetchRequest(sortDescriptors: []) private var coreEvents: FetchedResults<CalendarEvent>
-    @Environment(\.managedObjectContext) private var viewContext
     // ViewModel
     @StateObject var viewModel: HomeViewModel
     @StateObject var appVM: AppViewModel = AppViewModel.appVM
@@ -11,8 +10,12 @@ struct GuestCalendarView: View {
 
     @Environment(\.colorScheme) var colorScheme
     @State private var displayedMonth: String = ""
-    @State private var offset: CGFloat = 0
-    @State private var isDragging = false
+
+    @State private var selectedEvent: Event?
+    @State private var isShowingEvent = false
+    @State private var isShowingMap = false
+    @State private var selectedLocation: String = ""
+    @State private var selectedEventTitle: String = ""
 
     var body: some View {
         VStack(spacing: 0) {
@@ -55,160 +58,169 @@ struct GuestCalendarView: View {
             
             // Main content area
             ZStack {
-                if viewModel.getUpcomingEvents().isEmpty {
-                    
+                let events = viewModel.getUpcomingEvents()
+
+                if events.isEmpty {
                     Text("No Upcoming Events...")
                         .multilineTextAlignment(.center)
                         .font(Font.custom("Viga-Regular", size: 40))
                         .foregroundColor(Color.gray.opacity(0.5))
                     Spacer()
                 }
-                
-                ScrollView {
-                    ScrollViewReader { proxy in
-                        LazyVStack(spacing: 20) {
-                            let upcomingEvents = viewModel.getUpcomingEvents()
-                            ForEach(upcomingEvents.indices, id: \.self) { index in
-                                let event = upcomingEvents[index]
-                                
-                                // Decide whether to show day heading
-                                HStack {
-                                    if index == 0 || !sameDay(upcomingEvents[index - 1], upcomingEvents[index]) {
-                                        
-                                        // Show date heading (like "Mon" + "16")
-                                        VStack(alignment: .center, spacing: 0) {
-                                            Text(dateHelper.getDayAbbreviation(for: event.start.dateTime))
-                                                .font(Font.custom("UniversLTStd", size: 14))
-                                                .multilineTextAlignment(.center)
-                                                .foregroundColor(colorScheme == .dark
-                                                                 ? Constants.lightTextColor : Constants.DayTextColor)
-                                                .frame(width: 35, height: 15, alignment: .top)
-                                            
-                                            Text(dateHelper.getDayNumber(for: event.start.dateTime))
-                                                .font(Font.custom("UniversLTStd", size: 20))
-                                                .multilineTextAlignment(.center)
-                                                .foregroundColor(colorScheme == .dark
-                                                                 ? Constants.lightTextColor : Constants.DayNumberTextColor)
-                                                .frame(width: 26, height: 16, alignment: .top)
-                                        }
-                                        .frame(width: 39, height: 45, alignment: .top)
-                                        .padding(.horizontal, 2)
-                                        .padding(.top, 4)
-                                        .padding(.bottom, 8)
-                                        .padding(.trailing, 10)
-                                    } else {
-                                        // If same day as previous event, just show empty space
-                                        VStack { }
-                                            .frame(width: 39, height: 45)
-                                            .padding(.horizontal, 2)
-                                            .padding(.top, 4)
-                                            .padding(.bottom, 8)
-                                    }
-                                    
-                                    // ── The event button ──
-                                    Button {
-                                        withAnimation {
-                                            appVM.showView = .event
-                                            appVM.currentEventIndex = index
-                                        }
-                                    } label: {
-                                        EventBox(event: event)
-                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 69)
-                                            .background(
-                                                GeometryReader { geometry in
-                                                    Color.clear
-                                                        .onChange(of: geometry.frame(in: .global).maxY) { yPos in
-                                                            // This logic updates displayedMonth if the card scrolls near the top
-                                                            if yPos < UIScreen.main.bounds.height * 0.1 {
-                                                                let nextIndex = min(index + 2, upcomingEvents.count - 1)
-                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[nextIndex].start.dateTime)
-                                                            } else {
-                                                                let prevIndex = max(index - 2, 0)
-                                                                displayedMonth = dateHelper.getMonth(for: upcomingEvents[prevIndex].start.dateTime)
-                                                            }
-                                                        }
-                                                }
-                                            )
-                                    }
-                                }
-                                
-                                // Dashed line separator for events on different days
-                                if index != upcomingEvents.indices.last && !sameDay(upcomingEvents[index], upcomingEvents[index + 1]) {
-                                    HStack{
-                                        Rectangle()
-                                            .foregroundColor(.clear)
-                                            .frame(width: 39, height: 1, alignment: .top)
-                                        Rectangle()
-                                            .frame(width: UIScreen.main.bounds.width * 0.75, height: 1, alignment: .center)
-                                            .foregroundColor(.clear)
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 1)
-                                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
-                                                    .foregroundColor(colorScheme == .dark ? Constants.lightTextColor : Constants.DashedLineColor)
-                                            )
-                                    }
-                                    
-                                }
-                            }
-                        }
-                        .padding(.bottom, 100)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .padding(.trailing, 20)
-                    }
-                    .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
-                    .frame(maxWidth: .infinity)
-                    .onAppear {
-                        displayedMonth = dateHelper.getCurrentMonth()
-                    }
+
+                List {
+                    eventListContent(events: events)
                 }
-                
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .listSectionSeparator(.hidden)
+                .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
+                .onAppear {
+                    displayedMonth = dateHelper.getCurrentMonth()
+                }
             }
-           
+
         }
         .background((colorScheme == .dark ? Constants.darkGradient : Constants.lightGradient))
         .edgesIgnoringSafeArea(.all)
-        .overlay {
-            Group {
-                if appVM.showView == .event {
-                        EventInfoView(event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0], showView: $appVM.showView)
-                            .transition(.move(edge: .trailing))
-                } else if appVM.showView == .location {
-                        LocationView(
-                            location: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].location ?? "Unknown",
-                            event: viewModel.getUpcomingEvents()[appVM.currentEventIndex ?? 0].summary,
-                            showView: $appVM.showView
-                        )
-                        .transition(.move(edge: .trailing))
-                    }
-                }
-                .offset(x: offset)
-                .gesture(
-                    DragGesture()
-                        .onChanged { gesture in
-                            if appVM.showView == .location { return }
-                            isDragging = true
-                            offset = gesture.translation.width > 0 ? gesture.translation.width : 0
-                        }
-                        .onEnded { _ in
-                            isDragging = false
-                            if offset > 100 {
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    appVM.showView = .none
-                                }
-                            }
-                            withAnimation(.easeOut(duration: 0.2)) {
-                                offset = 0
-                            }
-                        }
+        .sheet(isPresented: $isShowingEvent) {
+            if let selectedEvent {
+                EventInfoView(event: selectedEvent, showView: $appVM.showView)
+                    .scrollIndicators(.never)
+                    .presentationDetents([.height(650), .fraction(0.8)])
+            }
+        }
+        .sheet(isPresented: $isShowingMap) {
+            if let selectedEvent {
+                LocationView(
+                    location: selectedEvent.location ?? "",
+                    event: selectedEvent.summary,
+                    showView: $appVM.showView
                 )
-                .animation(.easeInOut, value: offset)
+            }
         }
     }
 
-    // Helper function to check if two events occur on the same day
-    func sameDay(_ event1: Event, _ event2: Event) -> Bool {
+    // MARK: Part of the view
+
+    @ViewBuilder
+    private func eventListContent(events: [Event]) -> some View {
+        let groupedEvents = groupedEventsByDay(events)
+        ForEach(groupedEvents, id: \.date) { group in
+            Section {
+                ForEach(Array(group.events.enumerated()), id: \.element.identifier) { index, event in
+                    HStack(spacing: 7) {
+                        if index == 0 {
+                            dayView(date: group.date)
+                        } else {
+                            Spacer().frame(width: 35)
+                        }
+                        Button {
+                            selectedEvent = event
+                            isShowingEvent = true
+                        } label: {
+                            EventBox(event: event)
+                                .sensoryFeedback(.impact, trigger: isShowingEvent)
+                        }
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .swipeActions(edge: .trailing) {
+                        Button {
+                            handleDirectionsTap(for: event)
+                        } label: {
+                            Label("Directions", systemImage: "point.topleft.filled.down.to.point.bottomright.curvepath")
+                        }
+                        .tint(.green)
+                    }
+                }
+            }
+            .padding(.vertical, 15)
+            .padding(.trailing, 15)
+            .textCase(nil)
+        }
+    }
+
+    func handleDirectionsTap(for event: Event) {
+        guard let location = event.location, !location.isEmpty else {
+            print("Invalid location")
+            return
+        }
+
+        Task {
+            let isValid = await isValidLocation(location)
+
+            if isValid {
+                await MainActor.run {
+                    selectedLocation = location
+                    selectedEventTitle = event.summary
+                    selectedEvent = event
+                    isShowingMap = true
+                    AppViewModel.appVM.inMapView = true
+                }
+            } else {
+                print("Invalid location")
+            }
+        }
+    }
+
+    func groupedEventsByDay(_ events: [Event]) -> [(date: Date, events: [Event])] {
         let calendar = Calendar.current
-        return calendar.isDate(event1.start.dateTime, inSameDayAs: event2.start.dateTime)
+
+        let grouped = Dictionary(grouping: events) { event in
+            calendar.startOfDay(for: event.start.dateTime)
+        }
+
+        return grouped
+            .sorted { $0.key < $1.key }
+            .map { ($0.key, $0.value.sorted { $0.start.dateTime < $1.start.dateTime }) }
+    }
+
+    @ViewBuilder
+    func dayView(date: Date) -> some View {
+        if #available(iOS 26.0, *) {
+            return VStack {
+                Text(dateHelper.getDayAbbreviation(for: date))
+                    .font(.callout)
+                    .foregroundStyle(.red)
+
+                Text(dateHelper.getDayNumber(for: date))
+                    .font(.title2)
+                    .fontWeight(.semibold)
+            }
+            .frame(width: 35)
+            .padding(.vertical, 10)
+            .padding(.horizontal)
+            .glassEffect(.regular, in: .rect(cornerRadius: 20))
+            .padding(.leading, 5)
+        } else {
+            return VStack {
+                Text(dateHelper.getDayAbbreviation(for: date))
+                    .font(.callout)
+                    .foregroundStyle(.red)
+
+                Text(dateHelper.getDayNumber(for: date))
+                    .font(.title2)
+                    .fontWeight(.semibold)
+            }
+            .frame(width: 35)
+            .padding(.vertical, 10)
+            .padding(.horizontal)
+            .background(.ultraThinMaterial)
+            .padding(.leading, 5)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+    }
+
+    func isValidLocation(_ location: String) async -> Bool {
+        let geocoder = CLGeocoder()
+
+        do {
+            let placemarks = try await geocoder.geocodeAddressString(location, in: Constants.gainesvilleGeocodingRegion)
+            return !placemarks.isEmpty
+        } catch {
+            return false
+        }
     }
 }

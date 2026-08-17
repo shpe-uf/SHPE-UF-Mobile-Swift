@@ -109,6 +109,7 @@ struct HomePageContentView: View {
         }
         .tint(Color("profile-orange"))
         .onAppear {
+            // get user events to use for SHPE Wrapped
             if pointsVM.categorizedEvents.isEmpty {
                 pointsVM.getUserEvents(
                     coreEvents: coreUserEvents,

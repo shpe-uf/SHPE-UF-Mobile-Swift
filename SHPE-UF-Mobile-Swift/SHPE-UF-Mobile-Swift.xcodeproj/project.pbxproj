@@ -137,6 +137,7 @@
 		B8CD7F742B758E2C00F05DBA /* HomePageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */; };
 		B8DCB9462D160F4800602068 /* EventInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCB9452D160F4200602068 /* EventInfoView.swift */; };
 		B8DCB9482D1610F300602068 /* EventBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCB9472D1610EE00602068 /* EventBox.swift */; };
+		3BBD97E5BF973E6B5095CEA9 /* CalendarSyncViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06E8549F1BFFF965EC2ECB0 /* CalendarSyncViewModel.swift */; };
 		B8DCB94E2D161EE000602068 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCB94D2D161ED600602068 /* LocationView.swift */; };
 		B8DCB9522D16395200602068 /* MTPlacemark.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCB9512D16394E00602068 /* MTPlacemark.swift */; };
 		B8DCB9542D16FC8200602068 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DCB9532D16FC6800602068 /* LocationManager.swift */; };
@@ -412,6 +413,7 @@
 		B8CD7F752B75A9E800F05DBA /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B8DCB9452D160F4200602068 /* EventInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventInfoView.swift; sourceTree = "<group>"; };
 		B8DCB9472D1610EE00602068 /* EventBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBox.swift; sourceTree = "<group>"; };
+		F06E8549F1BFFF965EC2ECB0 /* CalendarSyncViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSyncViewModel.swift; sourceTree = "<group>"; };
 		B8DCB94D2D161ED600602068 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		B8DCB9512D16394E00602068 /* MTPlacemark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTPlacemark.swift; sourceTree = "<group>"; };
 		B8DCB9532D16FC6800602068 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -967,6 +969,7 @@
 			children = (
 				B8DCB9472D1610EE00602068 /* EventBox.swift */,
 				B8DCB9452D160F4200602068 /* EventInfoView.swift */,
+				F06E8549F1BFFF965EC2ECB0 /* CalendarSyncViewModel.swift */,
 				B8CD7F732B758E2C00F05DBA /* HomePageContentView.swift */,
 				B8264CEE2BAE5D4B005CED1B /* Constants.swift */,
 				B8264CF02BAE5E07005CED1B /* DateHelper.swift */,
@@ -1301,6 +1304,7 @@
 				20CF4A3C2AE747BC00916EC6 /* PointsView.swift in Sources */,
 				816E38F32D63B5C400320651 /* GuestCalendarView.swift in Sources */,
 				B8DCB9482D1610F300602068 /* EventBox.swift in Sources */,
+				3BBD97E5BF973E6B5095CEA9 /* CalendarSyncViewModel.swift in Sources */,
 				462B6F4A2B7180AB00EB575C /* CircularProgessView.swift in Sources */,
 				DDA99E262DB69054004CA737 /* EventCreatorViewModel.swift in Sources */,
 				B8DCB9462D160F4800602068 /* EventInfoView.swift in Sources */,
@@ -1529,6 +1533,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Allow access to your calendar to add SHPE UF events.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow access to camera to scan QR codes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need to know location to prepare your route";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app saves event QR codes to your photo library.";
@@ -1567,6 +1572,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "SHPE-UF-Mobile-Swift/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "SHPE UF";
+				INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription = "Allow access to your calendar to add SHPE UF events.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow access to camera to scan QR codes";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Need to know location to prepare your route";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app saves event QR codes to your photo library.";
